@@ -1,0 +1,60 @@
+{
+  "name": "kumo-svelte",
+  "version": "0.1.0",
+  "description": "Svelte port of Cloudflare's Kumo UI library using bits-ui primitives.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./components/*": {
+      "types": "./dist/components/*/index.d.ts",
+      "svelte": "./dist/components/*/index.js",
+      "default": "./dist/components/*/index.js"
+    },
+    "./primitives": {
+      "types": "./dist/primitives.d.ts",
+      "svelte": "./dist/primitives.js",
+      "default": "./dist/primitives.js"
+    }
+  },
+  "scripts": {
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "package": "svelte-package",
+    "build": "npm run check && npm run package && vite build",
+    "dev": "vite dev",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "svelte": "^5.55.7"
+  },
+  "dependencies": {
+    "@lucide/svelte": "^1.16.0",
+    "bits-ui": "^2.18.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.6.0"
+  },
+  "devDependencies": {
+    "@sveltejs/package": "^2.5.7",
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "svelte": "^5.55.7",
+    "svelte-check": "^4.4.8",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.13",
+    "@sveltejs/kit": "^2.60.1",
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@tailwindcss/vite": "^4.3.0"
+  }
+}

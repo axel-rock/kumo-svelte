@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+:root {
+  --kumo-svelte-orange: #ff3e00;
+  --kumo-brand: var(--kumo-svelte-orange);
+  --kumo-brand-hover: color-mix(in oklab, var(--kumo-svelte-orange) 82%, black);
+  --kumo-link: light-dark(#0969da, #58a6ff);
+  --kumo-strong: light-dark(#0f1419, #ffffff);
+  --kumo-control: light-dark(#ffffff, #161b22);
+  --kumo-overlay: light-dark(#ffffff, #161b22);
+  --kumo-default: light-dark(#1f2328, #f0f6fc);
+  --kumo-muted: light-dark(#59636e, #9198a1);
+  --kumo-base: light-dark(#ffffff, #0d1117);
+  --kumo-surface: light-dark(#f6f8fa, #151b23);
+  --kumo-tint: light-dark(#f6f8fa, #212830);
+  --kumo-fill: light-dark(#eaeef2, #262c36);
+  --kumo-line: light-dark(#d0d7de, #3d444d);
+  --kumo-hairline: light-dark(#d8dee4, #30363d);
+  --kumo-danger: light-dark(#d1242f, #ff7b72);
+  --kumo-danger-tint: light-dark(#ffebe9, #490202);
+  --kumo-warning: light-dark(#9a6700, #d29922);
+  --kumo-warning-tint: light-dark(#fff8c5, #3b2300);
+  --kumo-success: light-dark(#1a7f37, #3fb950);
+  --kumo-success-tint: light-dark(#dafbe1, #033a16);
+  --kumo-info: light-dark(#0969da, #58a6ff);
+  --kumo-info-tint: light-dark(#ddf4ff, #0c2d6b);
+  --kumo-badge-inverted: light-dark(#24292f, #f0f6fc);
+  --kumo-badge-neutral-subtle: light-dark(#59636e, #9198a1);
+  color-scheme: light dark;
+}
+
+@theme inline {
+  --color-kumo-brand: var(--kumo-brand);
+  --color-kumo-brand-hover: var(--kumo-brand-hover);
+  --color-kumo-link: var(--kumo-link);
+  --color-kumo-strong: var(--kumo-strong);
+  --color-kumo-control: var(--kumo-control);
+  --color-kumo-overlay: var(--kumo-overlay);
+  --color-kumo-default: var(--kumo-default);
+  --color-kumo-muted: var(--kumo-muted);
+  --color-kumo-base: var(--kumo-base);
+  --color-kumo-surface: var(--kumo-surface);
+  --color-kumo-tint: var(--kumo-tint);
+  --color-kumo-fill: var(--kumo-fill);
+  --color-kumo-line: var(--kumo-line);
+  --color-kumo-hairline: var(--kumo-hairline);
+  --color-kumo-danger: var(--kumo-danger);
+  --color-kumo-danger-tint: var(--kumo-danger-tint);
+  --color-kumo-warning: var(--kumo-warning);
+  --color-kumo-warning-tint: var(--kumo-warning-tint);
+  --color-kumo-success: var(--kumo-success);
+  --color-kumo-success-tint: var(--kumo-success-tint);
+  --color-kumo-info: var(--kumo-info);
+  --color-kumo-info-tint: var(--kumo-info-tint);
+  --color-kumo-badge-inverted: var(--kumo-badge-inverted);
+  --color-kumo-badge-neutral-subtle: var(--kumo-badge-neutral-subtle);
+}
