@@ -1,47 +1,369 @@
 <script lang="ts">
   import {
-    Badge, Banner, Breadcrumbs, Button, Checkbox, ClipboardText, Code, Combobox,
-    CommandPalette, DatePicker, DateRangePicker, Empty, Field, Grid, Input, InputArea,
-    InputGroup, Label, LayerCard, Link, Loader, Meter, Pagination, Radio, Select,
-    SensitiveInput, Surface, Switch, Table, TableOfContents, Tabs, Text, Toasty
+    Badge,
+    Banner,
+    Button,
+    Checkbox,
+    ClipboardText,
+    Code,
+    Collapsible,
+    Combobox,
+    DatePicker,
+    Dialog,
+    DropdownMenu,
+    Empty,
+    Grid,
+    Input,
+    InputArea,
+    InputGroup,
+    Label,
+    LayerCard,
+    Link,
+    Loader,
+    MenuBar,
+    Meter,
+    Pagination,
+    Popover,
+    Radio,
+    Select,
+    SensitiveInput,
+    Switch,
+    Table,
+    TableOfContents,
+    Tabs,
+    Text,
+    Toasty,
+    Tooltip
   } from '$lib';
+  import Header from '$lib/docs/Header.svelte';
 
-  const options = [{ label: 'Workers', value: 'workers' }, { label: 'Pages', value: 'pages' }, { label: 'R2', value: 'r2' }];
-  const toc = [{ title: 'Overview', href: '#overview' }, { title: 'Components', href: '#components' }, { title: 'Tokens', href: '#tokens' }];
-  const tabItems = [{ value: 'one', label: 'Preview' }, { value: 'two', label: 'Code' }];
+  const options = [
+    { label: 'All deployed versions', value: 'all' },
+    { label: 'Active versions', value: 'active' },
+    { label: 'Specific versions', value: 'specific' }
+  ];
+
+  const fruits = ['Apple', 'Banana', 'Cherry', 'Grape', 'Mango', 'Orange'].map((value) => ({
+    label: value,
+    value: value.toLowerCase()
+  }));
+
+  const toc = [
+    { title: 'Introduction', href: '#introduction' },
+    { title: 'Installation', href: '#installation' },
+    { title: 'Usage', href: '#usage' }
+  ];
+
+  const tabs = [
+    { value: 'home', label: 'Home' },
+    { value: 'about', label: 'About' },
+    { value: 'contact', label: 'Contact' }
+  ];
+
+  let switchToggled = $state(true);
   let checked = $state(true);
-  let enabled = $state(true);
+  let page = $state(1);
+  let activeTab = $state('home');
 </script>
 
-<main class="mx-auto max-w-6xl px-6 py-10">
-  <section id="overview" class="grid gap-6 md:grid-cols-[1.2fr_.8fr]">
-    <div class="space-y-5">
-      <Badge variant="beta">Svelte port</Badge>
-      <h1 class="text-4xl font-bold tracking-tight text-kumo-strong md:text-6xl">Cloudflare Kumo, rebuilt for Svelte.</h1>
-      <Text variant="muted" size="lg">A parity-focused component library preserving Kumo Tailwind classes, adapted to Svelte 5 snippets, bindings, and bits-ui primitives.</Text>
-      <div class="flex gap-3"><Button variant="primary">Get started</Button><Button variant="secondary">View components</Button></div>
+<div class="flex flex-col">
+  <Header />
+  <main class="flex grow flex-col md:pr-12">
+    <span id="introduction" class="sr-only">Introduction</span>
+    <span id="installation" class="sr-only">Installation</span>
+    <span id="usage" class="sr-only">Usage</span>
+    <div class="mx-auto w-full grow md:border-r md:border-kumo-hairline">
+      <ul class="grid auto-rows-min grid-cols-1 gap-px bg-kumo-hairline md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="button" href="#button" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Button</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="grid gap-3">
+            <Button>Create Worker</Button>
+            <Button variant="primary">Create Worker</Button>
+            <Button loading>Create Worker</Button>
+          </div>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="input" href="#input" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Input</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="grid gap-3">
+            <Input placeholder="Type something..." />
+            <Input value="Invalid!" variant="error" />
+          </div>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="select" href="#select" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Select</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Select class="w-[200px]" placeholder="Select version" {options} />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="combobox" href="#combobox" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Combobox</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Combobox options={fruits} placeholder="Search fruits..." />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="switch" href="#switch" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Switch</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Switch bind:checked={switchToggled} />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="dialog" href="#dialog" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Dialog</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          {#snippet dialogTrigger()}Click me!{/snippet}
+          <Dialog trigger={dialogTrigger} title="Hello!" description="I'm a dialog.">
+            <Text>Ported with bits-ui dialog primitives.</Text>
+          </Dialog>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="tooltip" href="#tooltip" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Tooltip</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          {#snippet tooltipTrigger()}+{/snippet}
+          {#snippet tooltipContent()}Add{/snippet}
+          <Tooltip trigger={tooltipTrigger}>{@render tooltipContent()}</Tooltip>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="dropdown" href="#dropdown" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Dropdown</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <DropdownMenu items={[{ label: 'Worker' }, { label: 'Pages' }]}>
+            Add
+          </DropdownMenu>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="collapsible" href="#collapsible" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Collapsible</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Collapsible title="What is Kumo?">Kumo is Cloudflare's component library.</Collapsible>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="checkbox" href="#checkbox" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Checkbox</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Checkbox bind:checked={checked}>Max bandwidth</Checkbox>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="layer-card" href="#layer-card" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">LayerCard</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <LayerCard class="w-[200px]">
+            <Text size="sm" variant="muted">Next Steps</Text>
+            <Text bold>Hello</Text>
+          </LayerCard>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="loader" href="#loader" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Loader</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><Loader /></div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="code" href="#code" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Code</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Code>const sum = (a, b) =&gt; a + b;</Code>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="banner" href="#banner" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Banner</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="flex flex-col gap-2">
+            <Banner text="This is a default banner." />
+            <Banner text="This is an alert banner." variant="alert" />
+            <Banner text="This is an error banner." variant="error" />
+          </div>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="tabs" href="#tabs" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Tabs</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><Tabs items={tabs} bind:value={activeTab} /></div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="badge" href="#badge" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Badge</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="flex flex-col gap-2">
+            <Badge variant="blue">Blue</Badge>
+            <Badge variant="green">Green</Badge>
+            <Badge variant="orange">Orange</Badge>
+            <Badge variant="neutral">Neutral</Badge>
+            <Badge variant="red">Red</Badge>
+          </div>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="toast" href="#toast" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Toast</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Toasty title="Toast created" description="This is a toast notification." />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="pagination" href="#pagination" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Pagination</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Pagination bind:page pages={10} class="w-auto" />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="input-area" href="#input-area" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">InputArea</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><InputArea placeholder="Enter your name" /></div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="input-group" href="#input-group" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">InputGroup</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <InputGroup prefix="https://" suffix=".workers.dev"><Input placeholder="site" /></InputGroup>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="meter" href="#meter" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Meter</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Meter value={75} label="My meter" customValue="100 / 5,000" />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="menu-bar" href="#menu-bar" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">MenuBar</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <MenuBar options={[{ label: 'B' }, { label: 'I' }]} />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="date-picker" href="#date-picker" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">DatePicker</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="-m-4 scale-85"><DatePicker /></div>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="breadcrumbs" href="#breadcrumbs" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Breadcrumbs</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="flex items-center gap-1 text-sm">
+            <span class="text-kumo-subtle">Home</span>
+            <span class="text-kumo-inactive">/</span>
+            <span class="text-kumo-subtle">Docs</span>
+            <span class="text-kumo-inactive">/</span>
+            <span class="font-medium">Page</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="clipboard-text" href="#clipboard-text" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">ClipboardText</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><ClipboardText value="npx kumo add button" /></div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="link" href="#link" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Link</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="flex flex-col gap-2 text-sm">
+            <Link href="#">Default link</Link>
+            <Link href="#" variant="current">Current color link</Link>
+            <Link href="#" variant="plain">Plain link</Link>
+          </div>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="empty" href="#empty" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Empty</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Empty title="No results" description="Try a different search" />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="grid" href="#grid" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Grid</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Grid variant="side-by-side" gap="sm" class="w-[140px]">
+            {#each [1, 2, 3, 4] as item}
+              <div class="rounded bg-kumo-control p-3 text-center text-xs">{item}</div>
+            {/each}
+          </Grid>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="label" href="#label" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Label</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="flex flex-col gap-2">
+            <Label>Default Label</Label>
+            <Label optional>Optional Field</Label>
+            <Label tooltip="More info">With Tooltip</Label>
+          </div>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="popover" href="#popover" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Popover</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          {#snippet popoverTrigger()}Open Popover{/snippet}
+          <Popover trigger={popoverTrigger} title="Popover Title" description="This is a popover." />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="radio" href="#radio" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Radio</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Radio options={[{ label: 'Option 1', value: 'option1' }, { label: 'Option 2', value: 'option2' }]} value="option1" />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="sensitive-input" href="#sensitive-input" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">SensitiveInput</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><SensitiveInput value="super-secret-api-key" /></div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="table" href="#table" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Table</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Table class="w-[200px] text-sm">
+            <thead><tr><th>Name</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Worker 1</td><td>Active</td></tr>
+              <tr><td>Worker 2</td><td>Paused</td></tr>
+              <tr><td>Worker 3</td><td>Active</td></tr>
+            </tbody>
+          </Table>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="table-of-contents" href="#table-of-contents" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">TableOfContents</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><TableOfContents items={toc} /></div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="text" href="#text" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Text</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="flex flex-col gap-1">
+            <Text size="lg" bold>Large Bold Text</Text>
+            <Text size="base">Regular text content</Text>
+            <Text size="sm" variant="muted">Small subtle text</Text>
+          </div>
+        </div>
+      </li>
+      </ul>
     </div>
-    <Surface class="p-4">
-      <CommandPalette commands={[{ label: 'Create Worker' }, { label: 'Deploy Pages' }, { label: 'Open R2 bucket' }]} />
-    </Surface>
-  </section>
-
-  <section id="components" class="mt-16 space-y-6">
-    <div class="flex items-end justify-between"><div><h2 class="text-2xl font-semibold">Component parity board</h2><Text variant="muted">Every Kumo export has a Svelte counterpart in the package surface.</Text></div><Loader /></div>
-    <Grid cols={3}>
-      <LayerCard><Label>Buttons</Label><div class="mt-3 flex flex-wrap gap-2"><Button variant="primary">Primary</Button><Button>Secondary</Button><Button variant="ghost">Ghost</Button></div></LayerCard>
-      <LayerCard><Label>Badges</Label><div class="mt-3 flex flex-wrap gap-2"><Badge>Default</Badge><Badge variant="success">Success</Badge><Badge variant="warning">Warning</Badge><Badge variant="error">Error</Badge></div></LayerCard>
-      <LayerCard><Label>Inputs</Label><div class="mt-3 grid gap-2"><Input placeholder="Project name" /><InputGroup prefix="https://" suffix=".workers.dev"><Input class="border-0 shadow-none ring-0 focus:ring-0" placeholder="site" /></InputGroup><SensitiveInput value="secret" /></div></LayerCard>
-      <LayerCard><Label>Selection</Label><div class="mt-3 grid gap-3"><Checkbox bind:checked>Enable cache</Checkbox><Switch bind:checked={enabled} /><Radio options={options} value="workers" /><Select options={options} /></div></LayerCard>
-      <LayerCard><Label>Discovery</Label><div class="mt-3 grid gap-3"><Combobox options={options} /><Breadcrumbs items={[{ label: 'Account', href: '#' }, { label: 'Workers' }]} /><TableOfContents items={toc} /></div></LayerCard>
-      <LayerCard><Label>Feedback</Label><div class="mt-3 grid gap-3"><Banner title="Heads up">This is a faithful Svelte-branded port.</Banner><Meter value={68} label="Parity" /><Toasty title="Deployment ready">Components are packageable.</Toasty></div></LayerCard>
-      <LayerCard><Label>Dates</Label><div class="mt-3 grid gap-3"><DatePicker /><DateRangePicker /></div></LayerCard>
-      <LayerCard><Label>Content</Label><div class="mt-3 grid gap-3"><ClipboardText value="npm install kumo-svelte" /><Code inline>bg-kumo-brand</Code><InputArea placeholder="Notes" /></div></LayerCard>
-      <LayerCard><Label>Empty/Table</Label><div class="mt-3 grid gap-3"><Empty title="No deployments" description="Deploy to see activity." /><Table><tbody><tr><td class="p-2">Workers</td><td class="p-2">Active</td></tr></tbody></Table><Pagination pages={3} /></div></LayerCard>
-    </Grid>
-  </section>
-
-  <section id="tokens" class="mt-16">
-    <Surface class="p-6"><h2 class="text-2xl font-semibold">Svelte orange brand token</h2><Text variant="muted">The global <Code inline>--kumo-svelte-orange</Code> variable powers <Code inline>--kumo-brand</Code>, preserving Kumo's class names while switching branding.</Text><div class="mt-4 h-16 rounded-xl bg-kumo-brand"></div></Surface>
-  </section>
-</main>
+  </main>
+</div>

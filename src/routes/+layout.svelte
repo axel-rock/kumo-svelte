@@ -1,22 +1,39 @@
 <script lang="ts">
   import '../lib/styles.css';
-  import { KumoLogo } from '$lib';
+  import SidebarNav from '$lib/docs/SidebarNav.svelte';
 </script>
 
 <svelte:head>
-  <title>Kumo Svelte</title>
-  <meta name="description" content="Svelte port of Cloudflare Kumo UI" />
+  <title>Kumo</title>
+  <meta name="description" content="Kumo - a modern component library" />
+  <meta name="color-scheme" content="light dark" />
+  <script>
+    (function () {
+      const stored = localStorage.getItem('theme');
+      if (stored) {
+        document.documentElement.setAttribute('data-mode', stored);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-mode', 'dark');
+      }
+    })();
+  </script>
 </svelte:head>
 
-<div class="min-h-screen bg-kumo-surface text-kumo-default">
-  <header class="sticky top-0 z-40 border-b border-kumo-line bg-kumo-base/90 backdrop-blur">
-    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-      <KumoLogo />
-      <nav class="flex items-center gap-4 text-sm text-kumo-muted">
-        <a class="hover:text-kumo-default" href="#components">Components</a>
-        <a class="hover:text-kumo-default" href="#tokens">Tokens</a>
-      </nav>
-    </div>
-  </header>
-  <slot />
+<div class="isolate min-h-screen bg-kumo-canvas text-kumo-default">
+  <SidebarNav />
+  <div id="main-content" class="main-content mt-12 md:mt-0 md:ml-12 transition-[margin] duration-300">
+    <slot />
+  </div>
 </div>
+
+<style>
+  @media (min-width: 768px) {
+    :global(body:has(aside[data-sidebar-open='true']) .main-content) {
+      margin-left: 304px;
+    }
+
+    :global(body:has(aside[data-sidebar-open='false']) .main-content) {
+      margin-left: 48px;
+    }
+  }
+</style>
