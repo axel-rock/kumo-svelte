@@ -5,20 +5,15 @@ sourceFile: "components/toast"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="ToastBasicDemo" />
-
+  <ComponentExample demo="ToastBasicDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,12 +24,19 @@ sourceFile: "components/toast"
 
 ### Barrel
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Toasty } from 'kumo-svelte';
+  import { useKumoToastManager } from 'kumo-svelte/components/toasty';
+</script>
 ```
 
 ### Granular
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Toasty, useKumoToastManager } from 'kumo-svelte/components/toasty';
+</script>
 ```
 
 </ComponentSection>
@@ -45,37 +47,38 @@ sourceFile: "components/toast"
 
 ## Usage
 
-  
-    The toast system consists of two parts: the `Toasty` provider component and the `useKumoToastManager()` hook for triggering toasts.
-  
+The toast system consists of two parts: the `Toasty` provider component and the `useKumoToastManager()` hook for triggering toasts.
 
-```tsx
+```svelte
+<!-- ToastTrigger.svelte -->
+<script lang="ts">
+  import { Button } from 'kumo-svelte';
+  import { useKumoToastManager } from 'kumo-svelte/components/toasty';
 
-function ToastTrigger() {
   const toastManager = useKumoToastManager();
+</script>
 
-  return (
-    <Button
-      onClick={() =>
-        toastManager.add({
-          title: "Success!",
-          description: "Your changes have been saved.",
-        })
-      }
-    >
-      Save changes
-    </Button>
-  );
-}
+<Button
+  onclick={() =>
+    toastManager.add({
+      title: 'Success!',
+      description: 'Your changes have been saved.'
+    })}
+>
+  Save changes
+</Button>
+```
 
-export default function App() {
-  return (
-    <Toasty>
-      <ToastTrigger />
-      {/* Rest of your app */}
-    </Toasty>
-  );
-}
+```svelte
+<!-- +layout.svelte -->
+<script lang="ts">
+  import { Toasty } from 'kumo-svelte';
+  import ToastTrigger from './ToastTrigger.svelte';
+</script>
+
+<Toasty>
+  <ToastTrigger />
+</Toasty>
 ```
 
 </ComponentSection>
@@ -87,15 +90,18 @@ export default function App() {
 ## Setup
 
   
-    Wrap your application (or a section of it) with the `Toasty` provider. This sets up the toast context and renders the toast viewport.
-  
+Wrap your application (or a section of it) with the `Toasty` provider. This sets up the toast context and renders the toast viewport.
 
-```tsx
+
+```svelte
 // In your app root or layout
+<script lang="ts">
+  import { Toasty } from 'kumo-svelte';
+</script>
 
-export function Layout({ children }) {
-  return <Toasty>{children}</Toasty>;
-}
+<Toasty>
+  {@render children()}
+</Toasty>
 ```
 
 </ComponentSection>
@@ -108,11 +114,13 @@ export function Layout({ children }) {
 
 ### Title and Description
 
+
 A complete toast with both title and description.
 
 <ComponentExample demo="ToastBasicDemo" />
 
 ### Title Only
+
 
 A simple toast with just a title for brief messages.
 
@@ -120,11 +128,13 @@ A simple toast with just a title for brief messages.
 
 ### Description Only
 
+
 A toast with only a description for more detailed messages.
 
 <ComponentExample demo="ToastDescriptionOnlyDemo" />
 
 ### Success Variant
+
 
 Use the success variant for confirmations and positive outcomes.
 
@@ -132,12 +142,14 @@ Use the success variant for confirmations and positive outcomes.
 
 ### Multiple Toasts
 
-  Multiple toasts stack and animate smoothly. Hover over the stack to expand
+
+Multiple toasts stack and animate smoothly. Hover over the stack to expand
   them.
 
 <ComponentExample demo="ToastMultipleDemo" />
 
 ### Error Variant
+
 
 Use the error variant for critical issues that need attention.
 
@@ -145,11 +157,13 @@ Use the error variant for critical issues that need attention.
 
 ### Warning Variant
 
+
 Use the warning variant for cautionary messages.
 
 <ComponentExample demo="ToastWarningDemo" />
 
 ### Info Variant
+
 
 Use the info variant for neutral informational messages.
 
@@ -157,11 +171,13 @@ Use the info variant for neutral informational messages.
 
 ### Custom Content
 
+
 Use the content prop to render completely custom toast content.
 
 <ComponentExample demo="ToastCustomContentDemo" />
 
 ### Action Buttons
+
 
 Add action buttons to toasts for user interaction.
 
@@ -169,7 +185,8 @@ Add action buttons to toasts for user interaction.
 
 ### Promise
 
-  Use the promise method to show loading, success, and error states
+
+Use the promise method to show loading, success, and error states
   automatically.
 
 <ComponentExample demo="ToastPromiseDemo" />
@@ -184,15 +201,18 @@ Add action buttons to toasts for user interaction.
 
 ### Toasty
 
+
 The provider component that wraps your app and manages the toast system.
 
-<PropsTable component="Toasty"  />
+<PropsTable component="Toasty" />
 
 ### useKumoToastManager()
 
+
 A hook that returns the toast manager for creating toasts.
 
-```tsx
+
+```svelte
 const toastManager = useKumoToastManager();
 
 // Add a toast
@@ -208,8 +228,10 @@ toastManager.promise(asyncFn(), {
 
 ### Toast Options
 
+
 Options passed to `toastManager.add()` and promise handlers.
 
+<div class="overflow-x-auto">
   <table class="w-full text-left text-sm">
     <thead>
       <tr class="border-b border-kumo-hairline">
@@ -242,7 +264,7 @@ Options passed to `toastManager.add()` and promise handlers.
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="py-3 pr-4 font-mono text-kumo-default">content</td>
-        <td class="py-3 pr-4 font-mono">ReactNode</td>
+        <td class="py-3 pr-4 font-mono">Snippet</td>
         <td class="py-3 pr-4">—</td>
         <td class="py-3">
           Custom content to render inside the toast. Overrides title and
@@ -265,5 +287,6 @@ Options passed to `toastManager.add()` and promise handlers.
       </tr>
     </tbody>
   </table>
+</div>
 
 </ComponentSection>

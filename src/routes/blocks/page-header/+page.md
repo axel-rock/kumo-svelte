@@ -37,55 +37,27 @@ sourceFile: "blocks/page-header"
       **1. Initialize Kumo config (first time only)**
 
 ```bash
-npx @cloudflare/kumo init
+npx kumo-svelte init
 ```
 
 **2. Install the block**
 
 ```bash
-npx @cloudflare/kumo add PageHeader
+npx kumo-svelte add PageHeader
 ```
 
 **3. Import from your local path**
 
-```tsx
-// The path depends on your kumo.json blocksDir setting
-// Default: src/components/kumo/
-```
+```svelte
+<script lang="ts">
+  import { Breadcrumbs, Tabs } from 'kumo-svelte';
+</script>
 
-</ComponentSection>
-
-<!-- Usage -->
-
-<ComponentSection>
-
-## Usage
-
-```tsx
-
-export default function Example() {
-  return (
-    <PageHeader
-      breadcrumbs={
-        <Breadcrumbs>
-          <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
-          <Breadcrumbs.Separator />
-          <Breadcrumbs.Link href="#">Projects</Breadcrumbs.Link>
-          <Breadcrumbs.Separator />
-          <Breadcrumbs.Current>My Project</Breadcrumbs.Current>
-        </Breadcrumbs>
-      }
-      tabs={[
-        { label: "Overview", value: "overview" },
-        { label: "Settings", value: "settings" },
-      ]}
-      defaultTab="overview"
-      onValueChange={(value) => {
-        console.log(value);
-      }}
-/>
-  );
-}
+<header class="space-y-4">
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Projects' }]} />
+  <h1 class="text-3xl font-semibold">My Project</h1>
+  <Tabs items={[{ label: 'Overview', value: 'overview' }, { label: 'Settings', value: 'settings' }]} value="overview" />
+</header>
 ```
 
 </ComponentSection>

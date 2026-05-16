@@ -24,21 +24,25 @@
   const sourceFile = $derived(
     typeof metadata.sourceFile === 'string' ? metadata.sourceFile : undefined
   );
-  const baseUIComponent = $derived(
-    typeof metadata.baseUIComponent === 'string' ? metadata.baseUIComponent : undefined
+  const bitsUIComponent = $derived(
+    typeof metadata.bitsUIComponent === 'string'
+      ? metadata.bitsUIComponent
+      : typeof metadata.baseUIComponent === 'string'
+        ? metadata.baseUIComponent
+        : undefined
   );
   const pageTitle = $derived(title ?? 'Kumo');
   const pageDescription = $derived(description ?? 'Kumo - a modern component library');
-  const baseUIUrl = $derived(
-    baseUIComponent ? `https://base-ui.com/react/components/${baseUIComponent}` : null
+  const bitsUIUrl = $derived(
+    bitsUIComponent ? `https://bits-ui.com/docs/components/${bitsUIComponent}` : null
   );
   const githubSourceUrl = $derived(
     sourceFile
       ? (() => {
-          const base = 'https://github.com/cloudflare/kumo/blob/main/packages/kumo/src/';
+          const base = 'https://github.com/maxffarrell/kumo-svelte/blob/main/src/lib/';
           if (/\.\w+$/.test(sourceFile)) return `${base}${sourceFile}`;
           const componentName = sourceFile.split('/').pop();
-          return `${base}${sourceFile}/${componentName}.tsx`;
+          return `${base}${sourceFile}/${componentName}.svelte`;
         })()
       : null
   );
@@ -50,7 +54,7 @@
 </svelte:head>
 
 <div class="flex flex-col">
-  <StickyDocHeader title={pageTitle} {githubSourceUrl} {baseUIUrl} />
+  <StickyDocHeader title={pageTitle} {githubSourceUrl} {bitsUIUrl} />
 
   <div id="page-header" class="border-b border-kumo-hairline md:pr-12">
     <div class="mx-auto md:border-r md:border-kumo-hairline">
@@ -72,14 +76,14 @@
               <GitHubIcon size={28} />
             </a>
           {/if}
-          {#if baseUIUrl}
+          {#if bitsUIUrl}
             <a
-              href={baseUIUrl}
+              href={bitsUIUrl}
               target="_blank"
               rel="noopener noreferrer"
               class="text-kumo-subtle transition-colors hover:text-kumo-strong"
-              title="View Base UI documentation"
-              aria-label="View Base UI documentation"
+              title="View Bits UI documentation"
+              aria-label="View Bits UI documentation"
             >
               <BaseUIIcon size={28} />
             </a>

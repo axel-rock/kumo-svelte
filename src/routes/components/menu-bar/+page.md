@@ -5,20 +5,15 @@ sourceFile: "components/menubar"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="MenuBarBasicDemo" />
-
+  <ComponentExample demo="MenuBarBasicDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,12 +24,14 @@ sourceFile: "components/menubar"
 
 ### Barrel
 
-```tsx
+```svelte
+import { MenuBar } from "kumo-svelte";
 ```
 
 ### Granular
 
-```tsx
+```svelte
+import { MenuBar } from "kumo-svelte/components/menubar";
 ```
 
 </ComponentSection>
@@ -45,22 +42,20 @@ sourceFile: "components/menubar"
 
 ## Usage
 
-```tsx
+```svelte
+import { MenuBar } from "kumo-svelte";
+import { Bold } from "@lucide/svelte";
 
-export default function Example() {
-  return (
-    <MenuBar
-      options={[
-        {
-          icon: <TextBolderIcon />,
-          id: "bold",
-          tooltip: "Bold",
-          onClick: () => console.log("Bold clicked"),
-        },
-      ]}
+<MenuBar
+  options={[
+    {
+      icon: Bold,
+      id: "bold",
+      tooltip: "Bold",
+      onClick: () => console.log("Bold clicked"),
+    },
+  ]}
 />
-  );
-}
 ```
 
 </ComponentSection>
@@ -77,8 +72,7 @@ export default function Example() {
 
 ### Without Active State
 
-<ComponentExample demo="MenuBarNoActiveDemo" />
-
+  <ComponentExample demo="MenuBarNoActiveDemo" />
 </ComponentSection>
 
 <!-- API Reference -->
@@ -87,6 +81,5 @@ export default function Example() {
 
 ## API Reference
 
-<PropsTable component="MenuBar"  />
-
+  <PropsTable component="MenuBar" />
 </ComponentSection>

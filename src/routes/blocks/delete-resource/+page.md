@@ -37,69 +37,28 @@ sourceFile: "blocks/delete-resource"
       **1. Initialize Kumo config (first time only)**
 
 ```bash
-npx @cloudflare/kumo init
+npx kumo-svelte init
 ```
 
 **2. Install the block**
 
 ```bash
-npx @cloudflare/kumo add DeleteResource
+npx kumo-svelte add DeleteResource
 ```
 
 **3. Import from your local path**
 
-```tsx
-// The path depends on your kumo.json blocksDir setting
-// Default: src/components/kumo/
-```
+```svelte
+<script lang="ts">
+  import { Button, Dialog } from 'kumo-svelte';
 
-<Callout type="info">
-    <strong>Why blocks?</strong> Blocks give you full ownership of the code,
-    allowing you to customize deletion flows to fit your specific needs. They're
-    ideal for critical actions that often need project-specific modifications.
+  let open = $state(false);
+</script>
 
-</Callout>
-
-</ComponentSection>
-
-<!-- Usage -->
-
-<ComponentSection>
-
-## Usage
-
-```tsx
-
-export default function Example() {
-  const [open, setOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const handleDelete = async () => {
-    setIsDeleting(true);
-    try {
-      await deleteZone("example.com");
-      setOpen(false);
-    } finally {
-      setIsDeleting(false);
-    }
-  };
-
-  return (
-    <>
-      <Button variant="destructive" onClick={() => setOpen(true)}>
-        Delete Zone
-      </Button>
-      <DeleteResource
-        open={open}
-        onOpenChange={setOpen}
-        resourceType="Zone"
-        resourceName="example.com"
-        onDelete={handleDelete}
-        isDeleting={isDeleting}
-/>
-    </>
-  );
-}
+<Button variant="destructive" onclick={() => (open = true)}>Delete Zone</Button>
+<Dialog bind:open title="Delete Zone" description="This action cannot be undone.">
+  <Button variant="destructive">Delete</Button>
+</Dialog>
 ```
 
 </ComponentSection>

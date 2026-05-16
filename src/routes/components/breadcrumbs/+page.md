@@ -5,26 +5,22 @@ sourceFile: "components/breadcrumbs"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
 
-
 <ComponentSection>
-
-<ComponentExample demo="BreadcrumbsWithIconsDemo" />
-
+  <ComponentExample demo="BreadcrumbsWithIconsDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ## Installation
 
-```tsx
-// code example
+
+```svelte
+import { Breadcrumbs } from 'kumo-svelte';
 ```
 
 </ComponentSection>
@@ -33,8 +29,21 @@ sourceFile: "components/breadcrumbs"
 
 ## Usage
 
-<ComponentExample demo="BreadcrumbsDemo" />
+```svelte
+<script>
+  import { Breadcrumbs } from 'kumo-svelte';
+</script>
 
+<Breadcrumbs>
+  <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Link href="#">Docs</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Current>Breadcrumbs</Breadcrumbs.Current>
+</Breadcrumbs>
+```
+
+  <ComponentExample demo="BreadcrumbsDemo" />
 </ComponentSection>
 
 <ComponentSection>
@@ -43,32 +52,57 @@ sourceFile: "components/breadcrumbs"
 
 ### Basic
 
-<ComponentExample demo="BreadcrumbsDemo" />
-
+  <ComponentExample demo="BreadcrumbsDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### Loading
 
-<ComponentExample demo="BreadcrumbsLoadingDemo" />
+```svelte
+<Breadcrumbs>
+  <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Link href="#">Docs</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Current loading />
+</Breadcrumbs>
+```
 
+  <ComponentExample demo="BreadcrumbsLoadingDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### Root
 
-<ComponentExample demo="BreadcrumbsRootDemo" />
+```svelte
+<script>
+  import { House } from '@lucide/svelte';
+</script>
 
+<Breadcrumbs>
+  <Breadcrumbs.Current icon={House}>Worker Analytics</Breadcrumbs.Current>
+</Breadcrumbs>
+```
+
+  <ComponentExample demo="BreadcrumbsRootDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### Clipboard
 
-<ComponentExample demo="BreadcrumbsWithClipboardDemo" />
+```svelte
+<Breadcrumbs>
+  <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Current>Breadcrumbs</Breadcrumbs.Current>
+  <Breadcrumbs.Clipboard text="#" />
+</Breadcrumbs>
+```
 
+  <ComponentExample demo="BreadcrumbsWithClipboardDemo" />
 </ComponentSection>
 
 <ComponentSection>
@@ -77,22 +111,21 @@ sourceFile: "components/breadcrumbs"
 
 ### Breadcrumbs
 
-<PropsTable component="Breadcrumbs"  />
+<PropsTable component="Breadcrumbs" />
 
 ### Breadcrumbs.Link
 
-<PropsTable component="Breadcrumbs.Link"  />
+<PropsTable component="Breadcrumbs.Link" />
 
 ### Breadcrumbs.Current
 
-<PropsTable component="Breadcrumbs.Current"  />
+<PropsTable component="Breadcrumbs.Current" />
 
 ### Breadcrumbs.Separator
 
-<PropsTable component="Breadcrumbs.Separator"  />
+<PropsTable component="Breadcrumbs.Separator" />
 
 ### Breadcrumbs.Clipboard
 
-<PropsTable component="Breadcrumbs.Clipboard"  />
-
+  <PropsTable component="Breadcrumbs.Clipboard" />
 </ComponentSection>

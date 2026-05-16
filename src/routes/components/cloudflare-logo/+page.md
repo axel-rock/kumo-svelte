@@ -5,20 +5,15 @@ sourceFile: "components/cloudflare-logo"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="CloudflareLogoBasicDemo" />
-
+  <ComponentExample demo="CloudflareLogoBasicDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,12 +24,24 @@ sourceFile: "components/cloudflare-logo"
 
 ### Barrel
 
-```tsx
+```svelte
+<script lang="ts">
+  import { CloudflareLogo } from 'kumo-svelte';
+</script>
+
+<CloudflareLogo />
 ```
 
 ### Granular
 
-```tsx
+```svelte
+<script lang="ts">
+  import {
+    CloudflareLogo,
+    PoweredByCloudflare,
+    generateCloudflareLogoSvg
+  } from 'kumo-svelte/components/cloudflare-logo';
+</script>
 ```
 
 </ComponentSection>
@@ -45,11 +52,12 @@ sourceFile: "components/cloudflare-logo"
 
 ## Usage
 
-```tsx
+```svelte
+<script lang="ts">
+  import { CloudflareLogo } from 'kumo-svelte';
+</script>
 
-export default function Example() {
-  return <CloudflareLogo className="w-36" />;
-}
+<CloudflareLogo class="w-36" />
 ```
 
 </ComponentSection>
@@ -62,12 +70,14 @@ export default function Example() {
 
 ### Glyph Only
 
-  Use <code>variant="glyph"</code> to display just the cloud icon without the
+
+Use <code>variant="glyph"</code> to display just the cloud icon without the
   wordmark.
 
 <ComponentExample demo="CloudflareLogoGlyphDemo" />
 
 ### Color Variants
+
 
 The logo supports three color schemes: brand colors, black, and white.
 
@@ -79,7 +89,8 @@ The logo supports three color schemes: brand colors, black, and white.
 
 ### Sizing
 
-  Size the logo using CSS width classes. The height adjusts automatically to
+
+Size the logo using CSS width classes. The height adjusts automatically to
   maintain aspect ratio.
 
 <ComponentExample demo="CloudflareLogoSizesDemo" />
@@ -87,11 +98,10 @@ The logo supports three color schemes: brand colors, black, and white.
 ### Brand Assets Menu
 
   
-    Combine with DropdownMenu to create a brand assets menu. Use <code>generateCloudflareLogoSvg()</code> to
+Combine with DropdownMenu to create a brand assets menu. Use <code>generateCloudflareLogoSvg()</code> to
     get copy-paste ready SVG markup.
 
-<ComponentExample demo="CloudflareLogoCopyDemo" />
-
+  <ComponentExample demo="CloudflareLogoCopyDemo" />
 </ComponentSection>
 
 <!-- PoweredByCloudflare -->
@@ -101,8 +111,8 @@ The logo supports three color schemes: brand colors, black, and white.
 ## PoweredByCloudflare
 
   
-    A pre-built "Powered by Cloudflare" badge component for footers and attribution.
-  
+A pre-built "Powered by Cloudflare" badge component for footers and attribution.
+
 
 ### Basic Usage
 
@@ -114,8 +124,7 @@ The logo supports three color schemes: brand colors, black, and white.
 
 ### Footer Example
 
-<ComponentExample demo="PoweredByCloudflareFooterDemo" />
-
+  <ComponentExample demo="PoweredByCloudflareFooterDemo" />
 </ComponentSection>
 
 <!-- SVG Generation -->
@@ -125,10 +134,11 @@ The logo supports three color schemes: brand colors, black, and white.
 ## SVG Generation
 
   
-    Use <code>generateCloudflareLogoSvg()</code> to get copy-paste ready SVG markup for non-React contexts.
-  
+Use <code>generateCloudflareLogoSvg()</code> to get copy-paste ready SVG markup for non-React contexts.
 
-```tsx
+
+```svelte
+import { generateCloudflareLogoSvg } from "kumo-svelte/components/cloudflare-logo";
 
 // Generate glyph SVG (cloud only)
 const glyphSvg = generateCloudflareLogoSvg({ variant: "glyph" });
@@ -154,9 +164,9 @@ await navigator.clipboard.writeText(
 ## API Reference
 
   
-    CloudflareLogo extends <code>SVGSVGElement</code> and accepts all standard SVG attributes.
-  
-  
+CloudflareLogo extends <code>SVGSVGElement</code> and accepts all standard SVG attributes.
+
+  <div class="overflow-x-auto">
     <table class="w-full text-left text-sm">
       <thead>
         <tr class="border-b border-kumo-hairline">
@@ -180,21 +190,21 @@ await navigator.clipboard.writeText(
           <td class="py-3">Color scheme. <code>color</code> uses brand colors, <code>black</code> and <code>white</code> are solid.</td>
         </tr>
         <tr>
-          <td class="py-3 pr-4 font-mono text-kumo-default">className</td>
+          <td class="py-3 pr-4 font-mono text-kumo-default">class</td>
           <td class="py-3 pr-4 font-mono">string</td>
           <td class="py-3 pr-4 font-mono">-</td>
           <td class="py-3">CSS classes for sizing (e.g., <code>w-36</code>). Height adjusts automatically.</td>
         </tr>
       </tbody>
     </table>
-  
+  </div>
 
 ### PoweredByCloudflare
 
   
-    Extends <code>HTMLAnchorElement</code> and accepts all standard anchor attributes.
-  
-  
+Extends <code>HTMLAnchorElement</code> and accepts all standard anchor attributes.
+
+  <div class="overflow-x-auto">
     <table class="w-full text-left text-sm">
       <thead>
         <tr class="border-b border-kumo-hairline">
@@ -219,5 +229,5 @@ await navigator.clipboard.writeText(
         </tr>
       </tbody>
     </table>
-
+  </div>
 </ComponentSection>

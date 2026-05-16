@@ -26,7 +26,7 @@ npm install echarts
   For optimal bundle size, import only the ECharts components you need. The
   examples below show the minimum required imports for our use cases.
 
-```tsx
+```svelte
 
 echarts.use([
   BarChart,

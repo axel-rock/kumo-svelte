@@ -4,6 +4,7 @@
   import { Button } from '$lib';
   import { cn } from '$lib/utils/cn';
   import KumoMenuIcon from './KumoMenuIcon.svelte';
+  import SearchDialog from './SearchDialog.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
   import {
     blockItems,
@@ -172,16 +173,4 @@
   </div>
 </aside>
 
-{#if searchOpen}
-  <div class="fixed inset-0 z-[60] grid place-items-start bg-kumo-recessed/80 px-4 pt-20" role="dialog" aria-modal="true">
-    <div class="w-full max-w-xl rounded-xl bg-kumo-base p-2 shadow-m ring ring-kumo-line">
-      <div class="flex items-center gap-2 rounded-lg bg-kumo-control px-3 py-2 text-sm text-kumo-subtle ring-1 ring-kumo-line">
-        <Search size={16} />
-        <span>Search...</span>
-        <button class="ml-auto text-kumo-subtle hover:text-kumo-default" aria-label="Close search" onclick={() => (searchOpen = false)}>
-          <X size={16} />
-        </button>
-      </div>
-    </div>
-  </div>
-{/if}
+<SearchDialog open={searchOpen} onOpenChange={(open) => (searchOpen = open)} />

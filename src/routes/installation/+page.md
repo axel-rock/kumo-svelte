@@ -1,235 +1,124 @@
 ---
 title: "Installation"
-description: "Get started with Kumo by installing the package and importing components."
+description: "Get started with Kumo Svelte by installing the package and importing components."
 ---
 
 <script>
   import Callout from '$lib/docs/Callout.svelte';
-  import ComponentExample from '$lib/docs/ComponentExample.svelte';
-  import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
-  import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
-
-## NPM Registry
-
-The `@cloudflare/kumo` package is published to the public npm registry. No special configuration is required for installation.
 
 ## Install Package
 
-Install Kumo using your preferred package manager. The current version is <code>vlatest</code>.
+Install Kumo Svelte with your preferred package manager.
 
 #### npm
 
 ```bash
-npm install @cloudflare/kumo
+npm install kumo-svelte
 ```
 
 #### pnpm
 
 ```bash
-pnpm add @cloudflare/kumo
+pnpm add kumo-svelte
 ```
 
 #### yarn
 
 ```bash
-yarn add @cloudflare/kumo
+yarn add kumo-svelte
 ```
 
 #### Peer Dependencies
 
-Kumo requires the following peer dependencies. Most React projects will already have these installed:
+Kumo Svelte requires Svelte 5. Chart components also expect ECharts when you render charts.
 
 ```bash
-# Required peer dependencies
-pnpm add react react-dom @phosphor-icons/react
+pnpm add svelte echarts
 ```
 
 ## Import Components
 
-Import components from the main package or use granular imports for better tree-shaking:
+Import styled components from the main package entry point.
 
-#### Main Package Import
-
-```tsx
+```svelte
+<script lang="ts">
+  import { Button, Input, LayerCard } from 'kumo-svelte';
+</script>
 ```
 
-#### Granular Import (Recommended)
+Granular imports are available for apps that prefer explicit component entry points.
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Button } from 'kumo-svelte/components/button';
+  import { Input } from 'kumo-svelte/components/input';
+</script>
 ```
 
-## Base UI Primitives
+## Bits UI Primitives
 
-Kumo is built on top of [Base UI](https://base-ui.com), a library of unstyled, accessible React components. For advanced use cases where you need access to the underlying primitives, Kumo re-exports all 37 Base UI components with both barrel and granular imports:
-
-#### Barrel Import (Convenient)
-
-```tsx
-// Import multiple primitives at once
-```
-
-#### Granular Imports (Recommended for Performance)
-
-```tsx
-// Import individual primitives for better tree-shaking
-```
-
-Granular imports result in smaller bundle sizes by only including the primitives you actually use.
+The Svelte port uses [Bits UI](https://bits-ui.com) for accessible primitives. Prefer Kumo Svelte's styled components when they exist, and reach for Bits UI directly when you need a lower-level primitive that Kumo does not expose yet.
 
 <Callout type="info">
-  **Available Primitives (37 total):** Layout · Accordion, Collapsible,
-  Separator, ScrollArea, Toolbar — Overlays · AlertDialog, Dialog, Popover,
-  PreviewCard, Tooltip, Toast — Menus · Menu, Menubar, ContextMenu,
-  NavigationMenu — Form Controls · Autocomplete, Button, Checkbox,
-  CheckboxGroup, Combobox, Input, NumberField, Radio, RadioGroup, Select,
-  Slider, Switch, Toggle, ToggleGroup — Form Structure · Field, Fieldset, Form —
-  Display · Avatar, Meter, Progress, Tabs
-
-</Callout>
-
-<Callout type="warning">
-  **Note:** Prefer using styled Kumo components when available. Primitives are
-  intended for building custom components that aren't yet available in Kumo, or
-  for cases requiring fine-grained control over styling and behavior.
-
+  Kumo Svelte components keep the original Kumo visual language while using Svelte component APIs, snippets, and bindable state where appropriate.
 </Callout>
 
 ## Import Styles
 
-Kumo provides two CSS distribution options depending on your setup:
-
-### For Tailwind CSS Users (Recommended)
-
-If your application uses Tailwind CSS, add Kumo's source files to your content configuration and import the styles. **Import order matters** — Kumo styles must come before `@import "tailwindcss"` so that Kumo's theme tokens are registered first:
-
-<Callout type="warning">
-  **Important:** Tailwind CSS v4 does not scan `node_modules/` by default. You
-  must add a `@source` directive so Tailwind can discover the utility classes
-  used by Kumo components. Without this, components may render with missing
-  styles (e.g. Dialogs not centered).
-
-</Callout>
+If your application uses Tailwind CSS, add Kumo Svelte's source files and import the package styles before Tailwind.
 
 ```css
-/* app.css or main.css */
-@source "../node_modules/@cloudflare/kumo/dist/**/*.{js,jsx,ts,tsx}";
-@import "@cloudflare/kumo/styles/tailwind";
+/* app.css */
+@source "../node_modules/kumo-svelte/dist/**/*.{js,svelte,ts}";
+@import "kumo-svelte/styles.css";
 @import "tailwindcss";
-
-/* Your custom styles */
 ```
 
-<Callout type="info">
-  The `@source` path is relative to your CSS file. Adjust it based on your
-  project structure — e.g. if your CSS is in `src/styles/`, you may need
-  `../../node_modules/@cloudflare/kumo/dist/**/*.&#123;"&#123;"&#125;js,jsx,ts,tsx&#123;"&#125;"&#125;`.
-
-</Callout>
-
-Note: You can also use the default export `@cloudflare/kumo/styles` which is equivalent to `styles/tailwind`.
-
-### For Non-Tailwind Users (Standalone)
-
-If your application doesn't use Tailwind CSS, use the standalone build which includes all compiled styles:
-
-```tsx
-// In your app entry point (e.g., main.tsx, index.tsx)
-```
-
-The standalone build includes all Tailwind utilities and Kumo component styles pre-compiled. No Tailwind configuration needed!
+Adjust the `@source` path if your CSS file lives in a different directory.
 
 ## Usage Example
 
-Here's a complete example of using Kumo components with Tailwind CSS:
-
-#### CSS File (app.css)
+#### CSS File
 
 ```css
-@source "../node_modules/@cloudflare/kumo/dist/**/*.{js,jsx,ts,tsx}";
-@import "@cloudflare/kumo/styles/tailwind";
+@source "../node_modules/kumo-svelte/dist/**/*.{js,svelte,ts}";
+@import "kumo-svelte/styles.css";
 @import "tailwindcss";
 ```
 
-Note: The `@source` path is relative to your CSS file. Adjust it based on your project structure.
+#### Component File
 
-#### Component File (App.tsx)
+```svelte
+<script lang="ts">
+  import { Button, Input, LayerCard } from 'kumo-svelte';
+</script>
 
-```tsx
-
-export default function App() {
-  return (
-    <LayerCard className="rounded-lg p-6">
-      <h1 className="mb-4 text-2xl font-bold">Welcome to Kumo</h1>
-      <Input placeholder="Enter your name..." className="mb-4" />
-      <Button variant="primary">Submit</Button>
-    </LayerCard>
-  );
-}
+<LayerCard class="rounded-lg p-6">
+  <h1 class="mb-4 text-2xl font-bold">Welcome to Kumo</h1>
+  <Input placeholder="Enter your name..." class="mb-4" />
+  <Button variant="primary">Submit</Button>
+</LayerCard>
 ```
 
 ## Blocks vs Components
 
-Kumo provides two types of building blocks for your application:
-
-### Components (NPM Exports)
-
-Components are published as NPM exports and can be imported directly from the package. These are the core UI primitives like `Button`, `Input`, and `Dialog`.
-
-```tsx
-```
-
-Use components when you need consistent, pre-styled UI primitives that integrate seamlessly with your application. Components are versioned, tree-shakeable, and receive automatic updates.
-
-### Blocks (CLI Installation)
-
-Blocks are higher-level compositions (like `PageHeader` and `ResourceListPage`) that are installed via the Kumo CLI. Blocks give you full ownership of the code, allowing you to customize them to your specific needs.
+Components are versioned package exports such as `Button`, `Input`, and `Dialog`. Blocks are larger compositions that you copy into your project and own.
 
 ```bash
-
-# Initialize Kumo configuration
-
-npx @cloudflare/kumo init
-
-# List available blocks
-
-npx @cloudflare/kumo blocks
-
-# Install a block
-
-npx @cloudflare/kumo add PageHeader
+npx kumo-svelte init
+npx kumo-svelte blocks
+npx kumo-svelte add PageHeader
 ```
 
-After installation, blocks live in your project (e.g., `src/components/kumo/`) and can be customized as needed. The CLI automatically transforms imports from relative paths to `@cloudflare/kumo` for seamless integration.
-
-```tsx
-```
-
-<Callout type="info">
-  <strong>When to use blocks:</strong>
-  <ul class="mt-2 space-y-1 text-sm">
-    <li>You need to customize the component beyond props</li>
-    <li>You want full control over the implementation</li>
-    <li>You're building application-specific layouts</li>
-    <li>You prefer copy-paste over package dependencies for certain code</li>
-  </ul>
-
-</Callout>
+After installation, blocks live in your project and can be customized directly.
 
 ## Utilities
 
-Kumo also exports utility functions for common tasks:
+```svelte
+<script lang="ts">
+  import { cn } from 'kumo-svelte';
 
-```tsx
-
-// Merge class names with Tailwind
-const className = cn("base-class", condition && "conditional-class");
-
-// Generate safe random IDs
-const id = safeRandomId();
-
-// Configure link component for your framework (maps href to your router)
-<LinkProvider component={YourAppLink}>{/* Your app */}</LinkProvider>;
+  const classes = cn('base-class', true && 'conditional-class');
+</script>
 ```

@@ -17,7 +17,7 @@ description: "Access component documentation and install blocks from your termin
 The Kumo CLI is available via npx. No installation required.
 
 ```bash
-npx @cloudflare/kumo help
+npx kumo-svelte help
 ```
 
 ## Commands
@@ -28,13 +28,13 @@ Install copy-paste blocks into your project for full customization.
 
 ```bash
 # Initialize kumo.json configuration
-npx @cloudflare/kumo init
+npx kumo-svelte init
 
 # List all available blocks
-npx @cloudflare/kumo blocks
+npx kumo-svelte blocks
 
 # Install a block to your project
-npx @cloudflare/kumo add PageHeader
+npx kumo-svelte add PageHeader
 ```
 
 ### Component Registry
@@ -43,13 +43,13 @@ Access component documentation directly from your terminal.
 
 ```bash
 # List all Kumo components with categories
-npx @cloudflare/kumo ls
+npx kumo-svelte ls
 
 # Get detailed documentation for a component
-npx @cloudflare/kumo doc Button
+npx kumo-svelte doc Button
 
 # Get documentation for all components
-npx @cloudflare/kumo docs
+npx kumo-svelte docs
 ```
 
 ## Try it out

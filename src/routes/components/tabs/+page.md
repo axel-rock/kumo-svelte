@@ -2,23 +2,19 @@
 title: "Tabs"
 description: "A set of layered sections of content, known as tab panels, displayed one at a time."
 sourceFile: "components/tabs"
+bitsUIComponent: "tabs"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="TabsDefaultDemo" />
-
+  <ComponentExample demo="TabsDefaultDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,12 +25,14 @@ sourceFile: "components/tabs"
 
 ### Barrel
 
-```tsx
+```svelte
+import { Tabs } from "kumo-svelte";
 ```
 
 ### Granular
 
-```tsx
+```svelte
+import { Tabs } from "kumo-svelte/components/tabs";
 ```
 
 </ComponentSection>
@@ -45,19 +43,16 @@ sourceFile: "components/tabs"
 
 ## Usage
 
-```tsx
+```svelte
+import { Tabs } from "kumo-svelte";
 
-export default function Example() {
-  return (
-    <Tabs
-      tabs={[
-        { value: "overview", label: "Overview" },
-        { value: "settings", label: "Settings" },
-      ]}
-      selectedValue="overview"
+<Tabs
+  tabs={[
+    { value: "overview", label: "Overview" },
+    { value: "settings", label: "Settings" },
+  ]}
+  selectedValue="overview"
 />
-  );
-}
 ```
 
 </ComponentSection>
@@ -78,15 +73,15 @@ A pill-shaped indicator slides between tabs on a subtle background.
 
 #### Underline
 
-  A bottom border with a primary-colored indicator. The active tab has bolder
-  text for emphasis.
+A bottom border with a primary-colored indicator. The active tab has bolder
+text for emphasis.
 
 <ComponentExample demo="TabsUnderlineDemo" />
 
 ### Small Size
 
-  Use `size="sm"` for a compact tab bar that matches `Input size="sm"` height (h-6.5 / 26px).
-  Useful inside toolbars and filter rows.
+Use `size="sm"` for a compact tab bar that matches `Input size="sm"` height (h-6.5 / 26px).
+Useful inside toolbars and filter rows.
 
 <ComponentExample demo="TabsSmDemo" />
 
@@ -110,10 +105,11 @@ Tabs automatically scroll horizontally when there are many items.
 
 ## API Reference
 
-<PropsTable component="Tabs"  />
+  <PropsTable component="Tabs" />
 
 ### TabsItem
 
+<div class="overflow-x-auto">
   <table class="w-full text-sm">
     <thead>
       <tr class="border-b border-kumo-hairline">
@@ -130,7 +126,7 @@ Tabs automatically scroll horizontally when there are many items.
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">label</td>
-        <td class="px-4 py-3 font-mono text-xs">ReactNode</td>
+        <td class="px-4 py-3 font-mono text-xs">string | Snippet</td>
         <td class="px-4 py-3 font-mono text-xs">Yes</td>
       </tr>
       <tr class="border-b border-kumo-hairline">
@@ -140,5 +136,6 @@ Tabs automatically scroll horizontally when there are many items.
       </tr>
     </tbody>
   </table>
+</div>
 
 </ComponentSection>

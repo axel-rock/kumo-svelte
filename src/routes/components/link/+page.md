@@ -5,20 +5,14 @@ sourceFile: "components/link"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
-  import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="LinkBasicDemo" />
-
+  <ComponentExample demo="LinkBasicDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,12 +23,18 @@ sourceFile: "components/link"
 
 ### Barrel
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Link } from 'kumo-svelte';
+</script>
 ```
 
 ### Granular
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Link, LinkExternalIcon } from 'kumo-svelte/components/link';
+</script>
 ```
 
 </ComponentSection>
@@ -47,99 +47,47 @@ sourceFile: "components/link"
 
 ### Basic Link
 
-  
-    The default Link component renders an underlined anchor with primary color styling.
-  
+The default Link component renders an underlined anchor with primary color styling.
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Link } from 'kumo-svelte';
+</script>
 
-export default function Example() {
-  return (
-    <p>
-      Read our <Link href="/docs">documentation</Link> for more details.
-    </p>
-  );
-}
+<p>
+  Read our <Link href="/docs">documentation</Link> for more details.
+</p>
 ```
 
 ### External Links
 
-  Use the `Link.ExternalIcon` subcomponent to indicate links that open in a new
-  tab.
+Use `LinkExternalIcon` to indicate links that open in a new tab.
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Link, LinkExternalIcon } from 'kumo-svelte/components/link';
+</script>
 
-export default function Example() {
-  return (
-    <Link
-      href="https://cloudflare.com"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Visit Cloudflare <Link.ExternalIcon />
-    </Link>
-  );
-}
+<Link
+  href="https://cloudflare.com"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  Visit Cloudflare <LinkExternalIcon />
+</Link>
 ```
 
-### Framework Integration (LinkProvider)
+### SvelteKit Links
 
-  For app-wide router integration, configure a `LinkProvider` at your app root.
-  Your wrapper component receives `href` and is responsible for bridging to your
-  router's API. This lets engineers use `&lt;Link href="..."&gt;` everywhere without
-  thinking about routing internals.
+SvelteKit uses native anchors for client-side navigation, so pass destinations
+with `href`.
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Link } from 'kumo-svelte';
+</script>
 
-// Your app's wrapper maps href to the router's navigation prop
-// and handles external URLs with a plain <a>
-const AppLink = forwardRef(({ href, to, ...rest }, ref) => {
-  const destination = href ?? to;
-  const isExternal =
-    destination?.startsWith("http") &&
-    new URL(destination).origin !== window.location.origin;
-
-  if (isExternal) {
-    return <a ref={ref} href={destination} {...rest} />;
-  }
-  return <RouterLink ref={ref} to={destination} {...rest} />;
-});
-
-// Wrap your app once
-export function App() {
-  return (
-    <LinkProvider component={AppLink}>
-      {/* All <Link href="..."> calls go through AppLink */}
-      <YourApp />
-    </LinkProvider>
-  );
-}
-```
-
-### Composition with render prop
-
-  For exceptional cases where you need direct control over the rendered element,
-  use the `render` prop. This bypasses the `LinkProvider` entirely — all other
-  props (`href`, `target`, `className`, etc.) are merged onto the provided element
-  automatically.
-
-```tsx
-
-export default function Example() {
-  return (
-    <>
-      {/* Force a specific router link (bypasses LinkProvider) */}
-      <Link render={<RouterLink to="/dashboard" />} variant="inline">
-        Dashboard
-      </Link>
-
-      {/* Force a plain anchor (bypasses LinkProvider) */}
-      <Link render={<a />} href="https://example.com" target="_blank" rel="noopener noreferrer">
-        External Site <Link.ExternalIcon />
-      </Link>
-    </>
-  );
-}
+<Link href="/dashboard" variant="inline">Dashboard</Link>
 ```
 
 </ComponentSection>
@@ -158,24 +106,16 @@ Links flow naturally within paragraph text with proper underline offset.
 
 ### External Link with Icon
 
-  Use `Link.ExternalIcon` to visually indicate links that navigate away from
-  your site.
+Use `LinkExternalIcon` to visually indicate links that navigate away from your site.
 
 <ComponentExample demo="LinkExternalDemo" />
 
 ### Current Variant (Color Inheritance)
 
-  The `current` variant inherits color from its parent, useful for links within
-  colored contexts like alerts.
+The `current` variant inherits color from its parent, useful for links within
+colored contexts like alerts.
 
 <ComponentExample demo="LinkCurrentVariantDemo" />
-
-### Composition with render prop
-
-  The `render` prop lets you compose Link styling onto any element, enabling
-  integration with framework routing components.
-
-<ComponentExample demo="LinkRenderDemo" />
 
 </ComponentSection>
 
@@ -189,6 +129,7 @@ Links flow naturally within paragraph text with proper underline offset.
 
 Extends all native anchor element attributes.
 
+<div class="overflow-x-auto">
   <table class="w-full text-sm">
     <thead>
       <tr class="border-b border-kumo-hairline">
@@ -201,56 +142,41 @@ Extends all native anchor element attributes.
     <tbody>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">variant</td>
-        <td class="px-4 py-3 font-mono text-xs">
-          "inline" | "current" | "plain"
-        </td>
+        <td class="px-4 py-3 font-mono text-xs">"inline" | "current" | "plain"</td>
         <td class="px-4 py-3 font-mono text-xs">"inline"</td>
         <td class="px-4 py-3 text-xs">Visual style variant</td>
-      </tr>
-      <tr class="border-b border-kumo-hairline">
-        <td class="px-4 py-3 font-mono text-xs">render</td>
-        <td class="px-4 py-3 font-mono text-xs">ReactElement</td>
-        <td class="px-4 py-3 font-mono text-xs">-</td>
-        <td class="px-4 py-3 text-xs">
-          Element to render with Link props merged onto it
-        </td>
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">href</td>
         <td class="px-4 py-3 font-mono text-xs">string</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
-        <td class="px-4 py-3 text-xs">
-          Link destination URL. Use this for all links — both internal and
-          external. Configure a `LinkProvider` to bridge `href` to your
-          router.
-        </td>
+        <td class="px-4 py-3 text-xs">Link destination URL.</td>
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">to</td>
         <td class="px-4 py-3 font-mono text-xs">string</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
-        <td class="px-4 py-3 text-xs">
-          <strong>Deprecated.</strong> Use `href` instead. This prop will
-          be removed in a future major version.
-        </td>
+        <td class="px-4 py-3 text-xs">Deprecated. Use `href` instead.</td>
       </tr>
       <tr class="border-b border-kumo-hairline">
-        <td class="px-4 py-3 font-mono text-xs">className</td>
+        <td class="px-4 py-3 font-mono text-xs">class</td>
         <td class="px-4 py-3 font-mono text-xs">string</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
         <td class="px-4 py-3 text-xs">Additional CSS classes</td>
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">children</td>
-        <td class="px-4 py-3 font-mono text-xs">ReactNode</td>
+        <td class="px-4 py-3 font-mono text-xs">Snippet</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
         <td class="px-4 py-3 text-xs">Link content</td>
       </tr>
     </tbody>
   </table>
+</div>
 
 ### Variants
 
+<div class="overflow-x-auto">
   <table class="w-full text-sm">
     <thead>
       <tr class="border-b border-kumo-hairline">
@@ -267,12 +193,8 @@ Extends all native anchor element attributes.
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">current</td>
-        <td class="px-4 py-3 text-xs">
-          Inherits parent text color with underline
-        </td>
-        <td class="px-4 py-3 text-xs">
-          Links within colored contexts (alerts, errors)
-        </td>
+        <td class="px-4 py-3 text-xs">Inherits parent text color with underline</td>
+        <td class="px-4 py-3 text-xs">Links within colored contexts (alerts, errors)</td>
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">plain</td>
@@ -281,15 +203,19 @@ Extends all native anchor element attributes.
       </tr>
     </tbody>
   </table>
+</div>
 
-### Link.ExternalIcon
+### LinkExternalIcon
 
-  SVG icon component to indicate external links. Accepts all SVG element
-  attributes.
+SVG icon component to indicate external links. Accepts SVG element attributes.
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Link, LinkExternalIcon } from 'kumo-svelte/components/link';
+</script>
+
 <Link href="https://example.com" target="_blank" rel="noopener noreferrer">
-  External Site <Link.ExternalIcon />
+  External Site <LinkExternalIcon />
 </Link>
 ```
 
@@ -301,77 +227,47 @@ Extends all native anchor element attributes.
 
 ## Design Guidelines
 
-  
-    
+<div class="space-y-4 text-sm">
+  <div>
 
-      ### When to Use Each Variant
+    ### When to Use Each Variant
 
-      <ul class="ml-4 list-disc space-y-1">
-        <li>
-          <strong>inline</strong>: Default choice for links within body text
-        </li>
-        <li>
-          <strong>current</strong>: Links inside alerts, banners, or other
-          colored containers
-        </li>
-        <li>
-          <strong>plain</strong>: Navigation menus, footers, or where underlines
-          are distracting
-        </li>
-      </ul>
-    
-    
+    <ul class="ml-4 list-disc space-y-1">
+      <li><strong>inline</strong>: Default choice for links within body text</li>
+      <li><strong>current</strong>: Links inside alerts, banners, or other colored containers</li>
+      <li><strong>plain</strong>: Navigation menus, footers, or where underlines are distracting</li>
+    </ul>
+  </div>
+  <div>
 
-      ### External Link Indicators
+    ### External Link Indicators
 
-      <ul class="ml-4 list-disc space-y-1">
-        <li>Always use `Link.ExternalIcon` for links that open in new tabs</li>
-        <li>
-          Set `target="_blank"` and `rel="noopener noreferrer"` for security
-        </li>
-        <li>
-          The icon provides a visual cue that users will leave the current site
-        </li>
-      </ul>
-    
-    
+    <ul class="ml-4 list-disc space-y-1">
+      <li>Always use `LinkExternalIcon` for links that open in new tabs</li>
+      <li>Set `target="_blank"` and `rel="noopener noreferrer"` for security</li>
+      <li>The icon provides a visual cue that users will leave the current site</li>
+    </ul>
+  </div>
+  <div>
 
-      ### Framework Integration
+    ### Framework Integration
 
-      <ul class="ml-4 list-disc space-y-1">
-        <li>
-          Configure a `LinkProvider` at your app root to integrate with your
-          client-side router
-        </li>
-        <li>
-          Your wrapper receives `href` and maps it to your router's
-          navigation prop (e.g. React Router's `to`)
-        </li>
-        <li>
-          The wrapper should handle external URLs by rendering a plain
-          `&lt;a&gt;` instead of routing them
-        </li>
-        <li>
-          Use the `render` prop as an escape hatch for exceptional cases
-          that need direct control over the rendered element
-        </li>
-        <li>
-          The `to` prop is deprecated — use `href` for all link destinations
-        </li>
-      </ul>
-    
-    
+    <ul class="ml-4 list-disc space-y-1">
+      <li>Use `href` for SvelteKit navigation.</li>
+      <li>The `to` prop is deprecated; use `href` for all link destinations.</li>
+    </ul>
+  </div>
+  <div>
 
-      ### Accessibility
+    ### Accessibility
 
-      <ul class="ml-4 list-disc space-y-1">
-        <li>Links are keyboard focusable by default</li>
-        <li>
-          The external icon has `aria-hidden="true"` - add descriptive text for
-          screen readers
-        </li>
-        <li>Ensure sufficient color contrast for all variants</li>
-        <li>Use descriptive link text (avoid "click here")</li>
-      </ul>
+    <ul class="ml-4 list-disc space-y-1">
+      <li>Links are keyboard focusable by default</li>
+      <li>The external icon has `aria-hidden="true"`; add descriptive text for screen readers</li>
+      <li>Ensure sufficient color contrast for all variants</li>
+      <li>Use descriptive link text (avoid "click here")</li>
+    </ul>
+  </div>
+</div>
 
 </ComponentSection>

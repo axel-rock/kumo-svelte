@@ -1,5 +1,15 @@
 <script lang="ts">
   import {
+    AlertTriangle,
+    Bold,
+    CheckCircle,
+    Italic,
+    Languages,
+    OctagonAlert,
+    Plus,
+    Search
+  } from '@lucide/svelte';
+  import {
     Badge,
     Banner,
     Button,
@@ -15,9 +25,13 @@
     DropdownMenu,
     Empty,
     Grid,
+    GridItem,
     Input,
     InputArea,
     InputGroup,
+    InputGroupAddon,
+    InputGroupInput,
+    InputGroupSuffix,
     Label,
     LayerCard,
     Link,
@@ -25,16 +39,24 @@
     MenuBar,
     Meter,
     Pagination,
+    PaginationControls,
     Popover,
     Radio,
     Select,
     SensitiveInput,
+    SkeletonLine,
     Switch,
     Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
     TableOfContents,
     Tabs,
     Text,
     Toasty,
+    createKumoToastManager,
     Tooltip
   } from '$lib';
   import Header from '$lib/docs/Header.svelte';
@@ -57,9 +79,9 @@
   ];
 
   const toc = [
-    { title: 'Introduction', href: '#introduction' },
-    { title: 'Installation', href: '#installation' },
-    { title: 'Usage', href: '#usage' }
+    { title: 'Introduction', href: '#introduction', depth: 1 },
+    { title: 'Installation', href: '#installation', depth: 1 },
+    { title: 'Usage', href: '#usage', depth: 1 }
   ];
 
   const tabs = [
@@ -72,6 +94,9 @@
   let checked = $state(true);
   let page = $state(1);
   let activeTab = $state('home');
+  let activeMenuOption = $state<number | undefined>(0);
+  let collapsibleOpen = $state(false);
+  const toastManager = createKumoToastManager();
 </script>
 
 <div class="flex flex-col">
@@ -86,8 +111,8 @@
         <a id="button" href="#button" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Button</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="grid gap-3">
-            <Button>Create Worker</Button>
-            <Button variant="primary">Create Worker</Button>
+            <Button icon={Plus}>Create Worker</Button>
+            <Button variant="primary" icon={Plus}>Create Worker</Button>
             <Button loading>Create Worker</Button>
           </div>
         </div>
@@ -120,7 +145,16 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="combobox" href="#combobox" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Combobox</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <Combobox options={fruits} placeholder="Search fruits..." />
+          <Combobox
+            options={[
+              { label: 'bug', value: 'bug' },
+              { label: 'documentation', value: 'documentation' },
+              { label: 'enhancement', value: 'enhancement' },
+              { label: 'help wanted', value: 'help-wanted' },
+              { label: 'good first issue', value: 'good-first-issue' }
+            ]}
+            placeholder="Select an issue..."
+          />
         </div>
       </li>
 
@@ -156,17 +190,30 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="tooltip" href="#tooltip" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Tooltip</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          {#snippet tooltipTrigger()}+{/snippet}
-          {#snippet tooltipContent()}Add{/snippet}
-          <Tooltip trigger={tooltipTrigger}>{@render tooltipContent()}</Tooltip>
+          <div class="flex gap-2">
+            {#snippet addTooltipTrigger(props: Record<string, unknown>)}
+              <Button {...props} shape="square" icon={Plus} aria-label="Add" />
+            {/snippet}
+            <Tooltip trigger={addTooltipTrigger} open>Add</Tooltip>
+            {#snippet languageTooltipTrigger(props: Record<string, unknown>)}
+              <Button {...props} shape="square" icon={Languages} aria-label="Change language" />
+            {/snippet}
+            <Tooltip trigger={languageTooltipTrigger}>Change language</Tooltip>
+          </div>
         </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="dropdown" href="#dropdown" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Dropdown</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <DropdownMenu items={[{ label: 'Worker' }, { label: 'Pages' }]}>
-            Add
+          <DropdownMenu>
+            <DropdownMenu.Trigger>
+              <Button icon={Plus}>Add</Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+              <DropdownMenu.Item>Worker</DropdownMenu.Item>
+              <DropdownMenu.Item>Pages</DropdownMenu.Item>
+            </DropdownMenu.Content>
           </DropdownMenu>
         </div>
       </li>
@@ -174,7 +221,7 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="collapsible" href="#collapsible" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Collapsible</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <Collapsible title="What is Kumo?">Kumo is Cloudflare's component library.</Collapsible>
+          <Collapsible bind:open={collapsibleOpen} title="What is Kumo?">Kumo is Cloudflare's component library.</Collapsible>
         </div>
       </li>
 
@@ -189,8 +236,8 @@
         <a id="layer-card" href="#layer-card" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">LayerCard</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <LayerCard class="w-[200px]">
-            <Text size="sm" variant="muted">Next Steps</Text>
-            <Text bold>Hello</Text>
+            <LayerCard.Secondary>Next Steps</LayerCard.Secondary>
+            <LayerCard.Primary>Hello</LayerCard.Primary>
           </LayerCard>
         </div>
       </li>
@@ -204,9 +251,9 @@
         <a id="skeleton-line" href="/components/skeleton-line" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">SkeletonLine</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex w-[200px] flex-col gap-2">
-            <div class="h-2 w-1/2 animate-pulse rounded bg-kumo-control"></div>
-            <div class="h-2 w-full animate-pulse rounded bg-kumo-control"></div>
-            <div class="h-2 w-3/4 animate-pulse rounded bg-kumo-control"></div>
+            <SkeletonLine minWidth={50} maxWidth={100} />
+            <SkeletonLine minWidth={100} />
+            <SkeletonLine minWidth={50} maxWidth={150} />
           </div>
         </div>
       </li>
@@ -223,8 +270,8 @@
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex flex-col gap-2">
             <Banner text="This is a default banner." />
-            <Banner text="This is an alert banner." variant="alert" />
-            <Banner text="This is an error banner." variant="error" />
+            <Banner text="This is an alert banner." variant="alert" icon={AlertTriangle} />
+            <Banner text="This is an error banner." variant="error" icon={OctagonAlert} />
           </div>
         </div>
       </li>
@@ -250,14 +297,27 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="toast" href="#toast" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Toast</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <Toasty title="Toast created" description="This is a toast notification." />
+          <Toasty {toastManager}>
+            <Button
+              onclick={() =>
+                toastManager.add({
+                  title: 'Toast created',
+                  description: 'This is a toast notification.',
+                  variant: 'warning'
+                })}
+            >
+              Give me a toast
+            </Button>
+          </Toasty>
         </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="pagination" href="#pagination" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Pagination</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <Pagination bind:page pages={10} class="w-auto" />
+          <Pagination bind:page perPage={10} totalCount={100} class="w-auto">
+            <PaginationControls />
+          </Pagination>
         </div>
       </li>
 
@@ -269,7 +329,15 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="input-group" href="#input-group" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">InputGroup</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <InputGroup prefix="https://" suffix=".workers.dev"><Input placeholder="site" /></InputGroup>
+          <div class="w-full max-w-2xs">
+            <InputGroup>
+              <InputGroupInput value="kumo" maxlength={20} aria-label="Subdomain" />
+              <InputGroupSuffix>.workers.dev</InputGroupSuffix>
+              <InputGroupAddon align="end">
+                <CheckCircle class="text-kumo-success" />
+              </InputGroupAddon>
+            </InputGroup>
+          </div>
         </div>
       </li>
 
@@ -283,7 +351,21 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="menu-bar" href="#menu-bar" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">MenuBar</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <MenuBar options={[{ label: 'B' }, { label: 'I' }]} />
+          <MenuBar
+            isActive={activeMenuOption}
+            options={[
+              {
+                icon: Bold,
+                tooltip: 'Bold',
+                onClick: () => (activeMenuOption = activeMenuOption === 0 ? undefined : 0)
+              },
+              {
+                icon: Italic,
+                tooltip: 'Italic',
+                onClick: () => (activeMenuOption = activeMenuOption === 1 ? undefined : 1)
+              }
+            ]}
+          />
         </div>
       </li>
 
@@ -309,15 +391,13 @@
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="clipboard-text" href="#clipboard-text" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">ClipboardText</a>
-        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><ClipboardText value="npx kumo add button" /></div>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><ClipboardText text="npx kumo add button" /></div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="command-palette" href="/components/command-palette" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">CommandPalette</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <div class="w-[220px]">
-            <CommandPalette commands={commands} placeholder="Search..." />
-          </div>
+          <Button icon={Search}>Open Command Palette</Button>
         </div>
       </li>
 
@@ -346,7 +426,10 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="empty" href="#empty" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Empty</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <Empty title="No results" description="Try a different search" />
+          <div class="flex flex-col items-center gap-1 text-center">
+            <span class="text-sm font-medium">No results</span>
+            <span class="text-xs text-kumo-subtle">Try a different search</span>
+          </div>
         </div>
       </li>
 
@@ -354,8 +437,8 @@
         <a id="grid" href="#grid" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Grid</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Grid variant="side-by-side" gap="sm" class="w-[140px]">
-            {#each [1, 2, 3, 4] as item}
-              <div class="rounded bg-kumo-control p-3 text-center text-xs">{item}</div>
+            {#each [1, 2, 3, 4] as item (item)}
+              <GridItem class="rounded bg-kumo-control p-3 text-center text-xs">{item}</GridItem>
             {/each}
           </Grid>
         </div>
@@ -366,7 +449,7 @@
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex flex-col gap-2">
             <Label>Default Label</Label>
-            <Label optional>Optional Field</Label>
+            <Label showOptional>Optional Field</Label>
             <Label tooltip="More info">With Tooltip</Label>
           </div>
         </div>
@@ -383,25 +466,33 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="radio" href="#radio" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Radio</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <Radio options={[{ label: 'Option 1', value: 'option1' }, { label: 'Option 2', value: 'option2' }]} value="option1" />
+          <Radio.Group legend="Select option" defaultValue="option1">
+            <Radio.Item value="option1" label="Option 1" />
+            <Radio.Item value="option2" label="Option 2" />
+          </Radio.Group>
         </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="sensitive-input" href="#sensitive-input" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">SensitiveInput</a>
-        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><SensitiveInput value="super-secret-api-key" /></div>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><SensitiveInput value="super-secret-api-key" readonly /></div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="table" href="#table" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Table</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Table class="w-[200px] text-sm">
-            <thead><tr><th>Name</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td>Worker 1</td><td>Active</td></tr>
-              <tr><td>Worker 2</td><td>Paused</td></tr>
-              <tr><td>Worker 3</td><td>Active</td></tr>
-            </tbody>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow><TableCell>Worker 1</TableCell><TableCell>Active</TableCell></TableRow>
+              <TableRow><TableCell>Worker 2</TableCell><TableCell>Paused</TableCell></TableRow>
+              <TableRow><TableCell>Worker 3</TableCell><TableCell>Active</TableCell></TableRow>
+            </TableBody>
           </Table>
         </div>
       </li>
@@ -417,7 +508,7 @@
           <div class="flex flex-col gap-1">
             <Text size="lg" bold>Large Bold Text</Text>
             <Text size="base">Regular text content</Text>
-            <Text size="sm" variant="muted">Small subtle text</Text>
+            <Text size="sm" variant="secondary">Small subtle text</Text>
           </div>
         </div>
       </li>

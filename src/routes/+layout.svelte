@@ -1,6 +1,7 @@
 <script lang="ts">
   import '../lib/styles.css';
   import SidebarNav from '$lib/docs/SidebarNav.svelte';
+  import { TooltipProvider } from '$lib/components/tooltip';
 </script>
 
 <svelte:head>
@@ -19,12 +20,14 @@
   </script>
 </svelte:head>
 
-<div class="isolate min-h-screen bg-kumo-canvas text-kumo-default">
-  <SidebarNav />
-  <div id="main-content" class="main-content mt-12 md:mt-0 md:ml-12 transition-[margin] duration-300">
-    <slot />
+<TooltipProvider>
+  <div class="isolate min-h-screen bg-kumo-canvas text-kumo-default">
+    <SidebarNav />
+    <div id="main-content" class="main-content mt-12 md:mt-0 md:ml-12 transition-[margin] duration-300">
+      <slot />
+    </div>
   </div>
-</div>
+</TooltipProvider>
 
 <style>
   @media (min-width: 768px) {

@@ -8,6 +8,6 @@
   let { children }: Props = $props();
 </script>
 
-<section class="my-10">
+<section class="mb-8">
   {@render children?.()}
 </section>

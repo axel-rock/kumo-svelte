@@ -6,20 +6,15 @@ baseUIComponent: "collapsible"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="CollapsibleHeroDemo" />
-
+  <ComponentExample demo="CollapsibleHeroDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -30,12 +25,33 @@ baseUIComponent: "collapsible"
 
 ### Barrel
 
-```tsx
+```svelte
+<script lang="ts">
+  import {
+    CollapsibleRoot,
+    CollapsibleDefaultTrigger,
+    CollapsibleDefaultPanel
+  } from 'kumo-svelte';
+</script>
+
+<CollapsibleRoot open>
+  <CollapsibleDefaultTrigger>Show details</CollapsibleDefaultTrigger>
+  <CollapsibleDefaultPanel>
+    Content with border-left accent styling.
+  </CollapsibleDefaultPanel>
+</CollapsibleRoot>
 ```
 
 ### Granular
 
-```tsx
+```svelte
+<script lang="ts">
+  import {
+    CollapsibleRoot,
+    CollapsibleDefaultTrigger,
+    CollapsibleDefaultPanel
+  } from 'kumo-svelte/components/collapsible';
+</script>
 ```
 
 </ComponentSection>
@@ -50,37 +66,46 @@ Collapsible uses a compound component pattern for full composition control.
 
 ### With Default Styling
 
-Use `DefaultTrigger` and `DefaultPanel` for the classic Kumo style:
+Use `CollapsibleDefaultTrigger` and `CollapsibleDefaultPanel` for the classic Kumo style:
 
-```tsx
+```svelte
+<script lang="ts">
+  import {
+    CollapsibleRoot,
+    CollapsibleDefaultTrigger,
+    CollapsibleDefaultPanel
+  } from 'kumo-svelte';
 
-export default function Example() {
-  const [open, setOpen] = useState(false);
+  let open = $state(false);
+</script>
 
-  return (
-    <Collapsible.Root open={open} onOpenChange={setOpen}>
-      <Collapsible.DefaultTrigger>Show details</Collapsible.DefaultTrigger>
-      <Collapsible.DefaultPanel>
-        Content with border-left accent styling.
-      </Collapsible.DefaultPanel>
-    </Collapsible.Root>
-  );
-}
+<CollapsibleRoot bind:open>
+  <CollapsibleDefaultTrigger>Show details</CollapsibleDefaultTrigger>
+  <CollapsibleDefaultPanel>
+    Content with border-left accent styling.
+  </CollapsibleDefaultPanel>
+</CollapsibleRoot>
 ```
 
 ### Custom Trigger
 
-Use the `render` prop on `Trigger` for full control over the trigger element:
+Use `CollapsibleTrigger` for full control over the trigger element:
 
-```tsx
-<Collapsible.Root open={open} onOpenChange={setOpen}>
-  <Collapsible.Trigger render={<Button variant="ghost" />}>
-    {open ? "Hide" : "Show"} details
-  </Collapsible.Trigger>
-  <Collapsible.Panel className="mt-2 p-4 bg-kumo-tint rounded-lg">
+```svelte
+<script lang="ts">
+  import { CollapsibleRoot, CollapsibleTrigger, CollapsiblePanel } from 'kumo-svelte';
+
+  let open = $state(false);
+</script>
+
+<CollapsibleRoot bind:open>
+  <CollapsibleTrigger class="rounded-lg bg-kumo-base px-3 py-2 text-sm ring ring-kumo-line">
+    {open ? 'Hide' : 'Show'} details
+  </CollapsibleTrigger>
+  <CollapsiblePanel class="mt-2 rounded-lg bg-kumo-tint p-4">
     Custom styled panel content.
-  </Collapsible.Panel>
-</Collapsible.Root>
+  </CollapsiblePanel>
+</CollapsibleRoot>
 ```
 
 </ComponentSection>
@@ -101,7 +126,7 @@ Use the `render` prop on `Trigger` for full control over the trigger element:
 
 ### Custom Trigger
 
-Use `Collapsible.Trigger` with the `render` prop for full control:
+Use `CollapsibleTrigger` for full control:
 
 <ComponentExample demo="CollapsibleCustomTriggerDemo" />
 
@@ -127,11 +152,11 @@ Control which item is open to create an accordion where only one item can be exp
 
 | Component | Description |
 |-----------|-------------|
-| `Collapsible.Root` | Manages open state. Pass `open` and `onOpenChange` for controlled mode. |
-| `Collapsible.Trigger` | Button that toggles visibility. Use `render` prop for custom elements. |
-| `Collapsible.Panel` | Container for collapsible content. |
-| `Collapsible.DefaultTrigger` | Pre-styled trigger with text label and animated caret icon. |
-| `Collapsible.DefaultPanel` | Pre-styled panel with border-left accent and standard spacing. |
+| `CollapsibleRoot` | Manages open state. Pass `open` and `onOpenChange` for controlled mode, or use `bind:open`. |
+| `CollapsibleTrigger` | Button that toggles visibility. |
+| `CollapsiblePanel` | Container for collapsible content. |
+| `CollapsibleDefaultTrigger` | Pre-styled trigger with text label and animated caret icon. |
+| `CollapsibleDefaultPanel` | Pre-styled panel with border-left accent and standard spacing. |
 
 </ComponentSection>
 
@@ -141,44 +166,43 @@ Control which item is open to create an accordion where only one item can be exp
 
 ## API Reference
 
-### Collapsible.Root
+### CollapsibleRoot
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `open` | `boolean` | — | Whether the panel is visible (controlled). |
 | `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled). |
-| `onOpenChange` | `(open: boolean) =&gt; void` | — | Callback when open state changes. |
+| `onOpenChange` | `(open: boolean) => void` | — | Callback when open state changes. |
 | `disabled` | `boolean` | `false` | Whether the collapsible is disabled. |
 
-### Collapsible.Trigger
+### CollapsibleTrigger
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `render` | `ReactElement` | — | Custom element to render as trigger. |
-| `className` | `string` | — | Additional CSS classes. |
+| `class` | `string` | — | Additional CSS classes. |
 
-### Collapsible.Panel
+### CollapsiblePanel
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `className` | `string` | — | Additional CSS classes. |
+| `class` | `string` | — | Additional CSS classes. |
 | `keepMounted` | `boolean` | `false` | Whether to keep the panel in the DOM when closed. |
 
-### Collapsible.DefaultTrigger
+### CollapsibleDefaultTrigger
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `children` | `ReactNode` | — | Label text displayed in the trigger. |
-| `className` | `string` | — | Additional CSS classes. |
+| `children` | `Snippet` | — | Label text displayed in the trigger. |
+| `class` | `string` | — | Additional CSS classes. |
 
-### Collapsible.DefaultPanel
+### CollapsibleDefaultPanel
 
-Accepts all `Collapsible.Panel` props in addition to the ones listed below.
+Accepts all `CollapsiblePanel` props in addition to the ones listed below.
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `children` | `ReactNode` | — | Panel content. |
-| `className` | `string` | — | Additional CSS classes. |
+| `children` | `Snippet` | — | Panel content. |
+| `class` | `string` | — | Additional CSS classes. |
 | `keepMounted` | `boolean` | `false` | Whether to keep the panel in the DOM when closed. |
 
 </ComponentSection>

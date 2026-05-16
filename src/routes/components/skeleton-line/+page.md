@@ -5,20 +5,15 @@ sourceFile: "primitives/skeleton-line"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="SkeletonLineDemo" />
-
+  <ComponentExample demo="SkeletonLineDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -27,7 +22,12 @@ sourceFile: "primitives/skeleton-line"
 
 ## Installation
 
-```tsx
+```svelte
+<script lang="ts">
+  import { SkeletonLine } from 'kumo-svelte';
+</script>
+
+<SkeletonLine />
 ```
 
 </ComponentSection>
@@ -40,9 +40,8 @@ sourceFile: "primitives/skeleton-line"
 
   <p class="mb-4">
     Control the randomized width range for more natural-looking skeletons.
-
-<ComponentExample demo="SkeletonLineWidthDemo" />
-
+  </p>
+  <ComponentExample demo="SkeletonLineWidthDemo" />
 </ComponentSection>
 
 <!-- Custom Height -->
@@ -52,11 +51,10 @@ sourceFile: "primitives/skeleton-line"
 ## Custom Height
 
   <p class="mb-4">
-    Override the default height using Tailwind utility classes via 
-    <code>className</code>. The default height is <code>0.5rem</code>.
-
-<ComponentExample demo="SkeletonLineHeightDemo" />
-
+    Override the default height using Tailwind utility classes via{" "}
+    <code>class</code>. The default height is <code>0.5rem</code>.
+  </p>
+  <ComponentExample demo="SkeletonLineHeightDemo" />
 </ComponentSection>
 
 <!-- Block Height -->
@@ -70,9 +68,8 @@ sourceFile: "primitives/skeleton-line"
     vertically centers the skeleton line. Useful when replacing text of a known
     line height. Accepts a number (treated as <code>px</code>) or any CSS string
     value.
-
-<ComponentExample demo="SkeletonLineBlockHeightDemo" />
-
+  </p>
+  <ComponentExample demo="SkeletonLineBlockHeightDemo" />
 </ComponentSection>
 
 <!-- Card Loading State -->
@@ -83,9 +80,8 @@ sourceFile: "primitives/skeleton-line"
 
   <p class="mb-4">
     Use skeleton lines to create loading states for cards and content areas.
-
-<ComponentExample demo="SkeletonLineCardDemo" />
-
+  </p>
+  <ComponentExample demo="SkeletonLineCardDemo" />
 </ComponentSection>
 
 <!-- API Reference -->
@@ -94,7 +90,7 @@ sourceFile: "primitives/skeleton-line"
 
 ## API Reference
 
-  
+  <div class="overflow-x-auto">
     <table class="w-full text-sm">
       <thead>
         <tr class="border-b border-kumo-hairline">
@@ -140,11 +136,11 @@ sourceFile: "primitives/skeleton-line"
           <td class="px-4 py-3 font-mono text-xs">-</td>
         </tr>
         <tr class="border-b border-kumo-hairline">
-          <td class="px-4 py-3 font-mono text-xs">className</td>
+          <td class="px-4 py-3 font-mono text-xs">class</td>
           <td class="px-4 py-3 font-mono text-xs">string</td>
           <td class="px-4 py-3 font-mono text-xs">-</td>
         </tr>
       </tbody>
     </table>
-
+  </div>
 </ComponentSection>

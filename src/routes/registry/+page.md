@@ -24,10 +24,10 @@ The component registry is a machine-readable JSON file that describes all Kumo c
 
 ```bash
 # List all components
-npx @cloudflare/kumo ls
+npx kumo-svelte ls
 
 # Get docs for a specific component
-npx @cloudflare/kumo doc Button
+npx kumo-svelte doc Button
 ```
 
 ### Via HTTP API

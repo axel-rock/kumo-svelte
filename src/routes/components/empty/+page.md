@@ -5,20 +5,15 @@ sourceFile: "components/empty"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="EmptyDemo" />
-
+  <ComponentExample demo="EmptyDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -27,7 +22,8 @@ sourceFile: "components/empty"
 
 ## Installation
 
-```tsx
+```svelte
+import { Empty } from "kumo-svelte";
 ```
 
 </ComponentSection>
@@ -38,18 +34,19 @@ sourceFile: "components/empty"
 
 ## Usage
 
-```tsx
+```svelte
+import { Empty } from "kumo-svelte";
+import { Package } from "@lucide/svelte";
 
-export default function Example() {
-  return (
-    <Empty
-      icon={<PackageIcon size={48} />}
-title="No packages found"
-description="Get started by installing your first package."
-      commandLine="npm install @kumo/ui"
-/>
-  );
-}
+<Empty
+  title="No packages found"
+  description="Get started by installing your first package."
+  commandLine="npm install @kumo/ui"
+>
+  {#snippet icon()}
+    <Package size={48} />
+  {/snippet}
+</Empty>
 ```
 
 </ComponentSection>
@@ -72,10 +69,10 @@ description="Get started by installing your first package."
 
 ## Sizes
 
-  Empty states come in three sizes to fit different container contexts.
 
-<ComponentExample demo="EmptySizesDemo" />
+Empty states come in three sizes to fit different container contexts.
 
+  <ComponentExample demo="EmptySizesDemo" />
 </ComponentSection>
 
 <!-- With Command Line -->
@@ -84,10 +81,10 @@ description="Get started by installing your first package."
 
 ## With Command Line
 
-  Include a copyable command to help users get started.
 
-<ComponentExample demo="EmptyWithCommandDemo" />
+Include a copyable command to help users get started.
 
+  <ComponentExample demo="EmptyWithCommandDemo" />
 </ComponentSection>
 
 <!-- With Actions -->
@@ -96,10 +93,10 @@ description="Get started by installing your first package."
 
 ## With Actions
 
-  Add custom action buttons using the contents prop.
 
-<ComponentExample demo="EmptyWithActionsDemo" />
+Add custom action buttons using child content.
 
+  <ComponentExample demo="EmptyWithActionsDemo" />
 </ComponentSection>
 
 <!-- Minimal -->
@@ -108,10 +105,10 @@ description="Get started by installing your first package."
 
 ## Minimal
 
-  At minimum, only a title is required.
 
-<ComponentExample demo="EmptyMinimalDemo" />
+At minimum, only a title is required.
 
+  <ComponentExample demo="EmptyMinimalDemo" />
 </ComponentSection>
 
 <!-- API Reference -->
@@ -120,6 +117,5 @@ description="Get started by installing your first package."
 
 ## API Reference
 
-<PropsTable component="Empty"  />
-
+  <PropsTable component="Empty" />
 </ComponentSection>

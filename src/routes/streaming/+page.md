@@ -21,7 +21,7 @@ The Kumo catalog module enables rendering UI from JSON structures, designed spec
 Unlike approaches that require maintaining separate schema definitions, Kumo automatically derives validation schemas from your actual component TypeScript types. When you update a component's props, the validation schemas update automatically via the component registry codegen process. No manual synchronization required — your schemas are always in sync with your components.
 
 <Callout type="info">
-  Schemas are auto-generated in `@cloudflare/kumo/ai/schemas` from component
+  Schemas are auto-generated in `kumo-svelte/ai/schemas` from component
   TypeScript types. Run `pnpm codegen:registry` after modifying component props
   to regenerate.
 
@@ -31,7 +31,7 @@ Unlike approaches that require maintaining separate schema definitions, Kumo aut
 
 The catalog module uses a pipeline that extracts component metadata from your TypeScript source code:
 
-`Component TSX` → `TypeScript Types` → `Codegen Script` → `Zod Schemas`
+`Svelte Component` → `TypeScript Types` → `Codegen Script` → `Zod Schemas`
 
 The generated schemas in `ai/schemas.ts` include:
 
@@ -81,7 +81,7 @@ The UI tree uses a flat structure optimized for LLM generation and streaming. El
     "card-1": {
       "key": "card-1",
       "type": "Surface",
-      "props": { "className": "p-4" },
+      "props": { "class": "p-4" },
       "children": ["heading-1", "text-1", "button-1"]
     },
     "heading-1": {
@@ -321,7 +321,7 @@ All types are exported for TypeScript integration:
 
 A complete example showing catalog creation, validation, and rendering:
 
-```tsx
+```svelte
 
 // 1. Create and initialize catalog
 const catalog = createKumoCatalog({
@@ -338,7 +338,7 @@ const aiJson = {
     container: {
       key: "container",
       type: "Surface",
-      props: { className: "p-4 space-y-4" },
+      props: { class: "p-4 space-y-4" },
       children: ["greeting", "action-btn"],
     },
     greeting: {

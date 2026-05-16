@@ -37,50 +37,29 @@ sourceFile: "blocks/resource-list"
       **1. Initialize Kumo config (first time only)**
 
 ```bash
-npx @cloudflare/kumo init
+npx kumo-svelte init
 ```
 
 **2. Install the block**
 
 ```bash
-npx @cloudflare/kumo add ResourceListPage
+npx kumo-svelte add ResourceListPage
 ```
 
 **3. Import from your local path**
 
-```tsx
-// The path depends on your kumo.json blocksDir setting
-// Default: src/components/kumo/
-```
+```svelte
+<script lang="ts">
+  import { Badge, LayerCard } from 'kumo-svelte';
+</script>
 
-<Callout type="info">
-    <strong>Why blocks?</strong> Blocks give you full ownership of the code,
-    allowing you to customize layouts to fit your specific needs. They're ideal
-    for page-level patterns that often need project-specific modifications.
-
-</Callout>
-
-</ComponentSection>
-
-<!-- Usage -->
-
-<ComponentSection>
-
-## Usage
-
-```tsx
-
-export default function DatabasesPage() {
-  return (
-    <ResourceListPage
-title="Databases"
-description="Manage your database instances and configurations"
-      icon={<DatabaseIcon size={32} className="text-kumo-strong" />}
-    >
-      <Surface className="p-6">{/* Your resource list content */}</Surface>
-    </ResourceListPage>
-  );
-}
+<LayerCard class="space-y-3">
+  <h2 class="text-lg font-semibold">Databases</h2>
+  <div class="flex items-center justify-between">
+    <span>main-db</span>
+    <Badge variant="success">Active</Badge>
+  </div>
+</LayerCard>
 ```
 
 </ComponentSection>
@@ -133,30 +112,30 @@ A minimal resource list page with title, description, and icon.
         </tr>
         <tr class="border-b border-kumo-hairline">
           <td class="px-4 py-3 font-mono text-xs">icon</td>
-          <td class="px-4 py-3 font-mono text-xs">ReactNode</td>
+          <td class="px-4 py-3 font-mono text-xs">Snippet</td>
           <td class="px-4 py-3">Icon displayed next to the title</td>
         </tr>
         <tr class="border-b border-kumo-hairline">
           <td class="px-4 py-3 font-mono text-xs">usage</td>
-          <td class="px-4 py-3 font-mono text-xs">ReactNode</td>
+          <td class="px-4 py-3 font-mono text-xs">Snippet</td>
           <td class="px-4 py-3">
             Sidebar content for usage examples or quick start guides
           </td>
         </tr>
         <tr class="border-b border-kumo-hairline">
           <td class="px-4 py-3 font-mono text-xs">additionalContent</td>
-          <td class="px-4 py-3 font-mono text-xs">ReactNode</td>
+          <td class="px-4 py-3 font-mono text-xs">Snippet</td>
           <td class="px-4 py-3">
             Additional sidebar content (e.g., resources, links)
           </td>
         </tr>
         <tr class="border-b border-kumo-hairline">
           <td class="px-4 py-3 font-mono text-xs">children</td>
-          <td class="px-4 py-3 font-mono text-xs">ReactNode</td>
+          <td class="px-4 py-3 font-mono text-xs">Snippet</td>
           <td class="px-4 py-3">Main content area for the resource list</td>
         </tr>
         <tr class="border-b border-kumo-hairline">
-          <td class="px-4 py-3 font-mono text-xs">className</td>
+          <td class="px-4 py-3 font-mono text-xs">class</td>
           <td class="px-4 py-3 font-mono text-xs">string</td>
           <td class="px-4 py-3">Additional CSS classes</td>
         </tr>

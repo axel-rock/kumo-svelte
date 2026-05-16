@@ -2,24 +2,18 @@
 title: "Combobox"
 description: "A searchable select component that allows users to filter and select from a list of options."
 sourceFile: "components/combobox"
-baseUIComponent: "combobox"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="ComboboxDemo" />
-
+  <ComponentExample demo="ComboboxDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -30,47 +24,15 @@ baseUIComponent: "combobox"
 
 ### Barrel
 
-```tsx
-// code example
-```
 
-### Granular
+```svelte
+<script lang="ts">
+  import { Combobox } from 'kumo-svelte';
 
-```tsx
-// code example
-```
+  const options = [{ label: 'Workers', value: 'workers' }];
+</script>
 
-</ComponentSection>
-
-<!-- Usage -->
-
-<ComponentSection>
-
-## Usage
-
-```tsx
-
-const fruits = ["Apple", "Banana", "Cherry", "Date", "Elderberry"];
-
-export default function Example() {
-  const [value, setValue] = useState<string | null>(null);
-
-  return (
-    <Combobox value={value} onValueChange={setValue} items={fruits}>
-      <Combobox.TriggerInput placeholder="Select a fruit" />
-      <Combobox.Content>
-        <Combobox.Empty />
-        <Combobox.List>
-          {(item) => (
-            <Combobox.Item key={item} value={item}>
-              {item}
-            </Combobox.Item>
-          )}
-        </Combobox.List>
-      </Combobox.Content>
-    </Combobox>
-  );
-}
+<Combobox {options} placeholder="Select product" />
 ```
 
 </ComponentSection>
@@ -83,45 +45,44 @@ export default function Example() {
 
 ### Sizes
 
-  The Combobox supports four size variants that match the Input component: `xs`,
+
+The Combobox supports four size variants that match the Input component: `xs`,
   `sm`, `base` (default), and `lg`.
 
 <ComponentExample demo="ComboboxSizesDemo" />
 
-  
-    Size also applies to `TriggerValue` (searchable inside variant):
 
-<ComponentExample demo="ComboboxSizesSearchableInsideDemo" />
+Size also applies to `TriggerValue` (searchable inside variant):
 
+  <ComponentExample demo="ComboboxSizesSearchableInsideDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### Searchable Item (Inside)
 
-  
-    A searchable select component inside popup that allows users to filter and
+
+A searchable select component inside popup that allows users to filter and
     select.
 
-<ComponentExample demo="ComboboxSearchableInsideDemo" />
-
+  <ComponentExample demo="ComboboxSearchableInsideDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### Searchable Select with Placeholder
 
-  
-    Use `TriggerValue` with a `placeholder` prop to create a searchable Select-style field.
+
+Use `TriggerValue` with a `placeholder` prop to create a searchable Select-style field.
     The placeholder is displayed until a value is selected.
 
-<ComponentExample demo="ComboboxSearchableSelectDemo" />
-
+  <ComponentExample demo="ComboboxSearchableSelectDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### Custom Trigger
+
 
 Use <code>Combobox.Trigger</code> with a <code>render</code> prop to replace the default input-like trigger with your own element. Pair with <code>Combobox.Value</code> to display the selected value. Useful for account switchers, sidebar navigation, or anywhere the default chrome doesn't fit.
 
@@ -133,83 +94,83 @@ Use <code>Combobox.Trigger</code> with a <code>render</code> prop to replace the
 
 ### Grouped
 
-  Group items into categories using the Group and GroupLabel components.
 
-<ComponentExample demo="ComboboxGroupedDemo" />
+Group items into categories using the Group and GroupLabel components.
 
+  <ComponentExample demo="ComboboxGroupedDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### Multiple
 
-  Allow users to select multiple options from the list.
 
-<ComponentExample demo="ComboboxMultipleDemo" />
+Allow users to select multiple options from the list.
 
+  <ComponentExample demo="ComboboxMultipleDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### With Field
 
-  Add label and description using the built-in Field wrapper.
 
-<ComponentExample demo="ComboboxWithFieldDemo" />
+Add label and description using the built-in Field wrapper.
 
+  <ComponentExample demo="ComboboxWithFieldDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### Disabled
 
-  Pass the `disabled` prop to prevent interaction. Works with both `TriggerInput` and `TriggerValue`.
 
-<ComponentExample demo="ComboboxDisabledDemo" />
+Pass the `disabled` prop to prevent interaction. Works with both `TriggerInput` and `TriggerValue`.
 
+  <ComponentExample demo="ComboboxDisabledDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### Disabled Items
 
-  Pass the `disabled` prop to an individual `Combobox.Item` to make it non-selectable. Disabled rows are rendered with a muted style and skipped during keyboard navigation selection.
 
-<ComponentExample demo="ComboboxDisabledItemsDemo" />
+Pass the `disabled` prop to an individual `Combobox.Item` to make it non-selectable. Disabled rows are rendered with a muted style and skipped during keyboard navigation selection.
 
+  <ComponentExample demo="ComboboxDisabledItemsDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### Error State
 
-  Display validation errors with the error prop.
 
-<ComponentExample demo="ComboboxErrorDemo" />
+Display validation errors with the error prop.
 
+  <ComponentExample demo="ComboboxErrorDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ## Customizing Dropdown Height
 
-  
-    By default, <code class="text-surface">Combobox.Content</code> has a max height of <code class="text-surface">24rem</code> (384px) or the available viewport space, whichever is smaller. The dropdown scrolls automatically when content exceeds this height.
-  
-  
-    To customize the max height, pass a className to <code class="text-surface">Combobox.Content</code>:
-  
 
-```tsx
+By default, <code class="text-surface">Combobox.Content</code> has a max height of <code class="text-surface">24rem</code> (384px) or the available viewport space, whichever is smaller. The dropdown scrolls automatically when content exceeds this height.
+
+
+To customize the max height, pass a class to <code class="text-surface">Combobox.Content</code>:
+
+
+```svelte
 // Shorter dropdown (200px)
-<Combobox.Content className="max-h-[200px]">
+<Combobox.Content class="max-h-[200px]">
 
 // Taller dropdown (500px)
-<Combobox.Content className="max-h-[500px]">
+<Combobox.Content class="max-h-[500px]">
 
 // Use Tailwind presets
-<Combobox.Content className="max-h-64">  // 256px
-<Combobox.Content className="max-h-96">  // 384px (same as default)
+<Combobox.Content class="max-h-64">  // 256px
+<Combobox.Content class="max-h-96">  // 384px (same as default)
 ```
 
 </ComponentSection>
@@ -220,21 +181,24 @@ Use <code>Combobox.Trigger</code> with a <code>render</code> prop to replace the
 
 ### Combobox
 
+
 Root component for the searchable select.
 
-<PropsTable component="Combobox"  />
+<PropsTable component="Combobox" />
 
 ### Combobox.Content
 
+
 Dropdown container for the list.
 
-<PropsTable component="Combobox.Content"  />
+<PropsTable component="Combobox.Content" />
 
 ### Combobox.Item
 
+
 Individual selectable option.
 
-<PropsTable component="Combobox.Item"  />
+<PropsTable component="Combobox.Item" />
 
 ### Additional Sub-components
 
@@ -250,5 +214,4 @@ Individual selectable option.
     <li>`Combobox.Chip` - Selected item chip</li>
     <li>`Combobox.Empty` - Empty state message</li>
   </ul>
-
 </ComponentSection>

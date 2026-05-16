@@ -2,24 +2,18 @@
 title: "Autocomplete"
 description: "A free-form text input with an optional filtered suggestion list. Unlike Combobox, the value is not constrained to the items list."
 sourceFile: "components/autocomplete"
-baseUIComponent: "autocomplete"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="AutocompleteDemo" />
-
+  <ComponentExample demo="AutocompleteDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -30,14 +24,17 @@ baseUIComponent: "autocomplete"
 
 ### Barrel
 
-```tsx
-// code example
+
+```svelte
+import { Autocomplete } from "kumo-svelte";
 ```
+
 
 ### Granular
 
-```tsx
-// code example
+
+```svelte
+import { Autocomplete } from "kumo-svelte/components/autocomplete";
 ```
 
 </ComponentSection>
@@ -48,7 +45,8 @@ baseUIComponent: "autocomplete"
 
 ## When to use
 
-  Use `Autocomplete` when the input value can be free-form text and suggestions
+
+Use `Autocomplete` when the input value can be free-form text and suggestions
   are optional hints. Use `Combobox` instead when the selected value must come
   from the predefined list.
 
@@ -60,10 +58,10 @@ baseUIComponent: "autocomplete"
 
 ## Controlled
 
-  Pass `value` and `onValueChange` for controlled usage.
+
+Pass `value` and `onValueChange` for controlled usage.
 
 <ComponentExample demo="AutocompleteControlledDemo" />
-
 </ComponentSection>
 
 <!-- With Field -->
@@ -72,10 +70,10 @@ baseUIComponent: "autocomplete"
 
 ## With Field
 
-  Add `label`, `description`, and `required` to enable the built-in Field wrapper.
+
+Add `label`, `description`, and `required` to enable the built-in Field wrapper.
 
 <ComponentExample demo="AutocompleteWithFieldDemo" />
-
 </ComponentSection>
 
 <!-- Error State -->
@@ -84,10 +82,10 @@ baseUIComponent: "autocomplete"
 
 ## Error State
 
-  Display validation errors with the `error` prop.
+
+Display validation errors with the `error` prop.
 
 <ComponentExample demo="AutocompleteErrorDemo" />
-
 </ComponentSection>
 
 <!-- Grouped -->
@@ -96,10 +94,10 @@ baseUIComponent: "autocomplete"
 
 ## Grouped
 
-  Group items into categories using `Autocomplete.Group` and `Autocomplete.GroupLabel`.
+
+Group items into categories using `Autocomplete.Group` and `Autocomplete.GroupLabel`.
 
 <ComponentExample demo="AutocompleteGroupedDemo" />
-
 </ComponentSection>
 
 <!-- Sizes -->
@@ -108,11 +106,11 @@ baseUIComponent: "autocomplete"
 
 ## Sizes
 
-  The `size` prop on `Autocomplete.InputGroup` supports four variants matching the
+
+The `size` prop on `Autocomplete.InputGroup` supports four variants matching the
   Input component: `xs`, `sm`, `base` (default), and `lg`.
 
 <ComponentExample demo="AutocompleteSizesDemo" />
-
 </ComponentSection>
 
 <!-- Custom Filtering -->
@@ -121,11 +119,13 @@ baseUIComponent: "autocomplete"
 
 ## Custom Filtering
 
-  By default, Base UI filters items using a built-in string match. Pass a custom
+
+By default, Base UI filters items using a built-in string match. Pass a custom
   `filter` function for advanced logic such as fuzzy matching or object
   properties.
 
-```tsx
+
+```svelte
 // Filter on a property of object items
 <Autocomplete
   items={countries}
@@ -152,28 +152,32 @@ baseUIComponent: "autocomplete"
 
 ### Autocomplete
 
+
 Root component. Wraps all sub-components and manages state.
 
-<PropsTable component="Autocomplete"  />
+<PropsTable component="Autocomplete" />
 
 ### Autocomplete.InputGroup
 
-  Self-contained input wrapper that renders the text input, clear button, and
+
+Self-contained input wrapper that renders the text input, clear button, and
   dropdown trigger together.
 
-<PropsTable component="Autocomplete.InputGroup"  />
+<PropsTable component="Autocomplete.InputGroup" />
 
 ### Autocomplete.Content
 
+
 Dropdown popup container. Wraps Portal, Positioner, and Popup.
 
-<PropsTable component="Autocomplete.Content"  />
+<PropsTable component="Autocomplete.Content" />
 
 ### Autocomplete.Item
 
+
 Individual suggestion item in the list.
 
-<PropsTable component="Autocomplete.Item"  />
+<PropsTable component="Autocomplete.Item" />
 
 ### Additional Sub-components
 
@@ -184,5 +188,4 @@ Individual suggestion item in the list.
     <li>`Autocomplete.Collection` — item container within a group</li>
     <li>`Autocomplete.Separator` — horizontal divider between items</li>
   </ul>
-
 </ComponentSection>

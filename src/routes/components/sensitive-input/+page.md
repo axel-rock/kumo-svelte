@@ -5,20 +5,15 @@ sourceFile: "components/sensitive-input"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="SensitiveInputDemo" />
-
+  <ComponentExample demo="SensitiveInputDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,27 +24,12 @@ sourceFile: "components/sensitive-input"
 
 ### Barrel
 
-```tsx
-```
+```svelte
+<script lang="ts">
+  import { SensitiveInput } from 'kumo-svelte';
+</script>
 
-### Granular
-
-```tsx
-```
-
-</ComponentSection>
-
-<!-- Usage -->
-
-<ComponentSection>
-
-## Usage
-
-```tsx
-
-export default function Example() {
-  return <SensitiveInput label="Secret" defaultValue="my-secret-key" />;
-}
+<SensitiveInput />
 ```
 
 </ComponentSection>
@@ -60,10 +40,10 @@ export default function Example() {
 
 ## Sizes
 
-  SensitiveInput supports multiple sizes to fit different contexts.
 
-<ComponentExample demo="SensitiveInputSizesDemo" />
+SensitiveInput supports multiple sizes to fit different contexts.
 
+  <ComponentExample demo="SensitiveInputSizesDemo" />
 </ComponentSection>
 
 <!-- Controlled -->
@@ -72,10 +52,10 @@ export default function Example() {
 
 ## Controlled
 
-  Use controlled mode for full control over the input value.
 
-<ComponentExample demo="SensitiveInputControlledDemo" />
+Use controlled mode for full control over the input value.
 
+  <ComponentExample demo="SensitiveInputControlledDemo" />
 </ComponentSection>
 
 <!-- States -->
@@ -84,12 +64,11 @@ export default function Example() {
 
 ## States
 
-  
-    Various input states including error, disabled, read-only, and with
+
+Various input states including error, disabled, read-only, and with
     description.
 
-<ComponentExample demo="SensitiveInputStatesDemo" />
-
+  <ComponentExample demo="SensitiveInputStatesDemo" />
 </ComponentSection>
 
 <!-- API Reference -->
@@ -98,6 +77,5 @@ export default function Example() {
 
 ## API Reference
 
-<PropsTable component="SensitiveInput"  />
-
+  <PropsTable component="SensitiveInput" />
 </ComponentSection>

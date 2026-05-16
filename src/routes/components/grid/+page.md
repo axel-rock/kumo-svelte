@@ -5,20 +5,15 @@ sourceFile: "components/grid"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="GridDemo" />
-
+  <ComponentExample demo="GridDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -27,7 +22,8 @@ sourceFile: "components/grid"
 
 ## Installation
 
-```tsx
+```svelte
+import { Grid, GridItem } from "kumo-svelte";
 ```
 
 </ComponentSection>
@@ -38,12 +34,11 @@ sourceFile: "components/grid"
 
 ## Grid Variants
 
-  
-    The Grid component supports multiple column layouts that adapt responsively
+
+The Grid component supports multiple column layouts that adapt responsively
     across breakpoints.
 
-<ComponentExample demo="GridVariantsDemo" />
-
+  <ComponentExample demo="GridVariantsDemo" />
 </ComponentSection>
 
 <!-- Asymmetric Layouts -->
@@ -52,10 +47,10 @@ sourceFile: "components/grid"
 
 ## Asymmetric Layouts
 
-  Use asymmetric variants for sidebar/main content layouts.
 
-<ComponentExample demo="GridAsymmetricDemo" />
+Use asymmetric variants for sidebar/main content layouts.
 
+  <ComponentExample demo="GridAsymmetricDemo" />
 </ComponentSection>
 
 <!-- Gap Sizes -->
@@ -64,10 +59,10 @@ sourceFile: "components/grid"
 
 ## Gap Sizes
 
-  Control the spacing between grid items with the gap prop.
 
-<ComponentExample demo="GridGapDemo" />
+Control the spacing between grid items with the gap prop.
 
+  <ComponentExample demo="GridGapDemo" />
 </ComponentSection>
 
 <!-- Mobile Dividers -->
@@ -76,12 +71,11 @@ sourceFile: "components/grid"
 
 ## Mobile Dividers
 
-  
-    Add dividers between items on mobile with the mobileDivider prop (only works
+
+Add dividers between items on mobile with the mobileDivider prop (only works
     with the 4up variant).
 
-<ComponentExample demo="GridMobileDividerDemo" />
-
+  <ComponentExample demo="GridMobileDividerDemo" />
 </ComponentSection>
 
 <!-- All Variants -->
@@ -90,8 +84,10 @@ sourceFile: "components/grid"
 
 ## All Variants
 
-  Reference for all available grid variants:
-  
+
+Reference for all available grid variants:
+
+  <div class="overflow-x-auto">
     <table class="w-full text-left text-sm">
       <thead>
         <tr class="border-b border-kumo-hairline">
@@ -138,7 +134,7 @@ sourceFile: "components/grid"
         </tr>
       </tbody>
     </table>
-
+  </div>
 </ComponentSection>
 
 <!-- API Reference -->
@@ -149,11 +145,13 @@ sourceFile: "components/grid"
 
 ### Grid
 
-<PropsTable component="Grid"  />
+  <PropsTable component="Grid" />
 
 ### GridItem
 
-  GridItem is a wrapper component for grid children. It accepts standard div
-  props including `className` and `children`.
+
+GridItem is a wrapper component for grid children. It accepts standard div
+  props including `class` and `children`.
+
 
 </ComponentSection>

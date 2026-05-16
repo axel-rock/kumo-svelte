@@ -6,20 +6,15 @@ baseUIComponent: "tooltip"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="TooltipHeroDemo" />
-
+  <ComponentExample demo="TooltipHeroDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -30,12 +25,14 @@ baseUIComponent: "tooltip"
 
 ### Barrel
 
-```tsx
+```svelte
+import { Tooltip, TooltipProvider } from "kumo-svelte";
 ```
 
 ### Granular
 
-```tsx
+```svelte
+import { Tooltip, TooltipProvider } from "kumo-svelte/components/tooltip";
 ```
 
 </ComponentSection>
@@ -46,15 +43,12 @@ baseUIComponent: "tooltip"
 
 ## Usage
 
-```tsx
+```svelte
+import { Tooltip, Button } from "kumo-svelte";
 
-export default function Example() {
-  return (
-    <Tooltip content="Tooltip text" render={<Button />}>
-      Hover me
-    </Tooltip>
-  );
-}
+<Tooltip content="Tooltip text">
+  <Button>Hover me</Button>
+</Tooltip>
 ```
 
 For delay grouping across multiple tooltips, see [TooltipProvider](#tooltipprovider).
@@ -77,7 +71,8 @@ For delay grouping across multiple tooltips, see [TooltipProvider](#tooltipprovi
 
 ### Delay Control
 
-  Use `delay` to control how long to wait before opening (default: 600ms) and
+
+Use `delay` to control how long to wait before opening (default: 600ms) and
   `closeDelay` to control how long to wait before closing (default: 0ms).
 
 <ComponentExample demo="TooltipDelayDemo" />
@@ -89,18 +84,24 @@ For delay grouping across multiple tooltips, see [TooltipProvider](#tooltipprovi
 <ComponentSection>
 ## TooltipProvider
 
-  `TooltipProvider` groups multiple tooltips so that after the first tooltip has
+
+`TooltipProvider` groups multiple tooltips so that after the first tooltip has
   been shown, switching to another skips the open delay. Place it once at your
   app root or layout — not around each individual `Tooltip`.
 
-```tsx
+
+```svelte
 // Wrap your app or layout once
 <TooltipProvider>
   <App />
 </TooltipProvider>
 
 // Then use Tooltip anywhere inside
-<Tooltip content="Add" render={<Button shape="square" icon={PlusIcon} />} />
+<Tooltip content="Add">
+  <Button shape="square" aria-label="Add">
+    <PlusIcon />
+  </Button>
+</Tooltip>
 ```
 
 </ComponentSection>
@@ -113,10 +114,10 @@ For delay grouping across multiple tooltips, see [TooltipProvider](#tooltipprovi
 
 ### Tooltip
 
-<PropsTable component="Tooltip"  />
+<PropsTable component="Tooltip" />
 
 ### TooltipProvider
 
-<PropsTable component="Tooltip.Provider"  />
+<PropsTable component="Tooltip.Provider" />
 
 </ComponentSection>

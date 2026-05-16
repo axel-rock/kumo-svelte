@@ -14,7 +14,7 @@ description: "Generate Figma components from Kumo definitions using the Figma pl
 
 ## Kumo Figma Plugin
 
-The Kumo Figma plugin generates production-quality Figma components directly from Kumo component definitions. This keeps design and code in sync — components in Figma are generated from the same source of truth as the React components you use in code.
+The Kumo Figma plugin generates production-quality Figma components directly from Kumo component definitions. This keeps design and code in sync — components in Figma are generated from the same source of truth as the Svelte components you use in code.
 
 The plugin reads from `component-registry.json` and creates Figma ComponentSets with proper auto-layout, semantic color variable bindings, and all variant combinations.
 
@@ -27,7 +27,7 @@ Follow these steps to build and test the Figma plugin locally on any Figma file.
 From the repository root, run:
 
 ```bash
-pnpm --filter @cloudflare/kumo-figma build
+pnpm --filter kumo-svelte-figma build
 ```
 
 This generates theme data, loader data, and icons, then bundles the plugin code into `src/code.js`.
@@ -102,7 +102,7 @@ Before generating components, sync Kumo's semantic color tokens to Figma. This c
 ### Run Token Sync
 
 ```bash
-pnpm --filter @cloudflare/kumo-figma figma:sync
+pnpm --filter kumo-svelte-figma figma:sync
 ```
 
 This parses tokens from `theme-kumo.css`, resolves `light-dark()` values for both modes, and pushes them to Figma via the Variables API.
@@ -150,15 +150,15 @@ The typical workflow when updating components:
 
 # 2. Regenerate component registry
 
-pnpm --filter @cloudflare/kumo codegen:registry
+pnpm --filter kumo-svelte codegen:registry
 
 # 3. Sync tokens to Figma (if colors changed)
 
-pnpm --filter @cloudflare/kumo-figma figma:sync
+pnpm --filter kumo-svelte-figma figma:sync
 
 # 4. Build the plugin
 
-pnpm --filter @cloudflare/kumo-figma build
+pnpm --filter kumo-svelte-figma build
 
 # 5. Run in Figma: Plugins > Development > Kumo UI Kit Generator
 
@@ -181,7 +181,7 @@ When you add a new component to Kumo, create a corresponding Figma generator:
 1. Create `src/generators/yourcomponent.ts`
 2. Import shared utilities from `shared.ts`
 3. Register in the `GENERATORS` array in `code.ts`
-4. Run `pnpm --filter @cloudflare/kumo-figma validate` to verify drift detection passes
+4. Run `pnpm --filter kumo-svelte-figma validate` to verify drift detection passes
 
 If a component doesn't need Figma representation (utility or layout-only), add it to `EXCLUDED_COMPONENTS` in `drift-detection.test.ts`.
 
@@ -192,7 +192,7 @@ If a component doesn't need Figma representation (utility or layout-only), add i
 The target Figma file needs the variable collection. Run the token sync script first:
 
 ```bash
-pnpm --filter @cloudflare/kumo-figma figma:sync
+pnpm --filter kumo-svelte-figma figma:sync
 ```
 
 ### "Variable not found: color-primary"

@@ -1,12 +1,135 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import { cn } from '$lib/utils/cn';
-  interface Props { children?: Snippet; class?: string; prefix?: string; suffix?: string; [key: string]: unknown; }
-  let { children, class: className, prefix, suffix, ...rest }: Props = $props();
+  import {
+    INPUT_GROUP_HAS_CLASSES,
+    setInputGroupContext,
+    type FieldError,
+    type InputGroupFocusMode,
+    type InputGroupSize
+  } from './context';
+
+  const sizes: Record<InputGroupSize, string> = {
+    xs: 'h-6 text-xs rounded-sm',
+    sm: 'h-7 text-xs rounded-md',
+    base: 'h-9 text-base rounded-lg',
+    lg: 'h-11 text-base rounded-lg'
+  };
+
+  interface Props {
+    children?: Snippet;
+    class?: string;
+    size?: InputGroupSize;
+    focusMode?: InputGroupFocusMode;
+    disabled?: boolean;
+    label?: string | Snippet;
+    labelTooltip?: string | Snippet;
+    description?: string;
+    error?: FieldError;
+    required?: boolean;
+    id?: string;
+    [key: string]: unknown;
+  }
+
+  let {
+    children,
+    class: className,
+    size = 'base',
+    focusMode = 'container',
+    disabled = false,
+    label,
+    labelTooltip,
+    description,
+    error,
+    required,
+    id,
+    ...rest
+  }: Props = $props();
+
+  const generatedId = `kumo-input-group-${Math.random().toString(36).slice(2)}`;
+  const inputId = $derived(id ?? generatedId);
+  const descriptionId = $derived(description ? `${inputId}-description` : undefined);
+  const errorId = $derived(error ? `${inputId}-error` : undefined);
+  const showError = $derived(typeof error === 'string' ? error : error?.message);
+  const hasField = $derived(Boolean(label || description || showError));
+
+  setInputGroupContext({
+    get size() {
+      return size;
+    },
+    get focusMode() {
+      return focusMode;
+    },
+    get disabled() {
+      return disabled;
+    },
+    get error() {
+      return error;
+    },
+    get inputId() {
+      return inputId;
+    },
+    get describedBy() {
+      return [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
+    }
+  });
 </script>
 
-<div class={cn('flex h-9 w-full items-center overflow-hidden rounded-lg bg-kumo-base text-kumo-default shadow-xs ring ring-kumo-line focus-within:ring-2 focus-within:ring-kumo-brand/40', className)} {...rest}>
-  {#if prefix}<span class="px-3 text-sm text-kumo-muted">{prefix}</span>{/if}
-  <div class="min-w-0 flex-1">{@render children?.()}</div>
-  {#if suffix}<span class="px-3 text-sm text-kumo-muted">{suffix}</span>{/if}
-</div>
+{#snippet control()}
+  <div
+    data-slot="input-group"
+    data-focus-mode={focusMode}
+    data-disabled={disabled ? '' : undefined}
+    role="group"
+    class={cn(
+      'relative flex w-full cursor-text items-center gap-0 px-0 text-kumo-default',
+      focusMode === 'container'
+        ? [
+            'overflow-hidden bg-kumo-control shadow-xs ring ring-kumo-line',
+            'has-[input[aria-invalid=true]]:ring-kumo-danger focus-within:ring-kumo-focus'
+          ]
+        : 'isolate overflow-visible bg-transparent ring-0 shadow-none',
+      'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'has-[[data-slot=input-group-suffix]]:[&_input]:[field-sizing:content]',
+      'has-[[data-slot=input-group-suffix]]:[&_input]:max-w-full',
+      'has-[[data-slot=input-group-suffix]]:[&_input]:grow-0',
+      'has-[[data-slot=input-group-suffix]]:[&_input]:pr-0',
+      sizes[size],
+      INPUT_GROUP_HAS_CLASSES[size],
+      className
+    )}
+    {...rest}
+  >
+    {#if label}
+      <label for={inputId} class="absolute inset-0 z-0 !mb-0 cursor-text" aria-hidden="true"></label>
+    {/if}
+    {@render children?.()}
+  </div>
+{/snippet}
+
+{#if hasField}
+  <div class="grid gap-2">
+    {#if label}
+      <label class="inline-flex items-center gap-1 text-base font-medium text-kumo-default" for={inputId}>
+        {#if typeof label === 'function'}{@render label()}{:else}{label}{/if}
+        {#if required}<span class="text-kumo-danger">*</span>{/if}
+        {#if required === false}<span class="font-normal text-kumo-subtle">(optional)</span>{/if}
+        {#if labelTooltip}
+          <span class="inline-flex text-kumo-muted" title={typeof labelTooltip === 'string' ? labelTooltip : undefined}>
+            {#if typeof labelTooltip === 'function'}<span class="sr-only">{@render labelTooltip()}</span>{/if}
+          </span>
+        {/if}
+      </label>
+    {/if}
+    {@render control()}
+    {#if showError}
+      <div id={errorId} class="text-sm leading-snug text-kumo-danger">{showError}</div>
+    {:else if description}
+      <div id={descriptionId} class="text-sm leading-snug text-kumo-subtle">{description}</div>
+    {/if}
+  </div>
+{:else}
+  <label class="!mb-0 block w-full">
+    {@render control()}
+  </label>
+{/if}

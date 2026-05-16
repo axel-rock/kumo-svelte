@@ -28,8 +28,8 @@ SankeyChart requires <code class="text-kumo-default">echarts</code> as a peer de
 npm install echarts
 ```
 
-```tsx
-import { SankeyChart } from "@cloudflare/kumo";
+```svelte
+import { SankeyChart } from "kumo-svelte";
 ```
 
 </ComponentSection>

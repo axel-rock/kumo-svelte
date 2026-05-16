@@ -5,20 +5,15 @@ sourceFile: "components/banner"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="BannerVariantsDemo" />
-
+  <ComponentExample demo="BannerVariantsDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,14 +24,17 @@ sourceFile: "components/banner"
 
 ### Barrel
 
-```tsx
-// code example
+
+```svelte
+import { Banner } from "kumo-svelte";
 ```
+
 
 ### Granular
 
-```tsx
-// code example
+
+```svelte
+import { Banner } from "kumo-svelte/components/banner";
 ```
 
 </ComponentSection>
@@ -47,17 +45,15 @@ sourceFile: "components/banner"
 
 ## Usage
 
-```tsx
+```svelte
+import { Banner } from "kumo-svelte";
+import { Info } from "@lucide/svelte";
 
-export default function Example() {
-  return (
-    <Banner
-      icon={<Info weight="fill" />}
-title="Update available"
-description="A new version is ready to install."
+<Banner
+  icon={Info}
+  title="Update available"
+  description="A new version is ready to install."
 />
-  );
-}
 ```
 
 </ComponentSection>
@@ -88,16 +84,15 @@ description="A new version is ready to install."
 
 ### With action
 
-<ComponentExample demo="BannerWithActionDemo" />
+  <ComponentExample demo="BannerWithActionDemo" />
 
 ### With multiple actions
 
-<ComponentExample demo="BannerWithActionsDemo" />
+  <ComponentExample demo="BannerWithActionsDemo" />
 
 ### Custom content
 
-<ComponentExample demo="BannerCustomContentDemo" />
-
+  <ComponentExample demo="BannerCustomContentDemo" />
 </ComponentSection>
 
 <!-- API Reference -->
@@ -106,6 +101,5 @@ description="A new version is ready to install."
 
 ## API Reference
 
-<PropsTable component="Banner"  />
-
+  <PropsTable component="Banner" />
 </ComponentSection>

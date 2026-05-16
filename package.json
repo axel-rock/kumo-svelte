@@ -33,7 +33,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "package": "svelte-package",
     "build": "pnpm check && pnpm package && vite build",
-    "deploy": "wrangler deploy",
+    "deploy": "pnpm build && wrangler deploy",
     "dev": "vite dev",
     "preview": "vite preview"
   },

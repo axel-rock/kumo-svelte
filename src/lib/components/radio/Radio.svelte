@@ -1,16 +1,86 @@
-<script lang="ts">
-  import type { Snippet } from 'svelte';
-  import { cn } from '$lib/utils/cn';
-  interface Option { label: string; value: string; disabled?: boolean; }
-  interface Props { class?: string; options?: Option[]; value?: string; name?: string; [key: string]: unknown; }
-  let { class: className, options = [], value = $bindable(''), name = crypto.randomUUID(), ...rest }: Props = $props();
+<script module lang="ts">
+  export type RadioVariant = 'default' | 'error';
+  export type RadioAppearance = 'default' | 'card';
+  export type RadioControlPosition = 'start' | 'end';
 </script>
 
-<div class={cn('grid gap-2', className)} role="radiogroup" {...rest}>
-  {#each options as option}
-    <label class="inline-flex items-center gap-2 text-sm text-kumo-default has-[:disabled]:opacity-50">
-      <input class="size-4 accent-kumo-brand" type="radio" bind:group={value} {name} value={option.value} disabled={option.disabled} />
-      {option.label}
-    </label>
-  {/each}
-</div>
+<script lang="ts">
+  import type { Snippet } from 'svelte';
+  import RadioGroup from './RadioGroup.svelte';
+  import RadioItem from './RadioItem.svelte';
+
+  interface Option {
+    label: string;
+    value: string;
+    description?: string;
+    disabled?: boolean;
+  }
+
+  interface Props {
+    children?: Snippet;
+    options?: Option[];
+    value?: string;
+    defaultValue?: string;
+    name?: string;
+    disabled?: boolean;
+    required?: boolean;
+    orientation?: 'vertical' | 'horizontal';
+    appearance?: RadioAppearance;
+    variant?: RadioVariant;
+    controlPosition?: RadioControlPosition;
+    legend?: string;
+    description?: string | Snippet;
+    error?: string;
+    class?: string;
+    onValueChange?: (value: string) => void;
+  }
+
+  let {
+    children,
+    options = [],
+    value = $bindable(),
+    defaultValue,
+    name,
+    disabled = false,
+    required,
+    orientation = 'vertical',
+    appearance = 'default',
+    variant = 'default',
+    controlPosition,
+    legend,
+    description,
+    error,
+    class: className,
+    onValueChange
+  }: Props = $props();
+</script>
+
+<RadioGroup
+  bind:value
+  {defaultValue}
+  {name}
+  {disabled}
+  {required}
+  {orientation}
+  {appearance}
+  {controlPosition}
+  {legend}
+  {description}
+  {error}
+  class={className}
+  {onValueChange}
+>
+  {#if children}
+    {@render children()}
+  {:else}
+    {#each options as option (option.value)}
+      <RadioItem
+        value={option.value}
+        label={option.label}
+        description={option.description}
+        disabled={option.disabled}
+        {variant}
+      />
+    {/each}
+  {/if}
+</RadioGroup>

@@ -1,18 +1,41 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import type { Component, Snippet } from 'svelte';
   import { cn } from '$lib/utils/cn';
+  import { Loader } from '$lib/components/loader';
+  import { Tooltip } from '$lib/components/tooltip';
 
   export const KUMO_BUTTON_VARIANTS = {
     shape: {
-      base: { classes: '' },
-      square: { classes: 'items-center justify-center p-0' },
-      circle: { classes: 'items-center justify-center p-0 rounded-full' }
+      base: {
+        classes: '',
+        description: 'Default rectangular button shape'
+      },
+      square: {
+        classes: 'items-center justify-center p-0',
+        description: 'Square button for icon-only actions'
+      },
+      circle: {
+        classes: 'items-center justify-center p-0 rounded-full',
+        description: 'Circular button for icon-only actions'
+      }
     },
     size: {
-      xs: { classes: 'h-5 gap-1 rounded-sm px-1.5 text-xs' },
-      sm: { classes: 'h-6.5 gap-1 rounded-md px-2 text-xs' },
-      base: { classes: 'h-9 gap-1.5 rounded-lg px-3 text-base' },
-      lg: { classes: 'h-10 gap-2 rounded-lg px-4 text-base' }
+      xs: {
+        classes: 'h-5 gap-1 rounded-sm px-1.5 text-xs',
+        description: 'Extra small button for compact UIs'
+      },
+      sm: {
+        classes: 'h-6.5 gap-1 rounded-md px-2 text-xs',
+        description: 'Small button for secondary actions'
+      },
+      base: {
+        classes: 'h-9 gap-1.5 rounded-lg px-3 text-base',
+        description: 'Default button size'
+      },
+      lg: {
+        classes: 'h-10 gap-2 rounded-lg px-4 text-base',
+        description: 'Large button for primary CTAs'
+      }
     },
     compactSize: {
       xs: { classes: 'size-3.5' },
@@ -21,61 +44,138 @@
       lg: { classes: 'size-10' }
     },
     variant: {
-      primary: { classes: 'bg-kumo-brand !text-white hover:bg-kumo-brand-hover disabled:bg-kumo-brand/50' },
-      secondary: { classes: 'bg-kumo-base !text-kumo-default ring not-disabled:hover:bg-kumo-tint disabled:bg-kumo-base/50 disabled:!text-kumo-default/70 ring-kumo-hairline data-[state=open]:bg-kumo-base' },
-      ghost: { classes: 'text-kumo-default hover:bg-kumo-tint shadow-none bg-inherit' },
-      destructive: { classes: 'bg-kumo-danger !text-white hover:bg-kumo-danger/70' },
-      'secondary-destructive': { classes: 'bg-kumo-base !text-kumo-danger ring not-disabled:hover:bg-kumo-base disabled:bg-kumo-base/50 disabled:!text-kumo-danger/70 ring-kumo-hairline data-[state=open]:bg-kumo-base' },
-      outline: { classes: 'bg-transparent text-kumo-default ring ring-kumo-hairline' }
+      primary: {
+        classes: 'bg-kumo-brand !text-white hover:bg-kumo-brand-hover disabled:bg-kumo-brand/50',
+        description: 'High-emphasis button for primary actions'
+      },
+      secondary: {
+        classes:
+          'bg-kumo-base !text-kumo-default ring not-disabled:hover:bg-kumo-tint disabled:bg-kumo-base/50 disabled:!text-kumo-default/70 ring-kumo-hairline data-[state=open]:bg-kumo-base',
+        description: 'Default button style for most actions'
+      },
+      ghost: {
+        classes: 'text-kumo-default hover:bg-kumo-tint shadow-none bg-inherit',
+        description: 'Minimal button with no background'
+      },
+      destructive: {
+        classes: 'bg-kumo-danger !text-white hover:bg-kumo-danger/70',
+        description: 'Danger button for destructive actions like delete'
+      },
+      'secondary-destructive': {
+        classes:
+          'bg-kumo-base !text-kumo-danger ring not-disabled:hover:bg-kumo-base disabled:bg-kumo-base/50 disabled:!text-kumo-danger/70 ring-kumo-hairline data-[state=open]:bg-kumo-base',
+        description: 'Secondary button with destructive text for less prominent dangerous actions'
+      },
+      outline: {
+        classes: 'bg-transparent text-kumo-default ring ring-kumo-hairline',
+        description: 'Bordered button with transparent background'
+      }
     }
+  } as const;
+
+  export const KUMO_BUTTON_DEFAULT_VARIANTS = {
+    shape: 'base',
+    size: 'base',
+    variant: 'secondary'
   } as const;
 
   type Shape = keyof typeof KUMO_BUTTON_VARIANTS.shape;
   type Size = keyof typeof KUMO_BUTTON_VARIANTS.size;
   type Variant = keyof typeof KUMO_BUTTON_VARIANTS.variant;
 
+  export function buttonVariants({
+    variant = KUMO_BUTTON_DEFAULT_VARIANTS.variant,
+    size = KUMO_BUTTON_DEFAULT_VARIANTS.size,
+    shape = KUMO_BUTTON_DEFAULT_VARIANTS.shape
+  }: {
+    shape?: Shape;
+    size?: Size;
+    variant?: Variant;
+  } = {}) {
+    const isCompactShape = shape === 'square' || shape === 'circle';
+
+    return cn(
+      'group flex w-max shrink-0 items-center font-medium select-none',
+      'border-0 shadow-xs',
+      'focus:outline-none focus:ring-kumo-focus/50 focus-visible:ring-2 focus-visible:ring-kumo-brand',
+      'cursor-pointer',
+      'disabled:cursor-not-allowed disabled:text-kumo-subtle',
+      KUMO_BUTTON_VARIANTS.variant[variant].classes,
+      KUMO_BUTTON_VARIANTS.size[size].classes,
+      KUMO_BUTTON_VARIANTS.shape[shape].classes,
+      isCompactShape && KUMO_BUTTON_VARIANTS.compactSize[size].classes
+    );
+  }
+
   interface Props {
     children?: Snippet;
     class?: string;
+    icon?: Component;
     href?: string;
+    external?: boolean;
     type?: 'button' | 'submit' | 'reset';
     disabled?: boolean;
     shape?: Shape;
     size?: Size;
     variant?: Variant;
     loading?: boolean;
+    title?: string;
     [key: string]: unknown;
   }
 
   let {
     children,
     class: className,
+    icon: IconComponent,
     href,
+    external = false,
     type = 'button',
     disabled = false,
     shape = 'base',
     size = 'base',
     variant = 'secondary',
     loading = false,
+    title,
     ...rest
   }: Props = $props();
 
-  const base = 'inline-flex shrink-0 cursor-pointer select-none items-center justify-center whitespace-nowrap font-medium shadow-xs outline-none transition-colors focus-visible:ring-2 focus-visible:ring-kumo-brand/40 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50';
   let classes = $derived(
     cn(
-      base,
-      KUMO_BUTTON_VARIANTS.variant[variant].classes,
-      KUMO_BUTTON_VARIANTS.size[size].classes,
-      KUMO_BUTTON_VARIANTS.shape[shape].classes,
-      shape !== 'base' && KUMO_BUTTON_VARIANTS.compactSize[size].classes,
+      buttonVariants({ variant, size, shape }),
+      disabled && 'cursor-not-allowed opacity-50',
+      href && 'flex items-center no-underline!',
       className
     )
   );
+
+  const loaderSize = $derived(size === 'lg' ? 16 : 14);
+  const externalProps = $derived(external ? { target: '_blank', rel: 'noopener noreferrer' } : {});
 </script>
 
-<svelte:element this={href ? 'a' : 'button'} class={classes} href={href} type={href ? undefined : type} disabled={href ? undefined : disabled || loading} aria-busy={loading || undefined} {...rest}>
-  {#if loading}
-    <span class="size-3.5 animate-spin rounded-full border-2 border-current border-r-transparent" aria-hidden="true"></span>
-  {/if}
-  {@render children?.()}
-</svelte:element>
+{#snippet buttonElement()}
+  <svelte:element
+    this={href ? 'a' : 'button'}
+    class={classes}
+    href={href}
+    type={href ? undefined : type}
+    disabled={href ? undefined : disabled || loading}
+    aria-busy={loading || undefined}
+    {...externalProps}
+    {...rest}
+  >
+    {#if loading}
+      <Loader size={loaderSize} />
+    {:else if IconComponent}
+      <IconComponent />
+    {/if}
+    {#if children}
+      <span class="contents">{@render children()}</span>
+    {/if}
+  </svelte:element>
+{/snippet}
+
+{#if title}
+  <Tooltip trigger={buttonElement}>{title}</Tooltip>
+{:else}
+  {@render buttonElement()}
+{/if}

@@ -1,8 +1,27 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import { LayerCard } from '$lib/components/layer-card';
   import { cn } from '$lib/utils/cn';
-  interface Props { children?: Snippet; class?: string; as?: string; [key: string]: unknown; }
-  let { children, class: className, as = 'div', ...rest }: Props = $props();
+
+  type SurfaceColor = 'primary' | 'secondary';
+
+  interface Props {
+    children?: Snippet;
+    class?: string;
+    as?: string;
+    color?: SurfaceColor;
+    [key: string]: unknown;
+  }
+
+  let { children, class: className, as = 'div', color = 'primary', ...rest }: Props = $props();
 </script>
 
-<svelte:element this={as} class={cn('rounded-xl bg-kumo-base text-kumo-default shadow-xs ring ring-kumo-hairline', className)} {...rest}>{@render children?.()}</svelte:element>
+<LayerCard
+  {as}
+  class={cn('overflow-visible rounded-none', className)}
+  data-surface-color={color}
+  data-deprecated="surface"
+  {...rest}
+>
+  {@render children?.()}
+</LayerCard>

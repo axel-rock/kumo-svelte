@@ -5,20 +5,15 @@ sourceFile: "components/loader"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="LoaderBasicDemo" />
-
+  <ComponentExample demo="LoaderBasicDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,12 +24,22 @@ sourceFile: "components/loader"
 
 ### Barrel
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Loader } from 'kumo-svelte';
+</script>
+
+<Loader />
 ```
 
 ### Granular
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Loader } from 'kumo-svelte/components/loader';
+</script>
+
+<Loader />
 ```
 
 </ComponentSection>
@@ -45,11 +50,12 @@ sourceFile: "components/loader"
 
 ## Usage
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Loader } from 'kumo-svelte';
+</script>
 
-export default function Example() {
-  return <Loader />;
-}
+<Loader />
 ```
 
 </ComponentSection>
@@ -76,6 +82,5 @@ export default function Example() {
 
 ## API Reference
 
-<PropsTable component="Loader"  />
-
+  <PropsTable component="Loader" />
 </ComponentSection>

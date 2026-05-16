@@ -67,7 +67,7 @@ Use this to decide where your change belongs:
 When adding a new **component**, scaffold it (do not create files manually):
 
 ```bash
-pnpm --filter @cloudflare/kumo new:component
+pnpm --filter kumo-svelte new:component
 ```
 
 ---
@@ -78,7 +78,7 @@ Run these in separate terminals:
 
 ```bash
 # Terminal 1: watch Kumo package output
-pnpm --filter @cloudflare/kumo dev
+pnpm --filter kumo-svelte dev
 
 # Terminal 2: docs site
 pnpm dev
@@ -99,7 +99,7 @@ Typical internal change flow:
 
 If your demos should appear in registry metadata, keep demo naming exact:
 
-- File: `&#123;Component&#125;Demo.tsx`
+- File: `&#123;Component&#125;Demo.svelte`
 - Export names must end with `Demo`
 
 Implementation expectations:
@@ -117,20 +117,20 @@ Run these from repo root before opening or updating your PR:
 ```bash
 pnpm lint
 pnpm typecheck
-pnpm --filter @cloudflare/kumo test
+pnpm --filter kumo-svelte test
 ```
 
 If you changed exports/build behavior, also run:
 
 ```bash
-pnpm --filter @cloudflare/kumo build
+pnpm --filter kumo-svelte build
 ```
 
 Optional (when relevant):
 
 ```bash
 pnpm format
-pnpm --filter @cloudflare/kumo test:run
+pnpm --filter kumo-svelte test:run
 ```
 
 Windsurf and hooks catch additional issues, but you should still run checks locally before requesting review.

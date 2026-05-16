@@ -1,12 +1,41 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { cn } from '$lib/utils/cn';
-  import { Collapsible as CollapsiblePrimitive } from 'bits-ui';
-  interface Props { trigger?: Snippet; children?: Snippet; class?: string; open?: boolean; [key: string]: unknown; }
-  let { trigger, children, class: className, open = $bindable(false), ...rest }: Props = $props();
+  import CollapsibleRoot from './CollapsibleRoot.svelte';
+  import CollapsibleDefaultTrigger from './CollapsibleDefaultTrigger.svelte';
+  import CollapsibleDefaultPanel from './CollapsibleDefaultPanel.svelte';
+
+  interface Props {
+    trigger?: Snippet;
+    children?: Snippet;
+    class?: string;
+    open?: boolean;
+    defaultOpen?: boolean;
+    title?: string;
+    disabled?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    onOpenChangeComplete?: (open: boolean) => void;
+  }
+
+  let {
+    trigger,
+    children,
+    class: className,
+    defaultOpen = false,
+    open = $bindable(defaultOpen),
+    title,
+    disabled = false,
+    onOpenChange,
+    onOpenChangeComplete
+  }: Props = $props();
 </script>
 
-<CollapsiblePrimitive.Root bind:open class={cn('rounded-lg ring ring-kumo-line', className)} {...rest}>
-  {#if trigger}<CollapsiblePrimitive.Trigger class="w-full px-3 py-2 text-left text-sm font-medium text-kumo-default hover:bg-kumo-tint">{@render trigger()}</CollapsiblePrimitive.Trigger>{/if}
-  <CollapsiblePrimitive.Content class="border-t border-kumo-line p-3 text-sm text-kumo-muted">{@render children?.()}</CollapsiblePrimitive.Content>
-</CollapsiblePrimitive.Root>
+<CollapsibleRoot bind:open class={className} {disabled} {onOpenChange} {onOpenChangeComplete}>
+  {#if trigger}
+    <CollapsibleDefaultTrigger>{@render trigger()}</CollapsibleDefaultTrigger>
+  {:else if title}
+    <CollapsibleDefaultTrigger>{title}</CollapsibleDefaultTrigger>
+  {/if}
+  <CollapsibleDefaultPanel>
+    {@render children?.()}
+  </CollapsibleDefaultPanel>
+</CollapsibleRoot>

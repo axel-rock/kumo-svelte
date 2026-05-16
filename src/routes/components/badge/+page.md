@@ -5,13 +5,10 @@ sourceFile: "components/badge"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <ComponentExample demo="BadgeSemanticVariantsDemo" />
 
@@ -19,21 +16,28 @@ sourceFile: "components/badge"
 
 ### Barrel
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Badge } from 'kumo-svelte';
+</script>
 ```
 
 ### Granular
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Badge } from 'kumo-svelte/components/badge';
+</script>
 ```
 
 ## Usage
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Badge } from 'kumo-svelte';
+</script>
 
-export default function Example() {
-  return <Badge variant="secondary">New</Badge>;
-}
+<Badge variant="secondary">New</Badge>
 ```
 
 ## Examples
@@ -54,4 +58,4 @@ Other variants for specific products/use cases where the semantic badges aren't 
 
 ## API Reference
 
-<PropsTable component="Badge"  />
+<PropsTable component="Badge" />

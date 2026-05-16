@@ -6,20 +6,15 @@ baseUIComponent: "popover"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="PopoverHeroDemo" />
-
+  <ComponentExample demo="PopoverHeroDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -30,12 +25,21 @@ baseUIComponent: "popover"
 
 ### Barrel
 
-```tsx
+```svelte
+import { Popover } from "kumo-svelte";
 ```
 
 ### Granular
 
-```tsx
+```svelte
+import {
+  PopoverRoot,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverTitle,
+  PopoverDescription,
+  PopoverClose
+} from "kumo-svelte/components/popover";
 ```
 
 </ComponentSection>
@@ -46,19 +50,29 @@ baseUIComponent: "popover"
 
 ## Usage
 
-```tsx
+```svelte
+<script>
+  import { Button } from "kumo-svelte";
+  import {
+    PopoverRoot,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverTitle,
+    PopoverDescription
+  } from "kumo-svelte/components/popover";
+</script>
 
-export default function Example() {
-  return (
-    <Popover>
-      <Popover.Trigger render={<Button />}>Open</Popover.Trigger>
-      <Popover.Content>
-        <Popover.Title>Popover Title</Popover.Title>
-        <Popover.Description>Popover content goes here.</Popover.Description>
-      </Popover.Content>
-    </Popover>
-  );
-}
+<PopoverRoot>
+  <PopoverTrigger>
+    {#snippet child({ props })}
+      <Button {...props}>Open</Button>
+    {/snippet}
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverTitle>Popover Title</PopoverTitle>
+    <PopoverDescription>Popover content goes here.</PopoverDescription>
+  </PopoverContent>
+</PopoverRoot>
 ```
 
 </ComponentSection>
@@ -70,11 +84,11 @@ export default function Example() {
 ## Popover vs Tooltip
 
   
-    While popovers can be triggered on hover (using `openOnHover`), they serve a
+While popovers can be triggered on hover (using `openOnHover`), they serve a
     different purpose than tooltips. Understanding when to use each is important
     for accessibility and user experience.
-  
-  
+
+  <div class="overflow-hidden rounded-lg border border-kumo-hairline">
     <table class="w-full text-sm">
       <thead class="bg-kumo-elevated">
         <tr>
@@ -127,10 +141,10 @@ export default function Example() {
         </tr>
       </tbody>
     </table>
+  </div>
   
-  
-    <strong>Use a Tooltip</strong> when you need to label an icon button or
-    provide a brief explanation. <strong>Use a Popover</strong> when users need
+**Use a Tooltip** when you need to label an icon button or
+    provide a brief explanation. **Use a Popover** when users need
     to interact with the content inside, such as clicking links, filling out
     forms, or dismissing with a button.
 
@@ -152,28 +166,32 @@ export default function Example() {
 
 ### Positioning
 
-  Use the `side` prop to control where the popover appears relative to the
+
+Use the `side` prop to control where the popover appears relative to the
   trigger.
 
 <ComponentExample demo="PopoverPositionDemo" />
 
 ### Custom Content
 
-  Popovers can contain any content, including custom layouts with avatars,
+
+Popovers can contain any content, including custom layouts with avatars,
   buttons, and more.
 
 <ComponentExample demo="PopoverCustomContentDemo" />
 
 ### Open on Hover
 
+
   Use `openOnHover` on the trigger to open the popover when the user hovers over
-  it. You can also specify a `delay` in milliseconds before the popover appears.
+  it. You can also specify `openDelay` and `closeDelay` in milliseconds.
 
 <ComponentExample demo="PopoverOpenOnHoverDemo" />
 
 ### Virtual Anchor
 
-  Use the `anchor` prop on `Popover.Content` to position the popover against an
+
+Use the `customAnchor` prop on `PopoverContent` to position the popover against an
   element other than the trigger, or against a virtual point (e.g., a `DOMRect`
   from `getBoundingClientRect()`). This is useful when the trigger and the
   desired anchor are in different component trees.
@@ -190,44 +208,56 @@ export default function Example() {
 
 ### Popover
 
+
+Compatibility component that can either wrap compound Popover children or render
+the common trigger/title/description pattern.
+
+<PropsTable component="Popover" />
+
+### PopoverRoot
+
 The root component that manages the popover's open state.
 
-<PropsTable component="Popover"  />
+<PropsTable component="PopoverRoot" />
 
-### Popover.Trigger
+### PopoverTrigger
 
-  A button that opens the popover when clicked. Use `render` to render your own
-  element.
+A button that opens the popover when clicked. Use a `child` snippet to render
+your own element.
 
-<PropsTable component="Popover.Trigger"  />
+<PropsTable component="PopoverTrigger" />
 
-### Popover.Content
+### PopoverContent
 
-  The container for popover content. Controls positioning via `side`, `align`,
-  `sideOffset`, and `alignOffset` props. Use the `anchor` prop to position
+
+The container for popover content. Controls positioning via `side`, `align`,
+  `sideOffset`, and `alignOffset` props. Use the `customAnchor` prop to position
   against a custom element or virtual point instead of the trigger. Use
   `positionMethod="fixed"` when the popover needs to escape stacking contexts,
   such as when inside sticky headers.
 
-<PropsTable component="Popover.Content"  />
+<PropsTable component="PopoverContent" />
 
-### Popover.Title
+### PopoverTitle
+
 
 A heading that labels the popover for accessibility.
 
-<PropsTable component="Popover.Title"  />
+<PropsTable component="PopoverTitle" />
 
-### Popover.Description
+### PopoverDescription
+
 
 A paragraph providing additional context about the popover content.
 
-<PropsTable component="Popover.Description"  />
+<PropsTable component="PopoverDescription" />
 
-### Popover.Close
+### PopoverClose
 
-  A button that closes the popover when clicked. Use `render` to render your own
-  element.
 
-<PropsTable component="Popover.Close"  />
+A button that closes the popover when clicked. Use a `child` snippet to render
+your own element.
+
+<PropsTable component="PopoverClose" />
 
 </ComponentSection>

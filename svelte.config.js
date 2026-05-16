@@ -11,6 +11,9 @@ const config = {
     prerender: {
       handleMissingId: 'warn'
     }
+  },
+  vitePlugin: {
+    inspector: true
   }
 };
 

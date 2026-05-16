@@ -34,7 +34,7 @@ Components are the atomic, reusable UI elements that form the foundation of your
 
 Import directly from the package:
 
-```tsx
+```svelte
 
 // Or use granular imports for better tree-shaking
 ```
@@ -61,20 +61,20 @@ Install via CLI, then import from your project:
 
 # Initialize config (first time only)
 
-npx @cloudflare/kumo init
+npx kumo-svelte init
 
 # List available blocks
 
-npx @cloudflare/kumo blocks
+npx kumo-svelte blocks
 
 # Install a block to your project
 
-npx @cloudflare/kumo add PageHeader
+npx kumo-svelte add PageHeader
 ```
 
 After installation, import from your local path:
 
-```tsx
+```svelte
 // Path depends on your kumo.json blocksDir setting
 // Default: src/components/kumo/
 ```
@@ -85,20 +85,20 @@ The block code is now yours. Customize it, extend it, break it apart — whateve
 
 Consider a `ProductCard`. It's a specific arrangement of components for a specific use case:
 
-```tsx
+```svelte
 // This is a "block" or "recipe" - a specific composition
 // of design system components for a particular pattern
 
-<Surface className="rounded-lg p-4">
-  <img src={imgSrc} alt={imgAlt} className="rounded-md" />
-  <div className="mt-3">
+<Surface class="rounded-lg p-4">
+  <img src={imgSrc} alt={imgAlt} class="rounded-md" />
+  <div class="mt-3">
     <Text size="lg" weight="semibold">
       {title}
     </Text>
-    <Text className="text-kumo-subtle">{description}</Text>
+    <Text class="text-kumo-subtle">{description}</Text>
     <StarRating rating={rating} />
   </div>
-  <div className="mt-4">
+  <div class="mt-4">
     <Button variant="primary">Add to cart</Button>
   </div>
 </Surface>
@@ -149,7 +149,7 @@ This is why blocks exist as a middle ground. They're patterns worth sharing, but
 | **Delivery**      | NPM package import           | CLI copy to your project     |
 | **Ownership**     | Kumo maintains               | You own & customize          |
 | **Updates**       | Automatic via version bump   | Manual (re-install or merge) |
-| **Customization** | Props & className only       | Full source code access      |
+| **Customization** | Props & class only       | Full source code access      |
 | **Examples**      | Button, Input, Dialog, Badge | PageHeader, ResourceList     |
 
 ## Related

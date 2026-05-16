@@ -5,12 +5,12 @@
     class?: string;
   }
 
-  let { class: className }: Props = $props();
+  let { class: classValue }: Props = $props();
   let isHovered = $state(false);
 </script>
 
 <div
-  class={cn('h-[19.8px] w-[20px] cursor-pointer overflow-visible', className)}
+  class={cn('h-[19.8px] w-[20px] cursor-pointer overflow-visible', classValue)}
   role="presentation"
   onmouseenter={() => (isHovered = true)}
   onmouseleave={() => (isHovered = false)}

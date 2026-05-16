@@ -18,21 +18,21 @@ Always use semantic tokens instead of raw Tailwind colors. This ensures your UI 
 
 #### Correct
 
-```tsx
-<div className="bg-kumo-base text-kumo-default border-kumo-hairline">
-  <button className="bg-kumo-brand text-white">Primary</button>
-  <button className="bg-kumo-control text-kumo-default">Secondary</button>
+```svelte
+<div class="bg-kumo-base text-kumo-default border-kumo-hairline">
+  <button class="bg-kumo-brand text-white">Primary</button>
+  <button class="bg-kumo-control text-kumo-default">Secondary</button>
 </div>
 ```
 
 #### Incorrect
 
-```tsx
+```svelte
 {
   /* Never use raw Tailwind colors */
 }
-<div className="bg-white dark:bg-gray-900 text-black dark:text-white">
-  <button className="bg-blue-500">Primary</button>
+<div class="bg-white dark:bg-gray-900 text-black dark:text-white">
+  <button class="bg-blue-500">Primary</button>
 </div>;
 ```
 
@@ -42,13 +42,13 @@ Always use semantic tokens instead of raw Tailwind colors. This ensures your UI 
 
 Set `data-mode` on a parent element to control light/dark mode. Never use Tailwind's `dark:` variant — semantic tokens handle dark mode automatically via CSS `light-dark()`.
 
-```tsx
+```svelte
 // Set mode on html or body
 <html data-mode="light">  // Light mode
 <html data-mode="dark">   // Dark mode
 
 // Components automatically adapt - no dark: variants needed
-<div className="bg-kumo-base text-kumo-default" />
+<div class="bg-kumo-base text-kumo-default" />
 ```
 
 ## Themes
@@ -60,7 +60,7 @@ Themes override semantic token values while preserving the same token names. Set
 - `kumo` — Default theme (no attribute needed)
 - `fedramp` — Government compliance styling
 
-```tsx
+```svelte
 // Apply a theme to a section or the whole app
 <div data-theme="fedramp">
   {/* All Kumo components inside use fedramp token overrides */}
@@ -79,15 +79,15 @@ Themes are defined in a centralized config and generated as CSS files. The theme
 
 # List all tokens and their theme overrides
 
-pnpm --filter @cloudflare/kumo codegen:themes --list
+pnpm --filter kumo-svelte codegen:themes --list
 
 # Generate theme CSS files
 
-pnpm --filter @cloudflare/kumo codegen:themes
+pnpm --filter kumo-svelte codegen:themes
 
 # Preview changes without writing files
 
-pnpm --filter @cloudflare/kumo codegen:themes --dry-run
+pnpm --filter kumo-svelte codegen:themes --dry-run
 ```
 
 Theme config: `packages/kumo/scripts/theme-generator/config.ts`
@@ -215,10 +215,10 @@ Each status color comes in two variants: a solid color for icons and indicators,
 
 Use the solid token on icons, status dots, borders and rings. Banners and badges use the `-tint` variant with varying opacity values for the different instances.
 
-```tsx
+```svelte
 // Banner with tinted background and solid icon
-<div className="bg-kumo-danger-tint text-kumo-danger">
-  <AlertIcon className="text-kumo-danger" />
+<div class="bg-kumo-danger-tint text-kumo-danger">
+  <AlertIcon class="text-kumo-danger" />
   <p>Something went wrong.</p>
 </div>
 ```

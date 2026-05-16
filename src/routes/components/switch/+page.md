@@ -6,20 +6,15 @@ baseUIComponent: "switch"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="SwitchBasicDemo" />
-
+  <ComponentExample demo="SwitchBasicDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -30,14 +25,22 @@ baseUIComponent: "switch"
 
 ### Barrel
 
-```tsx
-import { Switch } from "@cloudflare/kumo";
+```svelte
+<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+
+  let checked = $state(false);
+</script>
+
+<Switch label="Enable feature" bind:checked />
 ```
 
 ### Granular
 
-```tsx
-import { Switch } from "@cloudflare/kumo/components/switch";
+```svelte
+<script lang="ts">
+  import { Switch } from 'kumo-svelte/components/switch';
+</script>
 ```
 
 </ComponentSection>
@@ -48,17 +51,14 @@ import { Switch } from "@cloudflare/kumo/components/switch";
 
 ## Usage
 
-```tsx
-import { Switch } from "@cloudflare/kumo";
-import { useState } from "react";
+```svelte
+<script lang="ts">
+  import { Switch } from 'kumo-svelte';
 
-export default function Example() {
-  const [checked, setChecked] = useState(false);
+  let checked = $state(false);
+</script>
 
-  return (
-    <Switch checked={checked} onCheckedChange={(val) => setChecked(val)} />
-  );
-}
+<Switch bind:checked />
 ```
 
 </ComponentSection>
@@ -83,14 +83,16 @@ export default function Example() {
 
 ### Variants
 
-  The Switch supports two variants: `default` (blue when on) and `neutral`
+
+The Switch supports two variants: `default` (blue when on) and `neutral`
   (monochrome). Both use a squircle shape.
 
 <ComponentExample demo="SwitchVariantsDemo" />
 
 ### Neutral Variant
 
-  The neutral variant uses monochrome colors and a squircle shape, ideal for
+
+The neutral variant uses monochrome colors and a squircle shape, ideal for
   subtle, less prominent toggles.
 
 <ComponentExample demo="SwitchNeutralDemo" />
@@ -101,27 +103,31 @@ export default function Example() {
 
 ### Sizes
 
+
 Three sizes available: `sm`, `base` (default), and `lg`.
 
 <ComponentExample demo="SwitchSizesDemo" />
 
 ### Custom ID
 
-  When a custom `id` is provided, clicking the label still toggles the switch.
+
+When a custom `id` is provided, clicking the label still toggles the switch.
   The `id` is forwarded to Base UI so the label's `htmlFor` stays in sync.
 
 <ComponentExample demo="SwitchCustomIdDemo" />
 
 ### Switch Group
 
-  Group related switches with `Switch.Group`. Provides a shared legend,
+
+Group related switches with `SwitchGroup`. Provides a shared legend,
   description, and error message for the group.
 
 <ComponentExample demo="SwitchGroupDemo" />
 
 ### Visually Hidden Legend
 
-  Use `Switch.Legend` with `className="sr-only"` to keep the legend accessible
+
+Use `SwitchLegend` with `class="sr-only"` to keep the legend accessible
   to screen readers while hiding it visually. This is useful when the group is
   already labeled by a parent `Field` or heading, and showing the legend would
   create a redundant label.
@@ -130,7 +136,8 @@ Three sizes available: `sm`, `base` (default), and `lg`.
 
 ### Custom Legend Styling
 
-  `Switch.Legend` accepts `className` for full control over legend presentation.
+
+`SwitchLegend` accepts `class` for full control over legend presentation.
   Use it instead of the `legend` string prop when you need custom typography,
   colors, or layout.
 
@@ -146,28 +153,32 @@ Three sizes available: `sm`, `base` (default), and `lg`.
 
 ### Switch
 
+
 Individual switch toggle with built-in label.
 
-<PropsTable component="Switch"  />
+<PropsTable component="Switch" />
 
-### Switch.Group
+### SwitchGroup
 
-  Container for multiple switches with legend, description, and error support.
 
-<PropsTable component="Switch.Group"  />
+Container for multiple switches with legend, description, and error support.
 
-### Switch.Legend
+<PropsTable component="Switch.Group" />
 
-  Composable legend sub-component for Switch.Group. Accepts `className` for full
-  styling control (e.g. `className="sr-only"` to visually hide). Use instead of
+### SwitchLegend
+
+
+Composable legend sub-component for SwitchGroup. Accepts `class` for full
+  styling control (e.g. `class="sr-only"` to visually hide). Use instead of
   the `legend` string prop when you need custom legend styling.
 
-<PropsTable component="Switch.Legend"  />
+<PropsTable component="Switch.Legend" />
 
-### Switch.Item
+### SwitchItem
 
-Individual switch within Switch.Group.
 
-<PropsTable component="Switch.Item"  />
+Individual switch within SwitchGroup.
+
+<PropsTable component="Switch.Item" />
 
 </ComponentSection>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { ChevronDown } from '@lucide/svelte';
+  import { cn } from '$lib/utils/cn';
 
   export interface TocHeading {
     depth: number;
@@ -21,18 +22,54 @@
   let { headings: headingsProp = [], layout = 'sidebar' }: Props = $props();
   let headings = $state<TocHeading[]>([]);
   let activeId = $state('');
+  let suppressObserver = false;
+  let suppressTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const ITEM_BASE =
+    'block w-full truncate border-l-2 border-transparent py-0.5 pl-4 text-left text-sm no-underline';
+  const ITEM_DEFAULT =
+    'text-kumo-subtle hover:border-kumo-line hover:text-kumo-default hover:font-medium';
+  const ITEM_ACTIVE = 'border-kumo-brand font-medium text-kumo-default';
+
+  function slugify(text: string) {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/[`'"’]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
 
   function scrapeHeadings(): TocHeading[] {
     const content = document.querySelector('.kumo-prose');
     if (!content) return [];
 
+    const usedSlugs = new Set<string>();
+
     return Array.from(content.querySelectorAll('h2, h3'))
-      .filter((element) => element.id)
-      .map((element) => ({
-        depth: Number(element.tagName[1]),
-        slug: element.id,
-        text: element.textContent?.trim() ?? ''
-      }));
+      .map((element) => {
+        const text = element.textContent?.trim() ?? '';
+        if (!text) return null;
+
+        let slug = element.id || slugify(text) || 'section';
+        const baseSlug = slug;
+        let index = 2;
+
+        while (usedSlugs.has(slug)) {
+          slug = `${baseSlug}-${index}`;
+          index += 1;
+        }
+
+        usedSlugs.add(slug);
+        if (!element.id) element.id = slug;
+
+        return {
+          depth: Number(element.tagName[1]),
+          slug,
+          text
+        };
+      })
+      .filter((heading): heading is TocHeading => heading !== null);
   }
 
   function groupHeadings(items: TocHeading[]): HeadingGroup[] {
@@ -49,6 +86,11 @@
 
   function jumpTo(slug: string) {
     activeId = slug;
+    suppressObserver = true;
+    clearTimeout(suppressTimer);
+    suppressTimer = setTimeout(() => {
+      suppressObserver = false;
+    }, 1000);
     document.getElementById(slug)?.scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -63,6 +105,8 @@
 
     const observer = new IntersectionObserver(
       (entries) => {
+        if (suppressObserver) return;
+
         const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort(
@@ -70,13 +114,28 @@
               (a.target as HTMLElement).offsetTop - (b.target as HTMLElement).offsetTop
           );
 
-        if (visible.length > 0) activeId = visible[0].target.id;
+        if (visible.length > 0) {
+          activeId = visible[0].target.id;
+          return;
+        }
+
+        const first = document.getElementById(headings[0]?.slug);
+        const last = document.getElementById(headings.at(-1)?.slug ?? '');
+
+        if (first && window.scrollY < first.offsetTop) {
+          activeId = headings[0]?.slug ?? '';
+        } else if (last && window.scrollY >= last.offsetTop) {
+          activeId = headings.at(-1)?.slug ?? '';
+        }
       },
       { rootMargin: '-10% 0px -70% 0px', threshold: [0, 1] }
     );
 
     for (const element of elements) observer.observe(element);
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(suppressTimer);
+      observer.disconnect();
+    };
   });
 
   const groups = $derived(groupHeadings(headings));
@@ -103,35 +162,53 @@
       <ChevronDown
         size={16}
         class="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-kumo-subtle"
+        aria-hidden="true"
       />
     </nav>
   {:else}
-    <nav aria-label="Table of contents" class="text-sm">
-      <h2 class="mb-3 font-medium text-kumo-default">On this page</h2>
-      <div class="space-y-1">
+    <nav aria-label="Table of contents">
+      <p class="mb-3 text-xs font-semibold tracking-wide text-kumo-subtle uppercase">On this page</p>
+      <ul class="flex flex-col gap-2 border-l-2 border-kumo-hairline">
         {#each groups as group (group.h2.slug)}
-          <a
-            href={`#${group.h2.slug}`}
-            class="block border-l px-3 py-1.5 transition-colors {activeId === group.h2.slug
-              ? 'border-kumo-brand text-kumo-default'
-              : 'border-kumo-hairline text-kumo-subtle hover:text-kumo-default'}"
-            onclick={() => jumpTo(group.h2.slug)}
-          >
-            {group.h2.text}
-          </a>
-          {#each group.h3s as h3 (h3.slug)}
-            <a
-              href={`#${h3.slug}`}
-              class="block border-l px-6 py-1.5 transition-colors {activeId === h3.slug
-                ? 'border-kumo-brand text-kumo-default'
-                : 'border-kumo-hairline text-kumo-subtle hover:text-kumo-default'}"
-              onclick={() => jumpTo(h3.slug)}
-            >
-              {h3.text}
-            </a>
-          {/each}
+          {#if group.h3s.length === 0}
+            <li class="-ml-0.5">
+              <a
+                href={`#${group.h2.slug}`}
+                aria-current={activeId === group.h2.slug ? 'true' : undefined}
+                class={cn(ITEM_BASE, activeId === group.h2.slug ? ITEM_ACTIVE : ITEM_DEFAULT)}
+                onclick={() => jumpTo(group.h2.slug)}
+              >
+                <span class="block min-w-0 leading-5">{group.h2.text}</span>
+              </a>
+            </li>
+          {:else}
+            <li class="-ml-0.5 flex flex-col gap-2">
+              <a
+                href={`#${group.h2.slug}`}
+                aria-current={activeId === group.h2.slug ? 'true' : undefined}
+                class={cn(ITEM_BASE, activeId === group.h2.slug ? ITEM_ACTIVE : ITEM_DEFAULT)}
+                onclick={() => jumpTo(group.h2.slug)}
+              >
+                <span class="block min-w-0 leading-5">{group.h2.text}</span>
+              </a>
+              <ul class="flex flex-col gap-2 border-l-2 border-kumo-hairline [&>li>a]:pl-7">
+                {#each group.h3s as h3 (h3.slug)}
+                  <li class="-ml-0.5">
+                    <a
+                      href={`#${h3.slug}`}
+                      aria-current={activeId === h3.slug ? 'true' : undefined}
+                      class={cn(ITEM_BASE, activeId === h3.slug ? ITEM_ACTIVE : ITEM_DEFAULT)}
+                      onclick={() => jumpTo(h3.slug)}
+                    >
+                      <span class="block min-w-0 leading-5">{h3.text}</span>
+                    </a>
+                  </li>
+                {/each}
+              </ul>
+            </li>
+          {/if}
         {/each}
-      </div>
+      </ul>
     </nav>
   {/if}
 {/if}

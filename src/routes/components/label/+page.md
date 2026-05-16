@@ -5,20 +5,15 @@ sourceFile: "components/label"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="LabelBasicDemo" />
-
+  <ComponentExample demo="LabelBasicDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,12 +24,18 @@ sourceFile: "components/label"
 
 ### Barrel
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Label } from 'kumo-svelte';
+</script>
 ```
 
 ### Granular
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Label } from 'kumo-svelte/components/label';
+</script>
 ```
 
 </ComponentSection>
@@ -47,37 +48,35 @@ sourceFile: "components/label"
 
 ### With Form Components (Recommended)
 
-  
-    Label features are automatically available through form components like `Input`, `Select`, `Checkbox`, and `Switch` via the `required` and `labelTooltip` props.
-  
+<p>
+  Label features are automatically available through form components like `Input`, `Select`, `Checkbox`, and `Switch` via the `required` and `labelTooltip` props.
+</p>
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Input } from 'kumo-svelte';
+</script>
 
-export default function Example() {
-  return (
-    <>
-      {/* Optional field with "(optional)" text */}
-      <Input label="Phone" required={false} placeholder="+1 555-0000" />
+<!-- Optional field with "(optional)" text -->
+<Input label="Phone" required={false} placeholder="+1 555-0000" />
 
-      {/* With tooltip */}
-      <Input
-        label="API Key"
-        labelTooltip="Find this in your dashboard settings"
+<!-- With tooltip -->
+<Input
+  label="API Key"
+  labelTooltip="Find this in your dashboard settings"
 />
-    </>
-  );
-}
 ```
 
 ### Standalone Label
 
-For custom form layouts, use the `Label` component directly.
+<p>For custom form layouts, use the `Label` component directly.</p>
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Label } from 'kumo-svelte';
+</script>
 
-export default function Example() {
-  return <Label tooltip="This field is mandatory">Username</Label>;
-}
+<Label tooltip="This field is mandatory">Username</Label>
 ```
 
 </ComponentSection>
@@ -90,29 +89,34 @@ export default function Example() {
 
 ### Optional Field
 
-Shows gray "(optional)" text when `required=&#123;false&#125;`.
+
+Shows gray "(optional)" text when `required={false}`.
 
 <ComponentExample demo="LabelOptionalFieldDemo" />
 
 ### With Tooltip
 
+
 Shows an info icon with a tooltip for additional context.
 
 <ComponentExample demo="LabelWithTooltipDemo" />
 
-### ReactNode Label Content
+### Snippet Label Content
 
-Labels support ReactNode content for rich formatting.
 
-<ComponentExample demo="LabelReactNodeDemo" />
+Labels support Snippet content for rich formatting.
+
+<ComponentExample demo="LabelSnippetDemo" />
 
 ### Form with Mixed Fields
+
 
 Real-world example showing required and optional fields together.
 
 <ComponentExample demo="LabelFormMixedDemo" />
 
 ### Standalone Label
+
 
 Use Label directly for custom layouts or non-form contexts.
 
@@ -128,8 +132,10 @@ Use Label directly for custom layouts or non-form contexts.
 
 ### Label Props
 
+
 Props for the standalone Label component:
 
+<div class="overflow-x-auto">
   <table class="w-full text-sm">
     <thead>
       <tr class="border-b border-kumo-hairline">
@@ -142,7 +148,7 @@ Props for the standalone Label component:
     <tbody>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">children</td>
-        <td class="px-4 py-3 font-mono text-xs">ReactNode</td>
+        <td class="px-4 py-3 font-mono text-xs">Snippet</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
         <td class="px-4 py-3 text-xs">Label content (required)</td>
       </tr>
@@ -156,24 +162,27 @@ Props for the standalone Label component:
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">tooltip</td>
-        <td class="px-4 py-3 font-mono text-xs">ReactNode</td>
+        <td class="px-4 py-3 font-mono text-xs">Snippet</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
         <td class="px-4 py-3 text-xs">Tooltip content shown via info icon</td>
       </tr>
       <tr class="border-b border-kumo-hairline">
-        <td class="px-4 py-3 font-mono text-xs">className</td>
+        <td class="px-4 py-3 font-mono text-xs">class</td>
         <td class="px-4 py-3 font-mono text-xs">string</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
         <td class="px-4 py-3 text-xs">Additional CSS classes</td>
       </tr>
     </tbody>
   </table>
+</div>
 
 ### Form Component Label Props
 
-  These props are available on Input, InputArea, Select, Checkbox, Switch,
+
+These props are available on Input, InputArea, Select, Checkbox, Switch,
   SensitiveInput, and Combobox:
 
+<div class="overflow-x-auto">
   <table class="w-full text-sm">
     <thead>
       <tr class="border-b border-kumo-hairline">
@@ -186,7 +195,7 @@ Props for the standalone Label component:
     <tbody>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">label</td>
-        <td class="px-4 py-3 font-mono text-xs">ReactNode</td>
+        <td class="px-4 py-3 font-mono text-xs">Snippet</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
         <td class="px-4 py-3 text-xs">Label content (enables Field wrapper)</td>
       </tr>
@@ -201,7 +210,7 @@ Props for the standalone Label component:
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">labelTooltip</td>
-        <td class="px-4 py-3 font-mono text-xs">ReactNode</td>
+        <td class="px-4 py-3 font-mono text-xs">Snippet</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
         <td class="px-4 py-3 text-xs">
           Tooltip content shown via info icon next to label
@@ -209,6 +218,7 @@ Props for the standalone Label component:
       </tr>
     </tbody>
   </table>
+</div>
 
 </ComponentSection>
 
@@ -218,8 +228,8 @@ Props for the standalone Label component:
 
 ## Design Guidelines
 
-  
-    
+  <div class="space-y-4 text-sm">
+    <div>
 
       ### When to Use Optional Indicators
 
@@ -230,8 +240,8 @@ Props for the standalone Label component:
         <li>Be consistent within a form</li>
         <li>Default fields (no indicator) are assumed required by users</li>
       </ul>
-    
-    
+    </div>
+    <div>
 
       ### When to Use Tooltips
 
@@ -241,8 +251,8 @@ Props for the standalone Label component:
         <li>Link to help documentation for complex fields</li>
         <li>Keep tooltip content concise - 1-2 sentences max</li>
       </ul>
-    
-    
+    </div>
+    <div>
 
       ### Accessibility
 
@@ -254,5 +264,6 @@ Props for the standalone Label component:
         <li>Tooltips are accessible via keyboard focus on the info icon</li>
         <li>Screen readers will announce tooltip content when focused</li>
       </ul>
-
+    </div>
+  </div>
 </ComponentSection>

@@ -5,20 +5,15 @@ sourceFile: "components/meter"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="MeterBasicDemo" />
-
+  <ComponentExample demo="MeterBasicDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,12 +24,18 @@ sourceFile: "components/meter"
 
 ### Barrel
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Meter } from 'kumo-svelte';
+</script>
 ```
 
 ### Granular
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Meter } from 'kumo-svelte/components/meter';
+</script>
 ```
 
 </ComponentSection>
@@ -45,11 +46,12 @@ sourceFile: "components/meter"
 
 ## Usage
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Meter } from 'kumo-svelte';
+</script>
 
-export default function Example() {
-  return <Meter label="Storage used" value={65} />;
-}
+<Meter label="Storage used" value={65} />
 ```
 
 </ComponentSection>
@@ -62,11 +64,13 @@ export default function Example() {
 
 ### Basic Meter
 
+
 The default meter displays a label and percentage value.
 
 <ComponentExample demo="MeterBasicDemo" />
 
 ### Custom Value Display
+
 
 Use `customValue` to show a custom string instead of the percentage.
 
@@ -74,17 +78,20 @@ Use `customValue` to show a custom string instead of the percentage.
 
 ### Hidden Value
 
-Set `showValue=&#123;false&#125;` to hide the value display.
+
+Set `showValue={false}` to hide the value display.
 
 <ComponentExample demo="MeterHiddenValueDemo" />
 
 ### Full Meter
+
 
 A meter at 100% capacity.
 
 <ComponentExample demo="MeterFullDemo" />
 
 ### Low Value
+
 
 A meter with a low value.
 
@@ -98,6 +105,5 @@ A meter with a low value.
 
 ## API Reference
 
-<PropsTable component="Meter"  />
-
+  <PropsTable component="Meter" />
 </ComponentSection>

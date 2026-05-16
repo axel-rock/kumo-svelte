@@ -8,10 +8,10 @@
   interface Props {
     title: string;
     githubSourceUrl?: string | null;
-    baseUIUrl?: string | null;
+    bitsUIUrl?: string | null;
   }
 
-  let { title, githubSourceUrl = null, baseUIUrl = null }: Props = $props();
+  let { title, githubSourceUrl = null, bitsUIUrl = null }: Props = $props();
   let showStickyTitle = $state(false);
   let sidebarOpen = $state(true);
   let headerRef: HTMLElement;
@@ -73,14 +73,14 @@
           <GitHubIcon size={18} />
         </a>
       {/if}
-      {#if baseUIUrl}
+      {#if bitsUIUrl}
         <a
-          href={baseUIUrl}
+          href={bitsUIUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="text-kumo-subtle transition-colors hover:text-kumo-default"
-          title="View Base UI documentation"
-          aria-label="View Base UI documentation"
+          title="View Bits UI documentation"
+          aria-label="View Bits UI documentation"
           tabindex={showStickyTitle ? 0 : -1}
         >
           <BaseUIIcon size={18} />
@@ -115,14 +115,14 @@
           <GitHubIcon size={20} />
         </a>
       {/if}
-      {#if baseUIUrl}
+      {#if bitsUIUrl}
         <a
-          href={baseUIUrl}
+          href={bitsUIUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="text-kumo-subtle transition-colors hover:text-kumo-default"
-          title="View Base UI documentation"
-          aria-label="View Base UI documentation"
+          title="View Bits UI documentation"
+          aria-label="View Bits UI documentation"
           tabindex={showStickyTitle && sidebarOpen ? 0 : -1}
         >
           <BaseUIIcon size={20} />

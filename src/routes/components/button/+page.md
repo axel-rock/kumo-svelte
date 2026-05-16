@@ -5,20 +5,15 @@ sourceFile: "components/button"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="ButtonBasicDemo" vrSection="basic" vrTitle="Basic" />
-
+  <ComponentExample demo="ButtonBasicDemo" vrSection="basic" vrTitle="Basic" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,14 +24,19 @@ sourceFile: "components/button"
 
 ### Barrel
 
-```tsx
-// code example
+
+```svelte
+<script lang="ts">
+  import { Button } from 'kumo-svelte';
+</script>
 ```
 
 ### Granular
 
-```tsx
-// code example
+```svelte
+<script lang="ts">
+  import { Button, LinkButton, RefreshButton } from 'kumo-svelte/components/button';
+</script>
 ```
 
 </ComponentSection>
@@ -47,11 +47,12 @@ sourceFile: "components/button"
 
 ## Usage
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Button } from 'kumo-svelte';
+</script>
 
-export default function Example() {
-  return <Button variant="secondary">Click me</Button>;
-}
+<Button variant="secondary">Click me</Button>
 ```
 
 </ComponentSection>
@@ -69,50 +70,50 @@ export default function Example() {
 #### Primary
 
 <ComponentExample
-demo="ButtonPrimaryDemo"
-vrSection="variant-primary"
-vrTitle="Variant: Primary"
-/>
+  demo="ButtonPrimaryDemo"
+  vrSection="variant-primary"
+  vrTitle="Variant: Primary"
+ />
 
 #### Secondary
 
 <ComponentExample
-demo="ButtonSecondaryDemo"
-vrSection="variant-secondary"
-vrTitle="Variant: Secondary"
-/>
+  demo="ButtonSecondaryDemo"
+  vrSection="variant-secondary"
+  vrTitle="Variant: Secondary"
+ />
 
 #### Ghost
 
 <ComponentExample
-demo="ButtonGhostDemo"
-vrSection="variant-ghost"
-vrTitle="Variant: Ghost"
-/>
+  demo="ButtonGhostDemo"
+  vrSection="variant-ghost"
+  vrTitle="Variant: Ghost"
+ />
 
 #### Destructive
 
 <ComponentExample
-demo="ButtonDestructiveDemo"
-vrSection="variant-destructive"
-vrTitle="Variant: Destructive"
-/>
+  demo="ButtonDestructiveDemo"
+  vrSection="variant-destructive"
+  vrTitle="Variant: Destructive"
+ />
 
 #### Outline
 
 <ComponentExample
-demo="ButtonOutlineDemo"
-vrSection="variant-outline"
-vrTitle="Variant: Outline"
-/>
+  demo="ButtonOutlineDemo"
+  vrSection="variant-outline"
+  vrTitle="Variant: Outline"
+ />
 
 #### Secondary Destructive
 
 <ComponentExample
-demo="ButtonSecondaryDestructiveDemo"
-vrSection="variant-secondary-destructive"
-vrTitle="Variant: Secondary Destructive"
-/>
+  demo="ButtonSecondaryDestructiveDemo"
+  vrSection="variant-secondary-destructive"
+  vrTitle="Variant: Secondary Destructive"
+ />
 
 <!-- Sizes -->
 
@@ -125,74 +126,75 @@ vrTitle="Variant: Secondary Destructive"
 ### With Icon
 
 <ComponentExample
-demo="ButtonWithIconDemo"
-vrSection="with-icon"
-vrTitle="With Icon"
-/>
+  demo="ButtonWithIconDemo"
+  vrSection="with-icon"
+  vrTitle="With Icon"
+ />
 
 <!-- Icon Only -->
 
 ### Icon Only
 
-  For icon-only buttons, use `shape="square"` or `shape="circle"` with the
+
+For icon-only buttons, use `shape="square"` or `shape="circle"` with the
   `icon` prop.
-  <strong>Always include `aria-label`</strong>
+  **Always include `aria-label`**
   for accessibility — without visible text, screen readers need the label to
   convey the button's purpose.
 
 <ComponentExample
-demo="ButtonIconOnlyDemo"
-vrSection="icon-only"
-vrTitle="Icon Only"
-/>
+  demo="ButtonIconOnlyDemo"
+  vrSection="icon-only"
+  vrTitle="Icon Only"
+ />
 
 <!-- Loading State -->
 
 ### Loading State
 
 <ComponentExample
-demo="ButtonLoadingDemo"
-vrSection="loading"
-vrTitle="Loading State"
-/>
+  demo="ButtonLoadingDemo"
+  vrSection="loading"
+  vrTitle="Loading State"
+ />
 
 <!-- Disabled State -->
 
 ### Disabled State
 
 <ComponentExample
-demo="ButtonDisabledDemo"
-vrSection="disabled"
-vrTitle="Disabled State"
-/>
+  demo="ButtonDisabledDemo"
+  vrSection="disabled"
+  vrTitle="Disabled State"
+ />
 
 <!-- Title (Tooltip) -->
 
 ### Title
 
-  
-    Use the `title` prop to wrap the button in a tooltip. This is useful for
+
+Use the `title` prop to wrap the button in a tooltip. This is useful for
     icon-only buttons or whenever additional context helps the user understand
     the action.
 
-<ComponentExample
-demo="ButtonTitleDemo"
-vrSection="title"
-vrTitle="Title"
-/>
+  <ComponentExample
+    demo="ButtonTitleDemo"
+    vrSection="title"
+    vrTitle="Title"
+   />
 
 ### Link as Button
 
-  Use `LinkButton` when the interaction should navigate somewhere but still look
+
+Use `LinkButton` when the interaction should navigate somewhere but still look
   like a button. Use `Button` for in-place actions like submitting, opening, or
   toggling UI.
 
 <ComponentExample
-demo="ButtonLinkAsButtonDemo"
-vrSection="link-as-button"
-vrTitle="Link as Button"
-/>
-
+  demo="ButtonLinkAsButtonDemo"
+  vrSection="link-as-button"
+  vrTitle="Link as Button"
+ />
 </ComponentSection>
 
 <!-- API Reference -->
@@ -201,8 +203,7 @@ vrTitle="Link as Button"
 
 ## API Reference
 
-<PropsTable component="Button"  />
-
+  <PropsTable component="Button" />
 </ComponentSection>
 
 <!-- trigger-vr -->

@@ -5,20 +5,15 @@ sourceFile: "components/table-of-contents"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="TableOfContentsBasicDemo" />
-
+  <ComponentExample demo="TableOfContentsBasicDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,12 +24,14 @@ sourceFile: "components/table-of-contents"
 
 ### Barrel
 
-```tsx
+```svelte
+import { TableOfContents } from "kumo-svelte";
 ```
 
 ### Granular
 
-```tsx
+```svelte
+import { TableOfContents } from "kumo-svelte/components/table-of-contents";
 ```
 
 </ComponentSection>
@@ -45,10 +42,9 @@ sourceFile: "components/table-of-contents"
 
 ## Usage
 
-```tsx
+```svelte
+import { TableOfContents } from "kumo-svelte";
 
-export default function Example() {
-  return (
     <TableOfContents>
       <TableOfContents.Title>On this page</TableOfContents.Title>
       <TableOfContents.List>
@@ -58,13 +54,13 @@ export default function Example() {
         <TableOfContents.Item href="#api">API Reference</TableOfContents.Item>
       </TableOfContents.List>
     </TableOfContents>
-  );
-}
 ```
 
-  This component is purely presentational. All interaction logic — scroll
+
+This component is purely presentational. All interaction logic — scroll
   tracking, `IntersectionObserver`, active state management — is left to the
   consumer.
+
 
 </ComponentSection>
 
@@ -76,21 +72,24 @@ export default function Example() {
 
 ### Interactive
 
-  Click an item to set it as active. The consumer controls state via `active`
-  and `onClick`.
+
+Click an item to set it as active. The consumer controls state via `active`
+  and `onclick`.
 
 <ComponentExample demo="TableOfContentsInteractiveDemo" />
 
 ### No active item
 
-  When no item has `active` set, all items show the default subtle text style
+
+When no item has `active` set, all items show the default subtle text style
   with a hover indicator.
 
 <ComponentExample demo="TableOfContentsNoActiveDemo" />
 
 ### Groups
 
-  Use `TableOfContents.Group` to organize items into labeled sections with
+
+Use `TableOfContents.Group` to organize items into labeled sections with
   indented children. Groups support two modes: pass an `href` to make the group
   label a clickable link (like "Examples" and "API" below), or omit it for a
   plain non-interactive title (like "Getting Started").
@@ -99,21 +98,23 @@ export default function Example() {
 
 ### Without title
 
-  The title sub-component is optional — use `TableOfContents.List` directly if
+
+The title sub-component is optional — use `TableOfContents.List` directly if
   you don't need a heading.
 
 <ComponentExample demo="TableOfContentsWithoutTitleDemo" />
 
 ### Custom element
 
-  Use the `render` prop to swap the default anchor for a button, router link, or
+
+Use the `render` prop to swap the default anchor for a button, router link, or
   any element.
 
 <ComponentExample demo="TableOfContentsRenderPropDemo" />
 
-#### React Router
+#### SvelteKit
 
-```tsx
+```svelte
 <TableOfContents.Item render={<Link to="/intro" />} active>
   Introduction
 </TableOfContents.Item>
@@ -121,7 +122,8 @@ export default function Example() {
 
 #### Next.js
 
-```tsx
+```svelte
+import Link from "next/link";
 
 <TableOfContents.Item render={<Link href="/intro" />} active>
   Introduction
@@ -130,8 +132,8 @@ export default function Example() {
 
 #### Button (no navigation)
 
-```tsx
-<TableOfContents.Item render={<button type="button" />} onClick={handleClick}>
+```svelte
+<TableOfContents.Item render={<button type="button" />} onclick={handleClick}>
   Introduction
 </TableOfContents.Item>
 ```
@@ -146,33 +148,37 @@ export default function Example() {
 
 ### `TableOfContents`
 
+
 Root nav container with a default `aria-label` of "Table of contents".
 
-<PropsTable component="TableOfContents"  />
+<PropsTable component="TableOfContents" />
 
 ### `TableOfContents.Title`
 
-Optional uppercase heading displayed above the list (renders a `&lt;p&gt;`).
 
-<PropsTable component="TableOfContents.Title"  />
+Optional uppercase heading displayed above the list (renders a `<p>`).
+
+<PropsTable component="TableOfContents.Title" />
 
 ### `TableOfContents.List`
 
+
 List container with a left border rail.
 
-<PropsTable component="TableOfContents.List"  />
+<PropsTable component="TableOfContents.List" />
 
 ### `TableOfContents.Item`
 
-  Individual navigation link. Set `active` for the current section. Use the
+
+Individual navigation link. Set `active` for the current section. Use the
   `render` prop to swap the anchor for a router link or button.
 
-<PropsTable component="TableOfContents.Item"  />
+<PropsTable component="TableOfContents.Item" />
 
 ### `TableOfContents.Group`
 
+
 Groups items under a labeled section with indented children. Pass `href` to make the label a clickable link, or omit for a plain title.
 
-<PropsTable component="TableOfContents.Group"  />
-
+<PropsTable component="TableOfContents.Group" />
 </ComponentSection>

@@ -1,8 +1,39 @@
 <script lang="ts">
+  import { setContext } from 'svelte';
   import type { Snippet } from 'svelte';
   import { cn } from '$lib/utils/cn';
-  interface Props { children?: Snippet; class?: string; [key: string]: unknown; }
-  let { children, class: className, ...rest }: Props = $props();
+
+  const LAYER_CARD_SURFACE_CLASSES =
+    'overflow-hidden rounded-lg bg-kumo-base shadow-xs ring ring-kumo-line';
+  const LAYER_CARD_LAYERED_ROOT_CLASSES =
+    'flex w-full flex-col overflow-hidden rounded-lg bg-kumo-elevated text-base ring ring-kumo-hairline';
+
+  interface Props {
+    children?: Snippet;
+    class?: string;
+    as?: string;
+    [key: string]: unknown;
+  }
+
+  let { children, class: className, as = 'div', ...rest }: Props = $props();
+
+  let sectionCount = $state(0);
+
+  setContext('kumo-layer-card', {
+    registerSection: () => {
+      sectionCount += 1;
+
+      return () => {
+        sectionCount -= 1;
+      };
+    }
+  });
 </script>
 
-<div class={cn('rounded-xl bg-kumo-surface p-4 text-kumo-default shadow-sm ring ring-kumo-hairline', className)} {...rest}>{@render children?.()}</div>
+<svelte:element
+  this={as}
+  class={cn(sectionCount > 0 ? LAYER_CARD_LAYERED_ROOT_CLASSES : LAYER_CARD_SURFACE_CLASSES, className)}
+  {...rest}
+>
+  {@render children?.()}
+</svelte:element>

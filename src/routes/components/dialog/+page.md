@@ -6,20 +6,15 @@ baseUIComponent: "dialog"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="DialogWithActionsDemo" />
-
+  <ComponentExample demo="DialogWithActionsDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -30,14 +25,15 @@ baseUIComponent: "dialog"
 
 ### Barrel
 
-```tsx
-// code example
+```svelte
+import { Dialog } from "kumo-svelte";
 ```
+
 
 ### Granular
 
-```tsx
-// code example
+```svelte
+import { Dialog } from "kumo-svelte/components/dialog";
 ```
 
 </ComponentSection>
@@ -48,28 +44,22 @@ baseUIComponent: "dialog"
 
 ## Usage
 
-```tsx
+```svelte
+<script lang="ts">
+  import { Dialog, Button } from "kumo-svelte";
 
-export default function Example() {
-  return (
-    <Dialog.Root>
-      <Dialog.Trigger render={(p) => <Button {...p}>Open</Button>} />
-      <Dialog>
-        <Dialog.Title>Dialog Title</Dialog.Title>
-        <Dialog.Description>Dialog content goes here.</Dialog.Description>
-        <div className="flex justify-end gap-2 mt-4">
-          <Dialog.Close
-            render={(p) => (
-              <Button variant="secondary" {...p}>
-                Cancel
-              </Button>
-            )}
-/>
-        </div>
-      </Dialog>
-    </Dialog.Root>
-  );
-}
+  let open = $state(false);
+</script>
+
+<Dialog bind:open title="Dialog Title" description="Dialog content goes here.">
+  {#snippet trigger(props)}
+    <Button {...props}>Open</Button>
+  {/snippet}
+
+  <div class="flex justify-end gap-2">
+    <Button variant="secondary" onclick={() => (open = false)}>Cancel</Button>
+  </div>
+</Dialog>
 ```
 
 </ComponentSection>
@@ -81,11 +71,11 @@ export default function Example() {
 ## Dialog vs Alert Dialog
 
   
-    The Dialog component supports two ARIA roles to properly convey semantic
+The Dialog component supports two ARIA roles to properly convey semantic
     meaning to assistive technologies:
-  
 
-  
+
+  <div class="overflow-hidden rounded-lg border border-kumo-hairline">
     <table class="w-full text-sm">
       <thead class="bg-kumo-elevated">
         <tr>
@@ -98,7 +88,7 @@ export default function Example() {
         <tr>
           <td class="px-4 py-3">
             `role="dialog"`
-            (default)
+            <span class="ml-2 text-kumo-subtle">(default)</span>
           </td>
           <td class="px-4 py-3">
             General-purpose modals, forms, content display
@@ -114,7 +104,7 @@ export default function Example() {
         </tr>
       </tbody>
     </table>
-
+  </div>
 </ComponentSection>
 
 <!-- Examples -->
@@ -129,27 +119,30 @@ export default function Example() {
 
 ### Alert Dialog (`role="alertdialog"`)
 
-  For destructive or confirmation dialogs, use `role="alertdialog"` on
-  `Dialog.Root`. This provides proper accessibility semantics by rendering the
+
+For destructive or confirmation dialogs, use `role="alertdialog"` on
+  `Dialog`. This provides proper accessibility semantics by rendering the
   dialog with `role="alertdialog"` instead of `role="dialog"`.
 
+<div class="mb-4 rounded-lg border border-kumo-info/30 bg-kumo-info/10 p-4 text-sm text-kumo-info">
   <p class="font-medium mb-2 text-sm">
-    When to use 
+    When to use{" "}
     <code class="bg-kumo-info/20 px-1 rounded">role="alertdialog"</code>:
-  
+  </p>
   <ul class="list-disc list-inside space-y-1 ml-2 mb-0">
     <li>Destructive actions (delete, discard, remove)</li>
     <li>Confirmation flows requiring explicit user acknowledgment</li>
     <li>Actions that cannot be undone</li>
     <li>Critical warnings or errors</li>
   </ul>
-
+</div>
 <ComponentExample demo="DialogAlertDemo" />
 
 ### Confirmation Dialog (with `disablePointerDismissal`)
 
-  For confirmation dialogs that should not be dismissed by clicking outside, use
-  `disablePointerDismissal` on `Dialog.Root`. This can be combined with
+
+For confirmation dialogs that should not be dismissed by clicking outside, use
+  `disablePointerDismissal` on `Dialog`. This can be combined with
   `role="alertdialog"` for proper accessibility.
 
 <ComponentExample demo="DialogConfirmationDemo" />
@@ -160,11 +153,13 @@ export default function Example() {
 
 ### With Select
 
+
 Dialog containing a Select dropdown.
 
 <ComponentExample demo="DialogWithSelectDemo" />
 
 ### With Combobox
+
 
 Dialog containing a Combobox for searchable selection.
 
@@ -172,10 +167,9 @@ Dialog containing a Combobox for searchable selection.
 
 ### With Dropdown
 
-  Dialog containing a Dropdown menu.
+Dialog containing a Dropdown menu.
 
-<ComponentExample demo="DialogWithDropdownDemo" />
-
+  <ComponentExample demo="DialogWithDropdownDemo" />
 </ComponentSection>
 
 <!-- API Reference -->
@@ -186,14 +180,57 @@ Dialog containing a Combobox for searchable selection.
 
 ### Dialog
 
+
 The main dialog container that renders the modal overlay and popup.
 
-<PropsTable component="Dialog"  />
+<PropsTable component="Dialog" />
+
+<div class="mb-4 overflow-hidden rounded-lg border border-kumo-hairline">
+  <table class="w-full text-sm">
+    <thead class="bg-kumo-elevated">
+      <tr>
+        <th class="px-4 py-2 text-left font-medium">Prop</th>
+        <th class="px-4 py-2 text-left font-medium">Type</th>
+        <th class="px-4 py-2 text-left font-medium">Default</th>
+        <th class="px-4 py-2 text-left font-medium">Description</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-kumo-hairline">
+      <tr>
+        <td class="px-4 py-2 font-mono text-xs">size</td>
+        <td class="px-4 py-2 font-mono text-xs">"sm" | "base" | "lg" | "xl"</td>
+        <td class="px-4 py-2 font-mono text-xs">"base"</td>
+        <td class="px-4 py-2 text-kumo-subtle">Dialog width.</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 font-mono text-xs">role</td>
+        <td class="px-4 py-2 font-mono text-xs">"dialog" | "alertdialog"</td>
+        <td class="px-4 py-2 font-mono text-xs">"dialog"</td>
+        <td class="px-4 py-2 text-kumo-subtle">
+          The ARIA role for the dialog. Use `"alertdialog"` for destructive or
+          confirmation flows.
+        </td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2 font-mono text-xs">disablePointerDismissal</td>
+        <td class="px-4 py-2 font-mono text-xs">boolean</td>
+        <td class="px-4 py-2 font-mono text-xs">false</td>
+        <td class="px-4 py-2 text-kumo-subtle">
+          When true, prevents the dialog from being dismissed by clicking
+          outside.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ### Dialog.Root
 
-  Controls the open state of the dialog. Doesn't render its own HTML element.
 
+The upstream React package exposes compound primitives. In Svelte, `Dialog`
+wraps the Bits UI root, trigger, portal, overlay, and content in one component.
+
+<div class="mb-4 overflow-hidden rounded-lg border border-kumo-hairline">
   <table class="w-full text-sm">
     <thead class="bg-kumo-elevated">
       <tr>
@@ -224,31 +261,33 @@ The main dialog container that renders the modal overlay and popup.
       </tr>
     </tbody>
   </table>
-
-<PropsTable component="Dialog.Root"  />
+</div>
+<PropsTable component="Dialog.Root" />
 
 ### Dialog.Trigger
 
+
 A button that opens the dialog when clicked.
 
-<PropsTable component="Dialog.Trigger"  />
+<PropsTable component="Dialog.Trigger" />
 
 ### Dialog.Title
 
+
 A heading that labels the dialog for accessibility.
 
-<PropsTable component="Dialog.Title"  />
+<PropsTable component="Dialog.Title" />
 
 ### Dialog.Description
 
+
 A paragraph providing additional context about the dialog.
 
-<PropsTable component="Dialog.Description"  />
+<PropsTable component="Dialog.Description" />
 
 ### Dialog.Close
 
-  A button that closes the dialog when clicked.
+A button that closes the dialog when clicked.
 
-<PropsTable component="Dialog.Close"  />
-
+  <PropsTable component="Dialog.Close" />
 </ComponentSection>

@@ -5,20 +5,15 @@ sourceFile: "components/input"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
-
 
 <!-- Hero Demo -->
 
 <ComponentSection>
-
-<ComponentExample demo="InputAreaBasicDemo" />
-
+  <ComponentExample demo="InputAreaBasicDemo" />
 </ComponentSection>
 
 <!-- Installation -->
@@ -29,52 +24,13 @@ sourceFile: "components/input"
 
 ### Barrel
 
-```tsx
-```
+```svelte
+<script lang="ts">
+  import { InputArea, Label } from 'kumo-svelte';
+</script>
 
-### Granular
-
-```tsx
-```
-
-`Textarea` is also exported as an alias for `InputArea` for discoverability when migrating from other libraries.
-
-</ComponentSection>
-
-<!-- Usage -->
-
-<ComponentSection>
-
-## Usage
-
-### With Built-in Field (Recommended)
-
-  Use the `label` prop to enable the built-in Field wrapper with label,
-  description, and error support.
-
-```tsx
-
-export default function Example() {
-  return (
-    <InputArea
-      label="Description"
-      placeholder="Enter a description..."
-description="Provide details about your project"
-/>
-  );
-}
-```
-
-### Bare InputArea (Custom Layouts)
-
-  For custom form layouts, use InputArea without `label`. Must provide
-  `aria-label` or `aria-labelledby` for accessibility.
-
-```tsx
-
-export default function Example() {
-  return <InputArea placeholder="Add notes..." aria-label="Notes" rows={3} />;
-}
+<Label>Description</Label>
+<InputArea placeholder="Describe the rollout..." />
 ```
 
 </ComponentSection>
@@ -91,11 +47,13 @@ export default function Example() {
 
 ### Custom Row Count
 
+
 Use the `rows` prop to control the initial height.
 
 <ComponentExample demo="InputAreaRowsDemo" />
 
 ### Error State (String)
+
 
 Error styling is automatically applied when the `error` prop is truthy.
 
@@ -103,11 +61,13 @@ Error styling is automatically applied when the `error` prop is truthy.
 
 ### Error State (Object)
 
+
 Use an error object with `match` for constraint validation.
 
 <ComponentExample demo="InputAreaErrorObjectDemo" />
 
 ### Sizes
+
 
 Four sizes available: `xs`, `sm`, `base` (default), `lg`.
 
@@ -119,28 +79,32 @@ Four sizes available: `xs`, `sm`, `base` (default), `lg`.
 
 ### Bare InputArea
 
-  InputArea without `label` renders as a bare textarea. Must provide
+
+InputArea without `label` renders as a bare textarea. Must provide
   `aria-label` for accessibility.
 
 <ComponentExample demo="InputAreaBareDemo" />
 
 ### Optional Field
 
-Set `required=&#123;false&#125;` to show "(optional)" text after the label.
+
+Set `required={false}` to show "(optional)" text after the label.
 
 <ComponentExample demo="InputAreaOptionalFieldDemo" />
 
 ### Label with Tooltip
 
+
 Use `labelTooltip` to add an info icon with additional context on hover.
 
 <ComponentExample demo="InputAreaLabelTooltipDemo" />
 
-### React Node Label
+### Snippet Label
 
-The `label` prop accepts ReactNode for rich formatting.
 
-<ComponentExample demo="InputAreaReactNodeLabelDemo" />
+The `label` prop accepts Snippet for rich formatting.
+
+<ComponentExample demo="InputAreaSnippetLabelDemo" />
 
 </ComponentSection>
 
@@ -150,9 +114,11 @@ The `label` prop accepts ReactNode for rich formatting.
 
 ## API Reference
 
-  InputArea accepts all standard HTML textarea attributes plus the following:
 
-<PropsTable component="InputArea"  />
+InputArea accepts all standard HTML textarea attributes plus the following:
+
+
+<PropsTable component="InputArea" />
 
 </ComponentSection>
 
@@ -164,7 +130,9 @@ The `label` prop accepts ReactNode for rich formatting.
 
 ### Label Requirement
 
+
 InputArea requires an accessible name via one of:
+
 
 <ul class="ml-4 list-disc space-y-1">
   <li>`label` prop (recommended)</li>
@@ -174,10 +142,13 @@ InputArea requires an accessible name via one of:
 
 <p class="mt-2">
   Missing accessible names trigger console warnings in development.
+</p>
 
 ### Error Association
 
-  Error messages are automatically associated with the textarea via ARIA
+
+Error messages are automatically associated with the textarea via ARIA
   attributes for screen reader announcement.
+
 
 </ComponentSection>
