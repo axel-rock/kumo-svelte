@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import { cn } from '$lib/utils/cn';
-  import { resolveVariant } from '$lib/utils/variants';
 
   export const KUMO_BUTTON_VARIANTS = {
     shape: {
@@ -65,7 +64,9 @@
   let classes = $derived(
     cn(
       base,
-      resolveVariant(KUMO_BUTTON_VARIANTS, { shape, size, variant }, { shape: 'base', size: 'base', variant: 'secondary' }),
+      KUMO_BUTTON_VARIANTS.variant[variant].classes,
+      KUMO_BUTTON_VARIANTS.size[size].classes,
+      KUMO_BUTTON_VARIANTS.shape[shape].classes,
       shape !== 'base' && KUMO_BUTTON_VARIANTS.compactSize[size].classes,
       className
     )
