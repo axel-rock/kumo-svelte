@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+:root {
+  --svelte-orange: oklch(0.6385 0.1991 34.99);
+}
+
 /**
  * AUTO-GENERATED FILE - DO NOT EDIT DIRECTLY
  *

@@ -120,7 +120,7 @@
 
 <div class="fixed inset-x-0 top-0 z-50 flex h-12 items-center justify-between border-b border-kumo-hairline bg-kumo-canvas px-3 md:hidden">
   <Button variant="ghost" shape="square" aria-label="Open menu" onclick={() => (mobileMenuOpen = true)}>
-    <KumoMenuIcon class="text-[#ff3e00]" />
+    <KumoMenuIcon class="text-[var(--svelte-orange)]" />
   </Button>
   <h1 class="text-base font-medium">Kumo</h1>
   <ThemeToggle />
@@ -148,7 +148,7 @@
   <div class="relative h-12 border-b border-kumo-hairline">
     <div class="absolute inset-0 grid place-items-center">
       <Button variant="ghost" shape="square" aria-label="Toggle sidebar" aria-pressed={sidebarOpen} onclick={() => (sidebarOpen = !sidebarOpen)}>
-        <KumoMenuIcon class="text-[#ff3e00]" />
+        <KumoMenuIcon class="text-[var(--svelte-orange)]" />
       </Button>
     </div>
   </div>
