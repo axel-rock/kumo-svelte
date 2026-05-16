@@ -37,6 +37,7 @@
     Tooltip
   } from '$lib';
   import { ChevronRight, Copy, Download, Search, Settings, Trash2 } from '@lucide/svelte';
+  import ChartDemos from './chart-demos/ChartDemos.svelte';
 
   interface Props {
     demo: string;
@@ -94,10 +95,40 @@
   ];
 
   const looksLike = (prefix: string) => demo.toLowerCase().startsWith(prefix.toLowerCase());
+  const chartDemoNames = new Set([
+    'BasicLineChartDemo',
+    'BarChartDemo',
+    'CategoricalBarChartDemo',
+    'CategoricalDonutChartDemo',
+    'CategoricalLineChartDemo',
+    'ChartColorSystemsDemo',
+    'ChartExampleDemo',
+    'CustomAxisLabelFormatDemo',
+    'CustomTooltipChartDemo',
+    'GradientLineChartDemo',
+    'IncompleteDataChartDemo',
+    'LegendCompactDemo',
+    'LegendDefaultDemo',
+    'LoadingChartDemo',
+    'PieChartDemo',
+    'PieChartPreviewDemo',
+    'SankeyChartBasicDemo',
+    'SankeyChartDrillDownDemo',
+    'SankeyChartFullWidthDemo',
+    'SankeyChartInteractiveDemo',
+    'SankeyChartMultiLevelDemo',
+    'SankeyChartPreviewDemo',
+    'SankeyChartRichTooltipDemo',
+    'SankeyChartTooltipDemo',
+    'TimeRangeSelectionChartDemo',
+    'TimeseriesChartPreviewDemo'
+  ]);
 </script>
 
 <div class="flex min-h-24 w-full items-center justify-center">
-  {#if looksLike('Button')}
+  {#if chartDemoNames.has(demo) || looksLike('Chart') || looksLike('Categorical') || looksLike('Sankey') || looksLike('Timeseries') || looksLike('Pie')}
+    <ChartDemos {demo} />
+  {:else if looksLike('Button')}
     <div class="flex flex-wrap items-center justify-center gap-3">
       <Button variant={demo.includes('Primary') ? 'primary' : demo.includes('Ghost') ? 'ghost' : demo.includes('Destructive') ? 'destructive' : demo.includes('Outline') ? 'outline' : 'secondary'} size={demo.includes('Sizes') ? 'sm' : 'base'} loading={demo.includes('Loading')} disabled={demo.includes('Disabled')}>
         {#if demo.includes('Icon')}<Download class="size-4" aria-hidden="true" />{/if}

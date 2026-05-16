@@ -3,6 +3,8 @@ export { Badge } from './components/badge';
 export { Banner } from './components/banner';
 export { Breadcrumbs } from './components/breadcrumbs';
 export { Button } from './components/button';
+export { Chart, ChartLegend, ChartPalette, SankeyChart, TimeseriesChart } from './components/chart';
+export type { ChartEvents, ChartSemanticColorName, KumoChartOption, SafeTooltipOption } from './components/chart';
 export { Checkbox } from './components/checkbox';
 export { ClipboardText } from './components/clipboard-text';
 export { CloudflareLogo } from './components/cloudflare-logo';

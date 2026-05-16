@@ -47,14 +47,9 @@ echarts.use([
 
 ## Available Charts
 
-  
-    <div class="not-prose my-4 rounded-lg border border-kumo-hairline bg-kumo-canvas p-4 text-sm text-kumo-subtle">
-      <p class="text-sm text-kumo-subtle">TimeseriesChartPreviewDemo</p>
-    </div>
+<ComponentExample demo="TimeseriesChartPreviewDemo" />
 
-    <div class="not-prose my-4 rounded-lg border border-kumo-hairline bg-kumo-canvas p-4 text-sm text-kumo-subtle">
-      <p class="text-sm text-kumo-subtle">PieChartPreviewDemo</p>
-    </div>
+<ComponentExample demo="PieChartPreviewDemo" />
 
 </ComponentSection>
 
@@ -62,7 +57,7 @@ echarts.use([
 
 ## Color System
 
-  <p class="not-prose my-4 rounded-lg border border-kumo-hairline bg-kumo-canvas p-4 text-sm text-kumo-subtle">ChartCard</p>
+<ComponentExample demo="ChartColorSystemsDemo" />
 
 </ComponentSection>
 
@@ -84,4 +79,4 @@ echarts.use([
 
 </ComponentSection>
 
-<p class="text-sm text-kumo-subtle">ChartExampleDemo</p>
+<ComponentExample demo="ChartExampleDemo" />

@@ -21,7 +21,7 @@ polarity, a **categorical** palette for nominal series and a **sequential** scal
 Charts in the dashboard serve different jobs, so color is not “one-size-fits-all.”
 To avoid misreading data, we use different color systems based on the data task.
 
-<p class="text-sm text-kumo-subtle">ChartColorSystemsDemo</p>
+<ComponentExample demo="ChartColorSystemsDemo" />
 
 ## Semantic tokens
 
@@ -29,22 +29,22 @@ Semantic chart colors should be used when the data has inherent polarity, i.e. s
 
 Semantic chart colors are derived from our existing badge/status semantic tokens so meaning stays consistent across components and contexts. We intentionally adjust hue/chroma for charts to be less visually aggressive than badges to reduce visual fatigue and false urgency.
 
-<p class="text-sm text-kumo-subtle">SemanticColorsDemo</p>
-<p class="text-sm text-kumo-subtle">CategoricalBarChartDemo</p>
+<ComponentExample demo="SemanticColorsDemo" />
+<ComponentExample demo="CategoricalBarChartDemo" />
 
 ## Categorical palette
 
 Use the categorical palette when the data has no inherent polarity. The palette is ordered for maximum perceptual distance between adjacent slots to ensure it's CVD friendly and the data is easily distinguishable.
 
-<p class="text-sm text-kumo-subtle">CategoricalColorsDemo</p>
+<ComponentExample demo="CategoricalColorsDemo" />
 
   We reduced categorical tokens from 16 (8 hues × 2 lightness variants) to 5 because most charts intentionally surface only top categories at once (commonly 5). When a chart needs more than 5 series it should cycle those tokens with modulo (color = tokens[i % 5]) for consistent, predictable styling.
 
   Categorical colors are tested using a CVD simulator to ensure they remain distinguishable for users with color vision deficiency. Here's an example of what the categorical colors might look like to someone with deuteranopia.
 
-<p class="text-sm text-kumo-subtle">CategoricalCvdDemo</p>
-<p class="text-sm text-kumo-subtle">CategoricalDonutChartDemo</p>
-<p class="text-sm text-kumo-subtle">CategoricalLineChartDemo</p>
+<ComponentExample demo="CategoricalCvdDemo" />
+<ComponentExample demo="CategoricalDonutChartDemo" />
+<ComponentExample demo="CategoricalLineChartDemo" />
 
     Color alone should not be used to convey information. When implementing line charts, ensure that you're using patterns (e.g. dashes/dots) on top of the color palette to differentiate between data points. Since dots and dashes appear lighter, we avoid pairing them with light colors since those lines can fade out.
 
@@ -59,5 +59,5 @@ categorical palette for that.
 Darker steps encode higher values in light mode; lighter steps encode higher values in
 dark mode so the most prominent color always corresponds to the highest magnitude.
 
-<p class="text-sm text-kumo-subtle">SequentialColorsDemo</p> 
-<p class="text-sm text-kumo-subtle">SequentialHeatmapDemo</p>
+<ComponentExample demo="SequentialColorsDemo" />
+<ComponentExample demo="SequentialHeatmapDemo" />
