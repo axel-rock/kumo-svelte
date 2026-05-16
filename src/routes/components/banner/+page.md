@@ -1,0 +1,111 @@
+---
+title: "Banner"
+description: "Displays contextual inline messages for informational, alert, or error states."
+sourceFile: "components/banner"
+---
+
+<script>
+  import Callout from '$lib/docs/Callout.svelte';
+  import ComponentExample from '$lib/docs/ComponentExample.svelte';
+  import ComponentSection from '$lib/docs/ComponentSection.svelte';
+  import CodeBlock from '$lib/docs/CodeBlock.svelte';
+  import PropsTable from '$lib/docs/PropsTable.svelte';
+</script>
+
+
+<!-- Hero Demo -->
+
+<ComponentSection>
+
+<ComponentExample demo="BannerVariantsDemo" />
+
+</ComponentSection>
+
+<!-- Installation -->
+
+<ComponentSection>
+
+## Installation
+
+### Barrel
+
+```tsx
+// code example
+```
+
+### Granular
+
+```tsx
+// code example
+```
+
+</ComponentSection>
+
+<!-- Usage -->
+
+<ComponentSection>
+
+## Usage
+
+```tsx
+
+export default function Example() {
+  return (
+    <Banner
+      icon={<Info weight="fill" />}
+title="Update available"
+description="A new version is ready to install."
+/>
+  );
+}
+```
+
+</ComponentSection>
+
+<!-- Examples -->
+
+<ComponentSection>
+
+## Examples
+
+### Variants
+
+#### Default
+
+<ComponentExample demo="BannerDefaultDemo" />
+
+#### Alert
+
+<ComponentExample demo="BannerAlertDemo" />
+
+#### Error
+
+<ComponentExample demo="BannerErrorDemo" />
+
+### With icon
+
+<ComponentExample demo="BannerWithIconDemo" />
+
+### With action
+
+<ComponentExample demo="BannerWithActionDemo" />
+
+### With multiple actions
+
+<ComponentExample demo="BannerWithActionsDemo" />
+
+### Custom content
+
+<ComponentExample demo="BannerCustomContentDemo" />
+
+</ComponentSection>
+
+<!-- API Reference -->
+
+<ComponentSection>
+
+## API Reference
+
+<PropsTable component="Banner"  />
+
+</ComponentSection>

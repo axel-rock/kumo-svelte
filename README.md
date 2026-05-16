@@ -1,48 +1,76 @@
-# kumo-svelte
+# Kumo Svelte
 
-A Svelte port of Cloudflare's Kumo UI library. The port keeps Kumo's Tailwind class vocabulary and semantic `kumo-*` design tokens while adapting React/Base UI patterns to Svelte 5 and `bits-ui` primitives.
+Cloudflare's component library for building modern web applications, ported to Svelte.
 
-## Install
+Kumo Svelte provides accessible, design-system-compliant UI components built on [Bits UI](https://bits-ui.com/). It handles keyboard navigation, focus management, and ARIA attributes so you can build accessible applications without thinking through every detail.
 
-```sh
-npm install kumo-svelte bits-ui svelte
+<img width="2560" height="1456" alt="Kumo UI preview" src="https://github.com/user-attachments/assets/032f5a0e-b686-4440-b1ca-6182379479aa" />
+
+## Installation
+
+```bash
+pnpm add kumo-svelte
 ```
 
-Import the global CSS once in your app:
+### Peer Dependencies
 
-```ts
-import 'kumo-svelte/styles.css';
+```bash
+pnpm add svelte bits-ui
 ```
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-  import { Button, Badge, KumoLogo } from 'kumo-svelte';
+  import { Button, Input, Dialog } from 'kumo-svelte';
+  import 'kumo-svelte/styles.css';
 </script>
-
-<KumoLogo />
-<Button variant="primary">Deploy</Button>
-<Badge variant="beta">Beta</Badge>
 ```
 
-## Website
+### Granular Imports (Tree-Shaking)
 
-This repo includes a SvelteKit parity website that renders the Svelte-branded Kumo design system and exercises the exported components.
-
-```sh
-npm run dev
-npm run build
+```svelte
+<script lang="ts">
+  import { Button } from 'kumo-svelte/components/button';
+</script>
 ```
 
-## Component parity
+### Bits UI Primitives
 
-The public Svelte surface now covers the Kumo registry exports: `Autocomplete`, `Badge`, `Banner`, `Breadcrumbs`, `Button`, `Checkbox`, `ClipboardText`, `CloudflareLogo`, `Code`, `Collapsible`, `Combobox`, `CommandPalette`, `DatePicker`, `DateRangePicker`, `Dialog`, `DropdownMenu`, `Empty`, `Field`, `Grid`, `Input`, `InputArea`, `InputGroup`, `Label`, `LayerCard`, `Link`, `Loader`, `MenuBar`, `Meter`, `Pagination`, `Popover`, `Radio`, `Select`, `SensitiveInput`, `Sidebar`, `Surface`, `Switch`, `Table`, `TableOfContents`, `Tabs`, `Text`, `Toasty`, and `Tooltip`.
+Kumo Svelte re-exports primitives for advanced use cases:
 
-## Design tokens
+```svelte
+<script lang="ts">
+  import { Popover } from 'kumo-svelte/primitives';
+</script>
+```
 
-The Cloudflare logo color has been intentionally adapted for Svelte branding. `styles.css` defines `--kumo-svelte-orange` and maps `--kumo-brand` to it, so all primary controls and the logo use Svelte orange by default.
+## CLI
 
-## Status
+The original Kumo CLI is not ported yet.
 
-This repository contains the Svelte package and parity website. Components preserve Kumo's Tailwind token/class language where the Svelte primitive model maps directly; divergences are limited to Svelte snippets/bindings, native Svelte form bindings, and Svelte-orange branding.
+## Development
+
+This repository contains the Svelte package and MDSX-powered documentation site.
+
+### Quick Start
+
+```bash
+pnpm install
+pnpm dev
+pnpm check
+pnpm build
+```
+
+### Creating Components
+
+Port components file-by-file from [cloudflare/kumo](https://github.com/cloudflare/kumo), preserving the original Tailwind classes and Kumo semantic color tokens. Framework differences should be limited to Svelte snippets, bindings, events, Bits UI primitive APIs, and the Svelte-orange logo treatment in the top-left site mark.
+
+## Documentation
+
+- **Original Live Docs**: [kumo-ui.com](https://kumo-ui.com)
+- **Original Source**: [cloudflare/kumo](https://github.com/cloudflare/kumo)
+
+## License
+
+MIT

@@ -12,7 +12,15 @@
     destructive: 'bg-kumo-danger text-white',
     info: 'bg-kumo-info-tint/70 text-kumo-info',
     beta: 'border border-dashed border-kumo-brand bg-transparent text-kumo-link',
-    outline: 'border border-kumo-fill bg-transparent text-kumo-default'
+    outline: 'border border-kumo-fill bg-transparent text-kumo-default',
+    red: 'bg-kumo-badge-red text-white',
+    green: 'bg-kumo-badge-green text-white',
+    neutral: 'bg-kumo-badge-neutral text-white',
+    orange: 'bg-kumo-badge-orange text-black',
+    purple: 'bg-kumo-badge-purple text-white',
+    teal: 'bg-kumo-badge-teal text-white',
+    'teal-subtle': 'bg-kumo-badge-teal-subtle text-kumo-badge-teal-subtle',
+    blue: 'bg-kumo-badge-blue text-white'
   } as const;
 
   interface Props {
