@@ -8,6 +8,8 @@
     Code,
     Collapsible,
     Combobox,
+    Autocomplete,
+    CommandPalette,
     DatePicker,
     Dialog,
     DropdownMenu,
@@ -47,6 +49,12 @@
     label: value,
     value: value.toLowerCase()
   }));
+
+  const commands = [
+    { label: 'Open dashboard' },
+    { label: 'Create worker' },
+    { label: 'Deploy project' }
+  ];
 
   const toc = [
     { title: 'Introduction', href: '#introduction' },
@@ -103,6 +111,13 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="autocomplete" href="/components/autocomplete" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Autocomplete</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <Autocomplete class="w-[200px]" options={fruits} placeholder="Search fruits..." />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="combobox" href="#combobox" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Combobox</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Combobox options={fruits} placeholder="Search fruits..." />
@@ -113,6 +128,18 @@
         <a id="switch" href="#switch" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Switch</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Switch bind:checked={switchToggled} />
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="input-validation" href="/components/input" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Input (with validation)</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="grid w-[220px] gap-1.5">
+            <Label for="home-email">Email</Label>
+            <Input id="home-email" placeholder="name@example.com" type="email" value="Invalid!" invalid />
+            <p class="text-xs text-kumo-danger">Please enter a valid email.</p>
+            <p class="text-xs text-kumo-subtle">The email to send notifications to.</p>
+          </div>
         </div>
       </li>
 
@@ -174,7 +201,18 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="code" href="#code" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Code</a>
+        <a id="skeleton-line" href="/components/skeleton-line" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">SkeletonLine</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="flex w-[200px] flex-col gap-2">
+            <div class="h-2 w-1/2 animate-pulse rounded bg-kumo-control"></div>
+            <div class="h-2 w-full animate-pulse rounded bg-kumo-control"></div>
+            <div class="h-2 w-3/4 animate-pulse rounded bg-kumo-control"></div>
+          </div>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="code-highlighted" href="/components/code-highlighted" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">CodeHighlighted</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Code>const sum = (a, b) =&gt; a + b;</Code>
         </div>
@@ -272,6 +310,26 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="clipboard-text" href="#clipboard-text" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">ClipboardText</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><ClipboardText value="npx kumo add button" /></div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="command-palette" href="/components/command-palette" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">CommandPalette</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="w-[220px]">
+            <CommandPalette commands={commands} placeholder="Search..." />
+          </div>
+        </div>
+      </li>
+
+      <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
+        <a id="flow" href="/components/flow" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Flow</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="flex items-center gap-2 text-sm">
+            <div class="rounded-lg border border-kumo-hairline bg-kumo-base px-3 py-2">Step 1</div>
+            <div class="h-px w-8 bg-kumo-hairline"></div>
+            <div class="rounded-lg border border-kumo-hairline bg-kumo-base px-3 py-2">Step 2</div>
+          </div>
+        </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
