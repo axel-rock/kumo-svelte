@@ -1,0 +1,6 @@
+.git/
+.svelte-kit/
+dist/
+node_modules/
+*.map
+*.md
