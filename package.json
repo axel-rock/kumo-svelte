@@ -60,5 +60,10 @@
     "typescript": "^6.0.3",
     "vite": "^8.0.13",
     "wrangler": "^4.91.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@sveltejs/kit>cookie": "0.7.2"
+    }
   }
 }
