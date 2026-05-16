@@ -52,6 +52,21 @@ npx kumo-svelte doc Button
 npx kumo-svelte docs
 ```
 
+### Migration and AI
+
+Export token rename maps for codebase migrations and print the AI usage guide.
+
+```bash
+# Show pending token migrations
+npx kumo-svelte migrate
+
+# Show class-level mappings
+npx kumo-svelte migrate --classes
+
+# Print the AI component usage guide
+npx kumo-svelte ai
+```
+
 ## Try it out
 
 Type commands in the interactive terminal below to explore the CLI.

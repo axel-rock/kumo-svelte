@@ -3,6 +3,7 @@ export { Badge, KUMO_BADGE_BASE_STYLES } from './components/badge';
 export type { BadgeVariant } from './components/badge';
 export { Banner } from './components/banner';
 export { Breadcrumbs } from './components/breadcrumbs';
+export type { BreadcrumbsItem } from './components/breadcrumbs';
 export { Button, LinkButton, RefreshButton } from './components/button';
 export { Chart, ChartLegend, ChartPalette, SankeyChart, TimeseriesChart } from './components/chart';
 export type { ChartEvents, ChartSemanticColorName, KumoChartOption, SafeTooltipOption } from './components/chart';
@@ -112,8 +113,10 @@ export {
 export type { KumoTableLayout, KumoTableRowVariant, KumoTableStickyColumn } from './components/table';
 export { TableOfContents } from './components/table-of-contents';
 export { Tabs } from './components/tabs';
+export type { TabsItem } from './components/tabs';
 export { Text } from './components/text';
 export { Toasty, createKumoToastManager, useKumoToastManager } from './components/toasty';
 export type { KumoToastOptions, KumoToastVariant } from './components/toasty';
 export { Tooltip, TooltipProvider } from './components/tooltip';
+export { cn } from './utils/cn';
 export * as Primitives from './primitives';

@@ -1,0 +1,78 @@
+{
+  "version": "0.1.0",
+  "components": {
+    "Autocomplete": { "name": "Autocomplete", "type": "component", "category": "Forms", "description": "Autocomplete input for choosing from suggested options.", "sourceFile": "components/autocomplete" },
+    "Badge": { "name": "Badge", "type": "component", "category": "Display", "description": "Small status and metadata labels.", "sourceFile": "components/badge" },
+    "Banner": { "name": "Banner", "type": "component", "category": "Feedback", "description": "Inline informational, warning, and error messages.", "sourceFile": "components/banner" },
+    "Breadcrumbs": { "name": "Breadcrumbs", "type": "component", "category": "Navigation", "description": "Responsive breadcrumb navigation.", "sourceFile": "components/breadcrumbs" },
+    "Button": { "name": "Button", "type": "component", "category": "Actions", "description": "Primary, secondary, ghost, and destructive buttons.", "sourceFile": "components/button" },
+    "Checkbox": { "name": "Checkbox", "type": "component", "category": "Forms", "description": "Checkbox controls and grouped checkbox sets.", "sourceFile": "components/checkbox" },
+    "ClipboardText": { "name": "ClipboardText", "type": "component", "category": "Data Display", "description": "Copyable text display for tokens, IDs, and commands.", "sourceFile": "components/clipboard-text" },
+    "CloudflareLogo": { "name": "CloudflareLogo", "type": "component", "category": "Brand", "description": "Cloudflare logo and powered-by lockups.", "sourceFile": "components/cloudflare-logo" },
+    "Code": { "name": "Code", "type": "component", "category": "Display", "description": "Inline and block code presentation.", "sourceFile": "components/code-highlighted" },
+    "Collapsible": { "name": "Collapsible", "type": "component", "category": "Disclosure", "description": "Expandable and collapsible content regions.", "sourceFile": "components/collapsible" },
+    "Combobox": { "name": "Combobox", "type": "component", "category": "Forms", "description": "Searchable combobox selection control.", "sourceFile": "components/combobox" },
+    "CommandPalette": { "name": "CommandPalette", "type": "component", "category": "Navigation", "description": "Dialog-style command and search palette.", "sourceFile": "components/command-palette" },
+    "DatePicker": { "name": "DatePicker", "type": "component", "category": "Forms", "description": "Date selection input.", "sourceFile": "components/date-picker" },
+    "Dialog": { "name": "Dialog", "type": "component", "category": "Overlay", "description": "Modal dialog and alert dialog primitive.", "sourceFile": "components/dialog" },
+    "DropdownMenu": { "name": "DropdownMenu", "type": "component", "category": "Overlay", "description": "Composable dropdown menu actions.", "sourceFile": "components/dropdown" },
+    "Empty": { "name": "Empty", "type": "component", "category": "Feedback", "description": "Empty-state messaging and actions.", "sourceFile": "components/empty" },
+    "Flow": { "name": "Flow", "type": "component", "category": "Visualization", "description": "Flow diagrams for sequential and parallel workflows.", "sourceFile": "components/flow" },
+    "Grid": { "name": "Grid", "type": "component", "category": "Layout", "description": "Responsive layout grid utilities.", "sourceFile": "components/grid" },
+    "Input": { "name": "Input", "type": "component", "category": "Forms", "description": "Text input and textarea controls.", "sourceFile": "components/input" },
+    "InputArea": { "name": "InputArea", "type": "component", "category": "Forms", "description": "Multi-line text area input.", "sourceFile": "components/input-area" },
+    "InputGroup": { "name": "InputGroup", "type": "component", "category": "Forms", "description": "Input groups with addons, suffixes, and buttons.", "sourceFile": "components/input-group" },
+    "Label": { "name": "Label", "type": "component", "category": "Forms", "description": "Accessible form label text.", "sourceFile": "components/label" },
+    "LayerCard": { "name": "LayerCard", "type": "component", "category": "Layout", "description": "Layered surface card container.", "sourceFile": "components/layer-card" },
+    "Link": { "name": "Link", "type": "component", "category": "Navigation", "description": "Styled link and external-link affordance.", "sourceFile": "components/link" },
+    "Loader": { "name": "Loader", "type": "component", "category": "Feedback", "description": "Loading indicators and skeleton lines.", "sourceFile": "components/loader" },
+    "MenuBar": { "name": "MenuBar", "type": "component", "category": "Navigation", "description": "Compact segmented menu bar.", "sourceFile": "components/menu-bar" },
+    "Meter": { "name": "Meter", "type": "component", "category": "Data Display", "description": "Progress and usage meter.", "sourceFile": "components/meter" },
+    "Pagination": { "name": "Pagination", "type": "component", "category": "Navigation", "description": "Pagination controls and page-size selector.", "sourceFile": "components/pagination" },
+    "Popover": { "name": "Popover", "type": "component", "category": "Overlay", "description": "Anchored floating popover content.", "sourceFile": "components/popover" },
+    "Radio": { "name": "Radio", "type": "component", "category": "Forms", "description": "Radio groups and radio options.", "sourceFile": "components/radio" },
+    "Select": { "name": "Select", "type": "component", "category": "Forms", "description": "Single and multi-value select control.", "sourceFile": "components/select" },
+    "SensitiveInput": { "name": "SensitiveInput", "type": "component", "category": "Forms", "description": "Password and secret input with reveal controls.", "sourceFile": "components/sensitive-input" },
+    "Sidebar": { "name": "Sidebar", "type": "component", "category": "Navigation", "description": "Application sidebar shell.", "sourceFile": "components/sidebar" },
+    "SkeletonLine": { "name": "SkeletonLine", "type": "component", "category": "Feedback", "description": "Skeleton loading line.", "sourceFile": "components/skeleton-line" },
+    "Switch": { "name": "Switch", "type": "component", "category": "Forms", "description": "Toggle switch controls and groups.", "sourceFile": "components/switch" },
+    "Table": { "name": "Table", "type": "component", "category": "Data Display", "description": "Structured table primitives.", "sourceFile": "components/table" },
+    "TableOfContents": { "name": "TableOfContents", "type": "component", "category": "Navigation", "description": "In-page table of contents.", "sourceFile": "components/table-of-contents" },
+    "Tabs": { "name": "Tabs", "type": "component", "category": "Navigation", "description": "Segmented and underline tab navigation.", "sourceFile": "components/tabs" },
+    "Text": { "name": "Text", "type": "component", "category": "Typography", "description": "Semantic text component.", "sourceFile": "components/text" },
+    "Toast": { "name": "Toast", "type": "component", "category": "Feedback", "description": "Toast notifications and manager.", "sourceFile": "components/toast" },
+    "Tooltip": { "name": "Tooltip", "type": "component", "category": "Overlay", "description": "Accessible hover and focus tooltips.", "sourceFile": "components/tooltip" }
+  },
+  "blocks": {
+    "PageHeader": {
+      "name": "PageHeader",
+      "type": "block",
+      "category": "Layout",
+      "description": "Composite page header with breadcrumbs, title, actions, and tabs.",
+      "files": ["page-header/page-header.svelte", "page-header/index.ts"],
+      "dependencies": ["Breadcrumbs", "Tabs"]
+    },
+    "ResourceListPage": {
+      "name": "ResourceListPage",
+      "type": "block",
+      "category": "Layout",
+      "description": "Resource list page layout with optional sidebar content.",
+      "files": ["resource-list/resource-list.svelte", "resource-list/index.ts"],
+      "dependencies": ["LayerCard"]
+    },
+    "DeleteResource": {
+      "name": "DeleteResource",
+      "type": "block",
+      "category": "Feedback",
+      "description": "Confirmation dialog for deleting named resources.",
+      "files": ["delete-resource/delete-resource.svelte", "delete-resource/index.ts"],
+      "dependencies": ["Banner", "Button", "Dialog", "Input"]
+    }
+  },
+  "search": {
+    "byType": {
+      "component": ["Autocomplete", "Badge", "Banner", "Breadcrumbs", "Button", "Checkbox", "ClipboardText", "CloudflareLogo", "Code", "Collapsible", "Combobox", "CommandPalette", "DatePicker", "Dialog", "DropdownMenu", "Empty", "Flow", "Grid", "Input", "InputArea", "InputGroup", "Label", "LayerCard", "Link", "Loader", "MenuBar", "Meter", "Pagination", "Popover", "Radio", "Select", "SensitiveInput", "Sidebar", "SkeletonLine", "Switch", "Table", "TableOfContents", "Tabs", "Text", "Toast", "Tooltip"],
+      "block": ["PageHeader", "ResourceListPage", "DeleteResource"]
+    }
+  }
+}

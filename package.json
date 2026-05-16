@@ -4,10 +4,15 @@
   "description": "Svelte port of Cloudflare's Kumo UI library using bits-ui primitives.",
   "type": "module",
   "license": "Apache-2.0",
+  "bin": {
+    "kumo-svelte": "./bin/kumo-svelte.js"
+  },
   "sideEffects": [
     "**/*.css"
   ],
   "files": [
+    "ai",
+    "bin",
     "dist",
     "src"
   ],
@@ -18,6 +23,10 @@
       "default": "./dist/index.js"
     },
     "./styles.css": "./dist/styles.css",
+    "./ai/component-registry.json": {
+      "default": "./ai/component-registry.json"
+    },
+    "./registry/component-registry.json": "./ai/component-registry.json",
     "./components/*": {
       "types": "./dist/components/*/index.d.ts",
       "svelte": "./dist/components/*/index.js",
