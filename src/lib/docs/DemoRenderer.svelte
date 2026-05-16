@@ -142,7 +142,7 @@
     <Input type="date" class="max-w-52" />
   {:else if looksLike('Dialog')}
     <Dialog title="Delete deployment" description="This action cannot be undone.">
-      {#snippet trigger()}<Button variant="destructive">Open dialog</Button>{/snippet}
+      {#snippet trigger()}<span class="inline-flex h-9 cursor-pointer items-center rounded-lg bg-kumo-danger px-3 text-base font-medium text-white shadow-xs">Open dialog</span>{/snippet}
       <div class="flex justify-end gap-2"><Button>Cancel</Button><Button variant="destructive">Delete</Button></div>
     </Dialog>
   {:else if looksLike('Dropdown')}
@@ -205,7 +205,7 @@
     <Pagination page={demo.includes('Mid') ? 6 : 1} pages={12} />
   {:else if looksLike('Popover')}
     <Popover title="Deployment status" description="Deployments usually complete in under one minute.">
-      {#snippet trigger()}<Button>Show status</Button>{/snippet}
+      {#snippet trigger()}<span class="inline-flex h-9 cursor-pointer items-center rounded-lg bg-kumo-base px-3 text-base font-medium text-kumo-default shadow-xs ring ring-kumo-hairline">Show status</span>{/snippet}
     </Popover>
   {:else if looksLike('Radio')}
     <Radio options={radioOptions} value="production" />
@@ -259,7 +259,7 @@
     <Toasty title="Deployment started">We will notify you when it completes.</Toasty>
   {:else if looksLike('Tooltip')}
     <Tooltip content="Copy deployment URL">
-      {#snippet trigger()}<Button shape="square" aria-label="Copy URL"><Copy class="size-4" /></Button>{/snippet}
+      {#snippet trigger()}<span class="inline-flex size-9 cursor-pointer items-center justify-center rounded-lg bg-kumo-base text-kumo-default shadow-xs ring ring-kumo-hairline" aria-label="Copy URL"><Copy class="size-4" /></span>{/snippet}
     </Tooltip>
   {:else}
     <div class="flex items-center gap-2 rounded-lg border border-kumo-hairline bg-kumo-base px-4 py-3 text-sm text-kumo-subtle">
