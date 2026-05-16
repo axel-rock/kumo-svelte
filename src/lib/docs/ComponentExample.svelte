@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import DemoRenderer from './DemoRenderer.svelte';
 
   interface Props {
     children?: Snippet;
@@ -12,7 +13,9 @@
 </script>
 
 <div class="not-prose my-4 rounded-lg border border-kumo-hairline bg-kumo-canvas p-6">
-  {#if children}
+  {#if demo}
+    <DemoRenderer {demo} />
+  {:else if children}
     {@render children()}
   {:else}
     <p class="text-sm text-kumo-subtle">{vrTitle ?? demo ?? 'Example'}</p>
