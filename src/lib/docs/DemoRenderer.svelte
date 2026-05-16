@@ -29,6 +29,9 @@
     Select,
     SensitiveInput,
     Switch,
+    SwitchGroup,
+    SwitchItem,
+    SwitchLegend,
     Table,
     TableOfContents,
     Tabs,
@@ -44,6 +47,9 @@
   }
 
   let { demo }: Props = $props();
+  let switchBasicChecked = $state(false);
+  let switchNeutralChecked = $state(false);
+  let switchCustomIdChecked = $state(false);
 
   const selectOptions = [
     { label: 'Workers', value: 'workers' },
@@ -264,8 +270,59 @@
       <div class="h-2 w-3/4 animate-pulse rounded bg-kumo-fill"></div>
       <div class="h-2 w-1/2 animate-pulse rounded bg-kumo-fill"></div>
     </div>
+  {:else if demo === 'SwitchBasicDemo'}
+    <Switch label="Switch" bind:checked={switchBasicChecked} />
+  {:else if demo === 'SwitchOffDemo'}
+    <Switch label="Switch" checked={false} />
+  {:else if demo === 'SwitchOnDemo'}
+    <Switch label="Switch" checked={true} />
+  {:else if demo === 'SwitchDisabledDemo'}
+    <Switch label="Disabled" checked={false} disabled />
+  {:else if demo === 'SwitchNeutralDemo'}
+    <Switch label="Neutral switch" variant="neutral" bind:checked={switchNeutralChecked} />
+  {:else if demo === 'SwitchNeutralStatesDemo'}
+    <div class="flex flex-col gap-4">
+      <Switch label="Neutral off" variant="neutral" checked={false} />
+      <Switch label="Neutral on" variant="neutral" checked={true} />
+      <Switch label="Neutral disabled" variant="neutral" checked={false} disabled />
+    </div>
+  {:else if demo === 'SwitchVariantsDemo'}
+    <div class="grid grid-cols-2 gap-x-8 gap-y-4">
+      <Switch label="Default off" checked={false} />
+      <Switch label="Default on" checked={true} />
+      <Switch label="Neutral off" variant="neutral" checked={false} />
+      <Switch label="Neutral on" variant="neutral" checked={true} />
+    </div>
+  {:else if demo === 'SwitchSizesDemo'}
+    <div class="flex flex-col gap-4">
+      <Switch label="Small" size="sm" checked={true} />
+      <Switch label="Base (default)" size="base" checked={true} />
+      <Switch label="Large" size="lg" checked={true} />
+    </div>
+  {:else if demo === 'SwitchCustomIdDemo'}
+    <Switch id="my-custom-switch" label="Custom ID" bind:checked={switchCustomIdChecked} />
+  {:else if demo === 'SwitchGroupDemo'}
+    <SwitchGroup legend="Notification settings">
+      <SwitchItem label="Email notifications" />
+      <SwitchItem label="SMS notifications" />
+      <SwitchItem label="Push notifications" />
+    </SwitchGroup>
+  {:else if demo === 'SwitchLegendSrOnlyDemo'}
+    <SwitchGroup>
+      <SwitchLegend class="sr-only">Notification settings</SwitchLegend>
+      <SwitchItem label="Email notifications" />
+      <SwitchItem label="SMS notifications" />
+      <SwitchItem label="Push notifications" />
+    </SwitchGroup>
+  {:else if demo === 'SwitchLegendCustomDemo'}
+    <SwitchGroup>
+      <SwitchLegend class="text-sm font-normal text-kumo-subtle">Notification settings</SwitchLegend>
+      <SwitchItem label="Email notifications" />
+      <SwitchItem label="SMS notifications" />
+      <SwitchItem label="Push notifications" />
+    </SwitchGroup>
   {:else if looksLike('Switch')}
-    <Switch checked={demo.includes('On') || demo.includes('Basic')}>Enable previews</Switch>
+    <Switch label="Switch" checked={demo.includes('On') || demo.includes('Basic')} />
   {:else if looksLike('TableOfContents')}
     <TableOfContents items={tocItems} />
   {:else if looksLike('Table')}

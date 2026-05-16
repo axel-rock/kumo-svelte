@@ -31,11 +31,13 @@ baseUIComponent: "switch"
 ### Barrel
 
 ```tsx
+import { Switch } from "@cloudflare/kumo";
 ```
 
 ### Granular
 
 ```tsx
+import { Switch } from "@cloudflare/kumo/components/switch";
 ```
 
 </ComponentSection>
@@ -47,6 +49,8 @@ baseUIComponent: "switch"
 ## Usage
 
 ```tsx
+import { Switch } from "@cloudflare/kumo";
+import { useState } from "react";
 
 export default function Example() {
   const [checked, setChecked] = useState(false);
