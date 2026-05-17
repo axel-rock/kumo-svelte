@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export function packageRootFrom(metaUrl) {
+export function packageRootFrom(metaUrl: string): string {
   const currentDir = dirname(fileURLToPath(metaUrl));
   const candidates = [
     join(currentDir, '..', '..', '..'),
@@ -17,7 +17,7 @@ export function packageRootFrom(metaUrl) {
   return candidates[0];
 }
 
-export function findPackageFile(metaUrl, relativePath) {
+export function findPackageFile(metaUrl: string, relativePath: string): string | null {
   const root = packageRootFrom(metaUrl);
   const candidates = [
     join(root, relativePath),

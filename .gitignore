@@ -9,3 +9,4 @@ package-lock.json
 build/
 output/
 .pnpm-store/
+src/blocks/**/*.d.ts

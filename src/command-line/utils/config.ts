@@ -6,7 +6,9 @@ export const DEFAULT_CONFIG = {
   version: '1.0.0'
 };
 
-export function readConfig(projectRoot = process.cwd()) {
+export type KumoConfig = typeof DEFAULT_CONFIG;
+
+export function readConfig(projectRoot = process.cwd()): KumoConfig | null {
   const configPath = join(projectRoot, 'kumo.json');
   if (!existsSync(configPath)) return null;
 
@@ -21,12 +23,12 @@ export function readConfig(projectRoot = process.cwd()) {
   }
 }
 
-export function writeConfig(config, projectRoot = process.cwd()) {
+export function writeConfig(config: Partial<KumoConfig>, projectRoot = process.cwd()) {
   const configPath = join(projectRoot, 'kumo.json');
   const content = JSON.stringify({ ...DEFAULT_CONFIG, ...config }, null, 2) + '\n';
   writeFileSync(configPath, content, 'utf-8');
 }
 
-export function configExists(projectRoot = process.cwd()) {
+export function configExists(projectRoot = process.cwd()): boolean {
   return existsSync(join(projectRoot, 'kumo.json'));
 }

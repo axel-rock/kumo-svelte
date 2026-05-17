@@ -1,6 +1,6 @@
 const PACKAGE_NAME = 'kumo-svelte';
 
-function shouldTransform(path) {
+function shouldTransform(path: string): boolean {
   return (
     path.startsWith('$lib/components/') ||
     path.startsWith('$lib/utils/') ||
@@ -8,7 +8,7 @@ function shouldTransform(path) {
   );
 }
 
-export function transformImports(content) {
+export function transformImports(content: string): string {
   return content.replace(
     /from\s+["'](?:(?:\.\.\/)+(?:components|utils)\/[^"']+|\$lib\/(?:components|utils)\/[^"']+)["'];?/g,
     `from '${PACKAGE_NAME}';`

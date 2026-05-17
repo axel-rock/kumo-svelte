@@ -27,7 +27,7 @@ function getBlocksSourcePath() {
   throw new Error('Blocks source directory not found. The package may be corrupted.');
 }
 
-async function confirm(message) {
+async function confirm(message: string): Promise<boolean> {
   if (!process.stdin.isTTY) return false;
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   const answer = await rl.question(`${message} (y/n): `);
@@ -35,7 +35,7 @@ async function confirm(message) {
   return answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes';
 }
 
-export async function add(blockName) {
+export async function add(blockName?: string): Promise<void> {
   if (!blockName) {
     console.error('Error: Block name is required.');
     console.log('');

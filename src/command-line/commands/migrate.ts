@@ -1,4 +1,4 @@
-const PENDING_MIGRATIONS = {};
+const PENDING_MIGRATIONS: Record<string, string> = {};
 
 const MIGRATE_HELP = `
 Kumo Svelte token migration helper
@@ -10,8 +10,8 @@ Usage:
   kumo-svelte migrate --help      Show this help
 `;
 
-function generateClassMap() {
-  const classes = {};
+function generateClassMap(): Record<string, string> {
+  const classes: Record<string, string> = {};
   for (const [oldToken, newToken] of Object.entries(PENDING_MIGRATIONS)) {
     for (const prefix of ['bg', 'text', 'border', 'ring', 'from', 'via', 'to', 'fill', 'stroke']) {
       classes[`${prefix}-${oldToken}`] = `${prefix}-${newToken}`;
@@ -20,7 +20,7 @@ function generateClassMap() {
   return classes;
 }
 
-export function migrate(args) {
+export function migrate(args: string[]): void {
   if (args.includes('--help') || args.includes('-h')) {
     console.log(MIGRATE_HELP.trim());
     return;

@@ -1,7 +1,17 @@
 import { defineConfig } from 'mdsx';
 import { codeToHtml } from 'shiki';
 
-const languageAliases = {
+type MdsxNode = {
+  type?: string;
+  tagName?: string;
+  value?: string;
+  properties?: {
+    className?: unknown;
+  };
+  children?: MdsxNode[];
+};
+
+const languageAliases: Record<string, string> = {
   svelte: 'svelte',
   ts: 'typescript',
   tsx: 'tsx',
@@ -13,14 +23,14 @@ const languageAliases = {
   jsonc: 'jsonc'
 };
 
-function textContent(node) {
+function textContent(node: MdsxNode | undefined): string {
   if (!node) return '';
-  if (node.type === 'text') return node.value;
+  if (node.type === 'text') return node.value ?? '';
   if (!Array.isArray(node.children)) return '';
   return node.children.map(textContent).join('');
 }
 
-function escapeSvelte(html) {
+function escapeSvelte(html: string): string {
   return html.replace(/[{}`]/g, (character) => {
     if (character === '{') return '&#123;';
     if (character === '}') return '&#125;';
@@ -28,7 +38,7 @@ function escapeSvelte(html) {
   });
 }
 
-function codeLanguage(node) {
+function codeLanguage(node: MdsxNode): string {
   const code = node.children?.find((child) => child.type === 'element' && child.tagName === 'code');
   const classNames = Array.isArray(code?.properties?.className) ? code.properties.className : [];
   const languageClass = classNames.find(
@@ -39,8 +49,8 @@ function codeLanguage(node) {
 }
 
 function rehypeShikiCodeBlocks() {
-  return async (tree) => {
-    const highlights = [];
+  return async (tree: MdsxNode): Promise<void> => {
+    const highlights: Promise<void>[] = [];
 
     walk(tree, (node) => {
       if (node.tagName !== 'pre') return;
@@ -67,7 +77,7 @@ function rehypeShikiCodeBlocks() {
   };
 }
 
-function walk(node, callback) {
+function walk(node: MdsxNode, callback: (node: MdsxNode) => void): void {
   callback(node);
   if (!Array.isArray(node.children)) return;
   for (const child of node.children) {
@@ -77,6 +87,7 @@ function walk(node, callback) {
 
 export const mdsxConfig = defineConfig({
   extensions: ['.md'],
+  svelteConfigPath: false,
   blueprints: {
     default: {
       path: 'src/lib/docs/MdxPage.svelte',

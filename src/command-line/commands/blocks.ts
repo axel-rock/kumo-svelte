@@ -1,6 +1,6 @@
 import { loadRegistry } from '../utils/registry.js';
 
-export function blocks() {
+export function blocks(): void {
   const registry = loadRegistry(import.meta.url);
   const entries = Object.values(registry.blocks ?? {});
 

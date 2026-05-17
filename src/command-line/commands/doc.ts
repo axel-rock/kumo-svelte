@@ -1,6 +1,6 @@
-import { formatComponentName, loadRegistry } from '../utils/registry.js';
+import { formatComponentName, loadRegistry, type RegistryComponent } from '../utils/registry.js';
 
-function printComponent(component) {
+function printComponent(component: RegistryComponent): void {
   console.log(`# ${component.name}`);
   console.log('');
   console.log(component.description);
@@ -31,7 +31,7 @@ function printComponent(component) {
   }
 }
 
-export function doc(componentName) {
+export function doc(componentName?: string): void {
   const registry = loadRegistry(import.meta.url);
 
   if (!componentName) {

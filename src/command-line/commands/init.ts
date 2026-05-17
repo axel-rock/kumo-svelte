@@ -1,7 +1,7 @@
 import { createInterface } from 'node:readline/promises';
 import { configExists, DEFAULT_CONFIG, writeConfig } from '../utils/config.js';
 
-async function ask(question, defaultValue) {
+async function ask(question: string, defaultValue: string): Promise<string> {
   if (!process.stdin.isTTY) return defaultValue;
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   const answer = await rl.question(`${question} (${defaultValue}): `);
@@ -9,7 +9,7 @@ async function ask(question, defaultValue) {
   return answer.trim() || defaultValue;
 }
 
-export async function init() {
+export async function init(): Promise<void> {
   if (configExists()) {
     console.log('kumo.json already exists.');
     return;
