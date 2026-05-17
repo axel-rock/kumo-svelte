@@ -44,9 +44,9 @@ jobs:
         with:
           name: kumo-svelte-dist
           path: |
-            dist
-            ai
-            .svelte-kit/cloudflare
+            packages/kumo-svelte/dist
+            packages/kumo-svelte/ai
+            packages/kumo-svelte/.svelte-kit/cloudflare
           retention-days: 1
 
   lint:

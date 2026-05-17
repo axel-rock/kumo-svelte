@@ -15,7 +15,7 @@ import {
  */
 
 const KUMO_PACKAGE_NAME = "kumo-svelte";
-const KUMO_PATHS = ["src", "package.json", "pnpm-lock.yaml"];
+const KUMO_PATHS = ["packages/kumo-svelte", "pnpm-lock.yaml"];
 const CHANGESET_DIR = ".changeset";
 
 interface ChangesetFile {

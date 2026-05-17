@@ -85,15 +85,15 @@ export const CANARY_COMPONENTS = ["button", "dialog", "select"];
  */
 const FULL_REGRESSION_PATTERNS: RegExp[] = [
   // Shared styles and theming
-  /src\/lib\/styles\.css/,
-  /src\/lib\/utils\//,
-  /src\/lib\/primitives\//,
-  /src\/routes\//,
+  /packages\/kumo-svelte\/src\/lib\/styles\.css/,
+  /packages\/kumo-svelte\/src\/lib\/utils\//,
+  /packages\/kumo-svelte\/src\/lib\/primitives\//,
+  /packages\/kumo-svelte\/src\/routes\//,
   /tailwind\.config/,
 
   // Docs site infrastructure that wraps all component demos
-  /src\/lib\/docs\//,
-  /src\/app\.(css|html)/,
+  /packages\/kumo-svelte\/src\/lib\/docs\//,
+  /packages\/kumo-svelte\/src\/app\.(css|html)/,
 ];
 
 /**
@@ -108,7 +108,7 @@ const SKIP_PATTERNS: RegExp[] = [
   /\.test\.(ts|tsx)$/,
   /\.spec\.(ts|tsx)$/,
   /^ai\//,
-  /^src\/command-line\//,
+  /^packages\/kumo-svelte\/src\/command-line\//,
   /lefthook/,
   /tsconfig/,
   /\.env/,
@@ -128,20 +128,22 @@ export interface ChangeClassification {
  * Returns null if the file doesn't map to a specific component.
  *
  * Examples:
- *   src/lib/components/button/Button.svelte -> "button"
- *   src/lib/components/button/index.ts -> "button"
- *   src/routes/components/button/+page.md -> "button"
+ *   packages/kumo-svelte/src/lib/components/button/Button.svelte -> "button"
+ *   packages/kumo-svelte/src/lib/components/button/index.ts -> "button"
+ *   packages/kumo-svelte/src/routes/components/button/+page.md -> "button"
  */
 export function getComponentFromFile(filePath: string): string | null {
-  // Match any file under a component directory: src/lib/components/{name}/
+  // Match any file under a component directory: packages/kumo-svelte/src/lib/components/{name}/
   const componentMatch = filePath.match(
-    /src\/lib\/components\/([^/]+)\//,
+    /packages\/kumo-svelte\/src\/lib\/components\/([^/]+)\//,
   );
   if (componentMatch) {
     return componentMatch[1];
   }
 
-  const routeMatch = filePath.match(/src\/routes\/components\/([^/]+)\//);
+  const routeMatch = filePath.match(
+    /packages\/kumo-svelte\/src\/routes\/components\/([^/]+)\//,
+  );
   if (routeMatch) {
     return routeMatch[1];
   }

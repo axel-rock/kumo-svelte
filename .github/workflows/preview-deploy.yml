@@ -31,5 +31,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: kumo-svelte-worker
-          path: .svelte-kit/cloudflare
+          path: packages/kumo-svelte/.svelte-kit/cloudflare
           retention-days: 7

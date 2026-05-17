@@ -10,6 +10,45 @@ overrides:
 importers:
 
   .:
+    devDependencies:
+      '@changesets/cli':
+        specifier: ^2.29.7
+        version: 2.31.0(@types/node@24.12.4)
+      '@octokit/rest':
+        specifier: ^22.0.1
+        version: 22.0.1
+      '@types/node':
+        specifier: ^24.12.4
+        version: 24.12.4
+      '@types/pngjs':
+        specifier: ^6.0.5
+        version: 6.0.5
+      lefthook:
+        specifier: ^2.0.12
+        version: 2.1.6
+      oxlint:
+        specifier: 1.42.0
+        version: 1.42.0
+      pixelmatch:
+        specifier: ^7.1.0
+        version: 7.2.0
+      pngjs:
+        specifier: ^7.0.0
+        version: 7.0.0
+      prettier:
+        specifier: ^3.6.2
+        version: 3.8.3
+      prettier-plugin-tailwindcss:
+        specifier: ^0.7.1
+        version: 0.7.4(prettier@3.8.3)
+      tsx:
+        specifier: ^4.20.6
+        version: 4.22.0
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
+  packages/kumo-svelte:
     dependencies:
       '@internationalized/date':
         specifier: ^3.12.1
@@ -39,12 +78,6 @@ importers:
         specifier: ^3.6.0
         version: 3.6.0
     devDependencies:
-      '@changesets/cli':
-        specifier: ^2.29.7
-        version: 2.31.0(@types/node@24.12.4)
-      '@octokit/rest':
-        specifier: ^22.0.1
-        version: 22.0.1
       '@sveltejs/adapter-cloudflare':
         specifier: ^7.2.8
         version: 7.2.8(@sveltejs/kit@2.60.1(@sveltejs/vite-plugin-svelte@7.1.2(svelte@5.55.7)(vite@8.0.13(@types/node@24.12.4)(esbuild@0.28.0)(jiti@2.7.0)(tsx@4.22.0)(yaml@2.9.0)))(svelte@5.55.7)(typescript@6.0.3)(vite@8.0.13(@types/node@24.12.4)(esbuild@0.28.0)(jiti@2.7.0)(tsx@4.22.0)(yaml@2.9.0)))(wrangler@4.91.0(@cloudflare/workers-types@4.20260515.1))
@@ -63,30 +96,9 @@ importers:
       '@types/node':
         specifier: ^24.12.4
         version: 24.12.4
-      '@types/pngjs':
-        specifier: ^6.0.5
-        version: 6.0.5
-      lefthook:
-        specifier: ^2.0.12
-        version: 2.1.6
       mdsx:
         specifier: ^0.0.7
         version: 0.0.7(svelte@5.55.7)
-      oxlint:
-        specifier: 1.42.0
-        version: 1.42.0
-      pixelmatch:
-        specifier: ^7.1.0
-        version: 7.2.0
-      pngjs:
-        specifier: ^7.0.0
-        version: 7.0.0
-      prettier:
-        specifier: ^3.6.2
-        version: 3.8.3
-      prettier-plugin-tailwindcss:
-        specifier: ^0.7.1
-        version: 0.7.4(prettier@3.8.3)
       svelte:
         specifier: ^5.55.7
         version: 5.55.7

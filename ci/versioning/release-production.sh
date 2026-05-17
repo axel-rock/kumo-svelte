@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Configuration
 PACKAGE_NAME="${PACKAGE_NAME:-kumo-svelte}"
-PACKAGE_PATH="${PACKAGE_PATH:-.}"
+PACKAGE_PATH="${PACKAGE_PATH:-packages/kumo-svelte}"
 DRY_RUN="${DRY_RUN:-false}"
 
 if [ "$DRY_RUN" = "true" ]; then

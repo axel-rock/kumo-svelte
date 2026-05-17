@@ -1,104 +1,42 @@
 {
-  "name": "kumo-svelte",
-  "version": "0.1.0",
-  "description": "Svelte port of Cloudflare's Kumo UI library using bits-ui primitives.",
+  "name": "kumo-svelte-workspace",
+  "private": true,
   "type": "module",
   "packageManager": "pnpm@11.1.1",
-  "license": "Apache-2.0",
-  "bin": {
-    "kumo-svelte": "./dist/command-line/cli.js"
-  },
-  "sideEffects": [
-    "**/*.css"
-  ],
-  "files": [
-    "ai",
-    "dist",
-    "src"
-  ],
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "svelte": "./dist/index.js",
-      "default": "./dist/index.js"
-    },
-    "./styles.css": "./dist/styles.css",
-    "./ai/component-registry.json": {
-      "default": "./ai/component-registry.json"
-    },
-    "./registry/component-registry.json": "./ai/component-registry.json",
-    "./components/*": {
-      "types": "./dist/components/*/index.d.ts",
-      "svelte": "./dist/components/*/index.js",
-      "default": "./dist/components/*/index.js"
-    },
-    "./primitives": {
-      "types": "./dist/primitives.d.ts",
-      "svelte": "./dist/primitives.js",
-      "default": "./dist/primitives.js"
-    }
-  },
   "scripts": {
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "build:cli": "tsc -p tsconfig.cli.json",
-    "package": "svelte-package",
-    "build": "pnpm check && pnpm package && pnpm build:cli && vite build",
-    "build:all": "pnpm build",
+    "build": "pnpm --filter kumo-svelte build",
+    "build:all": "pnpm -r build",
     "changeset": "tsx ci/scripts/ensure-changeset-config.ts && changeset",
-    "deploy": "pnpm build && wrangler deploy",
+    "check": "pnpm --filter kumo-svelte check",
+    "deploy": "pnpm --filter kumo-svelte deploy",
     "deploy:kumo-docs-preview": "bash ci/versioning/deploy-kumo-docs-preview.sh",
     "deploy:kumo-docs-staging": "bash ci/versioning/deploy-kumo-docs-staging.sh",
-    "dev": "vite dev",
+    "dev": "pnpm --filter kumo-svelte dev",
     "format": "prettier --write \"**/*.{ts,js,json,md,css,svelte}\"",
     "lint": "oxlint --config .oxlintrc.json ci tools lint",
     "lockfile-check": "pnpm install --no-frozen-lockfile && git diff --exit-code pnpm-lock.yaml",
-    "preview": "vite preview",
+    "preview": "pnpm --filter kumo-svelte preview",
     "publish:beta": "bash ci/versioning/publish-beta.sh",
     "release": "pnpm build:all && changeset publish",
     "release:beta": "changeset publish --no-git-tag --tag beta",
-    "typecheck": "pnpm check",
+    "typecheck": "pnpm --filter kumo-svelte typecheck",
     "version": "changeset version",
     "version:beta": "bash ci/versioning/version-beta.sh",
     "ci:post-pr-report": "tsx ci/scripts/post-pr-report.ts",
     "test:tools": "node --test --import tsx tools/deployments/validate-pr-description.test.ts"
   },
-  "peerDependencies": {
-    "svelte": "^5.55.7"
-  },
-  "dependencies": {
-    "@internationalized/date": "^3.12.1",
-    "bits-ui": "^2.18.1",
-    "clsx": "^2.1.1",
-    "echarts": "^6.0.0",
-    "esm-env": "^1.2.2",
-    "phosphor-svelte": "^3.1.0",
-    "shiki": "^4.0.2",
-    "svelte-sonner": "^1.1.1",
-    "tailwind-merge": "^3.6.0"
-  },
   "devDependencies": {
     "@changesets/cli": "^2.29.7",
     "@octokit/rest": "^22.0.1",
-    "@sveltejs/adapter-cloudflare": "^7.2.8",
-    "@sveltejs/kit": "^2.60.1",
-    "@sveltejs/package": "^2.5.7",
-    "@sveltejs/vite-plugin-svelte": "^7.1.2",
-    "@tailwindcss/vite": "^4.3.0",
     "@types/node": "^24.12.4",
     "@types/pngjs": "^6.0.5",
     "lefthook": "^2.0.12",
-    "mdsx": "^0.0.7",
     "oxlint": "1.42.0",
     "pixelmatch": "^7.1.0",
     "pngjs": "^7.0.0",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
-    "svelte": "^5.55.7",
-    "svelte-check": "^4.4.8",
-    "tailwindcss": "^4.3.0",
     "tsx": "^4.20.6",
-    "typescript": "^6.0.3",
-    "vite": "^8.0.13",
-    "wrangler": "^4.91.0"
+    "typescript": "^6.0.3"
   }
 }

@@ -11,7 +11,7 @@
  *
  * Usage:
  *   node lint/lint-astro-colors.js [directory]
- *   node lint/lint-astro-colors.js src
+ *   node lint/lint-astro-colors.js packages/kumo-svelte/src
  *
  * Exit codes:
  *   0 - No issues found
@@ -132,7 +132,7 @@ const TEXT_COLOR_PREFIXES = new Set(["text"]);
 
 function parseKumoSemanticColors() {
   const themeFiles = [
-    resolve(__dirname, "../src/lib/styles.css"),
+    resolve(__dirname, "../packages/kumo-svelte/src/lib/styles.css"),
   ];
 
   const colorTokens = new Set();
@@ -364,7 +364,7 @@ function findAstroFiles(dir) {
 
 function main() {
   const args = process.argv.slice(2);
-  const targetDir = args[0] || "src";
+  const targetDir = args[0] || "packages/kumo-svelte/src";
   const rootDir = resolve(__dirname, "..");
   // Resolve relative to cwd if provided, otherwise relative to repo root
   const absoluteTarget = args[0]

@@ -9,4 +9,4 @@ package-lock.json
 build/
 output/
 .pnpm-store/
-src/blocks/**/*.d.ts
+packages/kumo-svelte/src/blocks/**/*.d.ts

@@ -16,6 +16,6 @@ echo "Building kumo-svelte..."
 pnpm build
 
 echo "Deploying to staging..."
-pnpm exec wrangler deploy --env staging
+pnpm --filter kumo-svelte exec wrangler deploy --env staging
 
 echo "Kumo Svelte staging deployment complete!"

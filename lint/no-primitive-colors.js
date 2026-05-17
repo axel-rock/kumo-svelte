@@ -120,7 +120,7 @@ const NON_COLOR_PATTERNS = [
 // This ensures the allowlist stays in sync with the theme files.
 function parseKumoSemanticColors() {
   const themeFiles = [
-    resolve(__dirname, "../src/lib/styles.css"),
+    resolve(__dirname, "../packages/kumo-svelte/src/lib/styles.css"),
   ];
 
   const colorTokens = new Set();

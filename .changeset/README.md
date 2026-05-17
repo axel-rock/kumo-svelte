@@ -6,7 +6,7 @@ This repo uses [Changesets](https://github.com/changesets/changesets) to manage 
 
 | Package source                          | Changeset Required?            | Why                               |
 | --------------------------------------- | ------------------------------ | --------------------------------- |
-| `src/`, `package.json`, `pnpm-lock.yaml` | **Yes** (enforced by pre-push) | Published to npm as `kumo-svelte` |
+| `packages/kumo-svelte/`, `pnpm-lock.yaml` | **Yes** (enforced by pre-push) | Published to npm as `kumo-svelte` |
 
 The pre-push hook (`lefthook.yml`) **only enforces** changesets for package source changes.
 

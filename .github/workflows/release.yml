@@ -50,4 +50,4 @@ jobs:
       # (GITHUB_TOKEN PRs don't trigger workflows, so we do it here)
       - name: Publish package preview
         if: ${{ steps.changesets.outputs.pullRequestNumber }}
-        run: pnpm dlx pkg-pr-new publish --pnpm --compact --no-template .
+        run: pnpm dlx pkg-pr-new publish --pnpm --compact --no-template ./packages/kumo-svelte

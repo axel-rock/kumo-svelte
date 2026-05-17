@@ -11,7 +11,7 @@ export interface GitRefs {
 }
 
 export interface ChangedFilesOptions {
-  /** Base directory to filter files by (e.g., 'src') */
+  /** Base directory to filter files by (e.g., 'packages/kumo-svelte/src') */
   filterPath?: string;
   /** Working directory for git commands */
   cwd?: string;
@@ -258,4 +258,3 @@ export function logPullRequestContext(): void {
     console.log("Detected PR context: Manual validation override");
   }
 }
-

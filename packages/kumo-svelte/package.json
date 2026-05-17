@@ -1,0 +1,91 @@
+{
+  "name": "kumo-svelte",
+  "version": "0.1.0-beta.0",
+  "description": "Svelte port of Cloudflare's Kumo UI library using bits-ui primitives.",
+  "type": "module",
+  "packageManager": "pnpm@11.1.1",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "tag": "beta"
+  },
+  "bin": {
+    "kumo-svelte": "./dist/command-line/cli.js"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "ai",
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./ai/component-registry.json": {
+      "default": "./ai/component-registry.json"
+    },
+    "./registry/component-registry.json": "./ai/component-registry.json",
+    "./components/*": {
+      "types": "./dist/components/*/index.d.ts",
+      "svelte": "./dist/components/*/index.js",
+      "default": "./dist/components/*/index.js"
+    },
+    "./primitives": {
+      "types": "./dist/primitives.d.ts",
+      "svelte": "./dist/primitives.js",
+      "default": "./dist/primitives.js"
+    }
+  },
+  "scripts": {
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "build:cli": "tsc -p tsconfig.cli.json",
+    "package": "svelte-package",
+    "build": "pnpm check && pnpm package && pnpm build:cli && vite build",
+    "deploy": "pnpm build && wrangler deploy",
+    "dev": "vite dev",
+    "preview": "vite preview",
+    "typecheck": "pnpm check"
+  },
+  "peerDependencies": {
+    "@sveltejs/kit": "^2.60.1",
+    "svelte": "^5.55.7"
+  },
+  "peerDependenciesMeta": {
+    "@sveltejs/kit": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@internationalized/date": "^3.12.1",
+    "bits-ui": "^2.18.1",
+    "clsx": "^2.1.1",
+    "echarts": "^6.0.0",
+    "esm-env": "^1.2.2",
+    "phosphor-svelte": "^3.1.0",
+    "shiki": "^4.0.2",
+    "svelte-sonner": "^1.1.1",
+    "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-cloudflare": "^7.2.8",
+    "@sveltejs/kit": "^2.60.1",
+    "@sveltejs/package": "^2.5.7",
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/node": "^24.12.4",
+    "mdsx": "^0.0.7",
+    "svelte": "^5.55.7",
+    "svelte-check": "^4.4.8",
+    "tailwindcss": "^4.3.0",
+    "tsx": "^4.20.6",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.13",
+    "wrangler": "^4.91.0"
+  }
+}
