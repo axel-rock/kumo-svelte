@@ -13,16 +13,7 @@
 
     let { title, githubSourceUrl = null, bitsUIUrl = null }: Props = $props();
 
-    function toUpstreamSourceUrl(url: string | null) {
-        if (!url) return null;
-
-        const sourcePath = url.match(/\/src\/lib\/(.+)$/)?.[1];
-        if (!sourcePath) return url;
-
-        return `https://github.com/cloudflare/kumo/blob/main/packages/kumo/src/${sourcePath.replace(/\.svelte$/, ".tsx")}`;
-    }
-
-    const safeGithubSourceUrl = $derived(toUpstreamSourceUrl(githubSourceUrl));
+    const safeGithubSourceUrl = $derived(githubSourceUrl);
     let showStickyTitle = $state(false);
     let sidebarOpen = $state(true);
     let headerRef: HTMLElement;

@@ -40,20 +40,18 @@
   const githubSourceUrl = $derived(
     sourceFile
       ? (() => {
-          const base = 'https://github.com/cloudflare/kumo/blob/main/packages/kumo/src/';
+          const repo = 'https://github.com/maxffarrell/kumo-svelte';
           const sourceMap: Record<string, string> = {
-            'components/code-highlighted': 'code/code-highlighted.tsx',
-            'components/flow': 'components/flow/diagram.tsx',
-            'components/input-area': 'components/input/input-area.tsx',
-            'components/skeleton-line': 'components/loader/skeleton-line.tsx',
-            'components/chart': 'components/chart/EChart.tsx',
+            'components/dropdown': 'components/dropdown-menu',
+            'components/menubar': 'components/menu-bar',
+            'components/toast': 'components/toasty',
             'components/chart/Color.ts': 'components/chart/Color.ts',
-            'primitives/skeleton-line': 'components/loader/skeleton-line.tsx'
+            'primitives/skeleton-line': 'components/loader'
           };
-          if (sourceMap[sourceFile]) return `${base}${sourceMap[sourceFile]}`;
-          if (/\.\w+$/.test(sourceFile)) return `${base}${sourceFile}`;
-          const sourceName = sourceFile.split('/').pop();
-          return `${base}${sourceFile}/${sourceName}.tsx`;
+          const sourcePath = sourceMap[sourceFile] ?? sourceFile;
+          if (sourcePath.startsWith('blocks/')) return `${repo}/tree/main/src/${sourcePath}`;
+          if (/\.\w+$/.test(sourceFile)) return `${repo}/blob/main/src/lib/${sourcePath}`;
+          return `${repo}/tree/main/src/lib/${sourcePath}`;
         })()
       : null
   );

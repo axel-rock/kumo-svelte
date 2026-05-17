@@ -44,10 +44,10 @@ Recommended local setup:
 
 ### Repository Access and Branching
 
-Internal contributors normally clone and push directly to `cloudflare/kumo`:
+Internal contributors normally clone and push directly to `maxffarrell/kumo-svelte`:
 
 ```bash
-git clone https://github.com/cloudflare/kumo.git
+git clone https://github.com/maxffarrell/kumo-svelte.git
 git switch -c <branch-name>
 git push -u origin <branch-name>
 ```
