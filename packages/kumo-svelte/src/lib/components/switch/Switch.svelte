@@ -34,6 +34,7 @@
 <script lang="ts">
   import { Switch as SwitchPrimitive } from 'bits-ui';
   import type { Snippet } from 'svelte';
+  import { Info } from 'phosphor-svelte';
   import { cn } from '$lib/utils/cn';
 
   interface Props {
@@ -43,6 +44,7 @@
     size?: SwitchSize;
     variant?: SwitchVariant;
     label?: string;
+    labelTooltip?: string | Snippet;
     required?: boolean;
     controlFirst?: boolean;
     transitioning?: boolean;
@@ -61,6 +63,7 @@
     size = 'base',
     variant = 'default',
     label,
+    labelTooltip,
     required,
     controlFirst = true,
     transitioning,
@@ -123,6 +126,12 @@
     <label for={controlId} class={cn('text-base font-medium text-kumo-default', disabled ? 'cursor-not-allowed' : 'cursor-pointer')}>
       {#if label}{label}{:else}{@render children?.()}{/if}
       {#if required}<span class="ml-1 text-kumo-danger">*</span>{/if}
+      {#if labelTooltip}
+        <span class="ml-1 inline-flex text-kumo-muted" title={typeof labelTooltip === 'string' ? labelTooltip : undefined}>
+          <Info class="size-3.5" aria-hidden="true" />
+          {#if typeof labelTooltip === 'function'}<span class="sr-only">{@render labelTooltip()}</span>{/if}
+        </span>
+      {/if}
     </label>
   </span>
 {:else}

@@ -46,6 +46,7 @@
 
   interface Props extends KumoEmptyVariantsProps {
     children?: Snippet;
+    contents?: Snippet;
     class?: string;
     icon?: Snippet;
     title: string;
@@ -56,6 +57,7 @@
 
   let {
     children,
+    contents,
     class: className,
     icon,
     title,
@@ -120,5 +122,9 @@
     </div>
   {/if}
 
-  {@render children?.()}
+  {#if contents}
+    {@render contents()}
+  {:else}
+    {@render children?.()}
+  {/if}
 </div>

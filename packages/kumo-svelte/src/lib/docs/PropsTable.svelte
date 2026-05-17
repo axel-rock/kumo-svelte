@@ -14,241 +14,5120 @@
 
   let { component, sourceFile }: Props = $props();
 
-  const classRow: PropRow = {
-    prop: 'class',
-    type: 'string',
-    default: '-',
-    description: 'Additional classes applied to the root element.'
-  };
-  const childrenRow: PropRow = {
-    prop: 'children',
-    type: 'Snippet',
-    default: '-',
-    description: 'Custom child content rendered inside the component.'
-  };
-  const restRow: PropRow = {
-    prop: '...rest',
-    type: 'Record<string, unknown>',
-    default: '-',
-    description: 'Additional attributes are forwarded to the underlying element or primitive.'
-  };
-  const commonRows: PropRow[] = [classRow, childrenRow, restRow];
-  const fieldRows: PropRow[] = [
-    { prop: 'label', type: 'string | Snippet', default: '-', description: 'Label rendered with the control.' },
-    { prop: 'labelTooltip', type: 'string | Snippet', default: '-', description: 'Optional help content for the label.' },
-    { prop: 'description', type: 'string', default: '-', description: 'Help text rendered below the control.' },
-    { prop: 'error', type: 'string | FieldError', default: '-', description: 'Validation message or validity-state matcher.' },
-    { prop: 'required', type: 'boolean', default: '-', description: 'Marks the field as required or optional.' }
-  ];
-  const popupRows: PropRow[] = [
-    childrenRow,
-    classRow,
-    { prop: 'sideOffset', type: 'number', default: '8', description: 'Distance between trigger and popup content.' },
-    { prop: 'side', type: "'top' | 'right' | 'bottom' | 'left'", default: '-', description: 'Preferred popup side.' },
-    { prop: 'align', type: "'start' | 'center' | 'end'", default: '-', description: 'Popup alignment relative to the trigger.' },
-    restRow
-  ];
-
   const rowsByComponent: Record<string, PropRow[]> = {
-    Button: [
-      { prop: 'variant', type: "'primary' | 'secondary' | 'ghost' | 'destructive' | 'secondary-destructive' | 'outline'", default: "'secondary'", description: 'Visual treatment for the button.' },
-      { prop: 'size', type: "'xs' | 'sm' | 'base' | 'lg'", default: "'base'", description: 'Button height and text size.' },
-      { prop: 'shape', type: "'base' | 'square' | 'circle'", default: "'base'", description: 'Standard, square icon, or circular icon button shape.' },
-      { prop: 'icon', type: 'Component', default: '-', description: 'Optional leading icon component.' },
-      { prop: 'href', type: 'string', default: '-', description: 'Renders the button as a link when provided.' },
-      { prop: 'external', type: 'boolean', default: 'false', description: 'Adds external-link target and rel attributes.' },
-      { prop: 'loading', type: 'boolean', default: 'false', description: 'Shows the loading state and disables interaction.' },
-      { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables the button.' },
-      ...commonRows
+    "Button": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "icon",
+        "type": "Component",
+        "required": false,
+        "description": "Icon rendered by the component."
+      },
+      {
+        "prop": "href",
+        "type": "string",
+        "required": false,
+        "description": "Destination URL."
+      },
+      {
+        "prop": "external",
+        "type": "boolean",
+        "required": false,
+        "description": "Opens links in a new tab with safe rel attributes."
+      },
+      {
+        "prop": "type",
+        "type": "'button' | 'submit' | 'reset'",
+        "required": false,
+        "description": "Element or semantic type."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "shape",
+        "type": "Shape",
+        "required": false,
+        "description": "Shape preset."
+      },
+      {
+        "prop": "size",
+        "type": "Size",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "variant",
+        "type": "Variant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Loading state."
+      },
+      {
+        "prop": "title",
+        "type": "string",
+        "required": false,
+        "description": "Title content."
+      }
     ],
-    Badge: [
-      { prop: 'variant', type: "'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'destructive' | 'info' | 'beta' | 'outline' | 'red' | 'green' | 'neutral' | 'orange' | 'purple' | 'teal' | 'teal-subtle' | 'blue'", default: "'primary'", description: 'Badge color and emphasis.' },
-      ...commonRows
+    "LinkButton": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "icon",
+        "type": "Component",
+        "required": false,
+        "description": "Icon rendered by the component."
+      },
+      {
+        "prop": "href",
+        "type": "string",
+        "required": false,
+        "description": "Destination URL."
+      },
+      {
+        "prop": "external",
+        "type": "boolean",
+        "required": false,
+        "description": "Opens links in a new tab with safe rel attributes."
+      },
+      {
+        "prop": "linksExternal",
+        "type": "boolean",
+        "required": false,
+        "description": "Treats links as external."
+      },
+      {
+        "prop": "shape",
+        "type": "'base' | 'square' | 'circle'",
+        "required": false,
+        "description": "Shape preset."
+      },
+      {
+        "prop": "size",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "variant",
+        "type": "'primary' | 'secondary' | 'ghost' | 'destructive' | 'secondary-destructive' | 'outline'",
+        "required": false,
+        "description": "Visual variant."
+      }
     ],
-    Banner: [
-      { prop: 'variant', type: "'default' | 'alert' | 'error'", default: "'default'", description: 'Semantic banner treatment.' },
-      { prop: 'title', type: 'string', default: '-', description: 'Optional heading text.' },
-      { prop: 'description', type: 'string | Snippet', default: '-', description: 'Supporting message content.' },
-      { prop: 'icon', type: 'Component', default: '-', description: 'Optional leading icon.' },
-      { prop: 'action', type: 'Snippet', default: '-', description: 'Optional action area.' },
-      ...commonRows
+    "Badge": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "variant",
+        "type": "BadgeVariant",
+        "required": false,
+        "description": "Visual variant."
+      }
     ],
-    Grid: [
-      { prop: 'variant', type: "'2up' | 'side-by-side' | '2-1' | '1-2' | '1-3up' | '3up' | '4up' | '6up' | '1-2-4up'", default: '-', description: 'Responsive column layout.' },
-      { prop: 'gap', type: "'none' | 'sm' | 'base' | 'lg'", default: "'base'", description: 'Grid gap scale.' },
-      { prop: 'mobileDivider', type: 'boolean', default: 'false', description: 'Adds mobile dividers for dense grid layouts.' },
-      ...commonRows
+    "Banner": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "action",
+        "type": "Snippet",
+        "required": false,
+        "description": "Action snippet rendered with the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "icon",
+        "type": "Component",
+        "required": false,
+        "description": "Icon rendered by the component."
+      },
+      {
+        "prop": "variant",
+        "type": "Variant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "title",
+        "type": "string",
+        "required": false,
+        "description": "Title content."
+      },
+      {
+        "prop": "description",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "text",
+        "type": "string",
+        "required": false,
+        "description": "Text content."
+      }
     ],
-    Input: [
-      { prop: 'size', type: "'xs' | 'sm' | 'base' | 'lg'", default: "'base'", description: 'Input height and text size.' },
-      { prop: 'variant', type: "'default' | 'error'", default: 'auto', description: 'Input validation styling.' },
-      { prop: 'invalid', type: 'boolean', default: 'false', description: 'Marks the input as invalid for styling and accessibility.' },
-      { prop: 'value', type: 'string | number', default: "''", description: 'Bindable input value.' },
-      { prop: 'onValueChange', type: '(value: string) => void', default: '-', description: 'Called whenever the value changes.' },
-      ...fieldRows,
-      ...commonRows
+    "Grid": [
+      {
+        "prop": "gap",
+        "type": "KumoGridGap",
+        "required": false,
+        "description": "Grid gap scale."
+      },
+      {
+        "prop": "variant",
+        "type": "KumoGridVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "mobileDivider",
+        "type": "boolean",
+        "required": false,
+        "description": "Adds mobile dividers for dense grid layouts."
+      }
     ],
-    InputArea: [
-      { prop: 'size', type: "'sm' | 'base' | 'lg'", default: "'base'", description: 'Textarea size preset.' },
-      { prop: 'variant', type: "'default' | 'error'", default: 'auto', description: 'Textarea validation styling.' },
-      { prop: 'value', type: 'string', default: "''", description: 'Bindable textarea value.' },
-      ...fieldRows,
-      ...commonRows
+    "Grid.Item": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
     ],
-    Select: [
-      { prop: 'options', type: '{ label: string; value: string }[]', default: '[]', description: 'Options displayed in the select content.' },
-      { prop: 'value', type: 'string | string[]', default: '-', description: 'Bindable selected option value.' },
-      { prop: 'placeholder', type: 'string', default: '-', description: 'Text shown before a value is selected.' },
-      { prop: 'multiple', type: 'boolean', default: 'false', description: 'Allows multiple selections.' },
-      { prop: 'size', type: "'xs' | 'sm' | 'base' | 'lg'", default: "'base'", description: 'Trigger size preset.' },
-      { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables the trigger and option selection.' },
-      ...fieldRows,
-      ...commonRows
+    "Input": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "size",
+        "type": "Size",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "variant",
+        "type": "Variant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "invalid",
+        "type": "boolean",
+        "required": false,
+        "description": "Forces invalid styling and ARIA state."
+      },
+      {
+        "prop": "label",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "labelTooltip",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Optional help content for the label."
+      },
+      {
+        "prop": "description",
+        "type": "string",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "error",
+        "type": "FieldError",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "passwordManagerIgnore",
+        "type": "boolean",
+        "required": false,
+        "description": "Adds password-manager ignore attributes."
+      },
+      {
+        "prop": "value",
+        "type": "string | number",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "prop": "oninput",
+        "type": "(event: Event) => void",
+        "required": false,
+        "description": "Input event handler."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "id",
+        "type": "string",
+        "required": false,
+        "description": "Element id."
+      }
     ],
-    'Select.Option': [
-      { prop: 'value', type: 'string', default: '-', description: 'Option value submitted when selected.' },
-      childrenRow,
-      restRow
+    "InputArea": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "size",
+        "type": "Size",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "variant",
+        "type": "Variant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "invalid",
+        "type": "boolean",
+        "required": false,
+        "description": "Forces invalid styling and ARIA state."
+      },
+      {
+        "prop": "label",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "labelTooltip",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Optional help content for the label."
+      },
+      {
+        "prop": "description",
+        "type": "string",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "error",
+        "type": "FieldError",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "prop": "oninput",
+        "type": "(event: Event) => void",
+        "required": false,
+        "description": "Input event handler."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "id",
+        "type": "string",
+        "required": false,
+        "description": "Element id."
+      }
     ],
-    Dialog: [
-      { prop: 'trigger', type: 'Snippet<[props]>', default: '-', description: 'Trigger snippet used to open the dialog.' },
-      { prop: 'title', type: 'string', default: '-', description: 'Accessible dialog title.' },
-      { prop: 'description', type: 'string', default: '-', description: 'Accessible dialog description.' },
-      { prop: 'open', type: 'boolean', default: 'false', description: 'Controlled open state.' },
-      { prop: 'size', type: "'sm' | 'base' | 'lg' | 'xl'", default: "'base'", description: 'Dialog width preset.' },
-      { prop: 'role', type: "'dialog' | 'alertdialog'", default: "'dialog'", description: 'Dialog semantics.' },
-      ...commonRows
+    "Textarea": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "size",
+        "type": "Size",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "variant",
+        "type": "Variant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "invalid",
+        "type": "boolean",
+        "required": false,
+        "description": "Forces invalid styling and ARIA state."
+      },
+      {
+        "prop": "label",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "labelTooltip",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Optional help content for the label."
+      },
+      {
+        "prop": "description",
+        "type": "string",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "error",
+        "type": "FieldError",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "prop": "oninput",
+        "type": "(event: Event) => void",
+        "required": false,
+        "description": "Input event handler."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "id",
+        "type": "string",
+        "required": false,
+        "description": "Element id."
+      }
     ],
-    'Dialog.Root': [childrenRow, { prop: 'open', type: 'boolean', default: 'false', description: 'Controlled open state.' }, restRow],
-    'Dialog.Trigger': [childrenRow, restRow],
-    'Dialog.Title': [childrenRow, classRow, restRow],
-    'Dialog.Description': [childrenRow, classRow, restRow],
-    'Dialog.Close': [childrenRow, restRow],
-    DropdownMenu: [
-      { prop: 'open', type: 'boolean', default: 'false', description: 'Controlled menu open state.' },
-      { prop: 'onOpenChange', type: '(open: boolean) => void', default: '-', description: 'Called when the menu open state changes.' },
-      childrenRow,
-      restRow
+    "Select": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "options",
+        "type": "Option[]",
+        "required": false,
+        "description": "Options rendered by the component."
+      },
+      {
+        "prop": "items",
+        "type": "Items",
+        "required": false,
+        "description": "Items rendered by the component."
+      },
+      {
+        "prop": "value",
+        "type": "Value",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "defaultValue",
+        "type": "Value",
+        "required": false,
+        "description": "Initial uncontrolled value."
+      },
+      {
+        "prop": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "Placeholder text."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Loading state."
+      },
+      {
+        "prop": "multiple",
+        "type": "boolean",
+        "required": false,
+        "description": "Enables multiple selection."
+      },
+      {
+        "prop": "size",
+        "type": "Size",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "label",
+        "type": "string",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "hideLabel",
+        "type": "boolean",
+        "required": false,
+        "description": "hideLabel prop."
+      },
+      {
+        "prop": "labelTooltip",
+        "type": "string",
+        "required": false,
+        "description": "Optional help content for the label."
+      },
+      {
+        "prop": "description",
+        "type": "string",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "error",
+        "type": "string | { message?: string }",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "name",
+        "type": "string",
+        "required": false,
+        "description": "Form field name."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "renderValue",
+        "type": "(value: Value) => unknown",
+        "required": false,
+        "description": "Custom selected-value renderer."
+      }
     ],
-    'DropdownMenu.Trigger': [childrenRow, { prop: 'child', type: 'Snippet<[{ props: Record<string, unknown> }]>', default: '-', description: 'Custom render function for the trigger element.' }, classRow, restRow],
-    'DropdownMenu.Content': popupRows,
-    'DropdownMenu.SubContent': popupRows,
-    'DropdownMenu.Item': [
-      childrenRow,
-      classRow,
-      { prop: 'inset', type: 'boolean', default: 'false', description: 'Indents the item to align with checkable menu items.' },
-      { prop: 'icon', type: 'Component', default: '-', description: 'Optional leading icon.' },
-      { prop: 'selected', type: 'boolean', default: 'false', description: 'Shows a check indicator at the end of the item.' },
-      { prop: 'variant', type: "'default' | 'danger'", default: "'default'", description: 'Item treatment.' },
-      { prop: 'href', type: 'string', default: '-', description: 'Renders the menu item as a link.' },
-      { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables the menu item.' },
-      restRow
+    "Dialog": [
+      {
+        "prop": "trigger",
+        "type": "Snippet<[Record<string, unknown>]>",
+        "required": false,
+        "description": "trigger prop."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "title",
+        "type": "string",
+        "required": false,
+        "description": "Title content."
+      },
+      {
+        "prop": "description",
+        "type": "string",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "prop": "size",
+        "type": "DialogSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "role",
+        "type": "DialogRole",
+        "required": false,
+        "description": "role prop."
+      },
+      {
+        "prop": "disablePointerDismissal",
+        "type": "boolean",
+        "required": false,
+        "description": "disablePointerDismissal prop."
+      },
+      {
+        "prop": "style",
+        "type": "string",
+        "required": false,
+        "description": "Inline style string."
+      }
     ],
-    'DropdownMenu.LinkItem': [childrenRow, { prop: 'href', type: 'string', default: '-', description: 'Destination URL.' }, classRow, restRow],
-    'DropdownMenu.CheckboxItem': [childrenRow, { prop: 'checked', type: 'boolean', default: 'false', description: 'Bindable checked state.' }, { prop: 'onCheckedChange', type: '(checked: boolean) => void', default: '-', description: 'Called when checked changes.' }, classRow, restRow],
-    'DropdownMenu.Sub': [childrenRow, { prop: 'open', type: 'boolean', default: 'false', description: 'Controlled submenu open state.' }, restRow],
-    'DropdownMenu.SubTrigger': [childrenRow, { prop: 'inset', type: 'boolean', default: 'false', description: 'Indents the item.' }, { prop: 'icon', type: 'Component', default: '-', description: 'Optional leading icon.' }, classRow, restRow],
-    'DropdownMenu.Separator': [classRow, restRow],
-    'DropdownMenu.RadioGroup': [childrenRow, { prop: 'value', type: 'string', default: '-', description: 'Selected radio item value.' }, restRow],
-    'DropdownMenu.RadioItem': [childrenRow, { prop: 'value', type: 'string', default: '-', description: 'Radio item value.' }, classRow, restRow],
-    'DropdownMenu.RadioItemIndicator': [childrenRow, classRow, restRow],
-    Tooltip: [
-      { prop: 'trigger', type: 'Snippet<[props]>', default: '-', description: 'Trigger snippet used to anchor the tooltip.' },
-      { prop: 'content', type: 'string', default: '-', description: 'Tooltip text content.' },
-      { prop: 'open', type: 'boolean', default: 'false', description: 'Controlled open state.' },
-      { prop: 'side', type: "'top' | 'bottom' | 'left' | 'right'", default: "'top'", description: 'Preferred tooltip side.' },
-      { prop: 'delay', type: 'number', default: '600', description: 'Delay before opening in milliseconds.' },
-      ...commonRows
+    "DropdownMenu": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "prop": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when open state changes."
+      }
     ],
-    Tabs: [{ prop: 'items', type: '{ value: string; label: string }[]', default: '[]', description: 'Tabs rendered by the component.' }, { prop: 'value', type: 'string', default: '-', description: 'Current selected tab value.' }, ...commonRows],
-    Radio: [{ prop: 'value', type: 'string', default: '-', description: 'Current selected radio value.' }, { prop: 'defaultValue', type: 'string', default: '-', description: 'Initial selected radio value.' }, { prop: 'legend', type: 'string', default: '-', description: 'Accessible group legend.' }, ...commonRows],
-    Checkbox: [{ prop: 'checked', type: 'boolean', default: 'false', description: 'Checked state.' }, { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables the checkbox.' }, ...fieldRows, ...commonRows],
-    'Checkbox.Group': [childrenRow, { prop: 'legend', type: 'string | Snippet', default: '-', description: 'Accessible group legend.' }, { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables all child checkboxes.' }, classRow],
-    'Checkbox.Legend': [childrenRow, classRow],
-    'Checkbox.Item': [{ prop: 'checked', type: 'boolean', default: 'false', description: 'Bindable checked state.' }, { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables the item.' }, { prop: 'label', type: 'string | Snippet', default: '-', description: 'Item label.' }, classRow],
-    'Radio.Group': [childrenRow, { prop: 'value', type: 'string', default: '-', description: 'Bindable selected value.' }, { prop: 'defaultValue', type: 'string', default: '-', description: 'Initial selected value.' }, { prop: 'legend', type: 'string | Snippet', default: '-', description: 'Accessible group legend.' }, classRow],
-    'Radio.Legend': [childrenRow, classRow],
-    'Radio.Item': [{ prop: 'value', type: 'string', default: '-', description: 'Radio item value.' }, { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables the item.' }, { prop: 'label', type: 'string | Snippet', default: '-', description: 'Item label.' }, classRow],
-    Switch: [{ prop: 'checked', type: 'boolean', default: 'false', description: 'Bindable checked state.' }, { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables the switch.' }, { prop: 'size', type: "'sm' | 'base' | 'lg'", default: "'base'", description: 'Switch size preset.' }, ...fieldRows, ...commonRows],
-    'Switch.Group': [childrenRow, { prop: 'legend', type: 'string | Snippet', default: '-', description: 'Accessible group legend.' }, { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables all child switches.' }, classRow],
-    'Switch.Legend': [childrenRow, classRow],
-    'Switch.Item': [{ prop: 'checked', type: 'boolean', default: 'false', description: 'Bindable checked state.' }, { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables the item.' }, { prop: 'label', type: 'string | Snippet', default: '-', description: 'Item label.' }, classRow],
-    Table: [{ prop: 'children', type: 'Snippet', default: '-', description: 'Table sections and rows.' }, { prop: 'layout', type: "'auto' | 'fixed'", default: "'auto'", description: 'Table layout strategy.' }, classRow, restRow],
-    'Table.Row': [childrenRow, { prop: 'variant', type: "'default' | 'selected'", default: "'default'", description: 'Row treatment.' }, classRow, restRow],
-    'Table.CheckHead': [{ prop: 'checked', type: 'boolean', default: 'false', description: 'Bindable checked state.' }, classRow, restRow],
-    'Table.CheckCell': [{ prop: 'checked', type: 'boolean', default: 'false', description: 'Bindable checked state.' }, classRow, restRow],
-    DatePicker: [{ prop: 'value', type: 'string', default: "''", description: 'Bindable date value in yyyy-mm-dd format.' }, classRow, restRow],
-    DateRangePicker: [{ prop: 'start', type: 'string', default: "''", description: 'Bindable start date.' }, { prop: 'end', type: 'string', default: "''", description: 'Bindable end date.' }, classRow, restRow],
-    Chart: [{ prop: 'echarts', type: 'typeof import("echarts")', default: '-', description: 'ECharts module instance.' }, { prop: 'options', type: 'KumoChartOption', default: '-', description: 'ECharts options.' }, { prop: 'height', type: 'number', default: '350', description: 'Chart height in pixels.' }, { prop: 'isDarkMode', type: 'boolean', default: 'false', description: 'Uses dark chart palette.' }, classRow],
-    TimeseriesChart: [{ prop: 'echarts', type: 'typeof import("echarts")', default: '-', description: 'ECharts module instance.' }, { prop: 'data', type: '{ name: string; data: [number, number][]; color: string }[]', default: '-', description: 'Named time series data.' }, { prop: 'type', type: "'line' | 'bar'", default: "'line'", description: 'Series rendering mode.' }, { prop: 'height', type: 'number', default: '350', description: 'Chart height in pixels.' }, { prop: 'gradient', type: 'boolean', default: 'false', description: 'Adds an area gradient.' }, { prop: 'loading', type: 'boolean', default: 'false', description: 'Shows a loading skeleton.' }],
-    ChartLegend: [{ prop: 'name', type: 'string', default: '-', description: 'Legend label.' }, { prop: 'color', type: 'string', default: '-', description: 'Series color swatch.' }, { prop: 'value', type: 'string | number', default: '-', description: 'Primary metric value.' }, { prop: 'unit', type: 'string', default: '-', description: 'Unit suffix.' }, { prop: 'variant', type: "'small' | 'large'", default: "'small'", description: 'Legend density preset.' }],
-    SankeyChart: [{ prop: 'echarts', type: 'typeof import("echarts")', default: '-', description: 'ECharts module instance.' }, { prop: 'nodes', type: 'SankeyNodeData[]', default: '-', description: 'Chart nodes.' }, { prop: 'links', type: 'SankeyLinkData[]', default: '-', description: 'Chart links.' }, { prop: 'height', type: 'number', default: '350', description: 'Chart height in pixels.' }, { prop: 'tooltipFormatter', type: '(params: SankeyTooltipParams) => string', default: '-', description: 'Custom tooltip HTML formatter.' }],
-    Autocomplete: [
-      { prop: 'items', type: '(string | { label: string; value: string; disabled?: boolean })[]', default: '[]', required: true, description: 'Items available to filter and render.' },
-      { prop: 'value', type: 'string', default: "''", description: 'Bindable selected value.' },
-      { prop: 'open', type: 'boolean', default: 'false', description: 'Bindable popup open state.' },
-      { prop: 'size', type: "'xs' | 'sm' | 'base' | 'lg'", default: "'base'", description: 'Input group size inherited by child controls.' },
-      { prop: 'filter', type: '(item, query) => boolean', default: '-', description: 'Custom filter used to compute Autocomplete.List items.' },
-      ...fieldRows,
-      ...commonRows
+    "DropdownMenu.Trigger": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "child",
+        "type": "Snippet<[{ props: Record<string, unknown> }]>",
+        "required": false,
+        "description": "child prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "type",
+        "type": "'button' | 'submit' | 'reset'",
+        "required": false,
+        "description": "Element or semantic type."
+      }
     ],
-    'Autocomplete.InputGroup': [{ prop: 'placeholder', type: 'string', default: '-', description: 'Input placeholder text.' }, { prop: 'size', type: "'xs' | 'sm' | 'base' | 'lg'", default: 'inherited', description: 'Overrides the root autocomplete size.' }, classRow, restRow],
-    'Autocomplete.Content': [childrenRow, classRow, restRow],
-    'Autocomplete.List': [childrenRow, restRow],
-    'Autocomplete.Item': [{ prop: 'value', type: 'string | { label: string; value: string; disabled?: boolean }', default: '-', required: true, description: 'Item represented by this row.' }, { prop: 'disabled', type: 'boolean', default: '-', description: 'Disables the item.' }, childrenRow, classRow, restRow],
-    'Autocomplete.Group': [{ prop: 'items', type: 'AutocompleteItem[]', default: '[]', required: true, description: 'Items rendered by nested Autocomplete.Collection.' }, childrenRow, restRow],
-    'Autocomplete.GroupLabel': [childrenRow, classRow, restRow],
-    'Autocomplete.Collection': [childrenRow, restRow],
-    'Autocomplete.Separator': [classRow, restRow],
-    Combobox: [
-      { prop: 'items', type: 'ComboboxOption[]', default: '[]', required: true, description: 'Items available to filter and render.' },
-      { prop: 'value', type: 'unknown | unknown[]', default: '-', description: 'Bindable selected value or values.' },
-      { prop: 'multiple', type: 'boolean', default: 'false', description: 'Enables multi-select mode.' },
-      { prop: 'size', type: "'xs' | 'sm' | 'base' | 'lg'", default: "'base'", description: 'Trigger size inherited by child controls.' },
-      { prop: 'filter', type: '(item, query) => boolean', default: '-', description: 'Custom filter used to compute Combobox.List items.' },
-      ...fieldRows,
-      ...commonRows
+    "DropdownMenu.Content": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "sideOffset",
+        "type": "number",
+        "required": false,
+        "description": "Distance from the anchor."
+      },
+      {
+        "prop": "side",
+        "type": "'top' | 'right' | 'bottom' | 'left'",
+        "required": false,
+        "description": "Preferred floating side."
+      },
+      {
+        "prop": "align",
+        "type": "'start' | 'center' | 'end'",
+        "required": false,
+        "description": "Floating alignment."
+      }
     ],
-    'Combobox.Content': [childrenRow, classRow, restRow],
-    'Combobox.Item': [childrenRow, { prop: 'value', type: 'ComboboxOption', default: '-', required: true, description: 'Item represented by this row.' }, { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables the item.' }, classRow, restRow],
-    ClipboardText: [{ prop: 'text', type: 'string', default: '-', description: 'Text copied to the clipboard.' }, { prop: 'textToCopy', type: 'string', default: '-', description: 'Alternate clipboard value.' }, classRow, restRow],
-    Empty: [{ prop: 'title', type: 'string', default: '-', description: 'Empty state heading.' }, { prop: 'description', type: 'string | Snippet', default: '-', description: 'Supporting copy.' }, { prop: 'icon', type: 'Component', default: '-', description: 'Optional icon.' }, ...commonRows],
-    LayerCard: [{ prop: 'as', type: 'keyof SvelteHTMLElements', default: "'div'", description: 'Element used for the card root.' }, ...commonRows],
-    Loader: [{ prop: 'size', type: 'number', default: '16', description: 'Spinner size in pixels.' }, { prop: 'label', type: 'string', default: '-', description: 'Accessible loading label.' }, classRow, restRow],
-    Meter: [{ prop: 'value', type: 'number', default: '0', description: 'Current meter value.' }, { prop: 'max', type: 'number', default: '100', description: 'Maximum meter value.' }, { prop: 'label', type: 'string', default: '-', description: 'Accessible meter label.' }, classRow, restRow],
-    Text: [{ prop: 'as', type: 'keyof SvelteHTMLElements', default: "'p'", description: 'Element used for the text.' }, { prop: 'size', type: "'xs' | 'sm' | 'base' | 'lg' | 'xl'", default: "'base'", description: 'Text size preset.' }, { prop: 'tone', type: "'default' | 'strong' | 'subtle' | 'danger' | 'success'", default: "'default'", description: 'Text color treatment.' }, ...commonRows],
-    Toasty: [{ prop: 'position', type: "'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'", default: "'bottom-right'", description: 'Toast viewport position.' }, { prop: 'duration', type: 'number', default: '-', description: 'Default toast duration.' }, classRow],
-    TableOfContents: [{ prop: 'items', type: '{ id: string; title: string; level?: number }[]', default: '[]', description: 'Headings rendered in the table of contents.' }, classRow, restRow],
-    'TableOfContents.Title': [childrenRow, classRow],
-    'TableOfContents.List': [childrenRow, classRow],
-    'TableOfContents.Item': [childrenRow, { prop: 'href', type: 'string', default: '-', description: 'Anchor target.' }, classRow],
-    'TableOfContents.Group': [childrenRow, classRow],
-    Sidebar: [{ prop: 'items', type: '{ title: string; href: string; items?: Item[] }[]', default: '[]', description: 'Navigation items rendered in the sidebar.' }, ...commonRows],
-    SensitiveInput: [
-      { prop: 'value', type: 'string', default: '-', description: 'Controlled sensitive input value.' },
-      { prop: 'defaultValue', type: 'string', default: "''", description: 'Initial value for uncontrolled usage.' },
-      { prop: 'onValueChange', type: '(value: string) => void', default: '-', description: 'Called with the next value when input changes.' },
-      { prop: 'onCopy', type: '() => void', default: '-', description: 'Called after the value is copied to the clipboard.' },
-      { prop: 'size', type: "'xs' | 'sm' | 'base' | 'lg'", default: "'base'", description: 'Input size.' },
-      { prop: 'variant', type: "'default' | 'error'", default: "'default'", description: 'Visual validation state.' },
-      { prop: 'label', type: 'string | Snippet', default: '-', description: 'Field label rendered above the input.' },
-      { prop: 'description', type: 'string | Snippet', default: '-', description: 'Helper text rendered below the input.' },
-      { prop: 'error', type: 'string | FieldError', default: '-', description: 'Error message rendered below the input.' },
-      classRow,
-      restRow
+    "DropdownMenu.SubContent": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "sideOffset",
+        "type": "number",
+        "required": false,
+        "description": "Distance from the anchor."
+      },
+      {
+        "prop": "side",
+        "type": "'top' | 'right' | 'bottom' | 'left'",
+        "required": false,
+        "description": "Preferred floating side."
+      },
+      {
+        "prop": "align",
+        "type": "'start' | 'center' | 'end'",
+        "required": false,
+        "description": "Floating alignment."
+      }
     ],
-    MenuBar: [{ prop: 'options', type: '{ label: string; href?: string; onSelect?: () => void }[]', default: '[]', description: 'Menu options rendered in the bar.' }, { prop: 'isActive', type: '(option: unknown) => boolean', default: '-', description: 'Determines whether an option is active.' }, classRow, restRow],
-    InputGroup: [{ prop: 'size', type: "'xs' | 'sm' | 'base' | 'lg'", default: "'base'", description: 'Shared sizing for grouped controls.' }, { prop: 'variant', type: "'default' | 'error'", default: "'default'", description: 'Group validation styling.' }, ...commonRows],
-    InputGroupInput: [{ prop: 'value', type: 'string', default: "''", description: 'Bindable input value.' }, { prop: 'placeholder', type: 'string', default: '-', description: 'Placeholder text.' }, classRow, restRow],
-    InputGroupAddon: [childrenRow, { prop: 'align', type: "'start' | 'end'", default: "'start'", description: 'Addon alignment.' }, classRow],
-    InputGroupButton: [childrenRow, { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables the button.' }, classRow, restRow],
-    InputGroupSuffix: [childrenRow, classRow],
-    PageHeader: [{ prop: 'title', type: 'string', default: '-', description: 'Page title.' }, { prop: 'description', type: 'string', default: '-', description: 'Supporting page description.' }, { prop: 'actions', type: 'Snippet', default: '-', description: 'Optional action area.' }, classRow],
-    DeleteResource: [{ prop: 'open', type: 'boolean', default: 'false', description: 'Bindable dialog open state.' }, { prop: 'onOpenChange', type: '(open: boolean) => void', default: '-', description: 'Called when open state changes.' }, { prop: 'resourceType', type: 'string', default: '-', description: 'Type of resource being deleted.' }, { prop: 'resourceName', type: 'string', default: '-', description: 'Name of the resource being deleted.' }, { prop: 'onDelete', type: '() => void | Promise<void>', default: '-', description: 'Called after confirmation.' }, { prop: 'isDeleting', type: 'boolean', default: 'false', description: 'Shows pending delete state.' }, { prop: 'caseSensitive', type: 'boolean', default: 'true', description: 'Controls confirmation matching.' }, { prop: 'deleteButtonText', type: 'string', default: '-', description: 'Custom destructive action label.' }, classRow]
+    "DropdownMenu.Item": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "inset",
+        "type": "boolean",
+        "required": false,
+        "description": "inset prop."
+      },
+      {
+        "prop": "icon",
+        "type": "Component",
+        "required": false,
+        "description": "Icon rendered by the component."
+      },
+      {
+        "prop": "selected",
+        "type": "boolean",
+        "required": false,
+        "description": "selected prop."
+      },
+      {
+        "prop": "variant",
+        "type": "KumoDropdownVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "href",
+        "type": "string",
+        "required": false,
+        "description": "Destination URL."
+      },
+      {
+        "prop": "target",
+        "type": "string",
+        "required": false,
+        "description": "target prop."
+      },
+      {
+        "prop": "rel",
+        "type": "string",
+        "required": false,
+        "description": "rel prop."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      }
+    ],
+    "DropdownMenu.CheckboxItem": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Checked state."
+      },
+      {
+        "prop": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Called when checked changes."
+      }
+    ],
+    "DropdownMenu.SubTrigger": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "inset",
+        "type": "boolean",
+        "required": false,
+        "description": "inset prop."
+      },
+      {
+        "prop": "icon",
+        "type": "Component",
+        "required": false,
+        "description": "Icon rendered by the component."
+      }
+    ],
+    "DropdownMenu.Separator": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "DropdownMenu.RadioItem": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "inset",
+        "type": "boolean",
+        "required": false,
+        "description": "inset prop."
+      },
+      {
+        "prop": "icon",
+        "type": "Component",
+        "required": false,
+        "description": "Icon rendered by the component."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": true,
+        "description": "Controlled value."
+      }
+    ],
+    "DropdownMenu.RadioItemIndicator": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Tooltip": [
+      {
+        "prop": "trigger",
+        "type": "Snippet<[Record<string, unknown>]>",
+        "required": false,
+        "description": "trigger prop."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "content",
+        "type": "string",
+        "required": false,
+        "description": "content prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "prop": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when open state changes."
+      },
+      {
+        "prop": "side",
+        "type": "TooltipSide",
+        "required": false,
+        "description": "Preferred floating side."
+      },
+      {
+        "prop": "align",
+        "type": "TooltipAlign",
+        "required": false,
+        "description": "Floating alignment."
+      },
+      {
+        "prop": "delay",
+        "type": "number",
+        "required": false,
+        "description": "delay prop."
+      },
+      {
+        "prop": "closeDelay",
+        "type": "number",
+        "required": false,
+        "description": "closeDelay prop."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      }
+    ],
+    "Tabs": [
+      {
+        "prop": "tabs",
+        "type": "TabsItem[]",
+        "required": false,
+        "description": "tabs prop."
+      },
+      {
+        "prop": "items",
+        "type": "TabsItem[]",
+        "required": false,
+        "description": "Items rendered by the component."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "selectedValue",
+        "type": "string",
+        "required": false,
+        "description": "selectedValue prop."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "prop": "activateOnFocus",
+        "type": "boolean",
+        "required": false,
+        "description": "activateOnFocus prop."
+      },
+      {
+        "prop": "variant",
+        "type": "TabsVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "size",
+        "type": "TabsSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "className",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "listClassName",
+        "type": "string",
+        "required": false,
+        "description": "listClassName prop."
+      },
+      {
+        "prop": "indicatorClassName",
+        "type": "string",
+        "required": false,
+        "description": "Class for the meter indicator."
+      },
+      {
+        "prop": "listClass",
+        "type": "string",
+        "required": false,
+        "description": "listClass prop."
+      },
+      {
+        "prop": "triggerClass",
+        "type": "string",
+        "required": false,
+        "description": "triggerClass prop."
+      },
+      {
+        "prop": "contentClass",
+        "type": "string",
+        "required": false,
+        "description": "contentClass prop."
+      }
+    ],
+    "Radio": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "options",
+        "type": "Option[]",
+        "required": false,
+        "description": "Options rendered by the component."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "defaultValue",
+        "type": "string",
+        "required": false,
+        "description": "Initial uncontrolled value."
+      },
+      {
+        "prop": "name",
+        "type": "string",
+        "required": false,
+        "description": "Form field name."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "orientation",
+        "type": "'vertical' | 'horizontal'",
+        "required": false,
+        "description": "Layout orientation."
+      },
+      {
+        "prop": "appearance",
+        "type": "RadioAppearance",
+        "required": false,
+        "description": "Visual appearance preset."
+      },
+      {
+        "prop": "variant",
+        "type": "RadioVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "controlPosition",
+        "type": "RadioControlPosition",
+        "required": false,
+        "description": "Control position relative to label."
+      },
+      {
+        "prop": "legend",
+        "type": "string",
+        "required": false,
+        "description": "legend prop."
+      },
+      {
+        "prop": "description",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "error",
+        "type": "string",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      }
+    ],
+    "Radio.Group": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "legend",
+        "type": "string",
+        "required": false,
+        "description": "legend prop."
+      },
+      {
+        "prop": "orientation",
+        "type": "'vertical' | 'horizontal'",
+        "required": false,
+        "description": "Layout orientation."
+      },
+      {
+        "prop": "appearance",
+        "type": "RadioAppearance",
+        "required": false,
+        "description": "Visual appearance preset."
+      },
+      {
+        "prop": "error",
+        "type": "string",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "description",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "defaultValue",
+        "type": "string",
+        "required": false,
+        "description": "Initial uncontrolled value."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "controlPosition",
+        "type": "RadioControlPosition",
+        "required": false,
+        "description": "Control position relative to label."
+      },
+      {
+        "prop": "name",
+        "type": "string",
+        "required": false,
+        "description": "Form field name."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      }
+    ],
+    "Radio.Legend": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Radio.Item": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "variant",
+        "type": "RadioVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "appearance",
+        "type": "RadioAppearance",
+        "required": false,
+        "description": "Visual appearance preset."
+      },
+      {
+        "prop": "label",
+        "type": "string | Snippet",
+        "required": true,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "description",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": true,
+        "description": "Controlled value."
+      }
+    ],
+    "Checkbox": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Checked state."
+      },
+      {
+        "prop": "indeterminate",
+        "type": "boolean",
+        "required": false,
+        "description": "Indeterminate checked state."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "variant",
+        "type": "CheckboxVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "label",
+        "type": "string",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "labelTooltip",
+        "type": "Snippet",
+        "required": false,
+        "description": "Optional help content for the label."
+      },
+      {
+        "prop": "controlFirst",
+        "type": "boolean",
+        "required": false,
+        "description": "Renders the control before label content."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "name",
+        "type": "string",
+        "required": false,
+        "description": "Form field name."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "id",
+        "type": "string",
+        "required": false,
+        "description": "Element id."
+      },
+      {
+        "prop": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label."
+      },
+      {
+        "prop": "aria-labelledby",
+        "type": "string",
+        "required": false,
+        "description": "Accessible labelled-by reference."
+      },
+      {
+        "prop": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Called when checked changes."
+      },
+      {
+        "prop": "onIndeterminateChange",
+        "type": "(indeterminate: boolean) => void",
+        "required": false,
+        "description": "Called when indeterminate changes."
+      }
+    ],
+    "Checkbox.Group": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "legend",
+        "type": "string",
+        "required": false,
+        "description": "legend prop."
+      },
+      {
+        "prop": "description",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "error",
+        "type": "string",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "value",
+        "type": "string[]",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "name",
+        "type": "string",
+        "required": false,
+        "description": "Form field name."
+      },
+      {
+        "prop": "controlFirst",
+        "type": "boolean",
+        "required": false,
+        "description": "Renders the control before label content."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string[]) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      }
+    ],
+    "Checkbox.Legend": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Checkbox.Item": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Checked state."
+      },
+      {
+        "prop": "indeterminate",
+        "type": "boolean",
+        "required": false,
+        "description": "Indeterminate checked state."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "variant",
+        "type": "CheckboxVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "label",
+        "type": "string",
+        "required": true,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "name",
+        "type": "string",
+        "required": false,
+        "description": "Form field name."
+      },
+      {
+        "prop": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Called when checked changes."
+      },
+      {
+        "prop": "onIndeterminateChange",
+        "type": "(indeterminate: boolean) => void",
+        "required": false,
+        "description": "Called when indeterminate changes."
+      }
+    ],
+    "Switch": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Checked state."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "size",
+        "type": "SwitchSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "variant",
+        "type": "SwitchVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "label",
+        "type": "string",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "labelTooltip",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Optional help content for the label."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "controlFirst",
+        "type": "boolean",
+        "required": false,
+        "description": "Renders the control before label content."
+      },
+      {
+        "prop": "transitioning",
+        "type": "boolean",
+        "required": false,
+        "description": "transitioning prop."
+      },
+      {
+        "prop": "id",
+        "type": "string",
+        "required": false,
+        "description": "Element id."
+      },
+      {
+        "prop": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "onchange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Change event handler."
+      },
+      {
+        "prop": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Called when checked changes."
+      }
+    ],
+    "Switch.Group": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "legend",
+        "type": "string",
+        "required": false,
+        "description": "legend prop."
+      },
+      {
+        "prop": "description",
+        "type": "string",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "error",
+        "type": "string",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "controlFirst",
+        "type": "boolean",
+        "required": false,
+        "description": "Renders the control before label content."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Switch.Legend": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Switch.Item": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Checked state."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "size",
+        "type": "SwitchSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "variant",
+        "type": "SwitchVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "label",
+        "type": "string",
+        "required": true,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "transitioning",
+        "type": "boolean",
+        "required": false,
+        "description": "transitioning prop."
+      },
+      {
+        "prop": "onchange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Change event handler."
+      },
+      {
+        "prop": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Called when checked changes."
+      }
+    ],
+    "Table": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "layout",
+        "type": "KumoTableLayout",
+        "required": false,
+        "description": "Table layout strategy."
+      }
+    ],
+    "Table.Row": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "variant",
+        "type": "KumoTableRowVariant",
+        "required": false,
+        "description": "Visual variant."
+      }
+    ],
+    "Table.CheckHead": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Checked state."
+      },
+      {
+        "prop": "indeterminate",
+        "type": "boolean",
+        "required": false,
+        "description": "Indeterminate checked state."
+      },
+      {
+        "prop": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Called when checked changes."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "prop": "label",
+        "type": "string",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      }
+    ],
+    "Table.CheckCell": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Checked state."
+      },
+      {
+        "prop": "indeterminate",
+        "type": "boolean",
+        "required": false,
+        "description": "Indeterminate checked state."
+      },
+      {
+        "prop": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Called when checked changes."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "prop": "label",
+        "type": "string",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      }
+    ],
+    "Table.Header": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "variant",
+        "type": "'default' | 'compact'",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "sticky",
+        "type": "boolean",
+        "required": false,
+        "description": "Sticky column or header setting."
+      }
+    ],
+    "Table.Head": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "sticky",
+        "type": "KumoTableStickyColumn",
+        "required": false,
+        "description": "Sticky column or header setting."
+      }
+    ],
+    "Table.Cell": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "sticky",
+        "type": "KumoTableStickyColumn",
+        "required": false,
+        "description": "Sticky column or header setting."
+      }
+    ],
+    "Table.Body": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      }
+    ],
+    "Table.Footer": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      }
+    ],
+    "DatePicker": [
+      {
+        "prop": "mode",
+        "type": "DatePickerMode",
+        "required": false,
+        "description": "mode prop."
+      },
+      {
+        "prop": "selected",
+        "type": "DatePickerSelection",
+        "required": false,
+        "description": "selected prop."
+      },
+      {
+        "prop": "onChange",
+        "type": "(selection: DatePickerSelection) => void",
+        "required": false,
+        "description": "onChange prop."
+      },
+      {
+        "prop": "month",
+        "type": "Date",
+        "required": false,
+        "description": "month prop."
+      },
+      {
+        "prop": "onMonthChange",
+        "type": "(month: Date) => void",
+        "required": false,
+        "description": "onMonthChange prop."
+      },
+      {
+        "prop": "numberOfMonths",
+        "type": "number",
+        "required": false,
+        "description": "numberOfMonths prop."
+      },
+      {
+        "prop": "min",
+        "type": "number",
+        "required": false,
+        "description": "Minimum value."
+      },
+      {
+        "prop": "max",
+        "type": "number",
+        "required": false,
+        "description": "Maximum value."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean | DisabledMatcher",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "footer",
+        "type": "Snippet | string",
+        "required": false,
+        "description": "footer prop."
+      },
+      {
+        "prop": "fixedWeeks",
+        "type": "boolean",
+        "required": false,
+        "description": "fixedWeeks prop."
+      },
+      {
+        "prop": "locale",
+        "type": "string",
+        "required": false,
+        "description": "locale prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "className",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "classNames",
+        "type": "Record<string, string | undefined>",
+        "required": false,
+        "description": "classNames prop."
+      }
+    ],
+    "Chart": [
+      {
+        "prop": "echarts",
+        "type": "any",
+        "required": true,
+        "description": "ECharts module instance."
+      },
+      {
+        "prop": "options",
+        "type": "KumoChartOption",
+        "required": true,
+        "description": "Options rendered by the component."
+      },
+      {
+        "prop": "optionUpdateBehavior",
+        "type": "SetOptionOpts",
+        "required": false,
+        "description": "optionUpdateBehavior prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "isDarkMode",
+        "type": "boolean",
+        "required": false,
+        "description": "isDarkMode prop."
+      },
+      {
+        "prop": "height",
+        "type": "number",
+        "required": false,
+        "description": "Chart height in pixels."
+      },
+      {
+        "prop": "onEvents",
+        "type": "Partial<ChartEvents>",
+        "required": false,
+        "description": "onEvents prop."
+      },
+      {
+        "prop": "chartRef",
+        "type": "EChartsType | null",
+        "required": false,
+        "description": "chartRef prop."
+      }
+    ],
+    "TimeseriesChart": [
+      {
+        "prop": "echarts",
+        "type": "any",
+        "required": true,
+        "description": "ECharts module instance."
+      },
+      {
+        "prop": "type",
+        "type": "'line' | 'bar'",
+        "required": false,
+        "description": "Element or semantic type."
+      },
+      {
+        "prop": "data",
+        "type": "TimeseriesData[]",
+        "required": true,
+        "description": "Chart data."
+      },
+      {
+        "prop": "xAxisName",
+        "type": "string",
+        "required": false,
+        "description": "xAxisName prop."
+      },
+      {
+        "prop": "xAxisTickCount",
+        "type": "number",
+        "required": false,
+        "description": "xAxisTickCount prop."
+      },
+      {
+        "prop": "xAxisTickFormat",
+        "type": "(value: number) => string",
+        "required": false,
+        "description": "xAxisTickFormat prop."
+      },
+      {
+        "prop": "yAxisTickFormat",
+        "type": "(value: number) => string",
+        "required": false,
+        "description": "yAxisTickFormat prop."
+      },
+      {
+        "prop": "yAxisTickLabelFormat",
+        "type": "(value: number) => string",
+        "required": false,
+        "description": "yAxisTickLabelFormat prop."
+      },
+      {
+        "prop": "yAxisName",
+        "type": "string",
+        "required": false,
+        "description": "yAxisName prop."
+      },
+      {
+        "prop": "yAxisTickCount",
+        "type": "number",
+        "required": false,
+        "description": "yAxisTickCount prop."
+      },
+      {
+        "prop": "tooltipValueFormat",
+        "type": "(value: number) => string",
+        "required": false,
+        "description": "tooltipValueFormat prop."
+      },
+      {
+        "prop": "incomplete",
+        "type": "{ before?: number; after?: number }",
+        "required": false,
+        "description": "incomplete prop."
+      },
+      {
+        "prop": "height",
+        "type": "number",
+        "required": false,
+        "description": "Chart height in pixels."
+      },
+      {
+        "prop": "onTimeRangeChange",
+        "type": "(from: number, to: number) => void",
+        "required": false,
+        "description": "onTimeRangeChange prop."
+      },
+      {
+        "prop": "isDarkMode",
+        "type": "boolean",
+        "required": false,
+        "description": "isDarkMode prop."
+      },
+      {
+        "prop": "gradient",
+        "type": "boolean",
+        "required": false,
+        "description": "gradient prop."
+      },
+      {
+        "prop": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Loading state."
+      },
+      {
+        "prop": "ariaDescription",
+        "type": "string",
+        "required": false,
+        "description": "ariaDescription prop."
+      },
+      {
+        "prop": "animation",
+        "type": "boolean",
+        "required": false,
+        "description": "animation prop."
+      },
+      {
+        "prop": "animationDuration",
+        "type": "number",
+        "required": false,
+        "description": "animationDuration prop."
+      },
+      {
+        "prop": "optionUpdateBehavior",
+        "type": "Record<string, unknown>",
+        "required": false,
+        "description": "optionUpdateBehavior prop."
+      }
+    ],
+    "ChartLegend": [
+      {
+        "prop": "variant",
+        "type": "'large' | 'small'",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "name",
+        "type": "string",
+        "required": true,
+        "description": "Form field name."
+      },
+      {
+        "prop": "color",
+        "type": "string",
+        "required": true,
+        "description": "color prop."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": true,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "unit",
+        "type": "string",
+        "required": false,
+        "description": "unit prop."
+      },
+      {
+        "prop": "inactive",
+        "type": "boolean",
+        "required": false,
+        "description": "inactive prop."
+      }
+    ],
+    "SankeyChart": [
+      {
+        "prop": "echarts",
+        "type": "any",
+        "required": true,
+        "description": "ECharts module instance."
+      },
+      {
+        "prop": "nodes",
+        "type": "SankeyNodeData[]",
+        "required": true,
+        "description": "Sankey nodes."
+      },
+      {
+        "prop": "links",
+        "type": "SankeyLinkData[]",
+        "required": true,
+        "description": "Sankey links."
+      },
+      {
+        "prop": "height",
+        "type": "number",
+        "required": false,
+        "description": "Chart height in pixels."
+      },
+      {
+        "prop": "showNodeValues",
+        "type": "boolean",
+        "required": false,
+        "description": "showNodeValues prop."
+      },
+      {
+        "prop": "formatValue",
+        "type": "(value: number) => string",
+        "required": false,
+        "description": "formatValue prop."
+      },
+      {
+        "prop": "tooltipFormatter",
+        "type": "(params: SankeyTooltipParams) => string",
+        "required": false,
+        "description": "tooltipFormatter prop."
+      },
+      {
+        "prop": "nodeWidth",
+        "type": "number",
+        "required": false,
+        "description": "nodeWidth prop."
+      },
+      {
+        "prop": "nodePadding",
+        "type": "number",
+        "required": false,
+        "description": "nodePadding prop."
+      },
+      {
+        "prop": "showTooltip",
+        "type": "boolean",
+        "required": false,
+        "description": "showTooltip prop."
+      },
+      {
+        "prop": "defaultNodeColor",
+        "type": "string",
+        "required": false,
+        "description": "defaultNodeColor prop."
+      },
+      {
+        "prop": "left",
+        "type": "number | string",
+        "required": false,
+        "description": "left prop."
+      },
+      {
+        "prop": "right",
+        "type": "number | string",
+        "required": false,
+        "description": "right prop."
+      },
+      {
+        "prop": "linkColor",
+        "type": "'gradient' | 'gray'",
+        "required": false,
+        "description": "linkColor prop."
+      },
+      {
+        "prop": "linkOpacity",
+        "type": "number",
+        "required": false,
+        "description": "linkOpacity prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "isDarkMode",
+        "type": "boolean",
+        "required": false,
+        "description": "isDarkMode prop."
+      },
+      {
+        "prop": "onNodeClick",
+        "type": "(node: SankeyNodeData) => void",
+        "required": false,
+        "description": "onNodeClick prop."
+      },
+      {
+        "prop": "onLinkClick",
+        "type": "(link: SankeyLinkData) => void",
+        "required": false,
+        "description": "onLinkClick prop."
+      }
+    ],
+    "Autocomplete": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "items",
+        "type": "AutocompleteItem[]",
+        "required": false,
+        "description": "Items rendered by the component."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "defaultValue",
+        "type": "string",
+        "required": false,
+        "description": "Initial uncontrolled value."
+      },
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "prop": "size",
+        "type": "AutocompleteSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "label",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "description",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "error",
+        "type": "FieldError",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "filter",
+        "type": "((item: AutocompleteItem, query: string) => boolean) | null",
+        "required": false,
+        "description": "Custom item filter."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "prop": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when open state changes."
+      }
+    ],
+    "Autocomplete.InputGroup": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "Placeholder text."
+      },
+      {
+        "prop": "size",
+        "type": "AutocompleteSize",
+        "required": false,
+        "description": "Size preset."
+      }
+    ],
+    "Autocomplete.Content": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Autocomplete.List": [
+      {
+        "prop": "children",
+        "type": "ItemSnippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Autocomplete.Item": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "value",
+        "type": "AutocompleteItem",
+        "required": true,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      }
+    ],
+    "Autocomplete.Group": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "items",
+        "type": "AutocompleteItem[]",
+        "required": false,
+        "description": "Items rendered by the component."
+      }
+    ],
+    "Autocomplete.GroupLabel": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Autocomplete.Collection": [
+      {
+        "prop": "children",
+        "type": "ItemSnippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Autocomplete.Separator": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Combobox": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "items",
+        "type": "ComboboxItem[]",
+        "required": false,
+        "description": "Items rendered by the component."
+      },
+      {
+        "prop": "options",
+        "type": "ComboboxItem[]",
+        "required": false,
+        "description": "Options rendered by the component."
+      },
+      {
+        "prop": "value",
+        "type": "unknown",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "defaultValue",
+        "type": "unknown",
+        "required": false,
+        "description": "Initial uncontrolled value."
+      },
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "prop": "multiple",
+        "type": "boolean",
+        "required": false,
+        "description": "Enables multiple selection."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "size",
+        "type": "ComboboxSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "label",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "labelTooltip",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Optional help content for the label."
+      },
+      {
+        "prop": "description",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "error",
+        "type": "FieldError",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "filter",
+        "type": "((item: ComboboxItem, query: string) => boolean) | null",
+        "required": false,
+        "description": "Custom item filter."
+      },
+      {
+        "prop": "isItemEqualToValue",
+        "type": "(item: unknown, value: unknown) => boolean",
+        "required": false,
+        "description": "isItemEqualToValue prop."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: unknown) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "prop": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when open state changes."
+      }
+    ],
+    "Combobox.Content": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Combobox.Item": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "value",
+        "type": "ComboboxItem",
+        "required": true,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      }
+    ],
+    "Combobox.Input": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "Placeholder text."
+      }
+    ],
+    "Combobox.Trigger": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Combobox.Value": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      }
+    ],
+    "ClipboardText": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "text",
+        "type": "string",
+        "required": false,
+        "description": "Text content."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "textToCopy",
+        "type": "string",
+        "required": false,
+        "description": "Alternate text copied to the clipboard."
+      },
+      {
+        "prop": "size",
+        "type": "ClipboardTextSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "onCopy",
+        "type": "() => void",
+        "required": false,
+        "description": "Called after copying succeeds."
+      },
+      {
+        "prop": "tooltip",
+        "type": "{ text?: string; copiedText?: string; side?: TooltipSide; }",
+        "required": false,
+        "description": "Tooltip content."
+      },
+      {
+        "prop": "labels",
+        "type": "{ copyAction?: string; }",
+        "required": false,
+        "description": "labels prop."
+      }
+    ],
+    "Empty": [
+      {
+        "prop": "size",
+        "type": "KumoEmptySize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "contents",
+        "type": "Snippet",
+        "required": false,
+        "description": "Custom empty-state content."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "icon",
+        "type": "Snippet",
+        "required": false,
+        "description": "Icon rendered by the component."
+      },
+      {
+        "prop": "title",
+        "type": "string",
+        "required": true,
+        "description": "Title content."
+      },
+      {
+        "prop": "description",
+        "type": "string",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "commandLine",
+        "type": "string",
+        "required": false,
+        "description": "commandLine prop."
+      }
+    ],
+    "LayerCard": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "as",
+        "type": "string",
+        "required": false,
+        "description": "as prop."
+      }
+    ],
+    "Loader": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "size",
+        "type": "KumoLoaderSize | number",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label."
+      }
+    ],
+    "SkeletonLine": [
+      {
+        "prop": "minWidth",
+        "type": "number",
+        "required": false,
+        "description": "minWidth prop."
+      },
+      {
+        "prop": "maxWidth",
+        "type": "number",
+        "required": false,
+        "description": "maxWidth prop."
+      },
+      {
+        "prop": "minDuration",
+        "type": "number",
+        "required": false,
+        "description": "minDuration prop."
+      },
+      {
+        "prop": "maxDuration",
+        "type": "number",
+        "required": false,
+        "description": "maxDuration prop."
+      },
+      {
+        "prop": "minDelay",
+        "type": "number",
+        "required": false,
+        "description": "minDelay prop."
+      },
+      {
+        "prop": "maxDelay",
+        "type": "number",
+        "required": false,
+        "description": "maxDelay prop."
+      },
+      {
+        "prop": "blockHeight",
+        "type": "string | number",
+        "required": false,
+        "description": "blockHeight prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Meter": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "value",
+        "type": "number",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "min",
+        "type": "number",
+        "required": false,
+        "description": "Minimum value."
+      },
+      {
+        "prop": "max",
+        "type": "number",
+        "required": false,
+        "description": "Maximum value."
+      },
+      {
+        "prop": "customValue",
+        "type": "string",
+        "required": false,
+        "description": "Custom value label."
+      },
+      {
+        "prop": "label",
+        "type": "string",
+        "required": true,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "showValue",
+        "type": "boolean",
+        "required": false,
+        "description": "Shows the current value."
+      },
+      {
+        "prop": "trackClassName",
+        "type": "string",
+        "required": false,
+        "description": "Class for the meter track."
+      },
+      {
+        "prop": "indicatorClassName",
+        "type": "string",
+        "required": false,
+        "description": "Class for the meter indicator."
+      }
+    ],
+    "Text": [
+      {
+        "prop": "variant",
+        "type": "KumoTextVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "color",
+        "type": "'default' | 'subtle' | 'success' | 'error'",
+        "required": false,
+        "description": "color prop."
+      },
+      {
+        "prop": "size",
+        "type": "KumoTextSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "bold",
+        "type": "boolean",
+        "required": false,
+        "description": "bold prop."
+      },
+      {
+        "prop": "truncate",
+        "type": "boolean",
+        "required": false,
+        "description": "truncate prop."
+      },
+      {
+        "prop": "as",
+        "type": "TextElement",
+        "required": false,
+        "description": "as prop."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "DANGEROUS_className",
+        "type": "string",
+        "required": false,
+        "description": "DANGEROUS_className prop."
+      },
+      {
+        "prop": "DANGEROUS_style",
+        "type": "string",
+        "required": false,
+        "description": "DANGEROUS_style prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "style",
+        "type": "string",
+        "required": false,
+        "description": "Inline style string."
+      }
+    ],
+    "Toasty": [
+      {
+        "prop": "children",
+        "type": "Snippet<[KumoToastManager]>",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "toastManager",
+        "type": "KumoToastManager",
+        "required": false,
+        "description": "Toast manager instance."
+      },
+      {
+        "prop": "visibleToasts",
+        "type": "number",
+        "required": false,
+        "description": "Number of visible toasts."
+      }
+    ],
+    "TableOfContents": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "items",
+        "type": "Item[]",
+        "required": false,
+        "description": "Items rendered by the component."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label."
+      }
+    ],
+    "TableOfContents.Title": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "TableOfContents.List": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "TableOfContents.Item": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "active",
+        "type": "boolean",
+        "required": false,
+        "description": "active prop."
+      },
+      {
+        "prop": "href",
+        "type": "string",
+        "required": false,
+        "description": "Destination URL."
+      },
+      {
+        "prop": "as",
+        "type": "'a' | 'button'",
+        "required": false,
+        "description": "as prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "TableOfContents.Group": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "label",
+        "type": "string",
+        "required": true,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "href",
+        "type": "string",
+        "required": false,
+        "description": "Destination URL."
+      },
+      {
+        "prop": "active",
+        "type": "boolean",
+        "required": false,
+        "description": "active prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Sidebar": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "items",
+        "type": "Item[]",
+        "required": false,
+        "description": "Items rendered by the component."
+      }
+    ],
+    "SensitiveInput": [
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "defaultValue",
+        "type": "string",
+        "required": false,
+        "description": "Initial uncontrolled value."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "prop": "onCopy",
+        "type": "() => void",
+        "required": false,
+        "description": "Called after copying succeeds."
+      },
+      {
+        "prop": "size",
+        "type": "SensitiveInputSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "variant",
+        "type": "SensitiveInputVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "label",
+        "type": "FieldText",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "labelTooltip",
+        "type": "FieldText",
+        "required": false,
+        "description": "Optional help content for the label."
+      },
+      {
+        "prop": "description",
+        "type": "FieldText",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "error",
+        "type": "FieldError",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "id",
+        "type": "string",
+        "required": false,
+        "description": "Element id."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "description": "Makes the input read-only."
+      },
+      {
+        "prop": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "Makes the input read-only."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "autocomplete",
+        "type": "string",
+        "required": false,
+        "description": "Autocomplete attribute."
+      },
+      {
+        "prop": "autoComplete",
+        "type": "string",
+        "required": false,
+        "description": "Autocomplete attribute."
+      },
+      {
+        "prop": "oninput",
+        "type": "(event: Event) => void",
+        "required": false,
+        "description": "Input event handler."
+      },
+      {
+        "prop": "onchange",
+        "type": "(event: Event) => void",
+        "required": false,
+        "description": "Change event handler."
+      },
+      {
+        "prop": "onblur",
+        "type": "(event: FocusEvent) => void",
+        "required": false,
+        "description": "Blur event handler."
+      },
+      {
+        "prop": "onkeydown",
+        "type": "(event: KeyboardEvent) => void",
+        "required": false,
+        "description": "Keydown event handler."
+      }
+    ],
+    "MenuBar": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "isActive",
+        "type": "number | boolean | string",
+        "required": false,
+        "description": "isActive prop."
+      },
+      {
+        "prop": "options",
+        "type": "MenuOptionProps[]",
+        "required": false,
+        "description": "Options rendered by the component."
+      },
+      {
+        "prop": "optionIds",
+        "type": "boolean",
+        "required": false,
+        "description": "optionIds prop."
+      }
+    ],
+    "InputGroup": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "size",
+        "type": "InputGroupSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "focusMode",
+        "type": "InputGroupFocusMode",
+        "required": false,
+        "description": "focusMode prop."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "label",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "labelTooltip",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Optional help content for the label."
+      },
+      {
+        "prop": "description",
+        "type": "string",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "error",
+        "type": "FieldError",
+        "required": false,
+        "description": "Validation error message or matcher."
+      },
+      {
+        "prop": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field as required."
+      },
+      {
+        "prop": "id",
+        "type": "string",
+        "required": false,
+        "description": "Element id."
+      }
+    ],
+    "InputGroupInput": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "value",
+        "type": "string | number",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "prop": "oninput",
+        "type": "(event: Event) => void",
+        "required": false,
+        "description": "Input event handler."
+      },
+      {
+        "prop": "id",
+        "type": "string",
+        "required": false,
+        "description": "Element id."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      }
+    ],
+    "InputGroupAddon": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "align",
+        "type": "'start' | 'end'",
+        "required": false,
+        "description": "Floating alignment."
+      },
+      {
+        "prop": "containsButton",
+        "type": "boolean",
+        "required": false,
+        "description": "containsButton prop."
+      }
+    ],
+    "InputGroupButton": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "icon",
+        "type": "Component",
+        "required": false,
+        "description": "Icon rendered by the component."
+      },
+      {
+        "prop": "variant",
+        "type": "Variant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "size",
+        "type": "InputGroupSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "shape",
+        "type": "Shape",
+        "required": false,
+        "description": "Shape preset."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "tooltip",
+        "type": "string",
+        "required": false,
+        "description": "Tooltip content."
+      },
+      {
+        "prop": "tooltipSide",
+        "type": "string",
+        "required": false,
+        "description": "tooltipSide prop."
+      }
+    ],
+    "InputGroupSuffix": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Popover": [
+      {
+        "prop": "trigger",
+        "type": "Snippet<[Record<string, unknown>]>",
+        "required": false,
+        "description": "trigger prop."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "prop": "title",
+        "type": "string",
+        "required": false,
+        "description": "Title content."
+      },
+      {
+        "prop": "description",
+        "type": "string",
+        "required": false,
+        "description": "Supporting description text."
+      },
+      {
+        "prop": "side",
+        "type": "'top' | 'bottom' | 'left' | 'right'",
+        "required": false,
+        "description": "Preferred floating side."
+      },
+      {
+        "prop": "align",
+        "type": "'start' | 'center' | 'end'",
+        "required": false,
+        "description": "Floating alignment."
+      },
+      {
+        "prop": "sideOffset",
+        "type": "number",
+        "required": false,
+        "description": "Distance from the anchor."
+      },
+      {
+        "prop": "alignOffset",
+        "type": "number",
+        "required": false,
+        "description": "Cross-axis offset from the anchor."
+      },
+      {
+        "prop": "openOnHover",
+        "type": "boolean",
+        "required": false,
+        "description": "openOnHover prop."
+      },
+      {
+        "prop": "delay",
+        "type": "number",
+        "required": false,
+        "description": "delay prop."
+      }
+    ],
+    "PopoverRoot": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "prop": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when open state changes."
+      },
+      {
+        "prop": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called after the open-state transition completes."
+      }
+    ],
+    "PopoverTrigger": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "child",
+        "type": "Snippet<[{ props: Record<string, unknown> }]>",
+        "required": false,
+        "description": "child prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "openOnHover",
+        "type": "boolean",
+        "required": false,
+        "description": "openOnHover prop."
+      },
+      {
+        "prop": "openDelay",
+        "type": "number",
+        "required": false,
+        "description": "openDelay prop."
+      },
+      {
+        "prop": "closeDelay",
+        "type": "number",
+        "required": false,
+        "description": "closeDelay prop."
+      },
+      {
+        "prop": "type",
+        "type": "'button' | 'submit' | 'reset'",
+        "required": false,
+        "description": "Element or semantic type."
+      }
+    ],
+    "PopoverContent": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "side",
+        "type": "PopoverSide",
+        "required": false,
+        "description": "Preferred floating side."
+      },
+      {
+        "prop": "align",
+        "type": "PopoverAlign",
+        "required": false,
+        "description": "Floating alignment."
+      },
+      {
+        "prop": "sideOffset",
+        "type": "number",
+        "required": false,
+        "description": "Distance from the anchor."
+      },
+      {
+        "prop": "alignOffset",
+        "type": "number",
+        "required": false,
+        "description": "Cross-axis offset from the anchor."
+      },
+      {
+        "prop": "strategy",
+        "type": "'absolute' | 'fixed'",
+        "required": false,
+        "description": "strategy prop."
+      },
+      {
+        "prop": "positionMethod",
+        "type": "'absolute' | 'fixed'",
+        "required": false,
+        "description": "positionMethod prop."
+      },
+      {
+        "prop": "customAnchor",
+        "type": "HTMLElement | { getBoundingClientRect: () => DOMRect } | null",
+        "required": false,
+        "description": "customAnchor prop."
+      }
+    ],
+    "PopoverTitle": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "PopoverDescription": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "PopoverClose": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "child",
+        "type": "Snippet<[{ props: Record<string, unknown> }]>",
+        "required": false,
+        "description": "child prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "type",
+        "type": "'button' | 'submit' | 'reset'",
+        "required": false,
+        "description": "Element or semantic type."
+      }
+    ],
+    "Breadcrumbs": [
+      {
+        "prop": "size",
+        "type": "KumoBreadcrumbsSize",
+        "required": false,
+        "description": "Size preset."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "className",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "items",
+        "type": "BreadcrumbsItem[]",
+        "required": false,
+        "description": "Items rendered by the component."
+      }
+    ],
+    "Breadcrumbs.Link": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "href",
+        "type": "string",
+        "required": true,
+        "description": "Destination URL."
+      },
+      {
+        "prop": "icon",
+        "type": "Component",
+        "required": false,
+        "description": "Icon rendered by the component."
+      }
+    ],
+    "Breadcrumbs.Current": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "icon",
+        "type": "Component",
+        "required": false,
+        "description": "Icon rendered by the component."
+      },
+      {
+        "prop": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Loading state."
+      }
+    ],
+    "Breadcrumbs.Separator": [],
+    "Breadcrumbs.Clipboard": [
+      {
+        "prop": "text",
+        "type": "string",
+        "required": true,
+        "description": "Text content."
+      }
+    ],
+    "CloudflareLogo": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "variant",
+        "type": "CloudflareLogoVariant",
+        "required": false,
+        "description": "Visual variant."
+      },
+      {
+        "prop": "color",
+        "type": "CloudflareLogoColor",
+        "required": false,
+        "description": "color prop."
+      },
+      {
+        "prop": "href",
+        "type": "string",
+        "required": false,
+        "description": "Destination URL."
+      },
+      {
+        "prop": "poweredBy",
+        "type": "boolean",
+        "required": false,
+        "description": "poweredBy prop."
+      }
+    ],
+    "PoweredByCloudflare": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "color",
+        "type": "CloudflareLogoColor",
+        "required": false,
+        "description": "color prop."
+      },
+      {
+        "prop": "href",
+        "type": "string",
+        "required": false,
+        "description": "Destination URL."
+      }
+    ],
+    "Label": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "for",
+        "type": "string",
+        "required": false,
+        "description": "for prop."
+      },
+      {
+        "prop": "htmlFor",
+        "type": "string",
+        "required": false,
+        "description": "htmlFor prop."
+      },
+      {
+        "prop": "showOptional",
+        "type": "boolean",
+        "required": false,
+        "description": "showOptional prop."
+      },
+      {
+        "prop": "tooltip",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Tooltip content."
+      },
+      {
+        "prop": "asContent",
+        "type": "boolean",
+        "required": false,
+        "description": "asContent prop."
+      }
+    ],
+    "Collapsible": [
+      {
+        "prop": "trigger",
+        "type": "Snippet",
+        "required": false,
+        "description": "trigger prop."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "prop": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial uncontrolled open state."
+      },
+      {
+        "prop": "title",
+        "type": "string",
+        "required": false,
+        "description": "Title content."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when open state changes."
+      },
+      {
+        "prop": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called after the open-state transition completes."
+      }
+    ],
+    "Collapsible.Root": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "prop": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial uncontrolled open state."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when open state changes."
+      },
+      {
+        "prop": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called after the open-state transition completes."
+      }
+    ],
+    "Collapsible.Trigger": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "type",
+        "type": "'button' | 'submit' | 'reset'",
+        "required": false,
+        "description": "Element or semantic type."
+      }
+    ],
+    "Collapsible.Panel": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "description": "keepMounted prop."
+      },
+      {
+        "prop": "forceMount",
+        "type": "boolean",
+        "required": false,
+        "description": "forceMount prop."
+      },
+      {
+        "prop": "hiddenUntilFound",
+        "type": "boolean",
+        "required": false,
+        "description": "hiddenUntilFound prop."
+      }
+    ],
+    "Collapsible.DefaultTrigger": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      }
+    ],
+    "Collapsible.DefaultPanel": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "description": "keepMounted prop."
+      },
+      {
+        "prop": "forceMount",
+        "type": "boolean",
+        "required": false,
+        "description": "forceMount prop."
+      },
+      {
+        "prop": "hiddenUntilFound",
+        "type": "boolean",
+        "required": false,
+        "description": "hiddenUntilFound prop."
+      }
+    ],
+    "Flow": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "orientation",
+        "type": "FlowOrientation",
+        "required": false,
+        "description": "Layout orientation."
+      },
+      {
+        "prop": "align",
+        "type": "FlowAlign",
+        "required": false,
+        "description": "Floating alignment."
+      },
+      {
+        "prop": "canvas",
+        "type": "boolean",
+        "required": false,
+        "description": "canvas prop."
+      },
+      {
+        "prop": "padding",
+        "type": "{ x?: number; y?: number }",
+        "required": false,
+        "description": "padding prop."
+      }
+    ],
+    "Flow.Node": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "id",
+        "type": "string",
+        "required": false,
+        "description": "Element id."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "bare",
+        "type": "boolean",
+        "required": false,
+        "description": "bare prop."
+      }
+    ],
+    "Flow.Anchor": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "type",
+        "type": "'start' | 'end'",
+        "required": false,
+        "description": "Element or semantic type."
+      }
+    ],
+    "Flow.Parallel": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "align",
+        "type": "'start' | 'end'",
+        "required": false,
+        "description": "Floating alignment."
+      }
+    ],
+    "Flow.List": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Pagination": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "page",
+        "type": "number",
+        "required": false,
+        "description": "page prop."
+      },
+      {
+        "prop": "setPage",
+        "type": "(page: number) => void",
+        "required": false,
+        "description": "setPage prop."
+      },
+      {
+        "prop": "perPage",
+        "type": "number",
+        "required": false,
+        "description": "perPage prop."
+      },
+      {
+        "prop": "totalCount",
+        "type": "number",
+        "required": false,
+        "description": "totalCount prop."
+      },
+      {
+        "prop": "pages",
+        "type": "number",
+        "required": false,
+        "description": "pages prop."
+      },
+      {
+        "prop": "controls",
+        "type": "Controls",
+        "required": false,
+        "description": "controls prop."
+      },
+      {
+        "prop": "text",
+        "type": "(props: InfoTextProps) => unknown",
+        "required": false,
+        "description": "Text content."
+      },
+      {
+        "prop": "labels",
+        "type": "PaginationLabels",
+        "required": false,
+        "description": "labels prop."
+      }
+    ],
+    "Pagination.Controls": [
+      {
+        "prop": "controls",
+        "type": "Controls",
+        "required": false,
+        "description": "controls prop."
+      },
+      {
+        "prop": "pageSelector",
+        "type": "PageSelector",
+        "required": false,
+        "description": "pageSelector prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Pagination.Info": [
+      {
+        "prop": "children",
+        "type": "Snippet<[RenderProps]>",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "text",
+        "type": "(props: RenderProps) => unknown",
+        "required": false,
+        "description": "Text content."
+      }
+    ],
+    "Pagination.PageSize": [
+      {
+        "prop": "value",
+        "type": "number",
+        "required": true,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "onChange",
+        "type": "(size: number) => void",
+        "required": true,
+        "description": "onChange prop."
+      },
+      {
+        "prop": "options",
+        "type": "number[]",
+        "required": false,
+        "description": "Options rendered by the component."
+      },
+      {
+        "prop": "label",
+        "type": "string | Snippet",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "Pagination.Separator": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "CodeHighlighted": [
+      {
+        "prop": "code",
+        "type": "string",
+        "required": true,
+        "description": "Code string to render."
+      },
+      {
+        "prop": "lang",
+        "type": "CodeHighlightedLang",
+        "required": false,
+        "description": "Code language."
+      },
+      {
+        "prop": "showCopyButton",
+        "type": "boolean",
+        "required": false,
+        "description": "Shows the copy button."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "style",
+        "type": "string",
+        "required": false,
+        "description": "Inline style string."
+      }
+    ],
+    "CommandPalette": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "commands",
+        "type": "CommandPaletteCommand[]",
+        "required": false,
+        "description": "commands prop."
+      },
+      {
+        "prop": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "Placeholder text."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "prop": "onSelect",
+        "type": "(command: CommandPaletteCommand, options: { newTab: boolean }) => void",
+        "required": false,
+        "description": "onSelect prop."
+      },
+      {
+        "prop": "label",
+        "type": "string",
+        "required": false,
+        "description": "Visible label content."
+      },
+      {
+        "prop": "loop",
+        "type": "boolean",
+        "required": false,
+        "description": "loop prop."
+      },
+      {
+        "prop": "shouldFilter",
+        "type": "boolean",
+        "required": false,
+        "description": "shouldFilter prop."
+      },
+      {
+        "prop": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Loading state."
+      },
+      {
+        "prop": "loadingText",
+        "type": "string",
+        "required": false,
+        "description": "loadingText prop."
+      },
+      {
+        "prop": "emptyText",
+        "type": "string",
+        "required": false,
+        "description": "emptyText prop."
+      },
+      {
+        "prop": "inputClass",
+        "type": "string",
+        "required": false,
+        "description": "inputClass prop."
+      },
+      {
+        "prop": "listClass",
+        "type": "string",
+        "required": false,
+        "description": "listClass prop."
+      },
+      {
+        "prop": "itemClass",
+        "type": "string",
+        "required": false,
+        "description": "itemClass prop."
+      },
+      {
+        "prop": "inputProps",
+        "type": "Record<string, unknown>",
+        "required": false,
+        "description": "inputProps prop."
+      }
+    ],
+    "CommandPalette.Dialog": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "trigger",
+        "type": "Snippet<[Record<string, unknown>]>",
+        "required": false,
+        "description": "trigger prop."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "prop": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when open state changes."
+      }
+    ],
+    "CommandPalette.Input": [
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "Placeholder text."
+      }
+    ],
+    "CommandPalette.Item": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "keywords",
+        "type": "string[]",
+        "required": false,
+        "description": "keywords prop."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the component."
+      },
+      {
+        "prop": "forceMount",
+        "type": "boolean",
+        "required": false,
+        "description": "forceMount prop."
+      },
+      {
+        "prop": "onSelect",
+        "type": "() => void",
+        "required": false,
+        "description": "onSelect prop."
+      }
+    ],
+    "CommandPalette.ResultItem": [],
+    "CommandPalette.Footer": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "CommandPalette.List": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "CommandPalette.Group": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled value."
+      },
+      {
+        "prop": "forceMount",
+        "type": "boolean",
+        "required": false,
+        "description": "forceMount prop."
+      }
+    ],
+    "CommandPalette.GroupLabel": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
+    "CommandPalette.Empty": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "forceMount",
+        "type": "boolean",
+        "required": false,
+        "description": "forceMount prop."
+      }
+    ],
+    "CommandPalette.Loading": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "progress",
+        "type": "number",
+        "required": false,
+        "description": "progress prop."
+      }
+    ],
+    "Surface": [
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Child snippet rendered by the component."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      },
+      {
+        "prop": "as",
+        "type": "string",
+        "required": false,
+        "description": "as prop."
+      },
+      {
+        "prop": "color",
+        "type": "SurfaceColor",
+        "required": false,
+        "description": "color prop."
+      }
+    ]
   };
+
+  const aliases: Record<string, string> = {
+    'Dialog.Root': 'Dialog',
+    'Dialog.Trigger': 'Dialog',
+    'Dialog.Title': 'Dialog',
+    'Dialog.Description': 'Dialog',
+    'Dialog.Close': 'Dialog',
+    'DropdownMenu.LinkItem': 'DropdownMenu.Item',
+    'DropdownMenu.Sub': 'DropdownMenu',
+    'Tooltip.Provider': 'Tooltip',
+    'Select.Option': 'Select'
+  };
+
+  const omittedProps: Record<string, string[]> = {
+    Button: ['href', 'external'],
+    Input: ['children'],
+    Checkbox: ['children', 'description', 'error'],
+    Switch: ['children', 'description', 'error'],
+    Tabs: ['children', 'items', 'class', 'className', 'triggerClass', 'contentClass'],
+    TableOfContents: ['items'],
+    Sidebar: ['items'],
+    Empty: ['children'],
+    CloudflareLogo: ['children', 'href', 'poweredBy'],
+    Label: ['for']
+  };
+
+  const requiredProps: Record<string, string[]> = {
+    Badge: ['children'],
+    Meter: ['label'],
+    Empty: ['title'],
+    Label: ['children'],
+    ClipboardText: ['text'],
+    CodeHighlighted: ['code', 'lang'],
+    DatePicker: ['mode'],
+    'Flow.Parallel': ['children'],
+    'Flow.List': ['children'],
+    'Checkbox.Group': ['children'],
+    'Checkbox.Legend': ['children'],
+    'Checkbox.Item': ['label'],
+    'Radio.Group': ['children'],
+    'Radio.Legend': ['children'],
+    'Radio.Item': ['label', 'value'],
+    'Switch.Group': ['children'],
+    'Switch.Legend': ['children'],
+    'Switch.Item': ['label'],
+    'DropdownMenu.RadioItem': ['value'],
+    'Breadcrumbs.Link': ['href'],
+    'Breadcrumbs.Clipboard': ['text'],
+    'MenuBar': ['isActive', 'options'],
+    'Pagination': ['setPage'],
+    'Pagination.PageSize': ['value', 'onChange'],
+    'TableOfContents.Group': ['label'],
+    Tooltip: ['content'],
+    Dialog: ['children'],
+    Autocomplete: ['children', 'items'],
+    Combobox: ['children', 'items']
+  };
+
+  const snippetPropsOmittedByComponent: Record<string, string[]> = {
+    'Dialog.Root': ['class'],
+    'Dialog.Title': ['children'],
+    'Dialog.Description': ['children'],
+    'Dialog.Close': ['class'],
+    'PopoverTitle': ['children'],
+    'PopoverDescription': ['children'],
+    'Table.Row': ['children'],
+    'Table.Header': ['children'],
+    'Table.Head': ['children'],
+    'Table.Cell': ['children'],
+    'Table.Body': ['children'],
+    'Table.Footer': ['children'],
+    'TableOfContents.Title': ['children'],
+    'TableOfContents.List': ['children'],
+    'DropdownMenu.Separator': ['children'],
+    'Pagination.Controls': ['children'],
+    'Pagination.PageSize': ['children'],
+    'Pagination.Separator': ['children'],
+    'CommandPalette.Input': ['children'],
+    'CommandPalette.ResultItem': ['class', 'children']
+  };
+
+  const topLevelComponentKeys = new Set([
+    'Autocomplete',
+    'Badge',
+    'Banner',
+    'Breadcrumbs',
+    'Button',
+    'Chart',
+    'Checkbox',
+    'ClipboardText',
+    'CloudflareLogo',
+    'CodeHighlighted',
+    'Collapsible',
+    'Combobox',
+    'CommandPalette',
+    'DatePicker',
+    'DeleteResource',
+    'Dialog',
+    'DropdownMenu',
+    'Empty',
+    'Flow',
+    'Grid',
+    'Input',
+    'InputArea',
+    'InputGroup',
+    'Label',
+    'LayerCard',
+    'Link',
+    'LinkButton',
+    'Loader',
+    'MenuBar',
+    'Meter',
+    'PageHeader',
+    'Pagination',
+    'Popover',
+    'Radio',
+    'SankeyChart',
+    'Select',
+    'SensitiveInput',
+    'Sidebar',
+    'SkeletonLine',
+    'Surface',
+    'Switch',
+    'Table',
+    'TableOfContents',
+    'Tabs',
+    'Text',
+    'TimeseriesChart',
+    'Toasty',
+    'Tooltip'
+  ]);
 
   const key = $derived(component ?? sourceFile ?? 'Component');
-  const rows = $derived(rowsByComponent[key] ?? commonRows);
+  const resolvedKey = $derived(aliases[key] ?? key);
+  const rows = $derived.by(() => {
+    const isTopLevelComponent = topLevelComponentKeys.has(key);
+    const omitted = new Set([
+      ...(omittedProps[key] ?? omittedProps[resolvedKey] ?? []),
+      ...(snippetPropsOmittedByComponent[key] ?? snippetPropsOmittedByComponent[resolvedKey] ?? []),
+      ...(isTopLevelComponent ? [] : ['class', 'children'])
+    ]);
+    const required = new Set(requiredProps[key] ?? requiredProps[resolvedKey] ?? []);
+    return (rowsByComponent[resolvedKey] ?? [])
+      .filter((row) => !omitted.has(row.prop))
+      .map((row) => ({ ...row, required: row.required || required.has(row.prop) }));
+  });
 </script>
 
 <div class="not-prose overflow-x-auto">
@@ -281,6 +5160,12 @@
             {/if}
           </td>
           <td class="max-w-md px-4 py-3 text-xs">{row.description}</td>
+        </tr>
+      {:else}
+        <tr class="border-b border-kumo-hairline">
+          <td class="px-4 py-3 text-sm text-kumo-subtle" colspan="4">
+            No component-specific props. Accepts standard HTML attributes.
+          </td>
         </tr>
       {/each}
     </tbody>
