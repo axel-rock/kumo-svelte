@@ -118,6 +118,148 @@ function previewRendererSnippet(demo: string) {
   return '';
 }
 
+function autocompleteSnippet(demo: string) {
+  const fruits = `const fruits = [
+  'Apple',
+  'Apricot',
+  'Avocado',
+  'Banana',
+  'Blackberry',
+  'Blueberry',
+  'Cantaloupe',
+  'Cherry',
+  'Coconut',
+  'Cranberry',
+  'Date',
+  'Dragon Fruit',
+  'Fig',
+  'Grape',
+  'Grapefruit',
+  'Guava',
+  'Honeydew',
+  'Kiwi',
+  'Lemon',
+  'Lime',
+  'Lychee',
+  'Mango',
+  'Nectarine',
+  'Orange',
+  'Papaya',
+  'Passion Fruit',
+  'Peach',
+  'Pear',
+  'Pineapple',
+  'Plum',
+  'Raspberry',
+  'Strawberry',
+  'Watermelon'
+].map((fruit) => ({ label: fruit, value: fruit }));`;
+
+  const countries = `const countries = [
+  { label: 'United States', value: 'us' },
+  { label: 'United Kingdom', value: 'gb' },
+  { label: 'Germany', value: 'de' },
+  { label: 'France', value: 'fr' },
+  { label: 'Japan', value: 'jp' },
+  { label: 'China', value: 'cn' },
+  { label: 'India', value: 'in' },
+  { label: 'Brazil', value: 'br' },
+  { label: 'Canada', value: 'ca' },
+  { label: 'Australia', value: 'au' }
+];`;
+
+  switch (demo) {
+    case 'AutocompleteDemo':
+      return `<script lang="ts">
+  import { Autocomplete } from 'kumo-svelte';
+
+  ${fruits}
+</script>
+
+<Autocomplete options={fruits} placeholder="Search fruits…" />`;
+    case 'AutocompleteWithFieldDemo':
+      return `<script lang="ts">
+  import { Autocomplete } from 'kumo-svelte';
+
+  ${countries}
+</script>
+
+<div class="w-80">
+  <Autocomplete
+    options={countries}
+    label="Country"
+    description="Start typing to filter countries"
+    placeholder="Search countries…"
+  />
+</div>`;
+    case 'AutocompleteErrorDemo':
+      return `<script lang="ts">
+  import { Autocomplete } from 'kumo-svelte';
+
+  ${countries}
+</script>
+
+<div class="w-80">
+  <Autocomplete
+    options={countries}
+    label="Country"
+    error={{ message: 'Please enter a valid country', match: true }}
+    placeholder="Search countries…"
+  />
+</div>`;
+    case 'AutocompleteGroupedDemo':
+      return `<script lang="ts">
+  import { Autocomplete } from 'kumo-svelte';
+
+  const servers = [
+    { label: 'US East (Virginia)', value: 'us-east-1', group: 'North America' },
+    { label: 'US West (Oregon)', value: 'us-west-2', group: 'North America' },
+    { label: 'Canada (Central)', value: 'ca-central-1', group: 'North America' },
+    { label: 'EU West (Ireland)', value: 'eu-west-1', group: 'Europe' },
+    { label: 'EU Central (Frankfurt)', value: 'eu-central-1', group: 'Europe' },
+    { label: 'EU North (Stockholm)', value: 'eu-north-1', group: 'Europe' },
+    { label: 'AP Southeast (Singapore)', value: 'ap-southeast-1', group: 'Asia Pacific' },
+    { label: 'AP Northeast (Tokyo)', value: 'ap-northeast-1', group: 'Asia Pacific' },
+    { label: 'AP South (Mumbai)', value: 'ap-south-1', group: 'Asia Pacific' }
+  ];
+</script>
+
+<Autocomplete options={servers} placeholder="Select region…" />`;
+    case 'AutocompleteSizesDemo':
+      return `<script lang="ts">
+  import { Autocomplete } from 'kumo-svelte';
+
+  ${fruits}
+</script>
+
+<div class="flex flex-wrap items-center gap-4">
+  <Autocomplete options={fruits.slice(0, 10)} size="xs" placeholder="xs" />
+  <Autocomplete options={fruits.slice(0, 10)} size="sm" placeholder="sm" />
+  <Autocomplete options={fruits.slice(0, 10)} size="base" placeholder="base (default)" />
+  <Autocomplete options={fruits.slice(0, 10)} size="lg" placeholder="lg" />
+</div>`;
+    case 'AutocompleteControlledDemo':
+      return `<script lang="ts">
+  import { Autocomplete } from 'kumo-svelte';
+
+  ${fruits}
+
+  let value = $state('');
+</script>
+
+<div class="flex w-80 flex-col gap-3">
+  <Autocomplete bind:value options={fruits} placeholder="Type a fruit…" />
+  {#if value}
+    <p class="text-sm text-kumo-subtle">
+      Value: <span class="font-medium text-kumo-default">{value}</span>
+    </p>
+  {/if}
+</div>`;
+    default:
+      return '';
+  }
+}
+
 function flowSnippet(demo: string) {
   switch (demo) {
     case 'FlowBasicDemo':
@@ -901,6 +1043,8 @@ function specializedSnippet(demo: string) {
 export function getSvelteDemoSnippet(demo: string) {
   const specialized = specializedSnippet(demo);
   if (specialized) return specialized;
+  const autocomplete = autocompleteSnippet(demo);
+  if (autocomplete) return autocomplete;
   const flow = flowSnippet(demo);
   if (flow) return flow;
   if (demo.includes('Chart') || demo.includes('Legend') || demo.includes('Sankey') || demo.includes('Pie') || demo.includes('Categorical') || demo.includes('Heatmap')) return chartSnippet(demo);

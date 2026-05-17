@@ -2,6 +2,7 @@
   import {
     Badge,
     Banner,
+    Autocomplete,
     Breadcrumbs,
     Button,
     Checkbox,
@@ -77,6 +78,7 @@
   let deleteResourceOpen = $state(false);
   let menuBarActive = $state<string | undefined>('bold');
   let copiedCloudflareLogo = $state<string | undefined>();
+  let autocompleteValue = $state('');
   let datePickerValue = $state(new CalendarDate(2026, 5, 16));
   let dateRangePickerValue = $state({
     start: new CalendarDate(2026, 5, 12),
@@ -88,6 +90,77 @@
     { label: 'Pages', value: 'pages' },
     { label: 'R2', value: 'r2' },
     { label: 'D1', value: 'd1', disabled: true }
+  ];
+
+  const autocompleteFruits = [
+    'Apple',
+    'Apricot',
+    'Avocado',
+    'Banana',
+    'Blackberry',
+    'Blueberry',
+    'Cantaloupe',
+    'Cherry',
+    'Coconut',
+    'Cranberry',
+    'Date',
+    'Dragon Fruit',
+    'Fig',
+    'Grape',
+    'Grapefruit',
+    'Guava',
+    'Honeydew',
+    'Kiwi',
+    'Lemon',
+    'Lime',
+    'Lychee',
+    'Mango',
+    'Nectarine',
+    'Orange',
+    'Papaya',
+    'Passion Fruit',
+    'Peach',
+    'Pear',
+    'Pineapple',
+    'Plum',
+    'Raspberry',
+    'Strawberry',
+    'Watermelon'
+  ].map((fruit) => ({ label: fruit, value: fruit }));
+
+  const autocompleteCountries = [
+    { code: 'us', label: 'United States' },
+    { code: 'gb', label: 'United Kingdom' },
+    { code: 'de', label: 'Germany' },
+    { code: 'fr', label: 'France' },
+    { code: 'jp', label: 'Japan' },
+    { code: 'cn', label: 'China' },
+    { code: 'in', label: 'India' },
+    { code: 'br', label: 'Brazil' },
+    { code: 'ca', label: 'Canada' },
+    { code: 'au', label: 'Australia' },
+    { code: 'mx', label: 'Mexico' },
+    { code: 'kr', label: 'South Korea' },
+    { code: 'it', label: 'Italy' },
+    { code: 'es', label: 'Spain' },
+    { code: 'nl', label: 'Netherlands' },
+    { code: 'se', label: 'Sweden' },
+    { code: 'no', label: 'Norway' },
+    { code: 'pl', label: 'Poland' },
+    { code: 'ar', label: 'Argentina' },
+    { code: 'za', label: 'South Africa' }
+  ].map((country) => ({ label: country.label, value: country.code }));
+
+  const autocompleteServers = [
+    { label: 'US East (Virginia)', value: 'us-east-1', group: 'North America' },
+    { label: 'US West (Oregon)', value: 'us-west-2', group: 'North America' },
+    { label: 'Canada (Central)', value: 'ca-central-1', group: 'North America' },
+    { label: 'EU West (Ireland)', value: 'eu-west-1', group: 'Europe' },
+    { label: 'EU Central (Frankfurt)', value: 'eu-central-1', group: 'Europe' },
+    { label: 'EU North (Stockholm)', value: 'eu-north-1', group: 'Europe' },
+    { label: 'AP Southeast (Singapore)', value: 'ap-southeast-1', group: 'Asia Pacific' },
+    { label: 'AP Northeast (Tokyo)', value: 'ap-northeast-1', group: 'Asia Pacific' },
+    { label: 'AP South (Mumbai)', value: 'ap-south-1', group: 'Asia Pacific' }
   ];
 
   let menuItems = $derived([
@@ -394,7 +467,35 @@ const route: WorkerRoute = {
       {#snippet trigger()}Build details{/snippet}
       <p class="text-sm text-kumo-subtle">Dependencies installed, routes generated, and static assets uploaded.</p>
     </Collapsible>
-  {:else if looksLike('Combobox') || looksLike('Autocomplete')}
+  {:else if looksLike('Autocomplete')}
+    {#if demo === 'AutocompleteControlledDemo'}
+      <div class="flex w-80 flex-col gap-3">
+        <Autocomplete bind:value={autocompleteValue} options={autocompleteFruits} placeholder="Type a fruit…" />
+        {#if autocompleteValue}
+          <p class="text-sm text-kumo-subtle">Value: <span class="font-medium text-kumo-default">{autocompleteValue}</span></p>
+        {/if}
+      </div>
+    {:else if demo === 'AutocompleteWithFieldDemo'}
+      <div class="w-80">
+        <Autocomplete options={autocompleteCountries} label="Country" description="Start typing to filter countries" placeholder="Search countries…" />
+      </div>
+    {:else if demo === 'AutocompleteErrorDemo'}
+      <div class="w-80">
+        <Autocomplete options={autocompleteCountries} label="Country" error={{ message: 'Please enter a valid country', match: true }} placeholder="Search countries…" />
+      </div>
+    {:else if demo === 'AutocompleteGroupedDemo'}
+      <Autocomplete options={autocompleteServers} placeholder="Select region…" />
+    {:else if demo === 'AutocompleteSizesDemo'}
+      <div class="flex flex-wrap items-center gap-4">
+        <Autocomplete options={autocompleteFruits.slice(0, 10)} size="xs" placeholder="xs" />
+        <Autocomplete options={autocompleteFruits.slice(0, 10)} size="sm" placeholder="sm" />
+        <Autocomplete options={autocompleteFruits.slice(0, 10)} size="base" placeholder="base (default)" />
+        <Autocomplete options={autocompleteFruits.slice(0, 10)} size="lg" placeholder="lg" />
+      </div>
+    {:else}
+      <Autocomplete options={autocompleteFruits} placeholder="Search fruits…" />
+    {/if}
+  {:else if looksLike('Combobox')}
     <Combobox options={selectOptions} placeholder="Select product" />
   {:else if looksLike('CommandPalette')}
     <CommandPalette commands={[{ label: 'Open dashboard' }, { label: 'Deploy project' }, { label: 'View logs' }, { label: 'Manage domains' }]} />

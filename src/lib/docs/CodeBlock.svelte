@@ -33,7 +33,11 @@
         dark: 'vesper'
       },
       defaultColor: false
-    }).then((html) => html.replace(/\s+tabindex="0"/g, ''))
+    }).then((html) =>
+      html
+        .replace(/\s+tabindex="0"/g, '')
+        .replace(/(<\/span>)\n(?=<span class="line")/g, '$1')
+    )
   );
 
   async function copyCode() {

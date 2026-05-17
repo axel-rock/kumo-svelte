@@ -5,9 +5,9 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import { onMount } from 'svelte';
+  import { GithubLogoIcon } from 'phosphor-svelte';
   import BaseUIIcon from './BaseUIIcon.svelte';
   import CopyPageButton from './CopyPageButton.svelte';
-  import GitHubIcon from './GitHubIcon.svelte';
   import StickyDocHeader from './StickyDocHeader.svelte';
   import TableOfContents from './TableOfContents.svelte';
 
@@ -134,7 +134,7 @@
               title="View source on GitHub"
               aria-label="View source on GitHub"
             >
-              <GitHubIcon size={28} />
+              <GithubLogoIcon size={28} weight="fill" />
             </a>
           {/if}
           {#if bitsUIUrl}

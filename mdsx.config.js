@@ -1,17 +1,17 @@
 import { defineConfig } from 'mdsx';
 import { codeToHtml } from 'shiki';
 
-type MdsxNode = {
-  type?: string;
-  tagName?: string;
-  value?: string;
-  properties?: {
-    className?: unknown;
-  };
-  children?: MdsxNode[];
-};
+/**
+ * @typedef {object} MdsxNode
+ * @property {string=} type
+ * @property {string=} tagName
+ * @property {string=} value
+ * @property {{ className?: unknown }=} properties
+ * @property {MdsxNode[]=} children
+ */
 
-const languageAliases: Record<string, string> = {
+/** @type {Record<string, string>} */
+const languageAliases = {
   svelte: 'svelte',
   ts: 'typescript',
   tsx: 'tsx',
@@ -23,14 +23,22 @@ const languageAliases: Record<string, string> = {
   jsonc: 'jsonc'
 };
 
-function textContent(node: MdsxNode | undefined): string {
+/**
+ * @param {MdsxNode | undefined} node
+ * @returns {string}
+ */
+function textContent(node) {
   if (!node) return '';
   if (node.type === 'text') return node.value ?? '';
   if (!Array.isArray(node.children)) return '';
   return node.children.map(textContent).join('');
 }
 
-function escapeSvelte(html: string): string {
+/**
+ * @param {string} html
+ * @returns {string}
+ */
+function escapeSvelte(html) {
   return html.replace(/[{}`]/g, (character) => {
     if (character === '{') return '&#123;';
     if (character === '}') return '&#125;';
@@ -38,7 +46,11 @@ function escapeSvelte(html: string): string {
   });
 }
 
-function codeLanguage(node: MdsxNode): string {
+/**
+ * @param {MdsxNode} node
+ * @returns {string}
+ */
+function codeLanguage(node) {
   const code = node.children?.find((child) => child.type === 'element' && child.tagName === 'code');
   const classNames = Array.isArray(code?.properties?.className) ? code.properties.className : [];
   const languageClass = classNames.find(
@@ -49,8 +61,10 @@ function codeLanguage(node: MdsxNode): string {
 }
 
 function rehypeShikiCodeBlocks() {
-  return async (tree: MdsxNode): Promise<void> => {
-    const highlights: Promise<void>[] = [];
+  /** @param {MdsxNode} tree */
+  return async (tree) => {
+    /** @type {Promise<void>[]} */
+    const highlights = [];
 
     walk(tree, (node) => {
       if (node.tagName !== 'pre') return;
@@ -65,7 +79,9 @@ function rehypeShikiCodeBlocks() {
           defaultColor: false
         }).then((html) => {
           node.type = 'raw';
-          node.value = escapeSvelte(html.replace(/\s+tabindex="0"/g, ''));
+          node.value = escapeSvelte(
+            html.replace(/\s+tabindex="0"/g, '').replace(/(<\/span>)\n(?=<span class="line")/g, '$1')
+          );
           delete node.tagName;
           delete node.properties;
           delete node.children;
@@ -77,7 +93,11 @@ function rehypeShikiCodeBlocks() {
   };
 }
 
-function walk(node: MdsxNode, callback: (node: MdsxNode) => void): void {
+/**
+ * @param {MdsxNode} node
+ * @param {(node: MdsxNode) => void} callback
+ */
+function walk(node, callback) {
   callback(node);
   if (!Array.isArray(node.children)) return;
   for (const child of node.children) {
