@@ -91,7 +91,7 @@
     ...rest
   }: Props = $props();
 
-  let listEl: HTMLDivElement | undefined = $state();
+  let listEl: HTMLDivElement | null = $state(null);
   let isOverflowing = $state(false);
   let activeLeft = $state(0);
   let activeTop = $state(0);

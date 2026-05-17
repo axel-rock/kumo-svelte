@@ -1,6 +1,7 @@
 <script lang="ts">
   import { DropdownMenu as DropdownMenuPrimitive } from 'bits-ui';
   import type { Snippet } from 'svelte';
+  import { cn } from '$lib/utils/cn';
 
   interface Props {
     children?: Snippet;
@@ -13,12 +14,14 @@
   let { children, child: renderChild, class: className, type = 'button', ...rest }: Props = $props();
 </script>
 
-<DropdownMenuPrimitive.Trigger class={className} {type} {...rest}>
-  {#if renderChild}
-    {#snippet child({ props }: { props: Record<string, unknown> })}
-      {@render renderChild({ props })}
-    {/snippet}
-  {:else}
+{#snippet defaultTriggerChild({ props }: { props: Record<string, unknown> })}
+  <span {...props} class={cn('inline-flex', className, props.class as string | undefined)}>
     {@render children?.()}
-  {/if}
-</DropdownMenuPrimitive.Trigger>
+  </span>
+{/snippet}
+
+<DropdownMenuPrimitive.Trigger
+  {type}
+  {...rest}
+  child={renderChild ?? defaultTriggerChild}
+/>
