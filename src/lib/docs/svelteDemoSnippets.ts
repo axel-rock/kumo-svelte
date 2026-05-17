@@ -153,7 +153,7 @@ function autocompleteSnippet(demo: string) {
   'Raspberry',
   'Strawberry',
   'Watermelon'
-].map((fruit) => ({ label: fruit, value: fruit }));`;
+];`;
 
   const countries = `const countries = [
   { label: 'United States', value: 'us' },
@@ -176,7 +176,16 @@ function autocompleteSnippet(demo: string) {
   ${fruits}
 </script>
 
-<Autocomplete options={fruits} placeholder="Search fruits…" />`;
+<Autocomplete items={fruits}>
+  <Autocomplete.InputGroup placeholder="Search fruits…" />
+  <Autocomplete.Content>
+    <Autocomplete.List>
+      {#snippet children(item)}
+        <Autocomplete.Item value={item}>{item}</Autocomplete.Item>
+      {/snippet}
+    </Autocomplete.List>
+  </Autocomplete.Content>
+</Autocomplete>`;
     case 'AutocompleteWithFieldDemo':
       return `<script lang="ts">
   import { Autocomplete } from 'kumo-svelte';
@@ -186,11 +195,19 @@ function autocompleteSnippet(demo: string) {
 
 <div class="w-80">
   <Autocomplete
-    options={countries}
+    items={countries}
     label="Country"
     description="Start typing to filter countries"
-    placeholder="Search countries…"
-  />
+  >
+    <Autocomplete.InputGroup placeholder="Search countries…" />
+    <Autocomplete.Content>
+      <Autocomplete.List>
+        {#snippet children(item)}
+          <Autocomplete.Item value={item}>{item.label}</Autocomplete.Item>
+        {/snippet}
+      </Autocomplete.List>
+    </Autocomplete.Content>
+  </Autocomplete>
 </div>`;
     case 'AutocompleteErrorDemo':
       return `<script lang="ts">
@@ -201,30 +218,72 @@ function autocompleteSnippet(demo: string) {
 
 <div class="w-80">
   <Autocomplete
-    options={countries}
+    items={countries}
     label="Country"
     error={{ message: 'Please enter a valid country', match: true }}
-    placeholder="Search countries…"
-  />
+  >
+    <Autocomplete.InputGroup placeholder="Search countries…" />
+    <Autocomplete.Content>
+      <Autocomplete.List>
+        {#snippet children(item)}
+          <Autocomplete.Item value={item}>{item.label}</Autocomplete.Item>
+        {/snippet}
+      </Autocomplete.List>
+    </Autocomplete.Content>
+  </Autocomplete>
 </div>`;
     case 'AutocompleteGroupedDemo':
       return `<script lang="ts">
   import { Autocomplete } from 'kumo-svelte';
 
   const servers = [
-    { label: 'US East (Virginia)', value: 'us-east-1', group: 'North America' },
-    { label: 'US West (Oregon)', value: 'us-west-2', group: 'North America' },
-    { label: 'Canada (Central)', value: 'ca-central-1', group: 'North America' },
-    { label: 'EU West (Ireland)', value: 'eu-west-1', group: 'Europe' },
-    { label: 'EU Central (Frankfurt)', value: 'eu-central-1', group: 'Europe' },
-    { label: 'EU North (Stockholm)', value: 'eu-north-1', group: 'Europe' },
-    { label: 'AP Southeast (Singapore)', value: 'ap-southeast-1', group: 'Asia Pacific' },
-    { label: 'AP Northeast (Tokyo)', value: 'ap-northeast-1', group: 'Asia Pacific' },
-    { label: 'AP South (Mumbai)', value: 'ap-south-1', group: 'Asia Pacific' }
+    {
+      label: 'North America',
+      value: 'North America',
+      items: [
+        { label: 'US East (Virginia)', value: 'us-east-1' },
+        { label: 'US West (Oregon)', value: 'us-west-2' },
+        { label: 'Canada (Central)', value: 'ca-central-1' }
+      ]
+    },
+    {
+      label: 'Europe',
+      value: 'Europe',
+      items: [
+        { label: 'EU West (Ireland)', value: 'eu-west-1' },
+        { label: 'EU Central (Frankfurt)', value: 'eu-central-1' },
+        { label: 'EU North (Stockholm)', value: 'eu-north-1' }
+      ]
+    },
+    {
+      label: 'Asia Pacific',
+      value: 'Asia Pacific',
+      items: [
+        { label: 'AP Southeast (Singapore)', value: 'ap-southeast-1' },
+        { label: 'AP Northeast (Tokyo)', value: 'ap-northeast-1' },
+        { label: 'AP South (Mumbai)', value: 'ap-south-1' }
+      ]
+    }
   ];
 </script>
 
-<Autocomplete options={servers} placeholder="Select region…" />`;
+<Autocomplete items={servers}>
+  <Autocomplete.InputGroup placeholder="Select region…" />
+  <Autocomplete.Content>
+    <Autocomplete.List>
+      {#snippet children(group)}
+        <Autocomplete.Group items={group.items}>
+          <Autocomplete.GroupLabel>{group.label}</Autocomplete.GroupLabel>
+          <Autocomplete.Collection>
+            {#snippet children(item)}
+              <Autocomplete.Item value={item}>{item.label}</Autocomplete.Item>
+            {/snippet}
+          </Autocomplete.Collection>
+        </Autocomplete.Group>
+      {/snippet}
+    </Autocomplete.List>
+  </Autocomplete.Content>
+</Autocomplete>`;
     case 'AutocompleteSizesDemo':
       return `<script lang="ts">
   import { Autocomplete } from 'kumo-svelte';
@@ -233,10 +292,46 @@ function autocompleteSnippet(demo: string) {
 </script>
 
 <div class="flex flex-wrap items-center gap-4">
-  <Autocomplete options={fruits.slice(0, 10)} size="xs" placeholder="xs" />
-  <Autocomplete options={fruits.slice(0, 10)} size="sm" placeholder="sm" />
-  <Autocomplete options={fruits.slice(0, 10)} size="base" placeholder="base (default)" />
-  <Autocomplete options={fruits.slice(0, 10)} size="lg" placeholder="lg" />
+  <Autocomplete items={fruits.slice(0, 10)}>
+    <Autocomplete.InputGroup size="xs" placeholder="xs" />
+    <Autocomplete.Content>
+      <Autocomplete.List>
+        {#snippet children(item)}
+          <Autocomplete.Item value={item}>{item}</Autocomplete.Item>
+        {/snippet}
+      </Autocomplete.List>
+    </Autocomplete.Content>
+  </Autocomplete>
+  <Autocomplete items={fruits.slice(0, 10)}>
+    <Autocomplete.InputGroup size="sm" placeholder="sm" />
+    <Autocomplete.Content>
+      <Autocomplete.List>
+        {#snippet children(item)}
+          <Autocomplete.Item value={item}>{item}</Autocomplete.Item>
+        {/snippet}
+      </Autocomplete.List>
+    </Autocomplete.Content>
+  </Autocomplete>
+  <Autocomplete items={fruits.slice(0, 10)}>
+    <Autocomplete.InputGroup size="base" placeholder="base (default)" />
+    <Autocomplete.Content>
+      <Autocomplete.List>
+        {#snippet children(item)}
+          <Autocomplete.Item value={item}>{item}</Autocomplete.Item>
+        {/snippet}
+      </Autocomplete.List>
+    </Autocomplete.Content>
+  </Autocomplete>
+  <Autocomplete items={fruits.slice(0, 10)}>
+    <Autocomplete.InputGroup size="lg" placeholder="lg" />
+    <Autocomplete.Content>
+      <Autocomplete.List>
+        {#snippet children(item)}
+          <Autocomplete.Item value={item}>{item}</Autocomplete.Item>
+        {/snippet}
+      </Autocomplete.List>
+    </Autocomplete.Content>
+  </Autocomplete>
 </div>`;
     case 'AutocompleteControlledDemo':
       return `<script lang="ts">
@@ -248,7 +343,16 @@ function autocompleteSnippet(demo: string) {
 </script>
 
 <div class="flex w-80 flex-col gap-3">
-  <Autocomplete bind:value options={fruits} placeholder="Type a fruit…" />
+  <Autocomplete bind:value items={fruits}>
+    <Autocomplete.InputGroup placeholder="Type a fruit…" />
+    <Autocomplete.Content>
+      <Autocomplete.List>
+        {#snippet children(item)}
+          <Autocomplete.Item value={item}>{item}</Autocomplete.Item>
+        {/snippet}
+      </Autocomplete.List>
+    </Autocomplete.Content>
+  </Autocomplete>
   {#if value}
     <p class="text-sm text-kumo-subtle">
       Value: <span class="font-medium text-kumo-default">{value}</span>

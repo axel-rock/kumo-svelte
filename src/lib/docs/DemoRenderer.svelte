@@ -126,7 +126,7 @@
     'Raspberry',
     'Strawberry',
     'Watermelon'
-  ].map((fruit) => ({ label: fruit, value: fruit }));
+  ];
 
   const autocompleteCountries = [
     { code: 'us', label: 'United States' },
@@ -161,6 +161,24 @@
     { label: 'AP Southeast (Singapore)', value: 'ap-southeast-1', group: 'Asia Pacific' },
     { label: 'AP Northeast (Tokyo)', value: 'ap-northeast-1', group: 'Asia Pacific' },
     { label: 'AP South (Mumbai)', value: 'ap-south-1', group: 'Asia Pacific' }
+  ];
+
+  const autocompleteServerGroups = [
+    {
+      label: 'North America',
+      value: 'North America',
+      items: autocompleteServers.filter((item) => item.group === 'North America')
+    },
+    {
+      label: 'Europe',
+      value: 'Europe',
+      items: autocompleteServers.filter((item) => item.group === 'Europe')
+    },
+    {
+      label: 'Asia Pacific',
+      value: 'Asia Pacific',
+      items: autocompleteServers.filter((item) => item.group === 'Asia Pacific')
+    }
   ];
 
   let menuItems = $derived([
@@ -470,30 +488,102 @@ const route: WorkerRoute = {
   {:else if looksLike('Autocomplete')}
     {#if demo === 'AutocompleteControlledDemo'}
       <div class="flex w-80 flex-col gap-3">
-        <Autocomplete bind:value={autocompleteValue} options={autocompleteFruits} placeholder="Type a fruit…" />
+        <Autocomplete bind:value={autocompleteValue} items={autocompleteFruits}>
+          <Autocomplete.InputGroup placeholder="Type a fruit…" />
+          <Autocomplete.Content>
+            <Autocomplete.List>
+              {#snippet children(item)}
+                <Autocomplete.Item value={item}>{item}</Autocomplete.Item>
+              {/snippet}
+            </Autocomplete.List>
+          </Autocomplete.Content>
+        </Autocomplete>
         {#if autocompleteValue}
           <p class="text-sm text-kumo-subtle">Value: <span class="font-medium text-kumo-default">{autocompleteValue}</span></p>
         {/if}
       </div>
     {:else if demo === 'AutocompleteWithFieldDemo'}
       <div class="w-80">
-        <Autocomplete options={autocompleteCountries} label="Country" description="Start typing to filter countries" placeholder="Search countries…" />
+        <Autocomplete items={autocompleteCountries} label="Country" description="Start typing to filter countries">
+          <Autocomplete.InputGroup placeholder="Search countries…" />
+          <Autocomplete.Content>
+            <Autocomplete.List>
+              {#snippet children(item)}
+                <Autocomplete.Item value={item}>{item.label}</Autocomplete.Item>
+              {/snippet}
+            </Autocomplete.List>
+          </Autocomplete.Content>
+        </Autocomplete>
       </div>
     {:else if demo === 'AutocompleteErrorDemo'}
       <div class="w-80">
-        <Autocomplete options={autocompleteCountries} label="Country" error={{ message: 'Please enter a valid country', match: true }} placeholder="Search countries…" />
+        <Autocomplete items={autocompleteCountries} label="Country" error={{ message: 'Please enter a valid country', match: true }}>
+          <Autocomplete.InputGroup placeholder="Search countries…" />
+          <Autocomplete.Content>
+            <Autocomplete.List>
+              {#snippet children(item)}
+                <Autocomplete.Item value={item}>{item.label}</Autocomplete.Item>
+              {/snippet}
+            </Autocomplete.List>
+          </Autocomplete.Content>
+        </Autocomplete>
       </div>
     {:else if demo === 'AutocompleteGroupedDemo'}
-      <Autocomplete options={autocompleteServers} placeholder="Select region…" />
+      <Autocomplete items={autocompleteServerGroups}>
+        <Autocomplete.InputGroup placeholder="Select region…" />
+        <Autocomplete.Content>
+          <Autocomplete.List>
+            {#snippet children(group)}
+              <Autocomplete.Group items={group.items}>
+                <Autocomplete.GroupLabel>{group.label}</Autocomplete.GroupLabel>
+                <Autocomplete.Collection>
+                  {#snippet children(item)}
+                    <Autocomplete.Item value={item}>{item.label}</Autocomplete.Item>
+                  {/snippet}
+                </Autocomplete.Collection>
+              </Autocomplete.Group>
+            {/snippet}
+          </Autocomplete.List>
+        </Autocomplete.Content>
+      </Autocomplete>
     {:else if demo === 'AutocompleteSizesDemo'}
       <div class="flex flex-wrap items-center gap-4">
-        <Autocomplete options={autocompleteFruits.slice(0, 10)} size="xs" placeholder="xs" />
-        <Autocomplete options={autocompleteFruits.slice(0, 10)} size="sm" placeholder="sm" />
-        <Autocomplete options={autocompleteFruits.slice(0, 10)} size="base" placeholder="base (default)" />
-        <Autocomplete options={autocompleteFruits.slice(0, 10)} size="lg" placeholder="lg" />
+        <Autocomplete items={autocompleteFruits.slice(0, 10)}>
+          <Autocomplete.InputGroup size="xs" placeholder="xs" />
+          <Autocomplete.Content>
+            <Autocomplete.List>{#snippet children(item)}<Autocomplete.Item value={item}>{item}</Autocomplete.Item>{/snippet}</Autocomplete.List>
+          </Autocomplete.Content>
+        </Autocomplete>
+        <Autocomplete items={autocompleteFruits.slice(0, 10)}>
+          <Autocomplete.InputGroup size="sm" placeholder="sm" />
+          <Autocomplete.Content>
+            <Autocomplete.List>{#snippet children(item)}<Autocomplete.Item value={item}>{item}</Autocomplete.Item>{/snippet}</Autocomplete.List>
+          </Autocomplete.Content>
+        </Autocomplete>
+        <Autocomplete items={autocompleteFruits.slice(0, 10)}>
+          <Autocomplete.InputGroup size="base" placeholder="base (default)" />
+          <Autocomplete.Content>
+            <Autocomplete.List>{#snippet children(item)}<Autocomplete.Item value={item}>{item}</Autocomplete.Item>{/snippet}</Autocomplete.List>
+          </Autocomplete.Content>
+        </Autocomplete>
+        <Autocomplete items={autocompleteFruits.slice(0, 10)}>
+          <Autocomplete.InputGroup size="lg" placeholder="lg" />
+          <Autocomplete.Content>
+            <Autocomplete.List>{#snippet children(item)}<Autocomplete.Item value={item}>{item}</Autocomplete.Item>{/snippet}</Autocomplete.List>
+          </Autocomplete.Content>
+        </Autocomplete>
       </div>
     {:else}
-      <Autocomplete options={autocompleteFruits} placeholder="Search fruits…" />
+      <Autocomplete items={autocompleteFruits}>
+        <Autocomplete.InputGroup placeholder="Search fruits…" />
+        <Autocomplete.Content>
+          <Autocomplete.List>
+            {#snippet children(item)}
+              <Autocomplete.Item value={item}>{item}</Autocomplete.Item>
+            {/snippet}
+          </Autocomplete.List>
+        </Autocomplete.Content>
+      </Autocomplete>
     {/if}
   {:else if looksLike('Combobox')}
     <Combobox options={selectOptions} placeholder="Select product" />

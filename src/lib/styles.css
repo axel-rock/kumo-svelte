@@ -567,6 +567,21 @@ kbd,
   font-weight: 600;
 }
 
+.kumo-prose :where(h2):not(:where(.not-prose, .not-prose *)) {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.kumo-prose :where(h3):not(:where(.not-prose, .not-prose *)) {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.kumo-prose :where(h4):not(:where(.not-prose, .not-prose *)) {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
 /* Adjacent sibling spacing after headings */
 .kumo-prose :where(h2, h3, h4):not(:where(.not-prose, .not-prose *)) + * {
   margin-top: 0;

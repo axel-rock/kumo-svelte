@@ -3,6 +3,7 @@
     prop: string;
     type: string;
     default?: string;
+    required?: boolean;
     description: string;
   }
 
@@ -182,7 +183,23 @@
     TimeseriesChart: [{ prop: 'echarts', type: 'typeof import("echarts")', default: '-', description: 'ECharts module instance.' }, { prop: 'data', type: '{ name: string; data: [number, number][]; color: string }[]', default: '-', description: 'Named time series data.' }, { prop: 'type', type: "'line' | 'bar'", default: "'line'", description: 'Series rendering mode.' }, { prop: 'height', type: 'number', default: '350', description: 'Chart height in pixels.' }, { prop: 'gradient', type: 'boolean', default: 'false', description: 'Adds an area gradient.' }, { prop: 'loading', type: 'boolean', default: 'false', description: 'Shows a loading skeleton.' }],
     ChartLegend: [{ prop: 'name', type: 'string', default: '-', description: 'Legend label.' }, { prop: 'color', type: 'string', default: '-', description: 'Series color swatch.' }, { prop: 'value', type: 'string | number', default: '-', description: 'Primary metric value.' }, { prop: 'unit', type: 'string', default: '-', description: 'Unit suffix.' }, { prop: 'variant', type: "'small' | 'large'", default: "'small'", description: 'Legend density preset.' }],
     SankeyChart: [{ prop: 'echarts', type: 'typeof import("echarts")', default: '-', description: 'ECharts module instance.' }, { prop: 'nodes', type: 'SankeyNodeData[]', default: '-', description: 'Chart nodes.' }, { prop: 'links', type: 'SankeyLinkData[]', default: '-', description: 'Chart links.' }, { prop: 'height', type: 'number', default: '350', description: 'Chart height in pixels.' }, { prop: 'tooltipFormatter', type: '(params: SankeyTooltipParams) => string', default: '-', description: 'Custom tooltip HTML formatter.' }],
-    Autocomplete: [{ prop: 'options', type: '{ label: string; value: string }[]', default: '[]', description: 'Options available to filter and select.' }, { prop: 'value', type: 'string', default: "''", description: 'Bindable selected value.' }, { prop: 'placeholder', type: 'string', default: "'Search...'", description: 'Input placeholder text.' }, classRow, restRow],
+    Autocomplete: [
+      { prop: 'items', type: '(string | { label: string; value: string; disabled?: boolean })[]', default: '[]', required: true, description: 'Items available to filter and render.' },
+      { prop: 'value', type: 'string', default: "''", description: 'Bindable selected value.' },
+      { prop: 'open', type: 'boolean', default: 'false', description: 'Bindable popup open state.' },
+      { prop: 'size', type: "'xs' | 'sm' | 'base' | 'lg'", default: "'base'", description: 'Input group size inherited by child controls.' },
+      { prop: 'filter', type: '(item, query) => boolean', default: '-', description: 'Custom filter used to compute Autocomplete.List items.' },
+      ...fieldRows,
+      ...commonRows
+    ],
+    'Autocomplete.InputGroup': [{ prop: 'placeholder', type: 'string', default: '-', description: 'Input placeholder text.' }, { prop: 'size', type: "'xs' | 'sm' | 'base' | 'lg'", default: 'inherited', description: 'Overrides the root autocomplete size.' }, classRow, restRow],
+    'Autocomplete.Content': [childrenRow, classRow, restRow],
+    'Autocomplete.List': [childrenRow, restRow],
+    'Autocomplete.Item': [{ prop: 'value', type: 'string | { label: string; value: string; disabled?: boolean }', default: '-', required: true, description: 'Item represented by this row.' }, { prop: 'disabled', type: 'boolean', default: '-', description: 'Disables the item.' }, childrenRow, classRow, restRow],
+    'Autocomplete.Group': [{ prop: 'items', type: 'AutocompleteItem[]', default: '[]', required: true, description: 'Items rendered by nested Autocomplete.Collection.' }, childrenRow, restRow],
+    'Autocomplete.GroupLabel': [childrenRow, classRow, restRow],
+    'Autocomplete.Collection': [childrenRow, restRow],
+    'Autocomplete.Separator': [classRow, restRow],
     Combobox: [{ prop: 'options', type: '{ label: string; value: string }[]', default: '[]', description: 'Options rendered in the list.' }, { prop: 'value', type: 'string | string[]', default: '-', description: 'Bindable selected value or values.' }, { prop: 'placeholder', type: 'string', default: '-', description: 'Trigger placeholder text.' }, classRow, restRow],
     'Combobox.Content': popupRows,
     'Combobox.Item': [childrenRow, { prop: 'value', type: 'string', default: '-', description: 'Item value.' }, { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disables the item.' }, classRow, restRow],
@@ -227,7 +244,12 @@
     <tbody class="text-kumo-strong">
       {#each rows as row (row.prop)}
         <tr class="border-b border-kumo-hairline">
-          <td class="px-4 py-3 font-mono text-xs">{row.prop}</td>
+          <td class="px-4 py-3 font-mono text-xs">
+            {row.prop}
+            {#if row.required}
+              <span class="ml-0.5 text-kumo-danger">*</span>
+            {/if}
+          </td>
           <td class="max-w-xs px-4 py-3 font-mono text-xs">
             <code class="text-wrap break-words">{row.type}</code>
           </td>

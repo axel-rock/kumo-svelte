@@ -68,10 +68,7 @@
     { label: 'Specific versions', value: 'specific' }
   ];
 
-  const fruits = ['Apple', 'Banana', 'Cherry', 'Grape', 'Mango', 'Orange'].map((value) => ({
-    label: value,
-    value: value.toLowerCase()
-  }));
+  const fruits = ['Apple', 'Banana', 'Cherry', 'Grape', 'Mango', 'Orange'];
 
   const commands = [
     { label: 'Open dashboard' },
@@ -139,7 +136,16 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="autocomplete" href="/components/autocomplete" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Autocomplete</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <Autocomplete class="w-[200px]" options={fruits} placeholder="Search fruits..." />
+          <Autocomplete class="w-[200px]" items={fruits}>
+            <Autocomplete.InputGroup placeholder="Search fruits..." />
+            <Autocomplete.Content>
+              <Autocomplete.List>
+                {#snippet children(item)}
+                  <Autocomplete.Item value={item}>{item}</Autocomplete.Item>
+                {/snippet}
+              </Autocomplete.List>
+            </Autocomplete.Content>
+          </Autocomplete>
         </div>
       </li>
 
