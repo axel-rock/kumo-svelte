@@ -1,162 +1,299 @@
+<script module lang="ts">
+  export type DatePickerMode = 'single' | 'multiple' | 'range';
+
+  export interface DateRange {
+    from?: Date;
+    to?: Date;
+  }
+
+  export type DatePickerSelection = Date | Date[] | DateRange | undefined;
+</script>
+
 <script lang="ts">
-  import type { DateValue } from '@internationalized/date';
+  import { CaretLeft, CaretRight } from 'phosphor-svelte';
   import type { Snippet } from 'svelte';
-  import { Calendar as CalendarIcon, CaretLeft, CaretRight } from 'phosphor-svelte';
-  import { DatePicker as DatePickerPrimitive } from 'bits-ui';
   import { cn } from '$lib/utils/cn';
 
+  type DisabledMatcher = Date | Date[] | ((date: Date) => boolean);
+
   interface Props {
-    value?: DateValue;
-    placeholder?: DateValue;
-    open?: boolean;
-    onValueChange?: (value: DateValue | undefined) => void;
-    class?: string;
-    calendarClass?: string;
-    triggerClass?: string;
-    contentClass?: string;
-    name?: string;
-    disabled?: boolean;
-    readonly?: boolean;
-    locale?: string;
-    weekdayFormat?: Intl.DateTimeFormatOptions['weekday'];
+    mode?: DatePickerMode;
+    selected?: DatePickerSelection;
+    onChange?: (selection: DatePickerSelection) => void;
+    month?: Date;
+    onMonthChange?: (month: Date) => void;
     numberOfMonths?: number;
+    min?: number;
+    max?: number;
+    disabled?: boolean | DisabledMatcher;
+    footer?: Snippet | string;
     fixedWeeks?: boolean;
-    calendarLabel?: string;
-    children?: Snippet;
+    locale?: string;
+    class?: string;
+    className?: string;
+    classNames?: Record<string, string | undefined>;
     [key: string]: unknown;
   }
 
   let {
-    value = $bindable(),
-    placeholder = $bindable(),
-    open = $bindable(false),
-    onValueChange,
-    class: className,
-    calendarClass,
-    triggerClass,
-    contentClass,
-    name,
-    disabled = false,
-    readonly = false,
-    locale = 'en-US',
-    weekdayFormat = 'short',
+    mode = 'single',
+    selected = $bindable<DatePickerSelection>(),
+    onChange,
+    month = $bindable<Date | undefined>(),
+    onMonthChange,
     numberOfMonths = 1,
-    fixedWeeks = true,
-    calendarLabel = 'Choose date',
-    children,
+    min,
+    max,
+    disabled = false,
+    footer,
+    fixedWeeks = false,
+    locale = 'en-US',
+    class: className,
+    className: reactClassName,
+    classNames,
     ...rest
   }: Props = $props();
 
-  function handleValueChange(nextValue: DateValue | undefined) {
-    value = nextValue;
-    onValueChange?.(nextValue);
+  const today = startOfDay(new Date());
+  let internalMonth = $state(startOfMonth(month ?? getSelectionMonth(selected) ?? today));
+
+  const displayMonth = $derived(startOfMonth(month ?? internalMonth));
+  const visibleMonths = $derived(
+    Array.from({ length: Math.max(1, numberOfMonths) }, (_, index) => addMonths(displayMonth, index))
+  );
+  const rootClass = $derived(cn('rdp-root select-none rounded-xl bg-kumo-base', classNames?.root, reactClassName, className));
+
+  function emit(nextSelection: DatePickerSelection) {
+    selected = nextSelection;
+    onChange?.(nextSelection);
   }
 
-  const rootClass = $derived(cn('inline-flex flex-col gap-2', className));
+  function setMonth(nextMonth: Date) {
+    const normalized = startOfMonth(nextMonth);
+    internalMonth = normalized;
+    month = normalized;
+    onMonthChange?.(normalized);
+  }
+
+  function handleDayClick(day: Date) {
+    if (isDisabled(day)) return;
+
+    if (mode === 'multiple') {
+      const dates = Array.isArray(selected) ? selected : [];
+      const existingIndex = dates.findIndex((date) => isSameDay(date, day));
+
+      if (existingIndex >= 0) {
+        emit(dates.filter((_, index) => index !== existingIndex));
+        return;
+      }
+
+      if (max !== undefined && dates.length >= max) return;
+      emit([...dates, day]);
+      return;
+    }
+
+    if (mode === 'range') {
+      const range = isDateRange(selected) ? selected : undefined;
+
+      if (!range?.from || range.to || compareDays(day, range.from) < 0) {
+        emit({ from: day, to: undefined });
+        return;
+      }
+
+      const nights = differenceInDays(range.from, day);
+      if ((min !== undefined && nights < min) || (max !== undefined && nights > max)) return;
+      emit({ from: range.from, to: day });
+      return;
+    }
+
+    emit(day);
+  }
+
+  function isDisabled(day: Date) {
+    if (disabled === true) return true;
+    if (!disabled) return false;
+    if (disabled instanceof Date) return isSameDay(day, disabled);
+    if (Array.isArray(disabled)) return disabled.some((date) => isSameDay(day, date));
+    return disabled(day);
+  }
+
+  function isSelected(day: Date) {
+    if (mode === 'multiple') {
+      return Array.isArray(selected) && selected.some((date) => isSameDay(date, day));
+    }
+
+    if (mode === 'range') {
+      const range = isDateRange(selected) ? selected : undefined;
+      return Boolean(range?.from && isSameDay(range.from, day)) || Boolean(range?.to && isSameDay(range.to, day));
+    }
+
+    return selected instanceof Date && isSameDay(selected, day);
+  }
+
+  function isRangeStart(day: Date) {
+    return mode === 'range' && isDateRange(selected) && Boolean(selected.from && isSameDay(selected.from, day));
+  }
+
+  function isRangeEnd(day: Date) {
+    return mode === 'range' && isDateRange(selected) && Boolean(selected.to && isSameDay(selected.to, day));
+  }
+
+  function isRangeMiddle(day: Date) {
+    if (mode !== 'range' || !isDateRange(selected) || !selected.from || !selected.to) return false;
+    return compareDays(day, selected.from) > 0 && compareDays(day, selected.to) < 0;
+  }
+
+  function getMonthLabel(date: Date) {
+    return new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(date);
+  }
+
+  function getWeekdayLabels() {
+    const baseSunday = new Date(2026, 0, 4);
+    return Array.from({ length: 7 }, (_, index) =>
+      new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(addDays(baseSunday, index))
+    );
+  }
+
+  function getWeeks(monthDate: Date) {
+    const firstOfMonth = startOfMonth(monthDate);
+    const firstGridDay = addDays(firstOfMonth, -firstOfMonth.getDay());
+    const weeks = [];
+    const weekCount = fixedWeeks ? 6 : Math.ceil((firstOfMonth.getDay() + daysInMonth(firstOfMonth)) / 7);
+
+    for (let weekIndex = 0; weekIndex < weekCount; weekIndex += 1) {
+      weeks.push(Array.from({ length: 7 }, (_, dayIndex) => addDays(firstGridDay, weekIndex * 7 + dayIndex)));
+    }
+
+    return weeks;
+  }
+
+  function getSelectionMonth(selection: DatePickerSelection) {
+    if (selection instanceof Date) return selection;
+    if (Array.isArray(selection)) return selection[0];
+    if (isDateRange(selection)) return selection.from ?? selection.to;
+    return undefined;
+  }
+
+  function isDateRange(value: DatePickerSelection): value is DateRange {
+    return Boolean(value && !(value instanceof Date) && !Array.isArray(value) && ('from' in value || 'to' in value));
+  }
+
+  function startOfDay(date: Date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  }
+
+  function startOfMonth(date: Date) {
+    return new Date(date.getFullYear(), date.getMonth(), 1);
+  }
+
+  function addDays(date: Date, days: number) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+  }
+
+  function addMonths(date: Date, months: number) {
+    return new Date(date.getFullYear(), date.getMonth() + months, 1);
+  }
+
+  function daysInMonth(date: Date) {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  }
+
+  function compareDays(a: Date, b: Date) {
+    return startOfDay(a).getTime() - startOfDay(b).getTime();
+  }
+
+  function differenceInDays(start: Date, end: Date) {
+    return Math.round((startOfDay(end).getTime() - startOfDay(start).getTime()) / 86_400_000);
+  }
+
+  function isSameDay(a: Date, b: Date) {
+    return compareDays(a, b) === 0;
+  }
 </script>
 
-<DatePickerPrimitive.Root
-  bind:value
-  bind:placeholder
-  bind:open
-  onValueChange={handleValueChange}
-  {disabled}
-  {readonly}
-  {locale}
-  {weekdayFormat}
-  {numberOfMonths}
-  {fixedWeeks}
-  {calendarLabel}
-  {...rest}
->
-  <div class={rootClass}>
-    <DatePickerPrimitive.Trigger
-      class={cn(
-        'inline-flex h-9 w-full min-w-56 items-center justify-between gap-2 rounded-lg bg-kumo-base px-3 text-base text-kumo-default shadow-xs outline-none ring ring-kumo-line transition focus:ring-2 focus:ring-kumo-focus/50 disabled:cursor-not-allowed disabled:opacity-50 data-[placeholder]:text-kumo-placeholder',
-        triggerClass
-      )}
-    >
-      <DatePickerPrimitive.Input {name} class="flex min-w-0 flex-1 items-center gap-0.5 text-left">
-        {#snippet children({ segments })}
-          {#each segments as segment, index (`${segment.part}-${index}`)}
-            <DatePickerPrimitive.Segment
-              part={segment.part}
-              class={cn(
-                'rounded-sm px-0.5 outline-none focus:bg-kumo-tint focus:text-kumo-default',
-                segment.part !== 'literal' && segment.value === segment.part ? 'text-kumo-placeholder' : undefined
-              )}
-            >
-              {segment.value}
-            </DatePickerPrimitive.Segment>
-          {/each}
-        {/snippet}
-      </DatePickerPrimitive.Input>
-      <CalendarIcon class="size-4 shrink-0 text-kumo-subtle" aria-hidden="true" />
-    </DatePickerPrimitive.Trigger>
+<div class={rootClass} data-nav-layout="after" data-mode={mode} {...rest}>
+  <div class="rdp-months">
+    {#each visibleMonths as visibleMonth (visibleMonth.toISOString())}
+      <div class={cn('rdp-month', classNames?.month)}>
+        <div class={cn('rdp-month_caption', classNames?.month_caption)}>
+          <span class={cn('rdp-caption_label', classNames?.caption_label)}>{getMonthLabel(visibleMonth)}</span>
+        </div>
 
-    <DatePickerPrimitive.Portal>
-      <DatePickerPrimitive.Content
-        class={cn('z-50 rounded-lg bg-kumo-base p-3 text-kumo-default shadow-lg ring ring-kumo-line outline-none', contentClass)}
-        sideOffset={6}
-      >
-        <DatePickerPrimitive.Calendar class={cn('space-y-3', calendarClass)}>
-          {#snippet children({ months, weekdays })}
-            <DatePickerPrimitive.Header class="flex items-center justify-between gap-2">
-              <DatePickerPrimitive.PrevButton
-                class="inline-flex size-8 items-center justify-center rounded-md text-kumo-muted outline-none transition hover:bg-kumo-tint hover:text-kumo-default focus-visible:ring-2 focus-visible:ring-kumo-brand disabled:pointer-events-none disabled:opacity-40"
-                aria-label="Previous month"
-              >
-                <CaretLeft class="size-4" aria-hidden="true" />
-              </DatePickerPrimitive.PrevButton>
-              <DatePickerPrimitive.Heading class="text-sm font-medium text-kumo-default" />
-              <DatePickerPrimitive.NextButton
-                class="inline-flex size-8 items-center justify-center rounded-md text-kumo-muted outline-none transition hover:bg-kumo-tint hover:text-kumo-default focus-visible:ring-2 focus-visible:ring-kumo-brand disabled:pointer-events-none disabled:opacity-40"
-                aria-label="Next month"
-              >
-                <CaretRight class="size-4" aria-hidden="true" />
-              </DatePickerPrimitive.NextButton>
-            </DatePickerPrimitive.Header>
-
-            <div class="grid gap-4" style={`grid-template-columns: repeat(${months.length}, minmax(0, 1fr));`}>
-              {#each months as month (month.value.toString())}
-                <DatePickerPrimitive.Grid class="w-full border-separate border-spacing-1">
-                  <DatePickerPrimitive.GridHead>
-                    <DatePickerPrimitive.GridRow>
-                      {#each weekdays as day (day)}
-                        <DatePickerPrimitive.HeadCell class="size-8 text-center text-xs font-medium text-kumo-subtle">
-                          {day}
-                        </DatePickerPrimitive.HeadCell>
-                      {/each}
-                    </DatePickerPrimitive.GridRow>
-                  </DatePickerPrimitive.GridHead>
-                  <DatePickerPrimitive.GridBody>
-                    {#each month.weeks as week, weekIndex (weekIndex)}
-                      <DatePickerPrimitive.GridRow>
-                        {#each week as date (date.toString())}
-                          <DatePickerPrimitive.Cell {date} month={month.value} class="p-0">
-                            <DatePickerPrimitive.Day
-                              class={cn(
-                                'inline-flex size-8 items-center justify-center rounded-md text-sm outline-none transition',
-                                'hover:bg-kumo-tint focus-visible:ring-2 focus-visible:ring-kumo-brand',
-                                'data-[selected]:bg-kumo-brand data-[selected]:text-white',
-                                'data-[disabled]:pointer-events-none data-[disabled]:text-kumo-subtle/50',
-                                'data-[unavailable]:line-through data-[unavailable]:opacity-60',
-                                'data-[outside-month]:text-kumo-subtle/50'
-                              )}
-                            />
-                          </DatePickerPrimitive.Cell>
-                        {/each}
-                      </DatePickerPrimitive.GridRow>
-                    {/each}
-                  </DatePickerPrimitive.GridBody>
-                </DatePickerPrimitive.Grid>
+        <table class={cn('rdp-month_grid', classNames?.month_grid)}>
+          <thead aria-hidden="true">
+            <tr class="rdp-weekdays">
+              {#each getWeekdayLabels() as weekday (weekday)}
+                <th class={cn('rdp-weekday', classNames?.weekday)} scope="col">{weekday}</th>
               {/each}
-            </div>
-          {/snippet}
-        </DatePickerPrimitive.Calendar>
-
-        {@render children?.()}
-      </DatePickerPrimitive.Content>
-    </DatePickerPrimitive.Portal>
+            </tr>
+          </thead>
+          <tbody class="rdp-weeks">
+            {#each getWeeks(visibleMonth) as week (week[0].toISOString())}
+              <tr class="rdp-week">
+                {#each week as day (day.toISOString())}
+                  {@const outside = day.getMonth() !== visibleMonth.getMonth()}
+                  {@const dayDisabled = isDisabled(day)}
+                  <td
+                    class={cn(
+                      'rdp-day',
+                      outside && 'rdp-outside',
+                      isSameDay(day, today) && 'rdp-today',
+                      isSelected(day) && 'rdp-selected',
+                      dayDisabled && 'rdp-disabled',
+                      isRangeStart(day) && 'rdp-range_start',
+                      isRangeMiddle(day) && 'rdp-range_middle',
+                      isRangeEnd(day) && 'rdp-range_end',
+                      !dayDisabled && 'rdp-focusable',
+                      classNames?.day
+                    )}
+                    data-day={day.toISOString()}
+                  >
+                    <button
+                      type="button"
+                      class={cn('rdp-day_button', classNames?.day_button)}
+                      disabled={dayDisabled}
+                      aria-label={day.toLocaleDateString(locale, { dateStyle: 'full' })}
+                      aria-pressed={isSelected(day)}
+                      onclick={() => handleDayClick(day)}
+                    >
+                      {day.getDate()}
+                    </button>
+                  </td>
+                {/each}
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+    {/each}
   </div>
-</DatePickerPrimitive.Root>
+
+  <div class={cn('rdp-nav', classNames?.nav)}>
+    <button
+      type="button"
+      class={cn('rdp-button_previous', classNames?.button_previous)}
+      aria-label="Previous month"
+      onclick={() => setMonth(addMonths(displayMonth, -1))}
+    >
+      <CaretLeft class="rdp-chevron" size={16} aria-hidden="true" />
+    </button>
+    <button
+      type="button"
+      class={cn('rdp-button_next', classNames?.button_next)}
+      aria-label="Next month"
+      onclick={() => setMonth(addMonths(displayMonth, 1))}
+    >
+      <CaretRight class="rdp-chevron" size={16} aria-hidden="true" />
+    </button>
+  </div>
+
+  {#if footer}
+    <div class={cn('rdp-footer', classNames?.footer)}>
+      {#if typeof footer === 'string'}
+        <span class="text-xs text-kumo-subtle">{footer}</span>
+      {:else}
+        {@render footer()}
+      {/if}
+    </div>
+  {/if}
+</div>

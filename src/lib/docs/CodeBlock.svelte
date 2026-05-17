@@ -23,7 +23,12 @@
     txt: 'text'
   };
 
-  const normalizedCode = $derived(code.replace(/^\n+|\n+$/g, ''));
+  const normalizedCode = $derived(
+    code
+      .replace(/^\n+|\n+$/g, '')
+      .replace(/(<script\b[^>]*>)\n{2,}/g, '$1\n')
+      .replace(/\n{2,}(<\/script>)/g, '\n$1')
+  );
 
   const highlightedCode = $derived(
     codeToHtml(normalizedCode, {

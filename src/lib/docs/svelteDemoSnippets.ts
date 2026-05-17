@@ -118,6 +118,147 @@ function previewRendererSnippet(demo: string) {
   return '';
 }
 
+function badgeSnippet(demo: string) {
+  switch (demo) {
+    case 'BadgeSemanticVariantsDemo':
+      return `<script lang="ts">
+  import { Badge } from 'kumo-svelte';
+</script>
+
+<div class="flex flex-wrap items-center gap-2">
+  <Badge variant="primary">Primary</Badge>
+  <Badge variant="secondary">Secondary</Badge>
+  <Badge variant="error">Error</Badge>
+  <Badge variant="success">Success</Badge>
+  <Badge variant="warning">Warning</Badge>
+  <Badge variant="info">Info</Badge>
+  <Badge variant="outline">Outline</Badge>
+  <Badge variant="beta">Beta</Badge>
+</div>`;
+    case 'BadgeColorVariantsDemo':
+      return `<script lang="ts">
+  import { Badge } from 'kumo-svelte';
+</script>
+
+<div class="flex flex-wrap items-center gap-2">
+  <Badge variant="neutral">Neutral</Badge>
+  <Badge variant="red">Red</Badge>
+  <Badge variant="orange">Orange</Badge>
+  <Badge variant="green">Green</Badge>
+  <Badge variant="teal">Teal</Badge>
+  <Badge variant="blue">Blue</Badge>
+  <Badge variant="purple">Purple</Badge>
+</div>`;
+    case 'BadgeInSentenceDemo':
+      return `<script lang="ts">
+  import { Badge } from 'kumo-svelte';
+</script>
+
+<p class="flex items-center gap-2">
+  Workers
+  <Badge variant="secondary">New</Badge>
+</p>`;
+    default:
+      return '';
+  }
+}
+
+function buttonSnippet(demo: string) {
+  const variants: Record<string, { variant: string; label: string }> = {
+    ButtonPrimaryDemo: { variant: 'primary', label: 'Primary' },
+    ButtonSecondaryDemo: { variant: 'secondary', label: 'Secondary' },
+    ButtonGhostDemo: { variant: 'ghost', label: 'Ghost' },
+    ButtonDestructiveDemo: { variant: 'destructive', label: 'Destructive' },
+    ButtonOutlineDemo: { variant: 'outline', label: 'Outline' },
+    ButtonSecondaryDestructiveDemo: { variant: 'secondary-destructive', label: 'Secondary destructive' }
+  };
+
+  if (demo in variants) {
+    const { variant, label } = variants[demo];
+    return `<script lang="ts">
+  import { Button } from 'kumo-svelte';
+</script>
+
+<Button variant="${variant}">${label}</Button>`;
+  }
+
+  switch (demo) {
+    case 'ButtonSizesDemo':
+      return `<script lang="ts">
+  import { Button } from 'kumo-svelte';
+</script>
+
+<div class="flex flex-wrap items-center gap-2">
+  <Button size="xs">Extra small</Button>
+  <Button size="sm">Small</Button>
+  <Button size="base">Base</Button>
+  <Button size="lg">Large</Button>
+</div>`;
+    case 'ButtonWithIconDemo':
+      return `<script lang="ts">
+  import { Button } from 'kumo-svelte';
+  import { Plus } from 'phosphor-svelte';
+</script>
+
+<Button>
+  <Plus class="size-4" />
+  Create Worker
+</Button>`;
+    case 'ButtonIconOnlyDemo':
+      return `<script lang="ts">
+  import { Button } from 'kumo-svelte';
+  import { Plus } from 'phosphor-svelte';
+</script>
+
+<div class="flex flex-wrap items-center gap-3">
+  <Button variant="secondary" shape="square" aria-label="Add item">
+    <Plus class="size-4" />
+  </Button>
+  <Button variant="secondary" shape="circle" aria-label="Add item">
+    <Plus class="size-4" />
+  </Button>
+</div>`;
+    case 'ButtonLoadingDemo':
+      return `<script lang="ts">
+  import { Button } from 'kumo-svelte';
+</script>
+
+<Button variant="primary" loading>Loading...</Button>`;
+    case 'ButtonDisabledDemo':
+      return `<script lang="ts">
+  import { Button } from 'kumo-svelte';
+</script>
+
+<Button variant="secondary" disabled>Disabled</Button>`;
+    case 'ButtonTitleDemo':
+      return `<script lang="ts">
+  import { Button } from 'kumo-svelte';
+  import { Plus } from 'phosphor-svelte';
+</script>
+
+<div class="flex flex-wrap items-center gap-3">
+  <Button variant="secondary" title="Create a new Worker">Create Worker</Button>
+  <Button variant="secondary" shape="square" aria-label="Add item" title="Add item">
+    <Plus class="size-4" />
+  </Button>
+</div>`;
+    case 'ButtonLinkAsButtonDemo':
+      return `<script lang="ts">
+  import { Button } from 'kumo-svelte';
+  import { ExternalLink } from 'phosphor-svelte';
+</script>
+
+<div class="flex flex-wrap items-center gap-3">
+  <Button href="/components/link" variant="secondary">Read Link docs</Button>
+  <Button href="https://developers.cloudflare.com" variant="ghost">
+    Cloudflare Docs <ExternalLink class="size-4" />
+  </Button>
+</div>`;
+    default:
+      return '';
+  }
+}
+
 function autocompleteSnippet(demo: string) {
   const fruits = `const fruits = [
   'Apple',
@@ -638,43 +779,240 @@ function specializedSnippet(demo: string) {
 <Meter label="Memory usage" value={15} />`;
     case 'DatePickerSingleDemo':
       return `<script lang="ts">
-  import { CalendarDate } from '@internationalized/date';
   import { DatePicker } from 'kumo-svelte';
 
-  let value = $state(new CalendarDate(2026, 5, 16));
+  let date = $state<Date | undefined>();
 </script>
 
-<DatePicker bind:value />`;
+<div class="flex flex-col gap-4">
+  <DatePicker
+    mode="single"
+    selected={date}
+    onChange={(d) => {
+      if (d instanceof Date) {
+        date = d;
+      }
+    }}
+  />
+  <p class="text-sm text-kumo-subtle">
+    Selected: {date ? date.toLocaleDateString() : 'None'}
+  </p>
+</div>`;
+    case 'DatePickerMultipleDemo':
+      return `<script lang="ts">
+  import { DatePicker } from 'kumo-svelte';
+
+  let dates = $state<Date[] | undefined>();
+</script>
+
+<div class="flex flex-col gap-4">
+  <DatePicker
+    mode="multiple"
+    selected={dates}
+    onChange={(d) => (dates = d as Date[] | undefined)}
+    max={5}
+  />
+  <p class="text-sm text-kumo-subtle">
+    Selected: {dates?.length ?? 0} date(s)
+  </p>
+</div>`;
     case 'DatePickerRangeDemo':
       return `<script lang="ts">
-  import { CalendarDate } from '@internationalized/date';
-  import { DateRangePicker } from 'kumo-svelte';
+  import { DatePicker, type DateRange } from 'kumo-svelte';
 
-  let value = $state({
-    start: new CalendarDate(2026, 5, 12),
-    end: new CalendarDate(2026, 5, 18)
-  });
+  let range = $state<DateRange | undefined>();
 </script>
 
-<DateRangePicker bind:value />`;
-    case 'DatePickerTwoMonthsDemo':
+<div class="flex flex-col gap-4">
+  <DatePicker
+    mode="range"
+    selected={range}
+    onChange={(d) => (range = d as DateRange | undefined)}
+    numberOfMonths={2}
+  />
+  <p class="text-sm text-kumo-subtle">
+    Range: {range?.from
+      ? \`\${range.from.toLocaleDateString()} - \${range.to?.toLocaleDateString() ?? '...'}\`
+      : 'None'}
+  </p>
+</div>`;
+    case 'DatePickerRangeMinMaxDemo':
       return `<script lang="ts">
-  import { CalendarDate } from '@internationalized/date';
+  import { DatePicker, type DateRange } from 'kumo-svelte';
+
+  let range = $state<DateRange | undefined>();
+</script>
+
+{#snippet footer()}
+  <span class="text-xs text-kumo-subtle">Select 3-7 nights</span>
+{/snippet}
+
+<div class="flex flex-col gap-4">
+  <DatePicker
+    mode="range"
+    selected={range}
+    onChange={(d) => (range = d as DateRange | undefined)}
+    min={3}
+    max={7}
+    {footer}
+  />
+</div>`;
+    case 'DatePickerPopoverDemo':
+      return `<script lang="ts">
+  import { Button, DatePicker, Popover } from 'kumo-svelte';
+  import { CalendarDotsIcon } from 'phosphor-svelte';
+
+  let date = $state<Date | undefined>();
+</script>
+
+<Popover class="p-3">
+  {#snippet trigger(props)}
+    <Button variant="outline" icon={CalendarDotsIcon} {...props}>
+      {date ? date.toLocaleDateString() : 'Pick a date'}
+    </Button>
+  {/snippet}
+
+  <DatePicker mode="single" selected={date} onChange={(d) => (date = d as Date | undefined)} />
+</Popover>`;
+    case 'DatePickerRangePopoverDemo':
+      return `<script lang="ts">
+  import { Button, DatePicker, Popover, type DateRange } from 'kumo-svelte';
+  import { CalendarDotsIcon } from 'phosphor-svelte';
+
+  let range = $state<DateRange | undefined>();
+
+  function formatRange() {
+    if (!range?.from) return 'Select dates';
+    if (!range.to) return range.from.toLocaleDateString();
+    return \`\${range.from.toLocaleDateString()} - \${range.to.toLocaleDateString()}\`;
+  }
+</script>
+
+<Popover class="p-3">
+  {#snippet trigger(props)}
+    <Button variant="outline" icon={CalendarDotsIcon} {...props}>
+      {formatRange()}
+    </Button>
+  {/snippet}
+
+  <DatePicker
+    mode="range"
+    selected={range}
+    onChange={(d) => (range = d as DateRange | undefined)}
+    numberOfMonths={2}
+  />
+</Popover>`;
+    case 'DatePickerRangeWithPresetsDemo':
+      return `<script lang="ts">
+  import { Button, DatePicker, Popover, type DateRange } from 'kumo-svelte';
+  import { CalendarDotsIcon } from 'phosphor-svelte';
+
+  let range = $state<DateRange | undefined>();
+  let month = $state(new Date());
+  const today = new Date();
+
+  const presets = [
+    { label: 'Today', range: { from: today, to: today } },
+    {
+      label: 'Last 7 days',
+      range: { from: new Date(today.getTime() - 6 * 24 * 60 * 60 * 1000), to: today }
+    },
+    {
+      label: 'Last 30 days',
+      range: { from: new Date(today.getTime() - 29 * 24 * 60 * 60 * 1000), to: today }
+    },
+    {
+      label: 'Last 90 days',
+      range: { from: new Date(today.getTime() - 89 * 24 * 60 * 60 * 1000), to: today }
+    },
+    {
+      label: 'This month',
+      range: { from: new Date(today.getFullYear(), today.getMonth(), 1), to: new Date(today.getFullYear(), today.getMonth() + 1, 0) }
+    },
+    {
+      label: 'Last month',
+      range: { from: new Date(today.getFullYear(), today.getMonth() - 1, 1), to: new Date(today.getFullYear(), today.getMonth(), 0) }
+    }
+  ];
+
+  function formatRange() {
+    if (!range?.from) return 'Select dates';
+    if (!range.to) return range.from.toLocaleDateString();
+    return \`\${range.from.toLocaleDateString()} - \${range.to.toLocaleDateString()}\`;
+  }
+
+  function handlePresetClick(preset: { range: DateRange }) {
+    range = preset.range;
+    if (preset.range.from) month = preset.range.from;
+  }
+
+  function isPresetActive(preset: { range: DateRange }) {
+    if (!range?.from || !range?.to || !preset.range.from || !preset.range.to) return false;
+    return range.from.toDateString() === preset.range.from.toDateString()
+      && range.to.toDateString() === preset.range.to.toDateString();
+  }
+</script>
+
+<Popover class="p-0">
+  {#snippet trigger(props)}
+    <Button variant="outline" icon={CalendarDotsIcon} {...props}>{formatRange()}</Button>
+  {/snippet}
+
+  <div class="flex">
+    <div class="flex flex-col gap-1 border-r border-kumo-hairline p-2 text-sm">
+      {#each presets as preset (preset.label)}
+        <button
+          type="button"
+          onclick={() => handlePresetClick(preset)}
+          class={isPresetActive(preset)
+            ? 'rounded-md bg-kumo-bg-inverse px-3 py-1.5 text-left whitespace-nowrap text-kumo-text-inverse'
+            : 'rounded-md px-3 py-1.5 text-left whitespace-nowrap text-kumo-subtle hover:bg-kumo-control'}
+        >
+          {preset.label}
+        </button>
+      {/each}
+    </div>
+    <div class="p-3">
+      <DatePicker
+        mode="range"
+        selected={range}
+        onChange={(d) => (range = d as DateRange | undefined)}
+        bind:month
+        numberOfMonths={2}
+      />
+    </div>
+  </div>
+</Popover>`;
+    case 'DatePickerDisabledWithFooterDemo':
+      return `<script lang="ts">
   import { DatePicker } from 'kumo-svelte';
 
-  let value = $state(new CalendarDate(2026, 5, 16));
+  let dates = $state<Date[] | undefined>();
+  const today = new Date();
+  const maxDays = 5;
+  const unavailableDates = [
+    new Date(today.getFullYear(), today.getMonth(), 5),
+    new Date(today.getFullYear(), today.getMonth(), 12),
+    new Date(today.getFullYear(), today.getMonth(), 18),
+    new Date(today.getFullYear(), today.getMonth(), 25)
+  ];
 </script>
 
-<DatePicker bind:value numberOfMonths={2} />`;
-    case 'DatePickerDisabledDemo':
-      return `<script lang="ts">
-  import { CalendarDate } from '@internationalized/date';
-  import { DatePicker } from 'kumo-svelte';
+{#snippet footer()}
+  <p class="w-full pt-2 text-xs text-kumo-subtle">
+    {dates?.length ?? 0}/{maxDays} days selected. Grayed dates are unavailable.
+  </p>
+{/snippet}
 
-  const value = new CalendarDate(2026, 5, 16);
-</script>
-
-<DatePicker {value} disabled />`;
+<DatePicker
+  mode="multiple"
+  selected={dates}
+  onChange={(d) => (dates = d as Date[] | undefined)}
+  max={maxDays}
+  disabled={unavailableDates}
+  fixedWeeks
+  {footer}
+/>`;
     case 'ButtonBasicDemo':
       return `<script lang="ts">
   import { Button } from 'kumo-svelte';
@@ -955,6 +1293,86 @@ function specializedSnippet(demo: string) {
 </script>
 
 <Loader class="text-kumo-subtle" />`;
+    case 'SensitiveInputDemo':
+      return `<script lang="ts">
+  import { SensitiveInput } from 'kumo-svelte';
+</script>
+
+<div class="w-80">
+  <SensitiveInput label="API Key" defaultValue="sk_live_abc123xyz789" />
+</div>`;
+    case 'SensitiveInputSizesDemo':
+      return `<script lang="ts">
+  import { SensitiveInput } from 'kumo-svelte';
+
+  const sizes = ['xs', 'sm', 'base', 'lg'] as const;
+</script>
+
+<div class="flex flex-col gap-4">
+  {#each sizes as size (size)}
+    <div class="flex items-center gap-2">
+      <span class="w-12 text-sm text-kumo-subtle">{size}</span>
+      <SensitiveInput
+        label={\`\${size} size\`}
+        {size}
+        defaultValue="secret-api-key-123"
+      />
+    </div>
+  {/each}
+</div>`;
+    case 'SensitiveInputControlledDemo':
+      return `<script lang="ts">
+  import { SensitiveInput, Button } from 'kumo-svelte';
+
+  let value = $state('my-secret-value');
+</script>
+
+<div class="flex w-80 flex-col gap-4">
+  <SensitiveInput
+    label="Controlled Secret"
+    {value}
+    onValueChange={(next) => (value = next)}
+  />
+  <div class="text-sm text-kumo-subtle">
+    Current value: <code class="text-kumo-default">{value}</code>
+  </div>
+  <div class="flex gap-2">
+    <Button
+      onclick={() => (value = 'new-secret-' + Date.now())}
+      variant="primary"
+      size="sm"
+    >
+      Change value
+    </Button>
+    <Button onclick={() => (value = '')} variant="secondary" size="sm">
+      Clear
+    </Button>
+  </div>
+</div>`;
+    case 'SensitiveInputStatesDemo':
+      return `<script lang="ts">
+  import { SensitiveInput } from 'kumo-svelte';
+</script>
+
+<div class="flex w-80 flex-col gap-4">
+  <SensitiveInput
+    label="Error State"
+    variant="error"
+    defaultValue="invalid-key"
+    error="This API key is not valid"
+  />
+  <SensitiveInput label="Disabled" defaultValue="cannot-edit" disabled />
+  <SensitiveInput
+    label="Read-only"
+    defaultValue="view-only-secret-key"
+    readOnly
+  />
+  <SensitiveInput
+    label="With Description"
+    defaultValue="my-secret-value"
+    description="Keep this value secure and don't share it"
+  />
+</div>`;
     case 'SkeletonLineDemo':
       return `<script lang="ts">
   import { SkeletonLine } from 'kumo-svelte';
@@ -1147,6 +1565,10 @@ function specializedSnippet(demo: string) {
 export function getSvelteDemoSnippet(demo: string) {
   const specialized = specializedSnippet(demo);
   if (specialized) return specialized;
+  const badge = badgeSnippet(demo);
+  if (badge) return badge;
+  const button = buttonSnippet(demo);
+  if (button) return button;
   const autocomplete = autocompleteSnippet(demo);
   if (autocomplete) return autocomplete;
   const flow = flowSnippet(demo);

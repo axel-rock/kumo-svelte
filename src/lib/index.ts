@@ -36,6 +36,7 @@ export {
 export { Combobox } from './components/combobox';
 export { CommandPalette } from './components/command-palette';
 export { DatePicker } from './components/date-picker';
+export type { DatePickerMode, DatePickerSelection, DateRange } from './components/date-picker';
 export { DateRangePicker } from './components/date-range-picker';
 export { Dialog } from './components/dialog';
 export { DropdownMenu, KUMO_DROPDOWN_DEFAULT_VARIANTS, KUMO_DROPDOWN_VARIANTS } from './components/dropdown-menu';
@@ -90,7 +91,12 @@ export {
 export { Radio, RadioGroup, RadioItem, RadioLegend } from './components/radio';
 export type { RadioAppearance, RadioControlPosition, RadioVariant } from './components/radio';
 export { Select } from './components/select';
-export { SensitiveInput } from './components/sensitive-input';
+export {
+  KUMO_SENSITIVE_INPUT_DEFAULT_VARIANTS,
+  KUMO_SENSITIVE_INPUT_VARIANTS,
+  SensitiveInput
+} from './components/sensitive-input';
+export type { SensitiveInputSize, SensitiveInputVariant } from './components/sensitive-input';
 export { Sidebar } from './components/sidebar';
 export { Surface } from './components/surface';
 export { Switch, SwitchGroup, SwitchItem, SwitchLegend } from './components/switch';

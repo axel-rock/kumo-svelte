@@ -28,8 +28,30 @@ sourceFile: "components/sensitive-input"
 <script lang="ts">
   import { SensitiveInput } from 'kumo-svelte';
 </script>
+```
 
-<SensitiveInput />
+### Granular
+
+```svelte
+<script lang="ts">
+  import { SensitiveInput } from 'kumo-svelte/components/sensitive-input';
+</script>
+```
+
+</ComponentSection>
+
+<!-- Usage -->
+
+<ComponentSection>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { SensitiveInput } from 'kumo-svelte';
+</script>
+
+<SensitiveInput label="Secret" defaultValue="my-secret-key" />
 ```
 
 </ComponentSection>

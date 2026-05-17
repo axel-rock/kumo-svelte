@@ -79,7 +79,7 @@
     bind:value
     id={textareaId}
     class={cn(
-      'h-auto min-h-24 w-full border-0 bg-kumo-control py-2 text-kumo-default ring ring-kumo-line outline-none focus:outline-none',
+      'h-auto w-full border-0 bg-kumo-control py-2 text-kumo-default ring ring-kumo-line outline-none focus:outline-none',
       'placeholder:text-kumo-muted disabled:text-kumo-disabled',
       sizes[size],
       normalizedVariant === 'error'

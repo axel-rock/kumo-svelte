@@ -56,26 +56,40 @@
   };
 
   let copied = $state(false);
+  const normalizedCode = $derived(
+    code
+      .replace(/^\n+|\n+$/g, '')
+      .replace(/(<script\b[^>]*>)\n{2,}/g, '$1\n')
+      .replace(/\n{2,}(<\/script>)/g, '\n$1')
+  );
   const highlightedCode = $derived(
-    codeToHtml(code, {
+    codeToHtml(normalizedCode, {
       lang: languageAliases[lang] ?? lang,
       themes: KUMO_CODE_HIGHLIGHTED_STYLING.themes,
       defaultColor: false
-    }).then((html) => html.replace(/\s+tabindex="0"/g, ''))
+    }).then((html) =>
+      html
+        .replace(/\s+tabindex="0"/g, '')
+        .replace(/(<\/span>)\n(?=<span class="line")/g, '$1')
+    )
   );
 
   async function copyCode() {
-    await navigator.clipboard?.writeText(code);
+    await navigator.clipboard?.writeText(normalizedCode);
     copied = true;
     setTimeout(() => (copied = false), 1200);
   }
 </script>
 
-<div class={cn('not-prose code-block relative', className)} {style} {...rest}>
+<div class={cn('not-prose group relative m-0 w-full min-w-0 rounded-md border border-kumo-fill bg-kumo-base p-0', className)} {style} {...rest}>
   {#await highlightedCode}
-    <pre class="shiki shiki-themes github-light vesper"><code>{code}</code></pre>
+    <pre class="m-0 min-w-0 flex-1 overflow-x-auto p-4 font-mono text-sm leading-relaxed text-kumo-subtle"><code class="m-0 bg-transparent p-0">{normalizedCode}</code></pre>
   {:then html}
-    {@html html}
+    <div class="overflow-x-auto">
+      <div class="kumo-shiki">
+        {@html html}
+      </div>
+    </div>
   {/await}
   {#if showCopyButton}
     <button

@@ -41,7 +41,11 @@
     Meter,
     Pagination,
     PaginationControls,
-    Popover,
+    PopoverContent,
+    PopoverDescription,
+    PopoverRoot,
+    PopoverTitle,
+    PopoverTrigger,
     Radio,
     Select,
     SensitiveInput,
@@ -74,12 +78,6 @@
     { label: 'Open dashboard' },
     { label: 'Create worker' },
     { label: 'Deploy project' }
-  ];
-
-  const toc = [
-    { title: 'Introduction', href: '#introduction', depth: 1 },
-    { title: 'Installation', href: '#installation', depth: 1 },
-    { title: 'Usage', href: '#usage', depth: 1 }
   ];
 
   const tabs = [
@@ -187,10 +185,10 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="dialog" href="/components/dialog" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Dialog</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          {#snippet dialogTrigger()}Click me!{/snippet}
-          <Dialog trigger={dialogTrigger} title="Hello!" description="I'm a dialog.">
-            <Text>Ported with bits-ui dialog primitives.</Text>
-          </Dialog>
+          {#snippet dialogTrigger(props: Record<string, unknown>)}
+            <Button {...props}>Click me!</Button>
+          {/snippet}
+          <Dialog trigger={dialogTrigger} title="Hello!" description="I'm a dialog." />
         </div>
       </li>
 
@@ -346,7 +344,7 @@
               <InputGroupInput value="kumo" maxlength={20} aria-label="Subdomain" />
               <InputGroupSuffix>.workers.dev</InputGroupSuffix>
               <InputGroupAddon align="end">
-                <CheckCircle class="text-kumo-success" />
+                <CheckCircle weight="duotone" class="text-kumo-success" />
               </InputGroupAddon>
             </InputGroup>
           </div>
@@ -469,8 +467,15 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="popover" href="/components/popover" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Popover</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          {#snippet popoverTrigger()}Open Popover{/snippet}
-          <Popover trigger={popoverTrigger} title="Popover Title" description="This is a popover." />
+          <PopoverRoot>
+            <PopoverTrigger>
+              Open Popover
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverTitle>Popover Title</PopoverTitle>
+              <PopoverDescription>This is a popover.</PopoverDescription>
+            </PopoverContent>
+          </PopoverRoot>
         </div>
       </li>
 
@@ -511,17 +516,14 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="table-of-contents" href="/components/table-of-contents" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">TableOfContents</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <div class="space-y-1 text-sm">
-            <div class="px-2 py-1 text-sm font-medium text-kumo-default">On this page</div>
-            {#each toc as item, index (item.href)}
-              <a
-                class={`block rounded-md px-2 py-1 ${index === 0 ? 'bg-kumo-tint text-kumo-default' : 'text-kumo-subtle hover:bg-kumo-tint hover:text-kumo-default'}`}
-                href={item.href}
-              >
-                {item.title}
-              </a>
-            {/each}
-          </div>
+          <TableOfContents>
+            <TableOfContents.Title>On this page</TableOfContents.Title>
+            <TableOfContents.List>
+              <TableOfContents.Item active>Introduction</TableOfContents.Item>
+              <TableOfContents.Item>Installation</TableOfContents.Item>
+              <TableOfContents.Item>Usage</TableOfContents.Item>
+            </TableOfContents.List>
+          </TableOfContents>
         </div>
       </li>
 
@@ -531,7 +533,7 @@
           <div class="flex flex-col gap-1">
             <Text size="lg" bold>Large Bold Text</Text>
             <Text size="base">Regular text content</Text>
-            <Text size="sm" variant="secondary">Small subtle text</Text>
+            <Text size="sm" color="subtle">Small subtle text</Text>
           </div>
         </div>
       </li>

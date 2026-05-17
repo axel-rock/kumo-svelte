@@ -3,9 +3,9 @@
   export type SwitchVariant = 'default' | 'neutral';
 
   export const switchSizeStyles: Record<SwitchSize, { track: string; thumb: string; slide: string }> = {
-    sm: { track: 'h-5.5 w-8.5', thumb: 'w-5.5', slide: 'left-3' },
-    base: { track: 'h-6.5 w-10.5', thumb: 'w-6.5', slide: 'left-4' },
-    lg: { track: 'h-7.5 w-12.5', thumb: 'w-7.5', slide: 'left-5' }
+    sm: { track: 'h-4 w-8', thumb: 'w-4', slide: 'left-4' },
+    base: { track: 'h-4.5 w-9', thumb: 'w-4.5', slide: 'left-4.5' },
+    lg: { track: 'h-5 w-10', thumb: 'w-5', slide: 'left-5' }
   };
 
   export const switchSquircleRadius = 'rounded-[5px] supports-[corner-shape:squircle]:rounded-[10px] [corner-shape:squircle]';

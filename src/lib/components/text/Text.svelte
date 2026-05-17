@@ -149,6 +149,8 @@
   interface Props {
     /** Text style variant. Determines color, font, and weight. */
     variant?: KumoTextVariant;
+    /** Backward-compatible color alias from the original Kumo examples. */
+    color?: 'default' | 'subtle' | 'success' | 'error';
     /** Text size. Only applies to body/secondary/success/error variants. */
     size?: KumoTextSize;
     /** Whether to use bold font weight. Only applies to body variants. */
@@ -168,6 +170,7 @@
 
   let {
     variant = KUMO_TEXT_DEFAULT_VARIANTS.variant,
+    color,
     size = KUMO_TEXT_DEFAULT_VARIANTS.size,
     bold = false,
     truncate = false,
@@ -182,14 +185,15 @@
 
   const copyVariants = ['body', 'secondary', 'success', 'error'];
   const monoVariants = ['mono', 'mono-secondary'];
+  const resolvedVariant = $derived(color === 'subtle' ? 'secondary' : color === 'default' ? 'body' : color ?? variant);
 
-  let isCopy = $derived(copyVariants.includes(variant));
-  let isMono = $derived(monoVariants.includes(variant));
-  let Component = $derived(as ?? (isMono || variant.startsWith('heading') ? 'span' : 'p'));
+  let isCopy = $derived(copyVariants.includes(resolvedVariant));
+  let isMono = $derived(monoVariants.includes(resolvedVariant));
+  let Component = $derived(as ?? (isMono || resolvedVariant.startsWith('heading') ? 'span' : 'p'));
   let computedClass = $derived(
     cn(
       'text-kumo-default',
-      KUMO_TEXT_VARIANTS.variant[variant]?.classes ??
+      KUMO_TEXT_VARIANTS.variant[resolvedVariant]?.classes ??
         KUMO_TEXT_VARIANTS.variant[KUMO_TEXT_DEFAULT_VARIANTS.variant].classes,
       isCopy
         ? (KUMO_TEXT_VARIANTS.size[size]?.classes ??

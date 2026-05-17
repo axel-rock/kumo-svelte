@@ -14,7 +14,6 @@
     Combobox,
     CommandPalette,
     DatePicker,
-    DateRangePicker,
     Dialog,
     DropdownMenu,
     Empty,
@@ -58,8 +57,8 @@
     Toasty,
     Tooltip
   } from '$lib';
-  import { CalendarDate } from '@internationalized/date';
-  import { ArrowRight, ArrowSquareOut as ExternalLink, CheckCircle, Cloud, Code as Code2, Copy, Database, Download, Eye, FolderOpen, Gear as Settings, Globe, Info, LinkSimple as Link2, MagnifyingGlass as Search, Package, Plus, Question as HelpCircle, TextB as Bold, TextItalic as Italic, Trash, WarningCircle, X, XCircle } from 'phosphor-svelte';
+  import type { DateRange } from '$lib';
+  import { ArrowRight, ArrowSquareOut as ExternalLink, CalendarDotsIcon, CheckCircle, Cloud, Code as Code2, Copy, Database, Download, Eye, FolderOpen, Gear as Settings, Globe, Info, LinkSimple as Link2, MagnifyingGlass as Search, Package, Plus, Question as HelpCircle, TextB as Bold, TextItalic as Italic, Trash, Warning, WarningCircle, X } from 'phosphor-svelte';
   import { generateCloudflareLogoSvg } from '$lib/components/cloudflare-logo';
   import { PoweredByCloudflare } from '$lib/components/cloudflare-logo';
   import { DeleteResource } from '../../blocks/delete-resource';
@@ -79,11 +78,12 @@
   let menuBarActive = $state<string | undefined>('bold');
   let copiedCloudflareLogo = $state<string | undefined>();
   let autocompleteValue = $state('');
-  let datePickerValue = $state(new CalendarDate(2026, 5, 16));
-  let dateRangePickerValue = $state({
-    start: new CalendarDate(2026, 5, 12),
-    end: new CalendarDate(2026, 5, 18)
-  });
+  let datePickerDate = $state<Date | undefined>();
+  let datePickerDates = $state<Date[] | undefined>();
+  let datePickerRange = $state<DateRange | undefined>();
+  let datePickerPresetRange = $state<DateRange | undefined>();
+  let datePickerPresetMonth = $state<Date>(new Date());
+  let sensitiveInputValue = $state('my-secret-value');
 
   const selectOptions = [
     { label: 'Workers', value: 'workers' },
@@ -181,6 +181,62 @@
     }
   ];
 
+  const datePresetToday = new Date();
+  const datePickerPresets = [
+    { label: 'Today', range: { from: datePresetToday, to: datePresetToday } },
+    {
+      label: 'Last 7 days',
+      range: { from: new Date(datePresetToday.getTime() - 6 * 24 * 60 * 60 * 1000), to: datePresetToday }
+    },
+    {
+      label: 'Last 30 days',
+      range: { from: new Date(datePresetToday.getTime() - 29 * 24 * 60 * 60 * 1000), to: datePresetToday }
+    },
+    {
+      label: 'Last 90 days',
+      range: { from: new Date(datePresetToday.getTime() - 89 * 24 * 60 * 60 * 1000), to: datePresetToday }
+    },
+    {
+      label: 'This month',
+      range: {
+        from: new Date(datePresetToday.getFullYear(), datePresetToday.getMonth(), 1),
+        to: new Date(datePresetToday.getFullYear(), datePresetToday.getMonth() + 1, 0)
+      }
+    },
+    {
+      label: 'Last month',
+      range: {
+        from: new Date(datePresetToday.getFullYear(), datePresetToday.getMonth() - 1, 1),
+        to: new Date(datePresetToday.getFullYear(), datePresetToday.getMonth(), 0)
+      }
+    }
+  ];
+
+  const datePickerUnavailableDates = [
+    new Date(datePresetToday.getFullYear(), datePresetToday.getMonth(), 5),
+    new Date(datePresetToday.getFullYear(), datePresetToday.getMonth(), 12),
+    new Date(datePresetToday.getFullYear(), datePresetToday.getMonth(), 18),
+    new Date(datePresetToday.getFullYear(), datePresetToday.getMonth(), 25)
+  ];
+
+  function formatDateRange(range: DateRange | undefined) {
+    if (!range?.from) return 'Select dates';
+    if (!range.to) return range.from.toLocaleDateString();
+    return `${range.from.toLocaleDateString()} - ${range.to.toLocaleDateString()}`;
+  }
+
+  function isDatePresetActive(preset: { range: DateRange }) {
+    if (!datePickerPresetRange?.from || !datePickerPresetRange?.to || !preset.range.from || !preset.range.to) return false;
+    return datePickerPresetRange.from.toDateString() === preset.range.from.toDateString() && datePickerPresetRange.to.toDateString() === preset.range.to.toDateString();
+  }
+
+  function handleDatePresetClick(preset: { range: DateRange }) {
+    datePickerPresetRange = preset.range;
+    if (preset.range.from) {
+      datePickerPresetMonth = preset.range.from;
+    }
+  }
+
   let menuItems = $derived([
     { label: 'View details' },
     { label: 'Edit settings' },
@@ -210,6 +266,7 @@ const route: WorkerRoute = {
 
   const gridGaps = ['none', 'sm', 'base', 'lg'] as const;
   const selectSizes = ['xs', 'sm', 'base', 'lg'] as const;
+  const sensitiveInputSizes = ['xs', 'sm', 'base', 'lg'] as const;
 
   const emailRows = [
     { subject: 'Kumo v1.0.0 released', from: 'Visal In', date: '5 seconds ago' },
@@ -333,23 +390,26 @@ const route: WorkerRoute = {
     </div>
   {:else if looksLike('Badge')}
     {#if demo === 'BadgeInSentenceDemo'}
-      <p class="text-sm text-kumo-default">Deployment <Badge variant="success">Active</Badge> is receiving traffic.</p>
+      <p class="flex items-center gap-2">
+        Workers
+        <Badge variant="secondary">New</Badge>
+      </p>
     {:else if demo === 'BadgeColorVariantsDemo'}
-      <div class="flex flex-wrap justify-center gap-2"><Badge variant="red">Red</Badge><Badge variant="green">Green</Badge><Badge variant="orange">Orange</Badge><Badge variant="purple">Purple</Badge><Badge variant="teal">Teal</Badge><Badge variant="blue">Blue</Badge></div>
+      <div class="flex flex-wrap items-center gap-2"><Badge variant="neutral">Neutral</Badge><Badge variant="red">Red</Badge><Badge variant="orange">Orange</Badge><Badge variant="green">Green</Badge><Badge variant="teal">Teal</Badge><Badge variant="blue">Blue</Badge><Badge variant="purple">Purple</Badge></div>
     {:else}
-      <div class="flex flex-wrap justify-center gap-2"><Badge variant="primary">Primary</Badge><Badge variant="secondary">Secondary</Badge><Badge variant="success">Success</Badge><Badge variant="warning">Warning</Badge><Badge variant="error">Error</Badge><Badge variant="info">Info</Badge><Badge variant="outline">Outline</Badge></div>
+      <div class="flex flex-wrap items-center gap-2"><Badge variant="primary">Primary</Badge><Badge variant="secondary">Secondary</Badge><Badge variant="error">Error</Badge><Badge variant="success">Success</Badge><Badge variant="warning">Warning</Badge><Badge variant="info">Info</Badge><Badge variant="outline">Outline</Badge><Badge variant="beta">Beta</Badge></div>
     {/if}
   {:else if looksLike('Banner')}
     {#if demo === 'BannerVariantsDemo'}
-      <div class="grid w-full max-w-xl gap-3"><Banner icon={Info} title="Default banner" description="General status message." /><Banner icon={WarningCircle} variant="alert" title="Alert banner" description="Review this before continuing." /><Banner icon={XCircle} variant="error" title="Error banner" description="Something needs attention." /></div>
+      <div class="w-full space-y-3"><Banner icon={Info} title="Update available" description="A new version is ready to install." /><Banner icon={Warning} variant="alert" title="Session expiring" description="Your session will expire in 5 minutes." /><Banner icon={WarningCircle} variant="error" title="Save failed" description="We couldn't save your changes. Please try again." /></div>
     {:else if demo === 'BannerWithActionDemo' || demo === 'BannerWithActionsDemo'}
-      <Banner icon={demo === 'BannerWithActionsDemo' ? WarningCircle : Info} title="Deployment ready" description="Your worker was built and is ready to receive traffic.">
-        {#snippet action()}<Button size="sm" variant="secondary">View</Button>{#if demo === 'BannerWithActionsDemo'}<Button size="sm" variant="ghost">Dismiss</Button>{/if}{/snippet}
+      <Banner icon={demo === 'BannerWithActionsDemo' ? Warning : Info} variant={demo === 'BannerWithActionsDemo' ? 'alert' : 'default'} title={demo === 'BannerWithActionsDemo' ? 'Session expiring' : 'Update available'} description={demo === 'BannerWithActionsDemo' ? 'Your session will expire in 5 minutes.' : 'A new version is ready to install.'}>
+        {#snippet action()}<Button size="sm" variant={demo === 'BannerWithActionsDemo' ? 'secondary' : 'primary'}>{demo === 'BannerWithActionsDemo' ? 'Dismiss' : 'Update now'}</Button>{#if demo === 'BannerWithActionsDemo'}<Button size="sm">Extend session</Button>{/if}{/snippet}
       </Banner>
     {:else if demo === 'BannerCustomContentDemo'}
-      <Banner icon={Info} title="Custom content" description="Bring your own layout inside the banner." />
+      <Banner icon={Info} title="Custom content supported" description="This banner supports custom content with Text." />
     {:else}
-      <Banner icon={demo.includes('Error') ? XCircle : demo.includes('Alert') || demo.includes('Icon') ? WarningCircle : Info} variant={demo.includes('Error') ? 'error' : demo.includes('Alert') ? 'alert' : 'default'} title={demo.includes('Icon') ? 'New notification' : 'Deployment ready'} description="Your worker was built and is ready to receive traffic." />
+      <Banner icon={demo.includes('Error') ? WarningCircle : demo.includes('Alert') || demo.includes('Icon') ? Warning : Info} variant={demo.includes('Error') ? 'error' : demo.includes('Alert') || demo.includes('Icon') ? 'alert' : 'default'} title={demo.includes('Error') ? 'Save failed' : demo.includes('Alert') || demo.includes('Icon') ? 'Session expiring' : 'Update available'} description={demo.includes('Error') ? "We couldn't save your changes. Please try again." : demo.includes('Alert') || demo.includes('Icon') ? 'Your session will expire in 5 minutes.' : 'A new version is ready to install.'} />
     {/if}
   {:else if looksLike('Breadcrumbs')}
     {#if demo === 'BreadcrumbsLoadingDemo'}
@@ -590,14 +650,93 @@ const route: WorkerRoute = {
   {:else if looksLike('CommandPalette')}
     <CommandPalette commands={[{ label: 'Open dashboard' }, { label: 'Deploy project' }, { label: 'View logs' }, { label: 'Manage domains' }]} />
   {:else if looksLike('DatePicker')}
-    {#if demo === 'DatePickerRangeDemo'}
-      <DateRangePicker bind:value={dateRangePickerValue} />
-    {:else if demo === 'DatePickerDisabledDemo'}
-      <DatePicker value={datePickerValue} disabled />
-    {:else if demo === 'DatePickerTwoMonthsDemo'}
-      <DatePicker bind:value={datePickerValue} numberOfMonths={2} />
+    {#if demo === 'DatePickerMultipleDemo'}
+      <div class="flex flex-col gap-4">
+        <DatePicker mode="multiple" selected={datePickerDates} onChange={(next) => (datePickerDates = next as Date[] | undefined)} max={5} />
+        <p class="text-sm text-kumo-subtle">Selected: {datePickerDates?.length ?? 0} date(s)</p>
+      </div>
+    {:else if demo === 'DatePickerRangeDemo'}
+      <div class="flex flex-col gap-4">
+        <DatePicker mode="range" selected={datePickerRange} onChange={(next) => (datePickerRange = next as DateRange | undefined)} numberOfMonths={2} />
+        <p class="text-sm text-kumo-subtle">
+          Range: {datePickerRange?.from ? `${datePickerRange.from.toLocaleDateString()} - ${datePickerRange.to?.toLocaleDateString() ?? '...'}` : 'None'}
+        </p>
+      </div>
+    {:else if demo === 'DatePickerRangeMinMaxDemo'}
+      {#snippet rangeMinMaxFooter()}
+        <span class="text-xs text-kumo-subtle">Select 3-7 nights</span>
+      {/snippet}
+      <div class="flex flex-col gap-4">
+        <DatePicker mode="range" selected={datePickerRange} onChange={(next) => (datePickerRange = next as DateRange | undefined)} min={3} max={7} footer={rangeMinMaxFooter} />
+      </div>
+    {:else if demo === 'DatePickerPopoverDemo'}
+      <Popover class="p-3">
+        {#snippet trigger(props)}
+          <Button variant="outline" icon={CalendarDotsIcon} {...props}>{datePickerDate ? datePickerDate.toLocaleDateString() : 'Pick a date'}</Button>
+        {/snippet}
+        <DatePicker mode="single" selected={datePickerDate} onChange={(next) => (datePickerDate = next as Date | undefined)} />
+      </Popover>
+    {:else if demo === 'DatePickerRangePopoverDemo'}
+      <Popover class="p-3">
+        {#snippet trigger(props)}
+          <Button variant="outline" icon={CalendarDotsIcon} {...props}>{formatDateRange(datePickerRange)}</Button>
+        {/snippet}
+        <DatePicker mode="range" selected={datePickerRange} onChange={(next) => (datePickerRange = next as DateRange | undefined)} numberOfMonths={2} />
+      </Popover>
+    {:else if demo === 'DatePickerRangeWithPresetsDemo'}
+      <Popover class="p-0">
+        {#snippet trigger(props)}
+          <Button variant="outline" icon={CalendarDotsIcon} {...props}>{formatDateRange(datePickerPresetRange)}</Button>
+        {/snippet}
+        <div class="flex">
+          <div class="flex flex-col gap-1 border-r border-kumo-hairline p-2 text-sm">
+            {#each datePickerPresets as preset (preset.label)}
+              <button
+                type="button"
+                onclick={() => handleDatePresetClick(preset)}
+                class={isDatePresetActive(preset)
+                  ? 'rounded-md bg-kumo-bg-inverse px-3 py-1.5 text-left whitespace-nowrap text-kumo-text-inverse'
+                  : 'rounded-md px-3 py-1.5 text-left whitespace-nowrap text-kumo-subtle hover:bg-kumo-control'}
+              >
+                {preset.label}
+              </button>
+            {/each}
+          </div>
+          <div class="p-3">
+            <DatePicker
+              mode="range"
+              selected={datePickerPresetRange}
+              onChange={(next) => (datePickerPresetRange = next as DateRange | undefined)}
+              bind:month={datePickerPresetMonth}
+              numberOfMonths={2}
+            />
+          </div>
+        </div>
+      </Popover>
+    {:else if demo === 'DatePickerDisabledWithFooterDemo'}
+      {#snippet disabledFooter()}
+        <p class="w-full pt-2 text-xs text-kumo-subtle">{datePickerDates?.length ?? 0}/5 days selected. Grayed dates are unavailable.</p>
+      {/snippet}
+      <DatePicker
+        mode="multiple"
+        selected={datePickerDates}
+        onChange={(next) => (datePickerDates = next as Date[] | undefined)}
+        max={5}
+        disabled={datePickerUnavailableDates}
+        fixedWeeks
+        footer={disabledFooter}
+      />
     {:else}
-      <DatePicker bind:value={datePickerValue} />
+      <div class="flex flex-col gap-4">
+        <DatePicker
+          mode="single"
+          selected={datePickerDate}
+          onChange={(next) => {
+            if (next instanceof Date) datePickerDate = next;
+          }}
+        />
+        <p class="text-sm text-kumo-subtle">Selected: {datePickerDate ? datePickerDate.toLocaleDateString() : 'None'}</p>
+      </div>
     {/if}
   {:else if looksLike('Dialog')}
     <Dialog title={demo.includes('Alert') || demo.includes('Delete') ? 'Delete Project' : demo.includes('Select') ? 'Select Region' : demo.includes('Combobox') ? 'Choose Template' : demo.includes('Dropdown') ? 'Project Actions' : 'Edit Profile'} description={demo.includes('Alert') || demo.includes('Delete') ? 'This action cannot be undone.' : 'Make changes and save when you are done.'}>
@@ -1191,7 +1330,42 @@ const route: WorkerRoute = {
       {/if}
     </div>
   {:else if looksLike('SensitiveInput')}
-    <SensitiveInput value="sk_live_••••••••••••" />
+    {#if demo === 'SensitiveInputSizesDemo'}
+      <div class="flex flex-col gap-4">
+        {#each sensitiveInputSizes as sensitiveSize (sensitiveSize)}
+          <div class="flex items-center gap-2">
+            <span class="w-12 text-sm text-kumo-subtle">{sensitiveSize}</span>
+            <SensitiveInput
+              label={`${sensitiveSize} size`}
+              size={sensitiveSize}
+              defaultValue="secret-api-key-123"
+            />
+          </div>
+        {/each}
+      </div>
+    {:else if demo === 'SensitiveInputControlledDemo'}
+      <div class="flex w-80 flex-col gap-4">
+        <SensitiveInput label="Controlled Secret" value={sensitiveInputValue} onValueChange={(next) => (sensitiveInputValue = next)} />
+        <div class="text-sm text-kumo-subtle">
+          Current value: <code class="text-kumo-default">{sensitiveInputValue}</code>
+        </div>
+        <div class="flex gap-2">
+          <Button onclick={() => (sensitiveInputValue = `new-secret-${Date.now()}`)} variant="primary" size="sm">Change value</Button>
+          <Button onclick={() => (sensitiveInputValue = '')} variant="secondary" size="sm">Clear</Button>
+        </div>
+      </div>
+    {:else if demo === 'SensitiveInputStatesDemo'}
+      <div class="flex w-80 flex-col gap-4">
+        <SensitiveInput label="Error State" variant="error" defaultValue="invalid-key" error="This API key is not valid" />
+        <SensitiveInput label="Disabled" defaultValue="cannot-edit" disabled />
+        <SensitiveInput label="Read-only" defaultValue="view-only-secret-key" readOnly />
+        <SensitiveInput label="With Description" defaultValue="my-secret-value" description="Keep this value secure and don't share it" />
+      </div>
+    {:else}
+      <div class="w-80">
+        <SensitiveInput label="API Key" defaultValue="sk_live_abc123xyz789" />
+      </div>
+    {/if}
   {:else if looksLike('SkeletonLine')}
     {#if demo === 'SkeletonLineWidthDemo'}
       <div class="flex w-64 flex-col gap-3">

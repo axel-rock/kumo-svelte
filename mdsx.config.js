@@ -47,6 +47,17 @@ function escapeSvelte(html) {
 }
 
 /**
+ * @param {string} code
+ * @returns {string}
+ */
+function normalizeCode(code) {
+  return code
+    .replace(/^\n+|\n+$/g, '')
+    .replace(/(<script\b[^>]*>)\n{2,}/g, '$1\n')
+    .replace(/\n{2,}(<\/script>)/g, '\n$1');
+}
+
+/**
  * @param {MdsxNode} node
  * @returns {string}
  */
@@ -70,7 +81,7 @@ function rehypeShikiCodeBlocks() {
       if (node.tagName !== 'pre') return;
 
       highlights.push(
-        codeToHtml(textContent(node), {
+        codeToHtml(normalizeCode(textContent(node)), {
           lang: codeLanguage(node),
           themes: {
             light: 'github-light',
