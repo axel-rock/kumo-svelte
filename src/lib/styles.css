@@ -1045,6 +1045,16 @@ pre.shiki {
   font-weight: 600;
 }
 
+.rdp-month_caption_wrapper {
+  position: relative;
+  height: var(--rdp-nav-height);
+  overflow: hidden;
+}
+
+.rdp-month_caption_wrapper .rdp-month_caption {
+  inset: 0;
+}
+
 .rdp-root[data-nav-layout="around"] .rdp-month,
 .rdp-root[data-nav-layout="after"] .rdp-month {
   position: relative;
@@ -1088,7 +1098,20 @@ pre.shiki {
 }
 
 .rdp-month_grid_wrapper {
+  position: relative;
   overflow: hidden;
+}
+
+.rdp-month_grid:has(.rdp-weeks_outgoing) {
+  min-height: calc(var(--rdp-day-height) * 6 + var(--rdp-weekday-padding));
+}
+
+.rdp-weeks_outgoing {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(var(--rdp-day-height) + var(--rdp-cell-padding) * 2);
+  width: 100%;
+  pointer-events: none;
 }
 
 .rdp-nav {

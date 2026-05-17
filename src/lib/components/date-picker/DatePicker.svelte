@@ -46,7 +46,7 @@
     max,
     disabled = false,
     footer,
-    fixedWeeks = false,
+    fixedWeeks = true,
     locale = 'en-US',
     class: className,
     className: reactClassName,
@@ -57,6 +57,8 @@
   const today = startOfDay(new Date());
   let internalMonth = $state(startOfMonth(month ?? getSelectionMonth(selected) ?? today));
   let navigationDirection = $state<'before' | 'after' | undefined>();
+  let previousVisibleMonths = $state<Date[]>([]);
+  let animationTimer: ReturnType<typeof setTimeout> | undefined;
 
   const displayMonth = $derived(startOfMonth(month ?? internalMonth));
   const visibleMonths = $derived(
@@ -71,10 +73,17 @@
 
   function setMonth(nextMonth: Date) {
     const normalized = startOfMonth(nextMonth);
+    previousVisibleMonths = visibleMonths;
     navigationDirection = normalized.getTime() > displayMonth.getTime() ? 'after' : 'before';
     internalMonth = normalized;
     month = normalized;
     onMonthChange?.(normalized);
+    if (animationTimer) clearTimeout(animationTimer);
+    animationTimer = setTimeout(() => {
+      previousVisibleMonths = [];
+      navigationDirection = undefined;
+      animationTimer = undefined;
+    }, 200);
   }
 
   function handleDayClick(day: Date) {
@@ -151,16 +160,17 @@
 
   function getWeekdayLabels() {
     const baseSunday = new Date(2026, 0, 4);
-    return Array.from({ length: 7 }, (_, index) =>
-      new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(addDays(baseSunday, index))
-    );
+    return Array.from({ length: 7 }, (_, index) => {
+      const label = new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(addDays(baseSunday, index));
+      return label.replace(/\.$/, '').slice(0, 2);
+    });
   }
 
   function getWeeks(monthDate: Date) {
     const firstOfMonth = startOfMonth(monthDate);
     const firstGridDay = addDays(firstOfMonth, -firstOfMonth.getDay());
     const weeks = [];
-    const weekCount = fixedWeeks ? 6 : Math.ceil((firstOfMonth.getDay() + daysInMonth(firstOfMonth)) / 7);
+    const weekCount = fixedWeeks ? 6 : Math.max(5, Math.ceil((firstOfMonth.getDay() + daysInMonth(firstOfMonth)) / 7));
 
     for (let weekIndex = 0; weekIndex < weekCount; weekIndex += 1) {
       weeks.push(Array.from({ length: 7 }, (_, dayIndex) => addDays(firstGridDay, weekIndex * 7 + dayIndex)));
@@ -211,21 +221,28 @@
   function isSameDay(a: Date, b: Date) {
     return compareDays(a, b) === 0;
   }
+
+  function getAnimationClass(kind: 'caption' | 'weeks', phase: 'enter' | 'exit') {
+    if (!navigationDirection) return undefined;
+    return `rdp-${kind}_${navigationDirection}_${phase}`;
+  }
 </script>
 
 <div class={rootClass} data-nav-layout="after" data-mode={mode} {...rest}>
   <div class="rdp-months">
-    {#each visibleMonths as visibleMonth (visibleMonth.toISOString())}
+    {#each visibleMonths as visibleMonth, index (visibleMonth.toISOString())}
       <div class={cn('rdp-month', classNames?.month)}>
-        <div
-          class={cn(
-            'rdp-month_caption',
-            navigationDirection === 'after' && 'rdp-caption_after_enter',
-            navigationDirection === 'before' && 'rdp-caption_before_enter',
-            classNames?.month_caption
-          )}
-        >
-          <span class={cn('rdp-caption_label', classNames?.caption_label)}>{getMonthLabel(visibleMonth)}</span>
+        <div class="rdp-month_caption_wrapper">
+          {#if previousVisibleMonths[index]}
+            <div class={cn('rdp-month_caption', getAnimationClass('caption', 'exit'), classNames?.month_caption)}>
+              <span class={cn('rdp-caption_label', classNames?.caption_label)}>
+                {getMonthLabel(previousVisibleMonths[index])}
+              </span>
+            </div>
+          {/if}
+          <div class={cn('rdp-month_caption', getAnimationClass('caption', 'enter'), classNames?.month_caption)}>
+            <span class={cn('rdp-caption_label', classNames?.caption_label)}>{getMonthLabel(visibleMonth)}</span>
+          </div>
         </div>
 
         <div class="rdp-month_grid_wrapper">
@@ -237,13 +254,44 @@
                 {/each}
               </tr>
             </thead>
-            <tbody
-              class={cn(
-                'rdp-weeks',
-                navigationDirection === 'after' && 'rdp-weeks_after_enter',
-                navigationDirection === 'before' && 'rdp-weeks_before_enter'
-              )}
-            >
+            {#if previousVisibleMonths[index]}
+              <tbody class={cn('rdp-weeks rdp-weeks_outgoing', getAnimationClass('weeks', 'exit'))}>
+                {#each getWeeks(previousVisibleMonths[index]) as week (week[0].toISOString())}
+                  <tr class="rdp-week">
+                    {#each week as day (day.toISOString())}
+                      {@const outside = day.getMonth() !== previousVisibleMonths[index].getMonth()}
+                      {@const dayDisabled = isDisabled(day)}
+                      <td
+                        class={cn(
+                          'rdp-day',
+                          outside && 'rdp-outside',
+                          isSameDay(day, today) && 'rdp-today',
+                          isSelected(day) && 'rdp-selected',
+                          dayDisabled && 'rdp-disabled',
+                          isRangeStart(day) && 'rdp-range_start',
+                          isRangeMiddle(day) && 'rdp-range_middle',
+                          isRangeEnd(day) && 'rdp-range_end',
+                          classNames?.day
+                        )}
+                        data-day={day.toISOString()}
+                      >
+                        <button
+                          type="button"
+                          class={cn('rdp-day_button', classNames?.day_button)}
+                          disabled
+                          tabindex="-1"
+                          aria-label={day.toLocaleDateString(locale, { dateStyle: 'full' })}
+                          aria-pressed={isSelected(day)}
+                        >
+                          {day.getDate()}
+                        </button>
+                      </td>
+                    {/each}
+                  </tr>
+                {/each}
+              </tbody>
+            {/if}
+            <tbody class={cn('rdp-weeks', getAnimationClass('weeks', 'enter'))}>
               {#each getWeeks(visibleMonth) as week (week[0].toISOString())}
                 <tr class="rdp-week">
                   {#each week as day (day.toISOString())}
