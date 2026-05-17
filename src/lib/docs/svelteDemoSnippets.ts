@@ -5,33 +5,6 @@ function componentName(demo: string) {
 }
 
 function chartSnippet(demo: string) {
-  if (demo.startsWith('ChartReport')) {
-    return `<script lang="ts">
-  import * as echarts from 'echarts';
-  import { Chart, ChartPalette } from 'kumo-svelte';
-
-  const options = {
-    animation: true,
-    animationDuration: 900,
-    color: [
-      ChartPalette.semantic('Neutral'),
-      ChartPalette.semantic('Success'),
-      ChartPalette.semantic('Attention')
-    ],
-    tooltip: { trigger: 'axis' },
-    xAxis: { type: 'category', data: ['00:00', '04:00', '08:00', '12:00'] },
-    yAxis: { type: 'value' },
-    series: [
-      { name: 'Requests', type: 'line', smooth: true, data: [31, 44, 52, 68] },
-      { name: 'Cached', type: 'line', smooth: true, data: [24, 36, 45, 58] },
-      { name: 'Errors', type: 'line', smooth: true, data: [2, 4, 3, 7] }
-    ]
-  };
-</script>
-
-<Chart {echarts} {options} height={300} />`;
-  }
-
   if (demo.startsWith('Sankey')) {
     return `<script lang="ts">
   import * as echarts from 'echarts';

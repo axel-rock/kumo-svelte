@@ -1,6 +1,6 @@
 ---
 title: "Charts"
-description: "Charts built on ECharts."
+description: "Composable chart primitives built on ECharts."
 sourceFile: "components/chart"
 ---
 
@@ -44,7 +44,25 @@ echarts.use([
 
 ## Available Charts
 
+Kumo exposes a low-level `Chart` wrapper for custom ECharts options, plus
+specialized chart components for common dashboard patterns.
+
+### Timeseries
+
+Use `TimeseriesChart` for line and bar charts over time. It includes accessible
+chart labels, tooltips, loading states, incomplete data styling and optional
+range brushing.
+
 <ComponentExample demo="TimeseriesChartPreviewDemo" />
+
+### Sankey
+
+Use `SankeyChart` when showing flow between systems, resources or account
+boundaries.
+
+<ComponentExample demo="SankeyChartPreviewDemo" />
+
+### Custom ECharts
 
 <ComponentExample demo="PieChartPreviewDemo" />
 
@@ -53,6 +71,10 @@ echarts.use([
 <ComponentSection>
 
 ## Color System
+
+Chart colors are split into semantic, categorical and sequential systems. Use
+semantic colors only when the data has status-like meaning; otherwise use the
+categorical palette for nominal series and sequential scales for density.
 
 <ComponentExample demo="ChartColorSystemsDemo" />
 
@@ -74,4 +96,31 @@ Use `LegendItem` to display chart series information with color indicators.
 
 </ComponentSection>
 
+<ComponentSection>
+
+## Composition
+
+Combine `ChartLegend`, `LayerCard` and chart primitives to build dashboard
+panels without changing the chart API.
+
 <ComponentExample demo="ChartExampleDemo" />
+
+</ComponentSection>
+
+<ComponentSection>
+
+## API Reference
+
+### Chart
+
+<PropsTable component="Chart" />
+
+### TimeseriesChart
+
+<PropsTable component="TimeseriesChart" />
+
+### ChartLegend
+
+<PropsTable component="ChartLegend" />
+
+</ComponentSection>

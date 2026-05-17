@@ -140,56 +140,6 @@
   const semanticColorNames = ['Attention', 'Warning', 'Success', 'Neutral', 'Disabled'] as const;
   const categoricalCvdColors = ['#2F7ED8', '#B68A00', '#CC79A7', '#7F3FBF', '#009E73', '#A66400'];
 
-  const reportTrendOptions = $derived<EChartsOption>({
-    animation: true,
-    animationDuration: 900,
-    animationEasing: 'cubicOut',
-    color: [ChartPalette.semantic('Neutral', isDarkMode), ChartPalette.semantic('Success', isDarkMode), ChartPalette.semantic('Attention', isDarkMode)],
-    tooltip: { trigger: 'axis' },
-    legend: { show: false },
-    grid: { left: 42, right: 20, top: 16, bottom: 28 },
-    xAxis: { type: 'category', boundaryGap: false, data: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'] },
-    yAxis: { type: 'value', splitLine: { lineStyle: { type: 'dashed' } } },
-    series: [
-      { name: 'Requests', type: 'line', smooth: true, showSymbol: false, data: [31, 44, 52, 68, 63, 72] },
-      { name: 'Cached', type: 'line', smooth: true, showSymbol: false, data: [24, 36, 45, 58, 54, 61] },
-      { name: 'Errors', type: 'line', smooth: true, showSymbol: false, data: [2, 4, 3, 7, 5, 6] }
-    ]
-  });
-
-  const reportComparisonOptions = $derived<EChartsOption>({
-    animation: true,
-    animationDuration: 900,
-    animationEasing: 'cubicOut',
-    color: Array.from({ length: 4 }, (_, index) => ChartPalette.categorical(index, isDarkMode)),
-    tooltip: { trigger: 'axis' },
-    grid: { left: 42, right: 20, top: 16, bottom: 28 },
-    xAxis: { type: 'category', data: ['Workers', 'Pages', 'R2', 'D1'] },
-    yAxis: { type: 'value', splitLine: { lineStyle: { type: 'dashed' } } },
-    series: [{ name: 'Requests', type: 'bar', barMaxWidth: 34, data: [82, 57, 38, 24] }]
-  });
-
-  const reportBreakdownOptions = $derived<EChartsOption>({
-    animation: true,
-    animationDuration: 1200,
-    animationEasing: 'cubicOut',
-    tooltip: { trigger: 'item' },
-    series: [
-      {
-        name: 'Traffic',
-        type: 'pie',
-        radius: ['48%', '72%'],
-        avoidLabelOverlap: true,
-        itemStyle: { borderRadius: 4, borderColor: isDarkMode ? '#0b0b0b' : '#ffffff', borderWidth: 2 },
-        data: ['Workers', 'Pages', 'R2', 'D1'].map((name, index) => ({
-          name,
-          value: [42, 28, 18, 12][index],
-          itemStyle: { color: ChartPalette.categorical(index, isDarkMode) }
-        }))
-      }
-    ]
-  });
-
   const is = (name: string) => demo === name;
 </script>
 
@@ -292,33 +242,6 @@
         <TimeseriesChart {echarts} isDarkMode={isDarkMode} data={baseTimeseries()} height={300} animationDuration={900} />
       </div>
     </LayerCard>
-  {:else if is('ChartReportTrendDemo')}
-    <Chart {echarts} options={reportTrendOptions} height={300} isDarkMode={isDarkMode} />
-  {:else if is('ChartReportComparisonDemo')}
-    <Chart {echarts} options={reportComparisonOptions} height={280} isDarkMode={isDarkMode} />
-  {:else if is('ChartReportBreakdownDemo')}
-    <Chart {echarts} options={reportBreakdownOptions} height={280} isDarkMode={isDarkMode} />
-  {:else if is('ChartReportDashboardDemo')}
-    <div class="grid w-full gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(260px,0.8fr)]">
-      <LayerCard>
-        <div class="p-4">
-          <div class="mb-3 flex items-center justify-between gap-4">
-            <div>
-              <div class="text-sm font-medium">Request trend</div>
-              <div class="text-xs text-kumo-subtle">Last 24 hours</div>
-            </div>
-            <ChartLegend name="Errors" color={ChartPalette.semantic('Attention', isDarkMode)} value="0.08" unit="%" />
-          </div>
-          <Chart {echarts} options={reportTrendOptions} height={260} isDarkMode={isDarkMode} />
-        </div>
-      </LayerCard>
-      <LayerCard>
-        <div class="p-4">
-          <div class="mb-3 text-sm font-medium">Traffic mix</div>
-          <Chart {echarts} options={reportBreakdownOptions} height={260} isDarkMode={isDarkMode} />
-        </div>
-      </LayerCard>
-    </div>
   {:else if is('SankeyChartBasicDemo')}
     <SankeyChart {echarts} nodes={sankeyNodes} links={sankeyLinks} height={350} isDarkMode={isDarkMode} />
   {:else if is('SankeyChartPreviewDemo')}
