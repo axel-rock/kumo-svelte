@@ -149,14 +149,14 @@
   }
 </script>
 
+{#snippet triggerChild({ props }: { props: Record<string, unknown> })}
+  {@render trigger?.(props)}
+{/snippet}
+
 {#if role === 'alertdialog'}
   <AlertDialog.Root bind:open {...rest}>
     {#if trigger}
-      <AlertDialog.Trigger>
-        {#snippet child({ props })}
-          {@render trigger(props)}
-        {/snippet}
-      </AlertDialog.Trigger>
+      <AlertDialog.Trigger child={triggerChild} />
     {/if}
     <AlertDialog.Portal>
       <AlertDialog.Overlay class={backdropClasses} />
@@ -170,11 +170,7 @@
 {:else}
   <DialogPrimitive.Root bind:open {...rest}>
     {#if trigger}
-      <DialogPrimitive.Trigger>
-        {#snippet child({ props })}
-          {@render trigger(props)}
-        {/snippet}
-      </DialogPrimitive.Trigger>
+      <DialogPrimitive.Trigger child={triggerChild} />
     {/if}
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay class={backdropClasses} />

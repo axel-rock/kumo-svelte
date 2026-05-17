@@ -24,28 +24,37 @@
     label: string;
     transitioning?: boolean;
     onchange?: (checked: boolean) => void;
+    onCheckedChange?: (checked: boolean) => void;
   }
 
-  let { class: className, checked = $bindable(false), disabled = false, size = 'base', variant = 'default', label, transitioning, onchange }: Props = $props();
+  let { class: className, checked = $bindable(false), disabled = false, size = 'base', variant = 'default', label, transitioning, onchange, onCheckedChange }: Props = $props();
   const group = getContext<SwitchGroupContext | undefined>('kumo-switch-group');
+  const generatedId = $props.id();
+  const controlId = `${generatedId}-control`;
   let controlFirst = $derived(group?.controlFirst ?? true);
   let s = $derived(switchSizeStyles[size] ?? switchSizeStyles.base);
+
+  function handleCheckedChange(nextChecked: boolean) {
+    onchange?.(nextChecked);
+    onCheckedChange?.(nextChecked);
+  }
 </script>
 
-<label
+<span
   class={cn(
     'm-0 relative inline-flex items-center gap-2',
     !controlFirst && 'flex-row-reverse justify-end',
-    disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
+    disabled && 'opacity-50',
     className
   )}
 >
   <SwitchPrimitive.Root
     bind:checked
+    id={controlId}
     {disabled}
     aria-busy={transitioning || undefined}
     aria-label={label}
-    onCheckedChange={onchange}
+    onCheckedChange={handleCheckedChange}
     class={cn(
       'relative inline-flex items-center ring cursor-pointer border-none p-0',
       'focus:outline-none focus:ring-kumo-focus/50 focus-visible:ring-2 focus-visible:ring-kumo-brand',
@@ -67,5 +76,5 @@
       )}
     />
   </SwitchPrimitive.Root>
-  <span class="text-base font-medium text-kumo-default">{label}</span>
-</label>
+  <label for={controlId} class={cn('text-base font-medium text-kumo-default', disabled ? 'cursor-not-allowed' : 'cursor-pointer')}>{label}</label>
+</span>

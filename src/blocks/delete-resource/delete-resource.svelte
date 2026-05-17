@@ -46,11 +46,13 @@
   }
 </script>
 
-<Button variant="destructive" onclick={() => (open = true)} class={className}>
-  {triggerLabel ?? `Delete ${resourceType}`}
-</Button>
-
 <Dialog bind:open role="alertdialog" title={`Delete ${resourceType}`} description="This action cannot be undone.">
+  {#snippet trigger(props)}
+    <Button {...props} variant="destructive" class={className}>
+      {triggerLabel ?? `Delete ${resourceType}`}
+    </Button>
+  {/snippet}
+
   <div class="space-y-4">
     {#if errorMessage}
       <Banner variant="error" title="Delete failed" description={errorMessage} />

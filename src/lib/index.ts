@@ -24,7 +24,7 @@ export type {
   CloudflareLogoVariant,
   GenerateCloudflareLogoSvgOptions
 } from './components/cloudflare-logo';
-export { Code, CodeBlock } from './components/code';
+export { Code, CodeBlock, CodeHighlighted } from './components/code';
 export {
   Collapsible,
   CollapsibleDefaultPanel,

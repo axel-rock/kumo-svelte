@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Popover as PopoverPrimitive } from 'bits-ui';
   import type { Snippet } from 'svelte';
+  import { cn } from '$lib/utils/cn';
 
   interface Props {
     children?: Snippet;
@@ -13,12 +14,10 @@
   let { children, child: renderChild, class: className, type = 'button', ...rest }: Props = $props();
 </script>
 
-<PopoverPrimitive.Close class={className} {type} {...rest}>
-  {#if renderChild}
-    {#snippet child({ props }: { props: Record<string, unknown> })}
-      {@render renderChild({ props })}
-    {/snippet}
-  {:else}
+{#snippet defaultCloseChild({ props }: { props: Record<string, unknown> })}
+  <button {...props} class={cn(className, props.class as string | undefined)} {type}>
     {@render children?.()}
-  {/if}
-</PopoverPrimitive.Close>
+  </button>
+{/snippet}
+
+<PopoverPrimitive.Close {type} {...rest} child={renderChild ?? defaultCloseChild} />

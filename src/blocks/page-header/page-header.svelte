@@ -15,6 +15,8 @@
     actions?: Snippet;
     children?: Snippet;
     class?: string;
+    className?: string;
+    [key: string]: unknown;
   }
 
   let {
@@ -27,11 +29,13 @@
     onTabChange,
     actions,
     children,
-    class: className
+    class: className,
+    className: classNameAlias,
+    ...rest
   }: Props = $props();
 </script>
 
-<header class={cn('space-y-4', className)}>
+<header class={cn('space-y-4', className, classNameAlias)} {...rest}>
   {#if breadcrumbs.length > 0}
     <Breadcrumbs items={breadcrumbs} />
   {/if}

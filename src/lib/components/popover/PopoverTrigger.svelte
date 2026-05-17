@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Popover as PopoverPrimitive } from 'bits-ui';
   import type { Snippet } from 'svelte';
+  import { cn } from '$lib/utils/cn';
 
   interface Props {
     children?: Snippet;
@@ -25,19 +26,17 @@
   }: Props = $props();
 </script>
 
+{#snippet defaultTriggerChild({ props }: { props: Record<string, unknown> })}
+  <button {...props} class={cn('inline-flex', className, props.class as string | undefined)} {type}>
+    {@render children?.()}
+  </button>
+{/snippet}
+
 <PopoverPrimitive.Trigger
-  class={className}
   {openOnHover}
   {openDelay}
   {closeDelay}
   {type}
   {...rest}
->
-  {#if renderChild}
-    {#snippet child({ props }: { props: Record<string, unknown> })}
-      {@render renderChild({ props })}
-    {/snippet}
-  {:else}
-    {@render children?.()}
-  {/if}
-</PopoverPrimitive.Trigger>
+  child={renderChild ?? defaultTriggerChild}
+/>

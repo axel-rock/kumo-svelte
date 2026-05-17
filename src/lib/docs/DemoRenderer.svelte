@@ -8,9 +8,12 @@
     ClipboardText,
     CloudflareLogo,
     Code,
+    CodeHighlighted,
     Collapsible,
     Combobox,
     CommandPalette,
+    DatePicker,
+    DateRangePicker,
     Dialog,
     DropdownMenu,
     Empty,
@@ -54,7 +57,8 @@
     Toasty,
     Tooltip
   } from '$lib';
-  import { ArrowRight, Bold, CheckCircle, Cloud, Code2, Copy, Database, Download, ExternalLink, Eye, FolderOpen, Globe, HelpCircle, Italic, Link2, Package, Plus, Search, Settings, Trash2, X } from '@lucide/svelte';
+  import { CalendarDate } from '@internationalized/date';
+  import { ArrowRight, ArrowSquareOut as ExternalLink, CheckCircle, Cloud, Code as Code2, Copy, Database, Download, Eye, FolderOpen, Gear as Settings, Globe, Info, LinkSimple as Link2, MagnifyingGlass as Search, Package, Plus, Question as HelpCircle, TextB as Bold, TextItalic as Italic, Trash, WarningCircle, X, XCircle } from 'phosphor-svelte';
   import { generateCloudflareLogoSvg } from '$lib/components/cloudflare-logo';
   import { PoweredByCloudflare } from '$lib/components/cloudflare-logo';
   import ChartDemos from './chart-demos/ChartDemos.svelte';
@@ -69,6 +73,11 @@
   let switchCustomIdChecked = $state(false);
   let menuBarActive = $state<string | undefined>('bold');
   let copiedCloudflareLogo = $state<string | undefined>();
+  let datePickerValue = $state(new CalendarDate(2026, 5, 16));
+  let dateRangePickerValue = $state({
+    start: new CalendarDate(2026, 5, 12),
+    end: new CalendarDate(2026, 5, 18)
+  });
 
   const selectOptions = [
     { label: 'Workers', value: 'workers' },
@@ -88,6 +97,15 @@
     { label: 'Workers', href: '/' },
     { label: 'api-edge' }
   ];
+  const highlightedExampleCode = `interface WorkerRoute {
+  pattern: string;
+  script: string;
+}
+
+const route: WorkerRoute = {
+  pattern: "example.com/*",
+  script: "edge-api"
+};`;
 
   const tocItems = [
     { href: '#overview', title: 'Overview', depth: 1 },
@@ -224,22 +242,32 @@
     {:else if demo === 'BadgeColorVariantsDemo'}
       <div class="flex flex-wrap justify-center gap-2"><Badge variant="red">Red</Badge><Badge variant="green">Green</Badge><Badge variant="orange">Orange</Badge><Badge variant="purple">Purple</Badge><Badge variant="teal">Teal</Badge><Badge variant="blue">Blue</Badge></div>
     {:else}
-      <div class="flex flex-wrap justify-center gap-2"><Badge variant="primary">Primary</Badge><Badge variant="secondary">Secondary</Badge><Badge variant="success">Success</Badge><Badge variant="warning">Warning</Badge><Badge variant="error">Error</Badge><Badge variant="info">Info</Badge></div>
+      <div class="flex flex-wrap justify-center gap-2"><Badge variant="primary">Primary</Badge><Badge variant="secondary">Secondary</Badge><Badge variant="success">Success</Badge><Badge variant="warning">Warning</Badge><Badge variant="error">Error</Badge><Badge variant="info">Info</Badge><Badge variant="outline">Outline</Badge></div>
     {/if}
   {:else if looksLike('Banner')}
     {#if demo === 'BannerVariantsDemo'}
-      <div class="grid w-full max-w-xl gap-3"><Banner title="Default banner" description="General status message." /><Banner variant="alert" title="Alert banner" description="Review this before continuing." /><Banner variant="error" title="Error banner" description="Something needs attention." /></div>
+      <div class="grid w-full max-w-xl gap-3"><Banner icon={Info} title="Default banner" description="General status message." /><Banner icon={WarningCircle} variant="alert" title="Alert banner" description="Review this before continuing." /><Banner icon={XCircle} variant="error" title="Error banner" description="Something needs attention." /></div>
     {:else if demo === 'BannerWithActionDemo' || demo === 'BannerWithActionsDemo'}
-      <Banner title="Deployment ready" description="Your worker was built and is ready to receive traffic.">
+      <Banner icon={demo === 'BannerWithActionsDemo' ? WarningCircle : Info} title="Deployment ready" description="Your worker was built and is ready to receive traffic.">
         {#snippet action()}<Button size="sm" variant="secondary">View</Button>{#if demo === 'BannerWithActionsDemo'}<Button size="sm" variant="ghost">Dismiss</Button>{/if}{/snippet}
       </Banner>
     {:else if demo === 'BannerCustomContentDemo'}
-      <Banner title="Custom content" description="Bring your own layout inside the banner." />
+      <Banner icon={Info} title="Custom content" description="Bring your own layout inside the banner." />
     {:else}
-      <Banner variant={demo.includes('Error') ? 'error' : demo.includes('Alert') ? 'alert' : 'default'} title={demo.includes('Icon') ? 'New notification' : 'Deployment ready'} description="Your worker was built and is ready to receive traffic." />
+      <Banner icon={demo.includes('Error') ? XCircle : demo.includes('Alert') || demo.includes('Icon') ? WarningCircle : Info} variant={demo.includes('Error') ? 'error' : demo.includes('Alert') ? 'alert' : 'default'} title={demo.includes('Icon') ? 'New notification' : 'Deployment ready'} description="Your worker was built and is ready to receive traffic." />
     {/if}
   {:else if looksLike('Breadcrumbs')}
-    <Breadcrumbs items={breadcrumbItems} />
+    {#if demo === 'BreadcrumbsLoadingDemo'}
+      <Breadcrumbs><Breadcrumbs.Link href="#">Account</Breadcrumbs.Link><Breadcrumbs.Separator /><Breadcrumbs.Link href="#">Workers</Breadcrumbs.Link><Breadcrumbs.Separator /><Breadcrumbs.Current loading /></Breadcrumbs>
+    {:else if demo === 'BreadcrumbsRootDemo'}
+      <Breadcrumbs><Breadcrumbs.Current icon={Cloud}>Worker Analytics</Breadcrumbs.Current></Breadcrumbs>
+    {:else if demo === 'BreadcrumbsWithClipboardDemo'}
+      <Breadcrumbs><Breadcrumbs.Link href="#">Account</Breadcrumbs.Link><Breadcrumbs.Separator /><Breadcrumbs.Current>api-edge</Breadcrumbs.Current><Breadcrumbs.Clipboard text="/workers/api-edge" /></Breadcrumbs>
+    {:else if demo === 'BreadcrumbsWithIconsDemo'}
+      <Breadcrumbs><Breadcrumbs.Link href="#" icon={Globe}>Account</Breadcrumbs.Link><Breadcrumbs.Separator /><Breadcrumbs.Link href="#" icon={Cloud}>Workers</Breadcrumbs.Link><Breadcrumbs.Separator /><Breadcrumbs.Current icon={Code2}>api-edge</Breadcrumbs.Current></Breadcrumbs>
+    {:else}
+      <Breadcrumbs items={breadcrumbItems} />
+    {/if}
   {:else if demo === 'CheckboxBasicDemo'}
     <Checkbox>Accept terms and conditions</Checkbox>
   {:else if demo === 'CheckboxDefaultDemo'}
@@ -276,7 +304,19 @@
       <p class="text-sm text-kumo-danger">Please select at least one notification method</p>
     </div>
   {:else if looksLike('ClipboardText')}
-    <ClipboardText value="wrangler deploy --env production" />
+    {#if demo === 'ClipboardTextShortDemo'}
+      <ClipboardText size="sm" text="api-edge" />
+    {:else if demo === 'ClipboardTextApiKeyDemo'}
+      <ClipboardText text="cf_live_2xv4e7k9n8p3m6q1" />
+    {:else if demo === 'ClipboardTextAlternateDemo'}
+      <ClipboardText text="Production endpoint" textToCopy="https://api-edge.example.workers.dev" />
+    {:else if demo === 'ClipboardTextLongDemo'}
+      <ClipboardText class="max-w-md" text="https://api-edge.example.workers.dev/v1/accounts/9f3a7c1b2d4e6f8a/workers/deployments/latest" />
+    {:else if demo === 'ClipboardTextTooltipDemo'}
+      <ClipboardText value="wrangler deploy --env production" tooltip={{ text: 'Copy command', copiedText: 'Copied command' }} />
+    {:else}
+      <ClipboardText value="wrangler deploy --env production" />
+    {/if}
   {:else if looksLike('CloudflareLogo') || looksLike('PoweredByCloudflare')}
     {#if demo === 'CloudflareLogoBasicDemo'}
       <CloudflareLogo class="w-72" />
@@ -340,7 +380,11 @@
       <PoweredByCloudflare />
     {/if}
   {:else if looksLike('Code')}
-    <Code>{`import { Button } from 'kumo-svelte';\n\n<Button variant="primary">Deploy</Button>`}</Code>
+    {#if looksLike('CodeHighlighted')}
+      <div class="w-full max-w-2xl"><CodeHighlighted code={highlightedExampleCode} lang="typescript" showCopyButton /></div>
+    {:else}
+      <Code>{`import { Button } from 'kumo-svelte';\n\n<Button variant="primary">Deploy</Button>`}</Code>
+    {/if}
   {:else if looksLike('Collapsible')}
     <Collapsible open={demo.includes('Hero') || demo.includes('Basic')}>
       {#snippet trigger()}Build details{/snippet}
@@ -351,7 +395,15 @@
   {:else if looksLike('CommandPalette')}
     <CommandPalette commands={[{ label: 'Open dashboard' }, { label: 'Deploy project' }, { label: 'View logs' }, { label: 'Manage domains' }]} />
   {:else if looksLike('DatePicker')}
-    <Input type="date" class="max-w-52" />
+    {#if demo === 'DatePickerRangeDemo'}
+      <DateRangePicker bind:value={dateRangePickerValue} />
+    {:else if demo === 'DatePickerDisabledDemo'}
+      <DatePicker value={datePickerValue} disabled />
+    {:else if demo === 'DatePickerTwoMonthsDemo'}
+      <DatePicker bind:value={datePickerValue} numberOfMonths={2} />
+    {:else}
+      <DatePicker bind:value={datePickerValue} />
+    {/if}
   {:else if looksLike('Dialog')}
     <Dialog title={demo.includes('Alert') || demo.includes('Delete') ? 'Delete Project' : demo.includes('Select') ? 'Select Region' : demo.includes('Combobox') ? 'Choose Template' : demo.includes('Dropdown') ? 'Project Actions' : 'Edit Profile'} description={demo.includes('Alert') || demo.includes('Delete') ? 'This action cannot be undone.' : 'Make changes and save when you are done.'}>
       {#snippet trigger()}<span class="inline-flex h-9 cursor-pointer items-center rounded-lg bg-kumo-base px-3 text-base font-medium text-kumo-default shadow-xs ring ring-kumo-hairline">{demo.includes('Alert') || demo.includes('Delete') ? 'Delete Account' : demo.includes('Actions') ? 'Open dialog' : 'Click me'}</span>{/snippet}
@@ -387,13 +439,13 @@
           <DropdownMenu.Item inset>Move to folder</DropdownMenu.Item>
           <DropdownMenu.Item inset>Add to favorites</DropdownMenu.Item>
           <DropdownMenu.Separator />
-          <DropdownMenu.Item icon={Trash2} variant="danger">Delete</DropdownMenu.Item>
+          <DropdownMenu.Item icon={Trash} variant="danger">Delete</DropdownMenu.Item>
         {:else}
           <DropdownMenu.Item icon={Settings}>Profile</DropdownMenu.Item>
           <DropdownMenu.Item>Billing</DropdownMenu.Item>
           <DropdownMenu.Item>Dark mode</DropdownMenu.Item>
           <DropdownMenu.Separator />
-          <DropdownMenu.Item icon={Trash2} variant="danger">Log out</DropdownMenu.Item>
+          <DropdownMenu.Item icon={Trash} variant="danger">Log out</DropdownMenu.Item>
         {/if}
       </DropdownMenu.Content>
     </DropdownMenu>
@@ -847,7 +899,7 @@
     </div>
   {:else if looksLike('DeleteResource')}
     <div class="flex items-center gap-3">
-      <Button variant="destructive"><Trash2 class="size-4" aria-hidden="true" /> Delete resource</Button>
+      <Button variant="destructive"><Trash class="size-4" aria-hidden="true" /> Delete resource</Button>
       <Button>Cancel</Button>
     </div>
   {:else if looksLike('Select')}

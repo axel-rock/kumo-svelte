@@ -5,6 +5,33 @@ function componentName(demo: string) {
 }
 
 function chartSnippet(demo: string) {
+  if (demo.startsWith('ChartReport')) {
+    return `<script lang="ts">
+  import * as echarts from 'echarts';
+  import { Chart, ChartPalette } from 'kumo-svelte';
+
+  const options = {
+    animation: true,
+    animationDuration: 900,
+    color: [
+      ChartPalette.semantic('Neutral'),
+      ChartPalette.semantic('Success'),
+      ChartPalette.semantic('Attention')
+    ],
+    tooltip: { trigger: 'axis' },
+    xAxis: { type: 'category', data: ['00:00', '04:00', '08:00', '12:00'] },
+    yAxis: { type: 'value' },
+    series: [
+      { name: 'Requests', type: 'line', smooth: true, data: [31, 44, 52, 68] },
+      { name: 'Cached', type: 'line', smooth: true, data: [24, 36, 45, 58] },
+      { name: 'Errors', type: 'line', smooth: true, data: [2, 4, 3, 7] }
+    ]
+  };
+</script>
+
+<Chart {echarts} {options} height={300} />`;
+  }
+
   if (demo.startsWith('Sankey')) {
     return `<script lang="ts">
   import * as echarts from 'echarts';
@@ -34,6 +61,8 @@ function chartSnippet(demo: string) {
   import { Chart } from 'kumo-svelte';
 
   const options = {
+    animation: true,
+    animationDuration: 1200,
     tooltip: { show: true },
     series: [
       {
@@ -81,6 +110,8 @@ function chartSnippet(demo: string) {
   import { Chart, ChartPalette } from 'kumo-svelte';
 
   const options = {
+    animation: true,
+    animationDuration: 900,
     color: Array.from({ length: 5 }, (_, index) => ChartPalette.categorical(index)),
     tooltip: { trigger: 'axis' },
     xAxis: { type: 'category', data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] },
@@ -126,6 +157,24 @@ function genericSnippet(demo: string) {
 
 function specializedSnippet(demo: string) {
   switch (demo) {
+    case 'CodeHighlightedBasicDemo':
+      return `<script lang="ts">
+  import { CodeHighlighted } from 'kumo-svelte/components/code-highlighted';
+</script>
+
+<CodeHighlighted
+  code={\`interface WorkerRoute {
+  pattern: string;
+  script: string;
+}\`}
+  lang="typescript"
+/>`;
+    case 'CodeHighlightedCopyButtonDemo':
+      return `<script lang="ts">
+  import { CodeHighlighted } from 'kumo-svelte/components/code-highlighted';
+</script>
+
+<CodeHighlighted code="npm install kumo-svelte" lang="bash" showCopyButton />`;
     case 'CloudflareLogoBasicDemo':
       return `<script lang="ts">
   import { CloudflareLogo } from 'kumo-svelte';
@@ -224,6 +273,45 @@ function specializedSnippet(demo: string) {
 </script>
 
 <Meter label="Memory usage" value={15} />`;
+    case 'DatePickerSingleDemo':
+      return `<script lang="ts">
+  import { CalendarDate } from '@internationalized/date';
+  import { DatePicker } from 'kumo-svelte';
+
+  let value = $state(new CalendarDate(2026, 5, 16));
+</script>
+
+<DatePicker bind:value />`;
+    case 'DatePickerRangeDemo':
+      return `<script lang="ts">
+  import { CalendarDate } from '@internationalized/date';
+  import { DateRangePicker } from 'kumo-svelte';
+
+  let value = $state({
+    start: new CalendarDate(2026, 5, 12),
+    end: new CalendarDate(2026, 5, 18)
+  });
+</script>
+
+<DateRangePicker bind:value />`;
+    case 'DatePickerTwoMonthsDemo':
+      return `<script lang="ts">
+  import { CalendarDate } from '@internationalized/date';
+  import { DatePicker } from 'kumo-svelte';
+
+  let value = $state(new CalendarDate(2026, 5, 16));
+</script>
+
+<DatePicker bind:value numberOfMonths={2} />`;
+    case 'DatePickerDisabledDemo':
+      return `<script lang="ts">
+  import { CalendarDate } from '@internationalized/date';
+  import { DatePicker } from 'kumo-svelte';
+
+  const value = new CalendarDate(2026, 5, 16);
+</script>
+
+<DatePicker {value} disabled />`;
     case 'ButtonBasicDemo':
       return `<script lang="ts">
   import { Button } from 'kumo-svelte';

@@ -50,15 +50,10 @@ npx kumo-svelte add DeleteResource
 
 ```svelte
 <script lang="ts">
-  import { Button, Dialog } from 'kumo-svelte';
-
-  let open = $state(false);
+  import { DeleteResource } from './delete-resource';
 </script>
 
-<Button variant="destructive" onclick={() => (open = true)}>Delete Zone</Button>
-<Dialog bind:open title="Delete Zone" description="This action cannot be undone.">
-  <Button variant="destructive">Delete</Button>
-</Dialog>
+<DeleteResource resourceType="Zone" resourceName="example.com" />
 ```
 
 </ComponentSection>

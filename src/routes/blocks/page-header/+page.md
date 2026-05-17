@@ -50,14 +50,17 @@ npx kumo-svelte add PageHeader
 
 ```svelte
 <script lang="ts">
-  import { Breadcrumbs, Tabs } from 'kumo-svelte';
+  import { PageHeader } from './page-header';
+
+  let activeTab = $state('overview');
 </script>
 
-<header class="space-y-4">
-  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Projects' }]} />
-  <h1 class="text-3xl font-semibold">My Project</h1>
-  <Tabs items={[{ label: 'Overview', value: 'overview' }, { label: 'Settings', value: 'settings' }]} value="overview" />
-</header>
+<PageHeader
+  breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Projects' }]}
+  title="My Project"
+  tabs={[{ label: 'Overview', value: 'overview' }, { label: 'Settings', value: 'settings' }]}
+  bind:activeTab
+/>
 ```
 
 </ComponentSection>

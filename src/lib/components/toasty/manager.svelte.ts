@@ -1,5 +1,7 @@
 import { getContext, setContext } from 'svelte';
 import type { Snippet } from 'svelte';
+import { toast as sonnerToast } from 'svelte-sonner';
+import KumoToastContent from './KumoToastContent.svelte';
 
 const TOAST_CONTEXT = 'kumo-toast-manager';
 
@@ -31,25 +33,14 @@ export interface KumoToastObject<Data extends object = Record<string, unknown>>
 
 export class KumoToastManager {
   toasts = $state<KumoToastObject[]>([]);
-  #timers = new Map<string, ReturnType<typeof setTimeout>>();
 
   add(options: KumoToastOptions = {}) {
-    const id = options.id ?? crypto.randomUUID();
+    const id = options.id ?? this.#createId();
 
     if (options.id) {
       const existingToast = this.toasts.find((toast) => toast.id === options.id);
-      if (existingToast && existingToast.transitionStatus !== 'ending') {
-        this.update(id, { bump: false });
-        requestAnimationFrame(() => {
-          this.update(id, {
-            bump: true,
-            ...(options.timeout !== undefined && { timeout: options.timeout })
-          });
-        });
-        return id;
-      }
-
-      if (existingToast?.transitionStatus === 'ending') {
+      if (existingToast) {
+        this.update(id, { ...options, bump: true });
         return id;
       }
     }
@@ -58,30 +49,23 @@ export class KumoToastManager {
       variant: 'default',
       timeout: 5000,
       ...options,
-      id,
-      transitionStatus: 'starting'
+      id
     };
 
     this.toasts = [toast, ...this.toasts].slice(0, 6);
-    requestAnimationFrame(() => this.update(id, { transitionStatus: undefined }));
-    this.#schedule(toast);
+    this.#render(toast);
     return id;
   }
 
   update(id: string, options: Partial<KumoToastOptions & Pick<KumoToastObject, 'transitionStatus'>>) {
     this.toasts = this.toasts.map((toast) => (toast.id === id ? { ...toast, ...options } : toast));
     const toast = this.toasts.find((item) => item.id === id);
-    if (toast && options.timeout !== undefined) {
-      this.#schedule(toast);
-    }
+    if (toast) this.#render(toast);
   }
 
   remove(id: string) {
-    this.#clearTimer(id);
-    this.update(id, { transitionStatus: 'ending' });
-    setTimeout(() => {
-      this.toasts = this.toasts.filter((toast) => toast.id !== id);
-    }, 180);
+    sonnerToast.dismiss(id);
+    this.#deleteLocal(id);
   }
 
   promise<T>(
@@ -98,33 +82,39 @@ export class KumoToastManager {
       (data) => {
         const success = typeof options.success === 'function' ? options.success(data) : options.success;
         this.update(id, { timeout: 5000, variant: 'success', ...success });
-        this.#schedule(this.toasts.find((toast) => toast.id === id));
       },
       (error: Error) => {
         const failed = typeof options.error === 'function' ? options.error(error) : options.error;
         this.update(id, { timeout: 5000, variant: 'error', ...failed });
-        this.#schedule(this.toasts.find((toast) => toast.id === id));
       }
     );
 
     return id;
   }
 
-  #schedule(toast: KumoToastObject | undefined) {
-    if (!toast) return;
-    this.#clearTimer(toast.id);
-    if (!toast.timeout) return;
-
-    this.#timers.set(
-      toast.id,
-      setTimeout(() => this.remove(toast.id), toast.timeout)
-    );
+  #render(toast: KumoToastObject) {
+    sonnerToast.custom(KumoToastContent, {
+      id: toast.id,
+      class: 'w-[var(--width)]',
+      duration: toast.timeout === 0 ? Number.POSITIVE_INFINITY : (toast.timeout ?? 5000),
+      componentProps: {
+        toast,
+        onClose: () => this.remove(toast.id)
+      },
+      onAutoClose: () => this.#deleteLocal(toast.id),
+      onDismiss: () => this.#deleteLocal(toast.id)
+    });
   }
 
-  #clearTimer(id: string) {
-    const timer = this.#timers.get(id);
-    if (timer) clearTimeout(timer);
-    this.#timers.delete(id);
+  #deleteLocal(id: string) {
+    this.toasts = this.toasts.filter((toast) => toast.id !== id);
+  }
+
+  #createId() {
+    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+      return crypto.randomUUID();
+    }
+    return `toast-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   }
 }
 

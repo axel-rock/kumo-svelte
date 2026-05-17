@@ -47,7 +47,7 @@ import { Banner } from "kumo-svelte/components/banner";
 
 ```svelte
 import { Banner } from "kumo-svelte";
-import { Info } from "@lucide/svelte";
+import { Info } from "phosphor-svelte";
 
 <Banner
   icon={Info}

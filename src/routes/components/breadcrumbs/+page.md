@@ -78,7 +78,7 @@ import { Breadcrumbs } from 'kumo-svelte';
 
 ```svelte
 <script>
-  import { House } from '@lucide/svelte';
+  import { House } from 'phosphor-svelte';
 </script>
 
 <Breadcrumbs>

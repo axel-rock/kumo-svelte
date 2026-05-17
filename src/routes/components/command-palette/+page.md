@@ -81,7 +81,7 @@ Show a loading spinner while fetching results.
 ### Disabling Browser Autocomplete
 
 
-Pass standard HTML input attributes like `autoComplete`, `autoCorrect`, `spellCheck`, and `data-*` to suppress browser and password manager autocomplete overlays.
+Pass input attributes through `inputProps` to suppress browser and password manager autocomplete overlays.
 
 <ComponentExample demo="CommandPaletteNoAutocompleteDemo" />
 
@@ -204,24 +204,21 @@ Footer for keyboard hints or other content.
 
 ```svelte
 interface CommandPaletteRootProps<TGroup, TItem> {
-  // Dialog state
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onBackdropClick?: (e: MouseEvent) => void;
-
-  // Autocomplete
-  items: TGroup[];
+  // Simple list API
+  commands?: CommandPaletteCommand[];
+  placeholder?: string;
   value?: string;
   onValueChange?: (value: string) => void;
-  itemToStringValue?: (item: TGroup) => string;
-  filter?: (item: TGroup, query: string) => boolean;
-  onItemHighlighted?: (item: TGroup | undefined, details: {...}) => void;
+  onSelect?: (command: CommandPaletteCommand, options: { newTab: boolean }) => void;
+  inputProps?: Record<string, unknown>;
 
-  // Selection
-  onSelect?: (item: TItem, options: { newTab: boolean }) => void;
-  getSelectableItems?: (items: TGroup[]) => TItem[];
+  // Bits UI command options
+  label?: string;
+  loop?: boolean;
+  shouldFilter?: boolean;
 
-  children: Snippet;
+  // Composable API
+  children?: Snippet;
 }
 ```
 

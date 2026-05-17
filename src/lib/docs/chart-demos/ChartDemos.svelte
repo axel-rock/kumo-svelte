@@ -42,6 +42,7 @@
   const pieOptions = (count = 5): EChartsOption => ({
     animation: true,
     animationDuration: 1600,
+    animationEasing: 'cubicOut',
     tooltip: { show: true },
     series: [
       {
@@ -85,6 +86,9 @@
   ];
 
   const categoricalLineOptions = $derived<EChartsOption>({
+    animation: true,
+    animationDuration: 900,
+    animationEasing: 'cubicOut',
     color: Array.from({ length: 6 }, (_, index) => ChartPalette.categorical(index, isDarkMode)),
     tooltip: { trigger: 'axis' },
     grid: { left: 32, right: 16, top: 20, bottom: 24 },
@@ -100,6 +104,9 @@
   });
 
   const categoricalBarOptions = $derived<EChartsOption>({
+    animation: true,
+    animationDuration: 900,
+    animationEasing: 'cubicOut',
     color: ['Success', 'Attention', 'Neutral', 'Warning', 'Disabled'].map((name) => ChartPalette.semantic(name as any, isDarkMode)),
     tooltip: { trigger: 'axis' },
     grid: { left: 32, right: 16, top: 20, bottom: 24 },
@@ -114,6 +121,9 @@
   });
 
   const heatmapOptions = $derived<EChartsOption>({
+    animation: true,
+    animationDuration: 700,
+    animationEasing: 'cubicOut',
     tooltip: {},
     grid: { left: 48, right: 16, top: 20, bottom: 36 },
     xAxis: { type: 'category', data: ['00', '04', '08', '12', '16', '20'] },
@@ -127,12 +137,65 @@
     ]
   });
 
+  const semanticColorNames = ['Attention', 'Warning', 'Success', 'Neutral', 'Disabled'] as const;
+  const categoricalCvdColors = ['#2F7ED8', '#B68A00', '#CC79A7', '#7F3FBF', '#009E73', '#A66400'];
+
+  const reportTrendOptions = $derived<EChartsOption>({
+    animation: true,
+    animationDuration: 900,
+    animationEasing: 'cubicOut',
+    color: [ChartPalette.semantic('Neutral', isDarkMode), ChartPalette.semantic('Success', isDarkMode), ChartPalette.semantic('Attention', isDarkMode)],
+    tooltip: { trigger: 'axis' },
+    legend: { show: false },
+    grid: { left: 42, right: 20, top: 16, bottom: 28 },
+    xAxis: { type: 'category', boundaryGap: false, data: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'] },
+    yAxis: { type: 'value', splitLine: { lineStyle: { type: 'dashed' } } },
+    series: [
+      { name: 'Requests', type: 'line', smooth: true, showSymbol: false, data: [31, 44, 52, 68, 63, 72] },
+      { name: 'Cached', type: 'line', smooth: true, showSymbol: false, data: [24, 36, 45, 58, 54, 61] },
+      { name: 'Errors', type: 'line', smooth: true, showSymbol: false, data: [2, 4, 3, 7, 5, 6] }
+    ]
+  });
+
+  const reportComparisonOptions = $derived<EChartsOption>({
+    animation: true,
+    animationDuration: 900,
+    animationEasing: 'cubicOut',
+    color: Array.from({ length: 4 }, (_, index) => ChartPalette.categorical(index, isDarkMode)),
+    tooltip: { trigger: 'axis' },
+    grid: { left: 42, right: 20, top: 16, bottom: 28 },
+    xAxis: { type: 'category', data: ['Workers', 'Pages', 'R2', 'D1'] },
+    yAxis: { type: 'value', splitLine: { lineStyle: { type: 'dashed' } } },
+    series: [{ name: 'Requests', type: 'bar', barMaxWidth: 34, data: [82, 57, 38, 24] }]
+  });
+
+  const reportBreakdownOptions = $derived<EChartsOption>({
+    animation: true,
+    animationDuration: 1200,
+    animationEasing: 'cubicOut',
+    tooltip: { trigger: 'item' },
+    series: [
+      {
+        name: 'Traffic',
+        type: 'pie',
+        radius: ['48%', '72%'],
+        avoidLabelOverlap: true,
+        itemStyle: { borderRadius: 4, borderColor: isDarkMode ? '#0b0b0b' : '#ffffff', borderWidth: 2 },
+        data: ['Workers', 'Pages', 'R2', 'D1'].map((name, index) => ({
+          name,
+          value: [42, 28, 18, 12][index],
+          itemStyle: { color: ChartPalette.categorical(index, isDarkMode) }
+        }))
+      }
+    ]
+  });
+
   const is = (name: string) => demo === name;
 </script>
 
 <div class="w-full">
   {#if is('BasicLineChartDemo')}
-    <TimeseriesChart {echarts} isDarkMode={isDarkMode} data={baseTimeseries()} xAxisName="Time (UTC)" yAxisName="Count" />
+    <TimeseriesChart {echarts} isDarkMode={isDarkMode} data={baseTimeseries()} xAxisName="Time (UTC)" yAxisName="Count" animationDuration={900} />
   {:else if is('CustomAxisLabelFormatDemo')}
     <TimeseriesChart
       {echarts}
@@ -177,6 +240,9 @@
       isDarkMode={isDarkMode}
       height={400}
       options={{
+        animation: true,
+        animationDuration: 1200,
+        animationEasing: 'cubicOut',
         tooltip: {
           trigger: 'item',
           dangerousHtmlFormatter: (params: any) => `<div style="padding:8px"><div style="font-weight:600;margin-bottom:4px;">${echarts.format.encodeHTML(params.name)}</div><div>Value: <strong>${echarts.format.encodeHTML(String(params.value))}</strong></div></div>`
@@ -223,9 +289,36 @@
           <ChartLegend variant="large" name="P95" color={ChartPalette.semantic('Warning', isDarkMode)} value="76" unit="ms" />
           <ChartLegend variant="large" name="P75" color={ChartPalette.semantic('Neutral', isDarkMode)} value="32" unit="ms" />
         </div>
-        <TimeseriesChart {echarts} isDarkMode={isDarkMode} data={baseTimeseries()} height={300} />
+        <TimeseriesChart {echarts} isDarkMode={isDarkMode} data={baseTimeseries()} height={300} animationDuration={900} />
       </div>
     </LayerCard>
+  {:else if is('ChartReportTrendDemo')}
+    <Chart {echarts} options={reportTrendOptions} height={300} isDarkMode={isDarkMode} />
+  {:else if is('ChartReportComparisonDemo')}
+    <Chart {echarts} options={reportComparisonOptions} height={280} isDarkMode={isDarkMode} />
+  {:else if is('ChartReportBreakdownDemo')}
+    <Chart {echarts} options={reportBreakdownOptions} height={280} isDarkMode={isDarkMode} />
+  {:else if is('ChartReportDashboardDemo')}
+    <div class="grid w-full gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(260px,0.8fr)]">
+      <LayerCard>
+        <div class="p-4">
+          <div class="mb-3 flex items-center justify-between gap-4">
+            <div>
+              <div class="text-sm font-medium">Request trend</div>
+              <div class="text-xs text-kumo-subtle">Last 24 hours</div>
+            </div>
+            <ChartLegend name="Errors" color={ChartPalette.semantic('Attention', isDarkMode)} value="0.08" unit="%" />
+          </div>
+          <Chart {echarts} options={reportTrendOptions} height={260} isDarkMode={isDarkMode} />
+        </div>
+      </LayerCard>
+      <LayerCard>
+        <div class="p-4">
+          <div class="mb-3 text-sm font-medium">Traffic mix</div>
+          <Chart {echarts} options={reportBreakdownOptions} height={260} isDarkMode={isDarkMode} />
+        </div>
+      </LayerCard>
+    </div>
   {:else if is('SankeyChartBasicDemo')}
     <SankeyChart {echarts} nodes={sankeyNodes} links={sankeyLinks} height={350} isDarkMode={isDarkMode} />
   {:else if is('SankeyChartPreviewDemo')}
@@ -257,6 +350,48 @@
           </div>
         </div>
       {/each}
+    </div>
+  {:else if is('SemanticColorsDemo')}
+    <div class="grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      {#each semanticColorNames as name (name)}
+        <div class="rounded-lg border border-kumo-hairline bg-kumo-base p-4">
+          <span class="mb-3 block h-10 rounded" style:background-color={ChartPalette.semantic(name, isDarkMode)}></span>
+          <div class="text-sm font-medium">{name}</div>
+          <code class="text-xs text-kumo-subtle">ChartPalette.semantic('{name}')</code>
+        </div>
+      {/each}
+    </div>
+  {:else if is('CategoricalColorsDemo')}
+    <div class="grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-6">
+      {#each Array.from({ length: 6 }) as _, index (index)}
+        <div class="rounded-lg border border-kumo-hairline bg-kumo-base p-4">
+          <span class="mb-3 block h-10 rounded" style:background-color={ChartPalette.categorical(index, isDarkMode)}></span>
+          <div class="text-sm font-medium">Category {index + 1}</div>
+          <code class="text-xs text-kumo-subtle">categorical({index})</code>
+        </div>
+      {/each}
+    </div>
+  {:else if is('CategoricalCvdDemo')}
+    <div class="grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-6">
+      {#each categoricalCvdColors as color, index (color)}
+        <div class="rounded-lg border border-kumo-hairline bg-kumo-base p-4">
+          <span class="mb-3 block h-10 rounded" style:background-color={color}></span>
+          <div class="text-sm font-medium">Simulated {index + 1}</div>
+          <div class="text-xs text-kumo-subtle">Deuteranopia check</div>
+        </div>
+      {/each}
+    </div>
+  {:else if is('SequentialColorsDemo')}
+    <div class="w-full rounded-lg border border-kumo-hairline bg-kumo-base p-4">
+      <div class="mb-3 flex items-center justify-between text-sm">
+        <span class="font-medium">Lower density</span>
+        <span class="text-kumo-subtle">Higher density</span>
+      </div>
+      <div class="grid grid-cols-5 overflow-hidden rounded">
+        {#each ChartPalette.sequential('blues', isDarkMode) as color (color)}
+          <span class="h-14" style:background-color={color}></span>
+        {/each}
+      </div>
     </div>
   {:else if demo.includes('Heatmap') || demo.includes('Sequential')}
     <Chart {echarts} options={heatmapOptions} height={300} isDarkMode={isDarkMode} />

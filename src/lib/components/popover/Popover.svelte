@@ -41,13 +41,13 @@
   let contentClass = $derived(cn('min-w-48', className));
 </script>
 
+{#snippet triggerChild({ props }: { props: Record<string, unknown> })}
+  {@render trigger?.(props)}
+{/snippet}
+
 <PopoverPrimitive.Root bind:open {...rest}>
   {#if trigger}
-    <PopoverPrimitive.Trigger openOnHover={openOnHover} openDelay={delay}>
-      {#snippet child({ props })}
-        {@render trigger(props)}
-      {/snippet}
-    </PopoverPrimitive.Trigger>
+    <PopoverPrimitive.Trigger openOnHover={openOnHover} openDelay={delay} child={triggerChild} />
     <PopoverContent class={contentClass} {side} {align} {sideOffset} {alignOffset}>
       {#if title}<PopoverTitle>{title}</PopoverTitle>{/if}
       {#if description}<PopoverDescription>{description}</PopoverDescription>{/if}

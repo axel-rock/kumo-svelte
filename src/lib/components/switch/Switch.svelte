@@ -50,6 +50,7 @@
     'aria-label'?: string;
     children?: Snippet;
     onchange?: (checked: boolean) => void;
+    onCheckedChange?: (checked: boolean) => void;
     [key: string]: unknown;
   }
 
@@ -67,22 +68,30 @@
     'aria-label': ariaLabel,
     children,
     onchange,
+    onCheckedChange,
     ...rest
   }: Props = $props();
 
+  const generatedId = $props.id();
+  let controlId = $derived(id ?? `${generatedId}-control`);
   let displayLabel = $derived(label ?? (children ? undefined : undefined));
   let s = $derived(switchSizeStyles[size] ?? switchSizeStyles.base);
   let controlLabel = $derived(ariaLabel ?? displayLabel ?? 'Switch');
+
+  function handleCheckedChange(nextChecked: boolean) {
+    onchange?.(nextChecked);
+    onCheckedChange?.(nextChecked);
+  }
 </script>
 
 {#snippet control()}
   <SwitchPrimitive.Root
     bind:checked
     {disabled}
-    {id}
+    id={controlId}
     aria-label={controlLabel}
     aria-busy={transitioning || undefined}
-    onCheckedChange={onchange}
+    onCheckedChange={handleCheckedChange}
     class={cn(
       'relative inline-flex items-center ring cursor-pointer border-none p-0',
       'focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand',
@@ -109,13 +118,13 @@
 {/snippet}
 
 {#if label || children}
-  <label class={cn('m-0 relative inline-flex items-center gap-2', !controlFirst && 'flex-row-reverse justify-end', disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer')}>
+  <span class={cn('m-0 relative inline-flex items-center gap-2', !controlFirst && 'flex-row-reverse justify-end', disabled && 'opacity-50')}>
     {@render control()}
-    <span class="text-base font-medium text-kumo-default">
+    <label for={controlId} class={cn('text-base font-medium text-kumo-default', disabled ? 'cursor-not-allowed' : 'cursor-pointer')}>
       {#if label}{label}{:else}{@render children?.()}{/if}
       {#if required}<span class="ml-1 text-kumo-danger">*</span>{/if}
-    </span>
-  </label>
+    </label>
+  </span>
 {:else}
   {@render control()}
 {/if}

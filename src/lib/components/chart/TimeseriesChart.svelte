@@ -28,6 +28,8 @@
     gradient?: boolean;
     loading?: boolean;
     ariaDescription?: string;
+    animation?: boolean;
+    animationDuration?: number;
     optionUpdateBehavior?: Record<string, unknown>;
   }
 
@@ -50,6 +52,8 @@
     gradient = false,
     loading = false,
     ariaDescription,
+    animation = true,
+    animationDuration = 600,
     optionUpdateBehavior
   }: Props = $props();
 
@@ -150,6 +154,11 @@
         }
       },
       backgroundColor: 'transparent',
+      animation,
+      animationDuration,
+      animationDurationUpdate: 300,
+      animationEasing: 'cubicOut',
+      animationEasingUpdate: 'cubicOut',
       toolbox: { show: false },
       xAxis: {
         name: xAxisName,
