@@ -74,22 +74,27 @@
   let popupClass = $derived(cn(tooltipVariants({ side }), 'kumo-tooltip-popup', className));
 </script>
 
+{#snippet triggerChild({ props }: { props: Record<string, unknown> })}
+  {@render trigger?.(props)}
+{/snippet}
+
+{#snippet defaultTriggerChild({ props }: { props: Record<string, unknown> })}
+  <span
+    {...props}
+    class={cn(
+      'inline-flex h-auto min-h-0 items-center border-none bg-transparent p-0 leading-[0] shadow-none',
+      'm-0 cursor-default'
+    )}
+  >
+    {@render children?.()}
+  </span>
+{/snippet}
+
 <TooltipPrimitive.Root bind:open delayDuration={delay} {disabled} {...rest}>
   {#if trigger}
-    <TooltipPrimitive.Trigger class="cursor-default">
-      {#snippet child({ props })}
-        {@render trigger(props)}
-      {/snippet}
-    </TooltipPrimitive.Trigger>
+    <TooltipPrimitive.Trigger class="cursor-default" child={triggerChild} />
   {:else}
-    <TooltipPrimitive.Trigger
-      class={cn(
-        'inline-flex h-auto min-h-0 items-center border-none bg-transparent p-0 leading-[0] shadow-none',
-        'm-0 cursor-default'
-      )}
-    >
-      {@render children?.()}
-    </TooltipPrimitive.Trigger>
+    <TooltipPrimitive.Trigger child={defaultTriggerChild} />
   {/if}
 
   <TooltipPrimitive.Portal>
