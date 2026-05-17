@@ -40,7 +40,6 @@
   async function handleCopyPageLink() {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      onCopySuccess();
     } catch (error) {
       console.error('Failed to copy page link:', error);
     }
@@ -92,7 +91,7 @@
       </Button>
     </DropdownMenu.Trigger>
 
-    <DropdownMenu.Content {align} class="min-w-52">
+    <DropdownMenu.Content {align}>
       <DropdownMenu.Item icon={Link} onSelect={handleCopyPageLink}>Copy page link</DropdownMenu.Item>
       <DropdownMenu.Item icon={FileText} onSelect={handleViewMarkdown}>View Page as Markdown</DropdownMenu.Item>
       <DropdownMenu.Separator />

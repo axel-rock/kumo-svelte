@@ -61,6 +61,8 @@
   import { ArrowRight, ArrowSquareOut as ExternalLink, CheckCircle, Cloud, Code as Code2, Copy, Database, Download, Eye, FolderOpen, Gear as Settings, Globe, Info, LinkSimple as Link2, MagnifyingGlass as Search, Package, Plus, Question as HelpCircle, TextB as Bold, TextItalic as Italic, Trash, WarningCircle, X, XCircle } from 'phosphor-svelte';
   import { generateCloudflareLogoSvg } from '$lib/components/cloudflare-logo';
   import { PoweredByCloudflare } from '$lib/components/cloudflare-logo';
+  import { DeleteResource } from '../../blocks/delete-resource';
+  import { PageHeader } from '../../blocks/page-header';
   import ChartDemos from './chart-demos/ChartDemos.svelte';
 
   interface Props {
@@ -71,6 +73,8 @@
   let switchBasicChecked = $state(false);
   let switchNeutralChecked = $state(false);
   let switchCustomIdChecked = $state(false);
+  let pageHeaderTab = $state('overview');
+  let deleteResourceOpen = $state(false);
   let menuBarActive = $state<string | undefined>('bold');
   let copiedCloudflareLogo = $state<string | undefined>();
   let datePickerValue = $state(new CalendarDate(2026, 5, 16));
@@ -878,6 +882,67 @@ const route: WorkerRoute = {
     </div>
   {:else if looksLike('Pagination')}
     <Pagination page={demo.includes('Mid') ? 6 : 1} pages={12} />
+  {:else if looksLike('PageHeader')}
+    <div class="w-full">
+      {#snippet pageHeaderActions()}
+        {#if demo === 'PageHeaderHeroDemo'}
+          <Button class="h-8"><Code2 class="size-4" />Edit code</Button>
+          <Button variant="primary" class="h-8"><Globe class="size-4" />Visit</Button>
+        {:else if demo === 'PageHeaderWithActionsDemo'}
+          <Button variant="primary" size="base">Deploy</Button>
+        {:else if demo === 'PageHeaderCompleteDemo'}
+          <Button variant="outline" size="sm">Export</Button>
+          <Button variant="primary" size="sm"><Plus class="size-4" />New Item</Button>
+        {/if}
+      {/snippet}
+      <PageHeader
+        class="w-full"
+        breadcrumbs={demo === 'PageHeaderHeroDemo'
+          ? [{ label: 'Workers & Pages', href: '#' }, { label: 'cloudflare-dev-platform' }]
+          : demo === 'PageHeaderBasicDemo'
+            ? [{ label: 'Home', href: '#' }, { label: 'Dashboard' }]
+            : demo === 'PageHeaderWithIconsDemo'
+              ? [{ label: 'Home', href: '#' }, { label: 'Settings' }]
+              : demo === 'PageHeaderWithActionsDemo'
+                ? [{ label: 'Home', href: '#' }, { label: 'Projects', href: '#' }, { label: 'My Project' }]
+                : [{ label: 'Home', href: '#' }, { label: 'Products', href: '#' }, { label: 'Page title' }]}
+        title={demo === 'PageHeaderWithTitleDemo' || demo === 'PageHeaderWithTitleDescriptionDemo' || demo === 'PageHeaderCompleteDemo' ? 'Page title' : undefined}
+        description={demo === 'PageHeaderWithTitleDescriptionDemo'
+          ? 'Action-led, value-oriented description of what this page does. Optional second sentence with use cases or prerequisites.'
+          : demo === 'PageHeaderCompleteDemo'
+            ? 'Action-led, value-oriented description of what this page does.'
+            : undefined}
+        tabs={demo === 'PageHeaderHeroDemo'
+          ? [
+              { label: 'Overview', value: 'overview' },
+              { label: 'Metrics', value: 'metrics' },
+              { label: 'Deployments', value: 'deployments' },
+              { label: 'Bindings', value: 'bindings' },
+              { label: 'Observability', value: 'observability' },
+              { label: 'Settings', value: 'settings' }
+            ]
+          : demo === 'PageHeaderWithTabsDemo'
+            ? [
+                { label: 'General', value: 'general' },
+                { label: 'Security', value: 'security' },
+                { label: 'Notifications', value: 'notifications' }
+              ]
+            : demo === 'PageHeaderWithActionsDemo'
+              ? [
+                  { label: 'Overview', value: 'overview' },
+                  { label: 'Settings', value: 'settings' }
+                ]
+              : demo === 'PageHeaderCompleteDemo'
+                ? [
+                    { label: 'Overview', value: 'overview' },
+                    { label: 'Analytics', value: 'analytics' },
+                    { label: 'Settings', value: 'settings' }
+                  ]
+                : []}
+        bind:activeTab={pageHeaderTab}
+        actions={demo === 'PageHeaderHeroDemo' || demo === 'PageHeaderWithActionsDemo' || demo === 'PageHeaderCompleteDemo' ? pageHeaderActions : undefined}
+      />
+    </div>
   {:else if looksLike('Popover')}
     <Popover title={demo.includes('Custom') ? 'Custom content' : 'Deployment status'} description={demo.includes('Close') ? 'This popover includes a close action.' : 'Deployments usually complete in under one minute.'}>
       {#snippet trigger()}<span class="inline-flex h-9 cursor-pointer items-center rounded-lg bg-kumo-base px-3 text-base font-medium text-kumo-default shadow-xs ring ring-kumo-hairline">{demo.includes('Hover') ? 'Hover me' : demo.includes('Position') ? 'Positioned popover' : 'Show status'}</span>{/snippet}
@@ -898,10 +963,15 @@ const route: WorkerRoute = {
       {/each}
     </div>
   {:else if looksLike('DeleteResource')}
-    <div class="flex items-center gap-3">
-      <Button variant="destructive"><Trash class="size-4" aria-hidden="true" /> Delete resource</Button>
-      <Button>Cancel</Button>
-    </div>
+    <DeleteResource
+      bind:open={deleteResourceOpen}
+      resourceType={demo === 'DeleteResourceWorkerDemo' ? 'Worker' : 'Zone'}
+      resourceName={demo === 'DeleteResourceWorkerDemo' ? 'api-edge-worker' : 'example.com'}
+      errorMessage={demo === 'DeleteResourceErrorDemo' ? 'Unable to delete this resource because it still has active dependencies.' : undefined}
+      onDelete={() => {
+        deleteResourceOpen = false;
+      }}
+    />
   {:else if looksLike('Select')}
     <div class="w-full max-w-xs space-y-2">
       {#if demo === 'SelectSizesDemo'}

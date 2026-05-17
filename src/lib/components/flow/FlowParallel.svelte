@@ -18,10 +18,12 @@
 
 <div
   class={cn(
-    'relative isolate before:absolute before:top-1/2 before:right-full before:h-0.5 before:w-8 before:-translate-y-1/2 before:bg-kumo-inactive after:absolute after:top-1/2 after:left-full after:h-0.5 after:w-8 after:-translate-y-1/2 after:bg-kumo-inactive',
+    'relative isolate',
     orientation === 'horizontal' ? 'px-16 -mr-16 -ml-16' : 'py-16 -mb-16 -mt-16',
     className
   )}
+  data-flow-parallel
+  data-orientation={orientation}
   {...rest}
 >
   <ul
@@ -34,3 +36,51 @@
     {@render children?.()}
   </ul>
 </div>
+
+<style>
+  :global([data-flow-parallel][data-orientation='horizontal'])::before,
+  :global([data-flow-parallel][data-orientation='horizontal'])::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    height: 0.125rem;
+    width: 2rem;
+    transform: translateY(-50%);
+    background: var(--color-kumo-inactive);
+    pointer-events: none;
+  }
+
+  :global([data-flow-parallel][data-orientation='horizontal'])::before {
+    right: calc(100% - 4rem);
+  }
+
+  :global([data-flow-parallel][data-orientation='horizontal'])::after {
+    left: calc(100% - 4rem);
+  }
+
+  :global([data-flow-parallel][data-orientation='horizontal'] > ul)::before,
+  :global([data-flow-parallel][data-orientation='horizontal'] > ul)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    width: 0.125rem;
+    background: var(--color-kumo-inactive);
+    pointer-events: none;
+  }
+
+  :global([data-flow-parallel][data-orientation='horizontal'] > ul)::before {
+    left: -2rem;
+  }
+
+  :global([data-flow-parallel][data-orientation='horizontal'] > ul)::after {
+    right: -2rem;
+  }
+
+  :global([data-flow-parallel][data-orientation='horizontal'] > ul > li:first-child)::before,
+  :global([data-flow-parallel][data-orientation='horizontal'] > ul > li:first-child)::after,
+  :global([data-flow-parallel][data-orientation='horizontal'] > ul > [data-flow-list]:first-child li:first-child)::before,
+  :global([data-flow-parallel][data-orientation='horizontal'] > ul > [data-flow-list]:first-child li:first-child)::after {
+    display: block;
+  }
+</style>

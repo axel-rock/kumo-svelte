@@ -4,15 +4,39 @@
   import { Dialog } from '$lib/components/dialog';
   import { Input } from '$lib/components/input';
   import { cn } from '$lib/utils/cn';
+  import { Check, Copy, WarningCircle, X } from 'phosphor-svelte';
+
+  export const KUMO_DELETE_RESOURCE_VARIANTS = {
+    size: {
+      sm: {
+        classes: '',
+        description: 'Small dialog for simple delete confirmations'
+      },
+      base: {
+        classes: '',
+        description: 'Default delete confirmation dialog size'
+      }
+    }
+  } as const;
+
+  export const KUMO_DELETE_RESOURCE_DEFAULT_VARIANTS = {
+    size: 'base'
+  } as const;
+
+  type DeleteResourceSize = keyof typeof KUMO_DELETE_RESOURCE_VARIANTS.size;
 
   interface Props {
     resourceType: string;
     resourceName: string;
     open?: boolean;
+    onOpenChange?: (open: boolean) => void;
     triggerLabel?: string;
-    confirmLabel?: string;
+    deleteButtonText?: string;
     cancelLabel?: string;
     errorMessage?: string;
+    isDeleting?: boolean;
+    caseSensitive?: boolean;
+    size?: DeleteResourceSize;
     onDelete?: () => void | Promise<void>;
     class?: string;
   }
@@ -21,59 +45,136 @@
     resourceType,
     resourceName,
     open = $bindable(false),
+    onOpenChange,
     triggerLabel,
-    confirmLabel = 'Delete',
+    deleteButtonText,
     cancelLabel = 'Cancel',
     errorMessage,
+    isDeleting: controlledIsDeleting = false,
+    caseSensitive = true,
+    size = KUMO_DELETE_RESOURCE_DEFAULT_VARIANTS.size,
     onDelete,
     class: className
   }: Props = $props();
 
-  let confirmation = $state('');
-  let isDeleting = $state(false);
-  const canDelete = $derived(confirmation === resourceName && !isDeleting);
+  let confirmationInput = $state('');
+  let internalIsDeleting = $state(false);
+  let copied = $state(false);
+  let copyTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const isDeleting = $derived(controlledIsDeleting || internalIsDeleting);
+  const normalizedInput = $derived(caseSensitive ? confirmationInput : confirmationInput.toLowerCase());
+  const normalizedName = $derived(caseSensitive ? resourceName : resourceName.toLowerCase());
+  const isConfirmed = $derived(normalizedInput === normalizedName);
+  const canDelete = $derived(isConfirmed && !isDeleting);
+
+  function setOpen(nextOpen: boolean) {
+    open = nextOpen;
+    onOpenChange?.(nextOpen);
+    if (!nextOpen) {
+      confirmationInput = '';
+      copied = false;
+    }
+  }
 
   async function handleDelete() {
     if (!canDelete) return;
-    isDeleting = true;
+    internalIsDeleting = true;
     try {
       await onDelete?.();
-      open = false;
-      confirmation = '';
+      setOpen(false);
     } finally {
-      isDeleting = false;
+      internalIsDeleting = false;
     }
+  }
+
+  async function handleCopy() {
+    await navigator.clipboard.writeText(resourceName);
+    copied = true;
+    if (copyTimer) clearTimeout(copyTimer);
+    copyTimer = setTimeout(() => {
+      copied = false;
+    }, 1500);
   }
 </script>
 
-<Dialog bind:open role="alertdialog" title={`Delete ${resourceType}`} description="This action cannot be undone.">
+<Dialog
+  bind:open
+  role="alertdialog"
+  {size}
+  class={cn('p-0', className)}
+  onOpenChange={setOpen}
+>
   {#snippet trigger(props)}
-    <Button {...props} variant="destructive" class={className}>
+    <Button {...props} variant="destructive">
       {triggerLabel ?? `Delete ${resourceType}`}
     </Button>
   {/snippet}
 
-  <div class="space-y-4">
-    {#if errorMessage}
-      <Banner variant="error" title="Delete failed" description={errorMessage} />
-    {/if}
+  <div class="flex items-center justify-between border-b border-kumo-line px-6 py-4">
+    <h2 class="text-lg font-semibold">Delete {resourceName}</h2>
+    <Button
+      variant="ghost"
+      shape="square"
+      size="sm"
+      aria-label="Close"
+      disabled={isDeleting}
+      onclick={() => setOpen(false)}
+    >
+      <X size={18} />
+    </Button>
+  </div>
 
-    <p class="text-sm leading-6 text-kumo-subtle">
-      Type <strong class="font-mono text-kumo-default">{resourceName}</strong> to confirm deletion.
-    </p>
-
-    <Input bind:value={confirmation} aria-label={`Type ${resourceName} to confirm`} />
-
-    <div class="flex justify-end gap-2">
-      <Button variant="secondary" onclick={() => (open = false)}>{cancelLabel}</Button>
-      <Button
-        variant="destructive"
-        disabled={!canDelete}
-        class={cn(isDeleting && 'opacity-70')}
-        onclick={handleDelete}
-      >
-        {isDeleting ? 'Deleting...' : confirmLabel}
-      </Button>
+  <div class="flex flex-col p-6 gap-4">
+    <div class="flex flex-col gap-2">
+      {#if errorMessage}
+        <Banner variant="error" icon={WarningCircle}>{errorMessage}</Banner>
+      {/if}
+      <p class="text-base text-kumo-subtle max-w-prose text-pretty">
+        This action cannot be undone. This will permanently delete the
+        <span class="font-medium text-kumo-default">{resourceName}</span>
+        {resourceType.toLowerCase()}.
+      </p>
     </div>
+
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center gap-1.5 text-base">
+        <span>
+          Type
+          <button
+            type="button"
+            class="font-mono text-sm inline font-semibold bg-kumo-tint hover:bg-kumo-fill rounded-md px-2 py-1 group hover:cursor-pointer"
+            onclick={handleCopy}
+            aria-label={`Copy ${resourceName} to clipboard`}
+          >
+            {resourceName}
+            {#if copied}
+              <Check size={12} class="inline ml-1.5" />
+            {:else}
+              <Copy size={12} class="inline text-kumo-subtle group-hover:text-kumo-default ml-1.5" />
+            {/if}
+          </button>
+          to confirm:
+        </span>
+      </div>
+      <Input
+        placeholder={resourceName}
+        bind:value={confirmationInput}
+        disabled={isDeleting}
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck={false}
+        aria-label={`Type ${resourceName} to confirm deletion`}
+        class="w-full"
+      />
+    </div>
+  </div>
+
+  <div class="flex justify-end gap-3 border-t border-kumo-line px-6 py-4">
+    <Button variant="secondary" disabled={isDeleting} onclick={() => setOpen(false)}>{cancelLabel}</Button>
+    <Button variant="destructive" onclick={handleDelete} disabled={!isConfirmed || isDeleting} loading={isDeleting}>
+      {deleteButtonText || `Delete ${resourceType}`}
+    </Button>
   </div>
 </Dialog>

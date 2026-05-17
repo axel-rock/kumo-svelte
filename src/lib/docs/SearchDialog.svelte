@@ -208,20 +208,20 @@
 
 {#if open}
   <div
-    class="fixed inset-0 z-[60] grid place-items-start bg-kumo-canvas/80 px-4 pt-[12vh] backdrop-blur-sm"
+    class="fixed inset-0 z-[60] px-4"
     role="dialog"
     aria-modal="true"
     tabindex="-1"
     onkeydown={handleKeydown}
   >
-    <button class="absolute inset-0 cursor-default" aria-label="Close search" onclick={close}></button>
-    <div class="relative mx-auto flex max-h-[min(640px,calc(100vh-7rem))] w-full max-w-[40rem] flex-col overflow-hidden rounded-lg bg-kumo-base shadow-xl ring-1 ring-kumo-hairline">
-      <div class="flex h-14 items-center gap-3 border-b border-kumo-hairline px-4">
-        <Search size={18} class="shrink-0 text-kumo-subtle" />
+    <button class="fixed inset-0 cursor-default bg-kumo-overlay opacity-80 transition-all duration-150" aria-label="Close search" onclick={close}></button>
+    <div class="fixed top-[10vh] left-1/2 flex max-h-[min(640px,calc(100vh-7rem))] w-full max-w-2xl -translate-x-1/2 flex-col overflow-hidden rounded-lg bg-kumo-base shadow-lg ring-1 ring-kumo-hairline">
+      <div class="flex items-center gap-3 bg-kumo-base px-4 py-3 focus-within:ring-2 focus-within:ring-kumo-brand">
+        <Search size={16} class="h-4 w-4 shrink-0 text-kumo-subtle" />
         <input
           bind:this={inputRef}
           bind:value={query}
-          class="min-w-0 flex-1 bg-transparent text-[15px] text-kumo-default outline-none placeholder:text-kumo-muted"
+          class="min-w-0 flex-1 bg-transparent text-base text-kumo-default outline-none placeholder:text-kumo-muted"
           placeholder="Search docs..."
           aria-label="Search docs"
         />
@@ -234,7 +234,7 @@
         </button>
       </div>
 
-      <div class="min-h-0 flex-1 overflow-y-auto bg-kumo-base p-2">
+      <div class="relative min-h-0 flex-1 overflow-y-auto rounded-b-lg bg-kumo-base px-2 py-2 scroll-py-2 ring-1 ring-kumo-hairline">
         {#if groups.length === 0}
           <div class="p-8 text-center text-sm text-kumo-subtle">
             {query.trim() ? `No results found for "${query}"` : 'Type to search docs'}
@@ -242,25 +242,19 @@
         {:else}
           {#each groups as group (group.label)}
             <div class="py-2">
-              <div class="px-2 pb-1.5 text-[11px] font-medium tracking-wide text-kumo-subtle uppercase">{group.label}</div>
+              <div class="mb-2 px-2 pt-1 text-xs font-semibold text-kumo-subtle">{group.label}</div>
               <div>
                 {#each group.items as item (item.url)}
                   {@const index = flatItems.indexOf(item)}
                   <button
                     class={cn(
-                      'group relative flex w-full items-center gap-3 rounded-md px-3 py-2 text-left transition-colors',
-                      index === activeIndex ? 'bg-kumo-tint text-kumo-default' : 'text-kumo-subtle hover:bg-kumo-tint hover:text-kumo-default'
+                      'group flex w-full cursor-pointer items-center gap-3 rounded-lg px-2 py-1.5 text-left text-base transition-colors',
+                      index === activeIndex ? 'bg-kumo-overlay' : 'hover:bg-kumo-overlay'
                     )}
                     onmouseenter={() => (activeIndex = index)}
                     onclick={(event) => openItem(item, event.metaKey || event.ctrlKey)}
                   >
-                    <span
-                      class={cn(
-                        'absolute top-2 bottom-2 left-0 w-0.5 rounded-full bg-transparent',
-                        index === activeIndex && 'bg-kumo-brand'
-                      )}
-                    ></span>
-                    <span class="flex size-7 shrink-0 items-center justify-center rounded-md bg-kumo-tint text-kumo-subtle group-hover:text-kumo-default">
+                    <span class="flex shrink-0 items-center text-kumo-subtle">
                       {#if item.type === 'block'}
                         <Layers size={15} />
                       {:else if item.type === 'layout'}
@@ -273,7 +267,7 @@
                     </span>
                     <span class="min-w-0 flex-1">
                       <span class="flex items-center gap-2">
-                        <span class="text-sm font-medium text-kumo-default">
+                        <span class="text-base font-medium text-kumo-default">
                           {#each highlight(item.name, query) as part, partIndex (partIndex)}
                             {#if part.hit}<mark class="bg-transparent text-kumo-brand">{part.text}</mark>{:else}{part.text}{/if}
                           {/each}
@@ -282,7 +276,7 @@
                           <Badge variant="neutral">{item.type === 'page' ? 'Guide' : item.type[0].toUpperCase() + item.type.slice(1)}</Badge>
                         {/if}
                       </span>
-                      <span class="block truncate text-xs leading-5 text-kumo-subtle">
+                      <span class="block truncate text-sm text-kumo-subtle">
                         {#each highlight(item.description, query) as part, partIndex (partIndex)}
                           {#if part.hit}<mark class="bg-transparent text-kumo-brand">{part.text}</mark>{:else}{part.text}{/if}
                         {/each}
@@ -296,12 +290,13 @@
         {/if}
       </div>
 
-      <div class="flex items-center justify-between border-t border-kumo-hairline bg-kumo-elevated px-4 py-2 text-xs text-kumo-subtle">
+      <div class="flex items-center justify-between rounded-b-lg bg-kumo-elevated px-4 py-3 text-xs text-kumo-subtle">
         <span>{totalResults ? `${totalResults} result${totalResults === 1 ? '' : 's'}` : ''}</span>
         <div class="hidden items-center gap-4 sm:flex">
           <span class="flex items-center gap-1"><kbd class="rounded border border-kumo-hairline bg-kumo-base px-1.5 py-0.5">↑</kbd><kbd class="rounded border border-kumo-hairline bg-kumo-base px-1.5 py-0.5">↓</kbd><span>navigate</span></span>
           <span class="flex items-center gap-1"><kbd class="rounded border border-kumo-hairline bg-kumo-base px-1.5 py-0.5">↵</kbd><span>open</span></span>
           <span class="flex items-center gap-1"><kbd class="rounded border border-kumo-hairline bg-kumo-base px-1.5 py-0.5">⌘↵</kbd><span>new tab</span></span>
+          <span class="flex items-center gap-1"><kbd class="rounded border border-kumo-hairline bg-kumo-base px-1.5 py-0.5">esc</kbd><span>close</span></span>
         </div>
       </div>
     </div>
