@@ -57,7 +57,6 @@
   const today = startOfDay(new Date());
   let internalMonth = $state(startOfMonth(month ?? getSelectionMonth(selected) ?? today));
   let navigationDirection = $state<'before' | 'after' | undefined>();
-  let previousVisibleMonths = $state<Date[]>([]);
   let animationTimer: ReturnType<typeof setTimeout> | undefined;
 
   const displayMonth = $derived(startOfMonth(month ?? internalMonth));
@@ -73,14 +72,12 @@
 
   function setMonth(nextMonth: Date) {
     const normalized = startOfMonth(nextMonth);
-    previousVisibleMonths = visibleMonths;
     navigationDirection = normalized.getTime() > displayMonth.getTime() ? 'after' : 'before';
     internalMonth = normalized;
     month = normalized;
     onMonthChange?.(normalized);
     if (animationTimer) clearTimeout(animationTimer);
     animationTimer = setTimeout(() => {
-      previousVisibleMonths = [];
       navigationDirection = undefined;
       animationTimer = undefined;
     }, 200);
@@ -232,17 +229,14 @@
   <div class="rdp-months">
     {#each visibleMonths as visibleMonth, index (visibleMonth.toISOString())}
       <div class={cn('rdp-month', classNames?.month)}>
-        <div class="rdp-month_caption_wrapper">
-          {#if previousVisibleMonths[index]}
-            <div class={cn('rdp-month_caption', getAnimationClass('caption', 'exit'), classNames?.month_caption)}>
-              <span class={cn('rdp-caption_label', classNames?.caption_label)}>
-                {getMonthLabel(previousVisibleMonths[index])}
-              </span>
-            </div>
-          {/if}
-          <div class={cn('rdp-month_caption', getAnimationClass('caption', 'enter'), classNames?.month_caption)}>
-            <span class={cn('rdp-caption_label', classNames?.caption_label)}>{getMonthLabel(visibleMonth)}</span>
-          </div>
+        <div
+          class={cn(
+            'rdp-month_caption',
+            getAnimationClass('caption', 'enter'),
+            classNames?.month_caption
+          )}
+        >
+          <span class={cn('rdp-caption_label', classNames?.caption_label)}>{getMonthLabel(visibleMonth)}</span>
         </div>
 
         <div class="rdp-month_grid_wrapper">
@@ -254,43 +248,6 @@
                 {/each}
               </tr>
             </thead>
-            {#if previousVisibleMonths[index]}
-              <tbody class={cn('rdp-weeks rdp-weeks_outgoing', getAnimationClass('weeks', 'exit'))}>
-                {#each getWeeks(previousVisibleMonths[index]) as week (week[0].toISOString())}
-                  <tr class="rdp-week">
-                    {#each week as day (day.toISOString())}
-                      {@const outside = day.getMonth() !== previousVisibleMonths[index].getMonth()}
-                      {@const dayDisabled = isDisabled(day)}
-                      <td
-                        class={cn(
-                          'rdp-day',
-                          outside && 'rdp-outside',
-                          isSameDay(day, today) && 'rdp-today',
-                          isSelected(day) && 'rdp-selected',
-                          dayDisabled && 'rdp-disabled',
-                          isRangeStart(day) && 'rdp-range_start',
-                          isRangeMiddle(day) && 'rdp-range_middle',
-                          isRangeEnd(day) && 'rdp-range_end',
-                          classNames?.day
-                        )}
-                        data-day={day.toISOString()}
-                      >
-                        <button
-                          type="button"
-                          class={cn('rdp-day_button', classNames?.day_button)}
-                          disabled
-                          tabindex="-1"
-                          aria-label={day.toLocaleDateString(locale, { dateStyle: 'full' })}
-                          aria-pressed={isSelected(day)}
-                        >
-                          {day.getDate()}
-                        </button>
-                      </td>
-                    {/each}
-                  </tr>
-                {/each}
-              </tbody>
-            {/if}
             <tbody class={cn('rdp-weeks', getAnimationClass('weeks', 'enter'))}>
               {#each getWeeks(visibleMonth) as week (week[0].toISOString())}
                 <tr class="rdp-week">

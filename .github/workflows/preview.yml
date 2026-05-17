@@ -1,0 +1,31 @@
+name: Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: ./.github/actions/install-dependencies
+
+      - name: Build kumo-svelte
+        run: pnpm build
+
+      - name: Publish package preview
+        run: pnpm dlx pkg-pr-new publish --pnpm --compact --no-template .
+

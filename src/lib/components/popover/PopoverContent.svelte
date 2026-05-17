@@ -58,7 +58,7 @@
   >
     <PopoverPrimitive.Arrow
       class={cn(
-        'flex',
+        'z-1 flex',
         'data-[side=bottom]:-top-2',
         'data-[side=left]:right-[-13px] data-[side=left]:rotate-90',
         'data-[side=right]:left-[-13px] data-[side=right]:-rotate-90',

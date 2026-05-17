@@ -1,0 +1,35 @@
+name: Preview Deploy
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: ./.github/actions/install-dependencies
+
+      - name: Build Worker assets
+        run: pnpm build
+
+      - name: Upload Worker build
+        uses: actions/upload-artifact@v4
+        with:
+          name: kumo-svelte-worker
+          path: .svelte-kit/cloudflare
+          retention-days: 7

@@ -500,6 +500,313 @@ function autocompleteSnippet(demo: string) {
     </p>
   {/if}
 </div>`;
+    case 'ComboboxDemo':
+      return `<script lang="ts">
+  import { Combobox } from 'kumo-svelte';
+
+  ${fruits}
+
+  let value = $state<string | null>('Apple');
+</script>
+
+<Combobox bind:value items={fruits}>
+  <Combobox.TriggerInput placeholder="Please select" />
+  <Combobox.Content>
+    <Combobox.Empty />
+    <Combobox.List>
+      {#snippet children(item)}
+        <Combobox.Item value={item}>{item}</Combobox.Item>
+      {/snippet}
+    </Combobox.List>
+  </Combobox.Content>
+</Combobox>`;
+    case 'ComboboxSearchableInsideDemo':
+    case 'ComboboxSearchableSelectDemo':
+      return `<script lang="ts">
+  import { Combobox } from 'kumo-svelte';
+
+  const languages = [
+    { value: 'en', label: 'English', emoji: 'GB' },
+    { value: 'fr', label: 'French', emoji: 'FR' },
+    { value: 'de', label: 'German', emoji: 'DE' },
+    { value: 'es', label: 'Spanish', emoji: 'ES' }
+  ];
+
+  let value = $state${demo === 'ComboboxSearchableSelectDemo' ? '<any>(null)' : '<any>(languages[0])'};
+</script>
+
+<Combobox bind:value items={languages}>
+  <Combobox.TriggerValue class="w-[200px]"${demo === 'ComboboxSearchableSelectDemo' ? ' placeholder="Select a language"' : ''} />
+  <Combobox.Content>
+    <Combobox.Input placeholder="Search languages" />
+    <Combobox.Empty />
+    <Combobox.List>
+      {#snippet children(item)}
+        <Combobox.Item value={item}>{item.emoji} {item.label}</Combobox.Item>
+      {/snippet}
+    </Combobox.List>
+  </Combobox.Content>
+</Combobox>`;
+    case 'ComboboxGroupedDemo':
+      return `<script lang="ts">
+  import { Combobox } from 'kumo-svelte';
+
+  const servers = [
+    { value: 'Asia', items: [{ label: 'Japan', value: 'japan' }, { label: 'Singapore', value: 'singapore' }] },
+    { value: 'Europe', items: [{ label: 'Germany', value: 'germany' }, { label: 'France', value: 'france' }] }
+  ];
+</script>
+
+<Combobox items={servers}>
+  <Combobox.TriggerInput class="w-[200px]" placeholder="Select server" />
+  <Combobox.Content>
+    <Combobox.Empty />
+    <Combobox.List>
+      {#snippet children(group)}
+        <Combobox.Group items={group.items}>
+          <Combobox.GroupLabel>{group.value}</Combobox.GroupLabel>
+          <Combobox.Collection>
+            {#snippet children(item)}
+              <Combobox.Item value={item}>{item.label}</Combobox.Item>
+            {/snippet}
+          </Combobox.Collection>
+        </Combobox.Group>
+      {/snippet}
+    </Combobox.List>
+  </Combobox.Content>
+</Combobox>`;
+    case 'ComboboxMultipleDemo':
+      return `<script lang="ts">
+  import { Button, Combobox, Text } from 'kumo-svelte';
+
+  const bots = [
+    { value: 'googlebot', label: 'Googlebot', author: 'Google' },
+    { value: 'bingbot', label: 'Bingbot', author: 'Microsoft' }
+  ];
+
+  let value = $state<any[]>([]);
+</script>
+
+<div class="flex gap-2">
+  <Combobox bind:value items={bots} multiple>
+    <Combobox.TriggerMultipleWithInput class="w-[400px]" placeholder="Select bots">
+      {#snippet children(selected)}
+        <Combobox.Chip value={selected}>{selected.label}</Combobox.Chip>
+      {/snippet}
+    </Combobox.TriggerMultipleWithInput>
+    <Combobox.Content class="max-h-[200px] min-w-auto overflow-y-auto">
+      <Combobox.Empty />
+      <Combobox.List>
+        {#snippet children(item)}
+          <Combobox.Item value={item}>
+            <div class="flex gap-2">
+              <Text>{item.label}</Text>
+              <Text variant="secondary">{item.author}</Text>
+            </div>
+          </Combobox.Item>
+        {/snippet}
+      </Combobox.List>
+    </Combobox.Content>
+  </Combobox>
+  <Button variant="primary">Submit</Button>
+</div>`;
+    case 'ComboboxWithFieldDemo':
+    case 'ComboboxErrorDemo':
+      return `<script lang="ts">
+  import { Combobox } from 'kumo-svelte';
+
+  const databases = [
+    { value: 'postgres', label: 'PostgreSQL' },
+    { value: 'mysql', label: 'MySQL' },
+    { value: 'redis', label: 'Redis' }
+  ];
+</script>
+
+<div class="w-80">
+  <Combobox
+    items={databases}
+    label="Database"
+    ${demo === 'ComboboxWithFieldDemo' ? 'description="Select your preferred database"' : 'error={{ message: "Please select a database", match: true }}'}
+  >
+    <Combobox.TriggerInput placeholder="Select database" />
+    <Combobox.Content>
+      <Combobox.Empty />
+      <Combobox.List>
+        {#snippet children(item)}
+          <Combobox.Item value={item}>{item.label}</Combobox.Item>
+        {/snippet}
+      </Combobox.List>
+    </Combobox.Content>
+  </Combobox>
+</div>`;
+    case 'ComboboxDisabledDemo':
+      return `<script lang="ts">
+  import { Combobox } from 'kumo-svelte';
+
+  ${fruits}
+
+  const languages = [
+    { value: 'en', label: 'English', emoji: 'GB' },
+    { value: 'fr', label: 'French', emoji: 'FR' }
+  ];
+</script>
+
+<div class="flex flex-wrap items-start gap-4">
+  <Combobox value="Apple" items={fruits} disabled>
+    <Combobox.TriggerInput class="w-[200px]" placeholder="Select fruit" />
+    <Combobox.Content>
+      <Combobox.Empty />
+      <Combobox.List>
+        {#snippet children(item)}
+          <Combobox.Item value={item}>{item}</Combobox.Item>
+        {/snippet}
+      </Combobox.List>
+    </Combobox.Content>
+  </Combobox>
+
+  <Combobox value={languages[0]} items={languages} disabled>
+    <Combobox.TriggerValue class="w-[200px]" />
+    <Combobox.Content>
+      <Combobox.Input placeholder="Search" />
+      <Combobox.Empty />
+      <Combobox.List>
+        {#snippet children(item)}
+          <Combobox.Item value={item}>{item.emoji} {item.label}</Combobox.Item>
+        {/snippet}
+      </Combobox.List>
+    </Combobox.Content>
+  </Combobox>
+</div>`;
+    case 'ComboboxDisabledItemsDemo':
+      return `<script lang="ts">
+  import { Combobox, Text } from 'kumo-svelte';
+
+  const items = [
+    { value: 'postgres', label: 'PostgreSQL' },
+    { value: 'mysql', label: 'MySQL' },
+    { value: 'mariadb', label: 'MariaDB', disabled: true, reason: 'Beta' },
+    { value: 'mongodb', label: 'MongoDB' },
+    { value: 'cassandra', label: 'Apache Cassandra', disabled: true, reason: 'Coming soon' }
+  ];
+</script>
+
+<div class="w-80">
+  <Combobox items={items}>
+    <Combobox.TriggerInput placeholder="Select database" />
+    <Combobox.Content>
+      <Combobox.Empty />
+      <Combobox.List>
+        {#snippet children(item)}
+          <Combobox.Item value={item} disabled={item.disabled}>
+            <span>
+              {item.label}
+              {#if item.reason}
+                <Text variant="secondary" size="xs" as="span"> - {item.reason}</Text>
+              {/if}
+            </span>
+          </Combobox.Item>
+        {/snippet}
+      </Combobox.List>
+    </Combobox.Content>
+  </Combobox>
+</div>`;
+    case 'ComboboxSizesDemo':
+      return `<script lang="ts">
+  import { Combobox } from 'kumo-svelte';
+
+  ${fruits}
+</script>
+
+<div class="flex flex-wrap items-center gap-4">
+  <Combobox size="sm" items={fruits.slice(0, 8)}>
+    <Combobox.TriggerInput placeholder="Small (sm)" />
+    <Combobox.Content>
+      <Combobox.Empty />
+      <Combobox.List>
+        {#snippet children(item)}
+          <Combobox.Item value={item}>{item}</Combobox.Item>
+        {/snippet}
+      </Combobox.List>
+    </Combobox.Content>
+  </Combobox>
+  <Combobox size="base" items={fruits.slice(0, 8)}>
+    <Combobox.TriggerInput placeholder="Base (default)" />
+    <Combobox.Content>
+      <Combobox.Empty />
+      <Combobox.List>
+        {#snippet children(item)}
+          <Combobox.Item value={item}>{item}</Combobox.Item>
+        {/snippet}
+      </Combobox.List>
+    </Combobox.Content>
+  </Combobox>
+</div>`;
+    case 'ComboboxSizesSearchableInsideDemo':
+      return `<script lang="ts">
+  import { Combobox } from 'kumo-svelte';
+
+  const languages = [
+    { value: 'en', label: 'English', emoji: 'GB' },
+    { value: 'fr', label: 'French', emoji: 'FR' }
+  ];
+</script>
+
+<div class="flex flex-wrap items-center gap-4">
+  <Combobox size="sm" value={languages[0]} items={languages}>
+    <Combobox.TriggerValue class="w-[160px]" />
+    <Combobox.Content>
+      <Combobox.Input placeholder="Search" />
+      <Combobox.Empty />
+      <Combobox.List>
+        {#snippet children(item)}
+          <Combobox.Item value={item}>{item.emoji} {item.label}</Combobox.Item>
+        {/snippet}
+      </Combobox.List>
+    </Combobox.Content>
+  </Combobox>
+  <Combobox size="base" value={languages[1]} items={languages}>
+    <Combobox.TriggerValue class="w-[180px]" />
+    <Combobox.Content>
+      <Combobox.Input placeholder="Search" />
+      <Combobox.Empty />
+      <Combobox.List>
+        {#snippet children(item)}
+          <Combobox.Item value={item}>{item.emoji} {item.label}</Combobox.Item>
+        {/snippet}
+      </Combobox.List>
+    </Combobox.Content>
+  </Combobox>
+</div>`;
+    case 'ComboboxCustomTriggerDemo':
+      return `<script lang="ts">
+  import { Combobox } from 'kumo-svelte';
+  import { MagnifyingGlass } from 'phosphor-svelte';
+
+  const languages = [
+    { value: 'en', label: 'English', emoji: 'GB' },
+    { value: 'fr', label: 'French', emoji: 'FR' }
+  ];
+
+  let value = $state(languages[0]);
+</script>
+
+<Combobox bind:value items={languages}>
+  <Combobox.Trigger class="rounded-md px-2 py-1 text-sm hover:bg-kumo-fill-hover">
+    <Combobox.Value>
+      <span class="truncate">{value.emoji} {value.label}</span>
+    </Combobox.Value>
+    <MagnifyingGlass class="size-3.5 shrink-0 text-kumo-subtle" />
+  </Combobox.Trigger>
+  <Combobox.Content>
+    <Combobox.Input placeholder="Search languages" />
+    <Combobox.Empty />
+    <Combobox.List>
+      {#snippet children(item)}
+        <Combobox.Item value={item}>{item.emoji} {item.label}</Combobox.Item>
+      {/snippet}
+    </Combobox.List>
+  </Combobox.Content>
+</Combobox>`;
     default:
       return '';
   }

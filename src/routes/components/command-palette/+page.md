@@ -2,6 +2,7 @@
 title: "CommandPalette"
 description: "A composable command palette component for search and command dialogs."
 sourceFile: "components/command-palette"
+baseUIComponent: "command"
 ---
 
 <script>

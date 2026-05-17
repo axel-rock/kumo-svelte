@@ -78,6 +78,10 @@
   let menuBarActive = $state<string | undefined>('bold');
   let copiedCloudflareLogo = $state<string | undefined>();
   let autocompleteValue = $state('');
+  let comboboxValue = $state<any>('Apple');
+  let comboboxLanguage = $state<any>({ value: 'en', label: 'English', emoji: 'GB' });
+  let comboboxNullable = $state<any>(null);
+  let comboboxMultiple = $state<any[]>([]);
   let datePickerDate = $state<Date | undefined>();
   let datePickerDates = $state<Date[] | undefined>();
   let datePickerRange = $state<DateRange | undefined>();
@@ -179,6 +183,40 @@
       value: 'Asia Pacific',
       items: autocompleteServers.filter((item) => item.group === 'Asia Pacific')
     }
+  ];
+
+  const comboboxFruits = autocompleteFruits;
+  const comboboxLanguages = [
+    { value: 'en', label: 'English', emoji: 'GB' },
+    { value: 'fr', label: 'French', emoji: 'FR' },
+    { value: 'de', label: 'German', emoji: 'DE' },
+    { value: 'es', label: 'Spanish', emoji: 'ES' },
+    { value: 'it', label: 'Italian', emoji: 'IT' },
+    { value: 'pt', label: 'Portuguese', emoji: 'PT' },
+    { value: 'nl', label: 'Dutch', emoji: 'NL' },
+    { value: 'ja', label: 'Japanese', emoji: 'JP' },
+    { value: 'zh', label: 'Chinese', emoji: 'CN' },
+    { value: 'ko', label: 'Korean', emoji: 'KR' }
+  ];
+  const comboboxServers = [
+    { value: 'Asia', items: [{ label: 'Japan', value: 'japan' }, { label: 'China', value: 'china' }, { label: 'Singapore', value: 'singapore' }] },
+    { value: 'Europe', items: [{ label: 'Germany', value: 'germany' }, { label: 'France', value: 'france' }, { label: 'Italy', value: 'italy' }] },
+    { value: 'North America', items: [{ label: 'United States (East)', value: 'us-east' }, { label: 'United States (West)', value: 'us-west' }, { label: 'Canada', value: 'canada' }] }
+  ];
+  const comboboxDatabases = [
+    { value: 'postgres', label: 'PostgreSQL' },
+    { value: 'mysql', label: 'MySQL' },
+    { value: 'mariadb', label: 'MariaDB' },
+    { value: 'mongodb', label: 'MongoDB' },
+    { value: 'redis', label: 'Redis' },
+    { value: 'sqlite', label: 'SQLite' },
+    { value: 'd1', label: 'Cloudflare D1' }
+  ];
+  const comboboxBots = [
+    { value: 'googlebot', label: 'Googlebot', author: 'Google' },
+    { value: 'bingbot', label: 'Bingbot', author: 'Microsoft' },
+    { value: 'duckduckbot', label: 'DuckDuckBot', author: 'DuckDuckGo' },
+    { value: 'applebot', label: 'Applebot', author: 'Apple' }
   ];
 
   const datePresetToday = new Date();
@@ -646,7 +684,166 @@ const route: WorkerRoute = {
       </Autocomplete>
     {/if}
   {:else if looksLike('Combobox')}
-    <Combobox options={selectOptions} placeholder="Select product" />
+    {#if demo === 'ComboboxSearchableInsideDemo'}
+      <Combobox bind:value={comboboxLanguage} items={comboboxLanguages}>
+        <Combobox.TriggerValue class="w-[200px]" />
+        <Combobox.Content>
+          <Combobox.Input placeholder="Search languages" />
+          <Combobox.Empty />
+          <Combobox.List>
+            {#snippet children(item)}
+              <Combobox.Item value={item}>{item.emoji} {item.label}</Combobox.Item>
+            {/snippet}
+          </Combobox.List>
+        </Combobox.Content>
+      </Combobox>
+    {:else if demo === 'ComboboxSearchableSelectDemo'}
+      <Combobox bind:value={comboboxNullable} items={comboboxLanguages}>
+        <Combobox.TriggerValue class="w-[200px]" placeholder="Select a language" />
+        <Combobox.Content>
+          <Combobox.Input placeholder="Search languages" />
+          <Combobox.Empty />
+          <Combobox.List>
+            {#snippet children(item)}
+              <Combobox.Item value={item}>{item.emoji} {item.label}</Combobox.Item>
+            {/snippet}
+          </Combobox.List>
+        </Combobox.Content>
+      </Combobox>
+    {:else if demo === 'ComboboxGroupedDemo'}
+      <Combobox items={comboboxServers}>
+        <Combobox.TriggerInput class="w-[200px]" placeholder="Select server" />
+        <Combobox.Content>
+          <Combobox.Empty />
+          <Combobox.List>
+            {#snippet children(group)}
+              <Combobox.Group items={group.items}>
+                <Combobox.GroupLabel>{group.value}</Combobox.GroupLabel>
+                <Combobox.Collection>
+                  {#snippet children(item)}
+                    <Combobox.Item value={item}>{item.label}</Combobox.Item>
+                  {/snippet}
+                </Combobox.Collection>
+              </Combobox.Group>
+            {/snippet}
+          </Combobox.List>
+        </Combobox.Content>
+      </Combobox>
+    {:else if demo === 'ComboboxMultipleDemo'}
+      <div class="flex gap-2">
+        <Combobox bind:value={comboboxMultiple} items={comboboxBots} multiple>
+          <Combobox.TriggerMultipleWithInput class="w-[400px]" placeholder="Select bots" inputSide="right">
+            {#snippet children(selected)}
+              <Combobox.Chip value={selected}>{selected.label}</Combobox.Chip>
+            {/snippet}
+          </Combobox.TriggerMultipleWithInput>
+          <Combobox.Content class="max-h-[200px] min-w-auto overflow-y-auto">
+            <Combobox.Empty />
+            <Combobox.List>
+              {#snippet children(item)}
+                <Combobox.Item value={item}>
+                  <div class="flex gap-2">
+                    <Text>{item.label}</Text>
+                    <Text variant="secondary">{item.author}</Text>
+                  </div>
+                </Combobox.Item>
+              {/snippet}
+            </Combobox.List>
+          </Combobox.Content>
+        </Combobox>
+        <Button variant="primary">Submit</Button>
+      </div>
+    {:else if demo === 'ComboboxWithFieldDemo'}
+      <div class="w-80">
+        <Combobox items={comboboxDatabases} bind:value={comboboxNullable} label="Database" description="Select your preferred database">
+          <Combobox.TriggerInput placeholder="Select database" />
+          <Combobox.Content>
+            <Combobox.Empty />
+            <Combobox.List>{#snippet children(item)}<Combobox.Item value={item}>{item.label}</Combobox.Item>{/snippet}</Combobox.List>
+          </Combobox.Content>
+        </Combobox>
+      </div>
+    {:else if demo === 'ComboboxDisabledDemo'}
+      <div class="flex flex-wrap items-start gap-4">
+        <Combobox value="Apple" items={comboboxFruits} disabled>
+          <Combobox.TriggerInput class="w-[200px]" placeholder="Select fruit" />
+          <Combobox.Content><Combobox.Empty /><Combobox.List>{#snippet children(item)}<Combobox.Item value={item}>{item}</Combobox.Item>{/snippet}</Combobox.List></Combobox.Content>
+        </Combobox>
+        <Combobox value={comboboxLanguages[0]} items={comboboxLanguages} disabled>
+          <Combobox.TriggerValue class="w-[200px]" />
+          <Combobox.Content><Combobox.Input placeholder="Search" /><Combobox.Empty /><Combobox.List>{#snippet children(item)}<Combobox.Item value={item}>{item.emoji} {item.label}</Combobox.Item>{/snippet}</Combobox.List></Combobox.Content>
+        </Combobox>
+      </div>
+    {:else if demo === 'ComboboxDisabledItemsDemo'}
+      <div class="w-80">
+        <Combobox items={[...comboboxDatabases.slice(0, 2), { value: 'mariadb', label: 'MariaDB', disabled: true, reason: 'Beta' }, ...comboboxDatabases.slice(3, 5), { value: 'cassandra', label: 'Apache Cassandra', disabled: true, reason: 'Coming soon' }]}>
+          <Combobox.TriggerInput placeholder="Select database" />
+          <Combobox.Content>
+            <Combobox.Empty />
+            <Combobox.List>
+              {#snippet children(item)}
+                <Combobox.Item value={item} disabled={item.disabled}>
+                  <span>{item.label}{#if item.reason}<Text variant="secondary" size="xs" as="span"> - {item.reason}</Text>{/if}</span>
+                </Combobox.Item>
+              {/snippet}
+            </Combobox.List>
+          </Combobox.Content>
+        </Combobox>
+      </div>
+    {:else if demo === 'ComboboxErrorDemo'}
+      <div class="w-80">
+        <Combobox items={comboboxDatabases} label="Database" error={{ message: 'Please select a database', match: true }}>
+          <Combobox.TriggerInput placeholder="Select database" />
+          <Combobox.Content><Combobox.Empty /><Combobox.List>{#snippet children(item)}<Combobox.Item value={item}>{item.label}</Combobox.Item>{/snippet}</Combobox.List></Combobox.Content>
+        </Combobox>
+      </div>
+    {:else if demo === 'ComboboxSizesDemo'}
+      <div class="flex flex-wrap items-center gap-4">
+        <Combobox size="sm" items={comboboxFruits.slice(0, 8)}>
+          <Combobox.TriggerInput placeholder="Small (sm)" />
+          <Combobox.Content><Combobox.Empty /><Combobox.List>{#snippet children(item)}<Combobox.Item value={item}>{item}</Combobox.Item>{/snippet}</Combobox.List></Combobox.Content>
+        </Combobox>
+        <Combobox size="base" items={comboboxFruits.slice(0, 8)}>
+          <Combobox.TriggerInput placeholder="Base (default)" />
+          <Combobox.Content><Combobox.Empty /><Combobox.List>{#snippet children(item)}<Combobox.Item value={item}>{item}</Combobox.Item>{/snippet}</Combobox.List></Combobox.Content>
+        </Combobox>
+      </div>
+    {:else if demo === 'ComboboxSizesSearchableInsideDemo'}
+      <div class="flex flex-wrap items-center gap-4">
+        <Combobox size="sm" value={comboboxLanguages[0]} items={comboboxLanguages}>
+          <Combobox.TriggerValue class="w-[160px]" />
+          <Combobox.Content><Combobox.Input placeholder="Search" /><Combobox.Empty /><Combobox.List>{#snippet children(item)}<Combobox.Item value={item}>{item.emoji} {item.label}</Combobox.Item>{/snippet}</Combobox.List></Combobox.Content>
+        </Combobox>
+        <Combobox size="base" value={comboboxLanguages[1]} items={comboboxLanguages}>
+          <Combobox.TriggerValue class="w-[180px]" />
+          <Combobox.Content><Combobox.Input placeholder="Search" /><Combobox.Empty /><Combobox.List>{#snippet children(item)}<Combobox.Item value={item}>{item.emoji} {item.label}</Combobox.Item>{/snippet}</Combobox.List></Combobox.Content>
+        </Combobox>
+      </div>
+    {:else if demo === 'ComboboxCustomTriggerDemo'}
+      <Combobox bind:value={comboboxLanguage} items={comboboxLanguages}>
+        <Combobox.Trigger class="rounded-md px-2 py-1 text-sm hover:bg-kumo-fill-hover">
+          <Combobox.Value><span class="truncate">{comboboxLanguage.emoji} {comboboxLanguage.label}</span></Combobox.Value>
+          <Search class="size-3.5 shrink-0 text-kumo-subtle" />
+        </Combobox.Trigger>
+        <Combobox.Content>
+          <Combobox.Input placeholder="Search languages" />
+          <Combobox.Empty />
+          <Combobox.List>{#snippet children(item)}<Combobox.Item value={item}>{item.emoji} {item.label}</Combobox.Item>{/snippet}</Combobox.List>
+        </Combobox.Content>
+      </Combobox>
+    {:else}
+      <Combobox bind:value={comboboxValue} items={comboboxFruits}>
+        <Combobox.TriggerInput placeholder="Please select" />
+        <Combobox.Content>
+          <Combobox.Empty />
+          <Combobox.List>
+            {#snippet children(item)}
+              <Combobox.Item value={item}>{item}</Combobox.Item>
+            {/snippet}
+          </Combobox.List>
+        </Combobox.Content>
+      </Combobox>
+    {/if}
   {:else if looksLike('CommandPalette')}
     <CommandPalette commands={[{ label: 'Open dashboard' }, { label: 'Deploy project' }, { label: 'View logs' }, { label: 'Manage domains' }]} />
   {:else if looksLike('DatePicker')}

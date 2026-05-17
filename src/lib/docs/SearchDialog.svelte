@@ -4,12 +4,12 @@
     CubeIcon,
     MagnifyingGlassIcon,
     SquaresFourIcon,
-    StackIcon,
-    XIcon
+    StackIcon
   } from 'phosphor-svelte';
+  import { fade, scale } from 'svelte/transition';
   import { Badge } from '$lib';
   import { cn } from '$lib/utils/cn';
-  import { staticPages, componentItems, chartItems, blockItems, type NavItem } from './nav';
+  import { componentItems, blockItems, type NavItem } from './nav';
 
   interface SearchItem {
     name: string;
@@ -29,17 +29,92 @@
     onOpenChange: (open: boolean) => void;
   }
 
-  const STATIC_DESCRIPTIONS: Record<string, string> = {
-    '/': 'Browse Kumo components, blocks, and charts.',
-    '/installation': 'How to install and set up Kumo in your project.',
-    '/contributing': 'Guidelines for contributing to the Kumo component library.',
-    '/colors': "Explore Kumo's semantic color tokens and theming system.",
-    '/accessibility': 'Accessibility standards and best practices in Kumo components.',
-    '/figma': 'Using Kumo components in Figma with the Kumo Figma plugin.',
-    '/cli': 'Use the Kumo CLI to add components and blocks to your project.',
-    '/registry': 'Browse and explore the full Kumo component registry.',
-    '/changelog': 'Release notes and package changes.'
-  };
+  const STATIC_PAGES: SearchItem[] = [
+    {
+      name: 'Installation',
+      description: 'How to install and set up Kumo in your project.',
+      url: '/installation',
+      category: 'Getting Started',
+      type: 'page'
+    },
+    {
+      name: 'Contributing',
+      description: 'Guidelines for contributing to the Kumo component library.',
+      url: '/contributing',
+      category: 'Getting Started',
+      type: 'page'
+    },
+    {
+      name: 'Accessibility',
+      description: 'Accessibility standards and best practices in Kumo components.',
+      url: '/accessibility',
+      category: 'Getting Started',
+      type: 'page'
+    },
+    {
+      name: 'Components vs Blocks',
+      description: 'Understanding the difference between components and blocks.',
+      url: '/components-vs-blocks',
+      category: 'Getting Started',
+      type: 'page'
+    },
+    {
+      name: 'Colors',
+      description: "Explore Kumo's semantic color tokens and theming system.",
+      url: '/colors',
+      category: 'Guides',
+      type: 'page'
+    },
+    {
+      name: 'Chart Colors',
+      description: 'Semantic, categorical, and sequential color guidance for charts.',
+      url: '/charts/colors',
+      category: 'Guides',
+      type: 'page'
+    },
+    {
+      name: 'CLI',
+      description: 'Use the Kumo CLI to add components and blocks to your project.',
+      url: '/cli',
+      category: 'Guides',
+      type: 'page'
+    },
+    {
+      name: 'Streaming',
+      description: 'Server-side rendering and streaming support in Kumo.',
+      url: '/streaming',
+      category: 'Guides',
+      type: 'page'
+    },
+    {
+      name: 'Figma',
+      description: 'Using Kumo components in Figma with the Kumo Figma plugin.',
+      url: '/figma',
+      category: 'Guides',
+      type: 'page'
+    },
+    {
+      name: 'Component Registry',
+      description: 'Browse and explore the full Kumo component registry.',
+      url: '/registry',
+      category: 'Guides',
+      type: 'page'
+    },
+    {
+      name: 'CodeHighlighted',
+      description: 'Syntax-highlighted code blocks powered by Shiki.',
+      url: '/components/code-highlighted',
+      category: 'Components',
+      type: 'component'
+    },
+    {
+      name: 'Flow',
+      description: 'A diagram component for visualizing sequential and parallel workflows.',
+      url: '/components/flow',
+      category: 'Components',
+      type: 'component'
+    }
+  ];
 
   const COMPONENT_DESCRIPTIONS: Record<string, string> = {
     autocomplete: 'A text input with filtered suggestions.',
@@ -99,19 +174,17 @@
     return {
       name: item.label,
       type,
-      description:
-        STATIC_DESCRIPTIONS[item.href] ??
-        COMPONENT_DESCRIPTIONS[slug] ??
-        `${item.label} documentation and examples.`,
+      description: COMPONENT_DESCRIPTIONS[slug] ?? `${item.label} documentation and examples.`,
       category,
       url: item.href
     };
   }
 
   const allItems = $derived([
-    ...staticPages.map((item) => fromNav(item, 'page', item.href === '/' ? 'Getting Started' : 'Guides')),
-    ...componentItems.map((item) => fromNav(item, 'component', 'Components')),
-    ...chartItems.map((item) => fromNav(item, 'component', 'Guides')),
+    ...STATIC_PAGES,
+    ...componentItems
+      .filter((item) => !['/components/code-highlighted', '/components/flow'].includes(item.href))
+      .map((item) => fromNav(item, 'component', 'Components')),
     ...blockItems.map((item) => fromNav(item, 'block', 'Block'))
   ]);
 
@@ -221,59 +294,70 @@
     tabindex="-1"
     onkeydown={handleKeydown}
   >
-    <button class="fixed inset-0 cursor-default bg-kumo-overlay opacity-80 transition-all duration-150" aria-label="Close search" onclick={close}></button>
-    <div class="fixed top-[10vh] left-1/2 flex max-h-[min(640px,calc(100vh-7rem))] w-full max-w-2xl -translate-x-1/2 flex-col overflow-hidden rounded-lg bg-kumo-base shadow-lg ring-1 ring-kumo-hairline">
+    <button
+      class="fixed inset-0 cursor-default bg-kumo-overlay opacity-80 transition-all duration-150"
+      aria-label="Close search"
+      onclick={close}
+      transition:fade={{ duration: 150 }}
+    ></button>
+    <div
+      class={cn(
+        'fixed top-[10vh] left-1/2 w-full max-w-2xl -translate-x-1/2',
+        'overflow-hidden rounded-lg bg-kumo-base shadow-xs ring ring-kumo-line',
+        'duration-150'
+      )}
+      transition:scale={{ duration: 150, start: 0.9, opacity: 0 }}
+    >
+      <div class="flex max-h-[60vh] flex-col overflow-hidden rounded-lg bg-kumo-elevated">
       <div class="flex items-center gap-3 bg-kumo-base px-4 py-3 focus-within:ring-2 focus-within:ring-kumo-brand">
         <MagnifyingGlassIcon size={16} weight="bold" class="h-4 w-4 shrink-0 text-kumo-subtle" />
         <input
           bind:this={inputRef}
           bind:value={query}
-          class="min-w-0 flex-1 bg-transparent text-base text-kumo-default outline-none placeholder:text-kumo-muted"
+          class="flex-1 border-none bg-transparent text-base kumo-input-placeholder outline-none"
           placeholder="Search docs..."
           aria-label="Search docs"
         />
-        <button
-          class="grid size-7 place-items-center rounded-md text-kumo-subtle transition-colors hover:bg-kumo-tint hover:text-kumo-default"
-          aria-label="Close search"
-          onclick={close}
-        >
-          <XIcon size={16} />
-        </button>
       </div>
 
       <div class="relative min-h-0 flex-1 overflow-y-auto rounded-b-lg bg-kumo-base px-2 py-2 scroll-py-2 ring-1 ring-kumo-hairline">
         {#if groups.length === 0}
-          <div class="p-8 text-center text-sm text-kumo-subtle">
-            {query.trim() ? `No results found for "${query}"` : 'Type to search docs'}
+          <div class="p-8 text-center">
+            <p class="text-kumo-subtle">
+              {query.trim() ? `No results found for "${query}"` : 'Type to search docs'}
+            </p>
           </div>
         {:else}
+          <div class="space-y-3">
           {#each groups as group (group.label)}
-            <div class="py-2">
+            <div class="space-y-0.5">
               <div class="mb-2 px-2 pt-1 text-xs font-semibold text-kumo-subtle">{group.label}</div>
               <div>
                 {#each group.items as item (item.url)}
                   {@const index = flatItems.indexOf(item)}
                   <button
                     class={cn(
-                      'group flex w-full cursor-pointer items-center gap-3 rounded-lg px-2 py-1.5 text-left text-base transition-colors',
-                      index === activeIndex ? 'bg-kumo-overlay' : 'hover:bg-kumo-overlay'
+                      'group flex w-full items-center gap-3 px-2 py-1.5 text-left text-base transition-colors',
+                      'cursor-pointer rounded-lg',
+                      index === activeIndex ? 'bg-kumo-overlay' : undefined
                     )}
                     onmouseenter={() => (activeIndex = index)}
                     onclick={(event) => openItem(item, event.metaKey || event.ctrlKey)}
                   >
-                    <span class="flex shrink-0 items-center text-kumo-subtle">
-                      {#if item.type === 'block'}
-                        <StackIcon size={16} weight="duotone" />
-                      {:else if item.type === 'layout'}
-                        <SquaresFourIcon size={16} weight="duotone" />
-                      {:else if item.type === 'page'}
-                        <BookOpenIcon size={16} weight="duotone" />
-                      {:else}
-                        <CubeIcon size={16} weight="duotone" />
-                      {/if}
-                    </span>
-                    <span class="min-w-0 flex-1">
-                      <span class="flex items-center gap-2">
+                    <div class="flex w-full items-center gap-3">
+                      <div class="flex-shrink-0 text-kumo-subtle">
+                        {#if item.type === 'block'}
+                          <StackIcon size={16} weight="duotone" />
+                        {:else if item.type === 'layout'}
+                          <SquaresFourIcon size={16} weight="duotone" />
+                        {:else if item.type === 'page'}
+                          <BookOpenIcon size={16} weight="duotone" />
+                        {:else}
+                          <CubeIcon size={16} weight="duotone" />
+                        {/if}
+                      </div>
+                      <div class="min-w-0 flex-1">
+                        <div class="flex items-center gap-2">
                         <span class="text-base font-medium text-kumo-default">
                           {#each highlight(item.name, query) as part, partIndex (partIndex)}
                             {#if part.hit}<mark class="bg-transparent text-kumo-brand">{part.text}</mark>{:else}{part.text}{/if}
@@ -282,29 +366,32 @@
                         {#if query.trim() && item.type !== 'component'}
                           <Badge variant="neutral">{item.type === 'page' ? 'Guide' : item.type[0].toUpperCase() + item.type.slice(1)}</Badge>
                         {/if}
-                      </span>
-                      <span class="block truncate text-sm text-kumo-subtle">
+                        </div>
+                        <span class="block truncate text-sm text-kumo-subtle">
                         {#each highlight(item.description, query) as part, partIndex (partIndex)}
                           {#if part.hit}<mark class="bg-transparent text-kumo-brand">{part.text}</mark>{:else}{part.text}{/if}
                         {/each}
-                      </span>
-                    </span>
+                        </span>
+                      </div>
+                    </div>
                   </button>
                 {/each}
               </div>
             </div>
           {/each}
+          </div>
         {/if}
       </div>
 
       <div class="flex items-center justify-between rounded-b-lg bg-kumo-elevated px-4 py-3 text-xs text-kumo-subtle">
-        <span>{totalResults ? `${totalResults} result${totalResults === 1 ? '' : 's'}` : ''}</span>
-        <div class="hidden items-center gap-4 sm:flex">
+        <span class="text-kumo-subtle">{totalResults ? `${totalResults} result${totalResults === 1 ? '' : 's'}` : ''}</span>
+        <div class="flex items-center gap-4">
           <span class="flex items-center gap-1"><kbd class="rounded border border-kumo-hairline bg-kumo-base px-1.5 py-0.5">↑</kbd><kbd class="rounded border border-kumo-hairline bg-kumo-base px-1.5 py-0.5">↓</kbd><span>navigate</span></span>
           <span class="flex items-center gap-1"><kbd class="rounded border border-kumo-hairline bg-kumo-base px-1.5 py-0.5">↵</kbd><span>open</span></span>
           <span class="flex items-center gap-1"><kbd class="rounded border border-kumo-hairline bg-kumo-base px-1.5 py-0.5">⌘↵</kbd><span>new tab</span></span>
           <span class="flex items-center gap-1"><kbd class="rounded border border-kumo-hairline bg-kumo-base px-1.5 py-0.5">esc</kbd><span>close</span></span>
         </div>
+      </div>
       </div>
     </div>
   </div>

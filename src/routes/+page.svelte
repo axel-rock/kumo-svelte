@@ -75,11 +75,11 @@
     const fruits = ["Apple", "Banana", "Cherry", "Grape", "Mango", "Orange"];
 
     const issueOptions = [
-        { label: "bug", value: "bug" },
-        { label: "documentation", value: "documentation" },
-        { label: "enhancement", value: "enhancement" },
-        { label: "help wanted", value: "help wanted" },
-        { label: "good first issue", value: "good first issue" },
+        { id: "bug", value: "bug" },
+        { id: "docs", value: "documentation" },
+        { id: "enhancement", value: "enhancement" },
+        { id: "help-wanted", value: "help wanted" },
+        { id: "good-first-issue", value: "good first issue" },
     ];
 
     const commands = [
@@ -100,6 +100,7 @@
     let activeTab = $state("home");
     let activeMenuOption = $state<number | undefined>(0);
     let collapsibleOpen = $state(false);
+    let comboboxIssue = $state("bug");
     const toastManager = createKumoToastManager();
 </script>
 
@@ -216,10 +217,22 @@
                         class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"
                     >
                         <Combobox
-                            class="w-[200px]"
-                            options={issueOptions}
-                            placeholder="Select an issue..."
-                        />
+                            bind:value={comboboxIssue}
+                            items={issueOptions}
+                        >
+                            <Combobox.TriggerInput
+                                placeholder="Select an issue..."
+                            />
+                            <Combobox.Content>
+                                <Combobox.List>
+                                    {#snippet children(item)}
+                                        <Combobox.Item value={item.value}
+                                            >{item.value}</Combobox.Item
+                                        >
+                                    {/snippet}
+                                </Combobox.List>
+                            </Combobox.Content>
+                        </Combobox>
                     </div>
                 </li>
 

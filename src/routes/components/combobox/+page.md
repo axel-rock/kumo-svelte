@@ -2,6 +2,7 @@
 title: "Combobox"
 description: "A searchable select component that allows users to filter and select from a list of options."
 sourceFile: "components/combobox"
+baseUIComponent: "combobox"
 ---
 
 <script>
@@ -28,11 +29,44 @@ sourceFile: "components/combobox"
 ```svelte
 <script lang="ts">
   import { Combobox } from 'kumo-svelte';
+</script>
+```
 
-  const options = [{ label: 'Workers', value: 'workers' }];
+### Granular
+
+```svelte
+<script lang="ts">
+  import { Combobox } from 'kumo-svelte/components/combobox';
+</script>
+```
+
+</ComponentSection>
+
+<!-- Usage -->
+
+<ComponentSection>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Combobox } from 'kumo-svelte';
+
+  const fruits = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'];
+  let value = $state<string | null>(null);
 </script>
 
-<Combobox {options} placeholder="Select product" />
+<Combobox bind:value items={fruits}>
+  <Combobox.TriggerInput placeholder="Select a fruit" />
+  <Combobox.Content>
+    <Combobox.Empty />
+    <Combobox.List>
+      {#snippet children(item)}
+        <Combobox.Item value={item}>{item}</Combobox.Item>
+      {/snippet}
+    </Combobox.List>
+  </Combobox.Content>
+</Combobox>
 ```
 
 </ComponentSection>
