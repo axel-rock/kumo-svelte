@@ -1,7 +1,15 @@
 <script lang="ts">
-  import { Check, ChevronDown, Copy, ExternalLink, FileText, Link } from '@lucide/svelte';
+  import {
+    CaretDownIcon,
+    CheckIcon,
+    CopySimpleIcon,
+    FileMdIcon,
+    LinkSimpleIcon,
+    OpenAiLogo
+  } from 'phosphor-svelte';
   import { Button } from '$lib/components/button';
   import { DropdownMenu } from '$lib/components/dropdown-menu';
+  import ClaudeIcon from './ClaudeIcon.svelte';
 
   interface Props {
     align?: 'start' | 'center' | 'end';
@@ -72,9 +80,9 @@
       onclick={handleCopyMarkdown}
     >
       {#if copied}
-        <Check size={16} />
+        <CheckIcon size={16} />
       {:else}
-        <Copy size={16} />
+        <CopySimpleIcon size={16} />
       {/if}
       <span>Copy page</span>
     </Button>
@@ -87,18 +95,18 @@
         aria-label="Copy page options"
         class="rounded-l-none"
       >
-        <ChevronDown size={12} />
+        <CaretDownIcon size={12} />
       </Button>
     </DropdownMenu.Trigger>
 
     <DropdownMenu.Content {align}>
-      <DropdownMenu.Item icon={Link} onSelect={handleCopyPageLink}>Copy page link</DropdownMenu.Item>
-      <DropdownMenu.Item icon={FileText} onSelect={handleViewMarkdown}>View Page as Markdown</DropdownMenu.Item>
+      <DropdownMenu.Item icon={LinkSimpleIcon} onSelect={handleCopyPageLink}>Copy page link</DropdownMenu.Item>
+      <DropdownMenu.Item icon={FileMdIcon} onSelect={handleViewMarkdown}>View Page as Markdown</DropdownMenu.Item>
       <DropdownMenu.Separator />
-      <DropdownMenu.Item icon={ExternalLink} onSelect={() => handleOpenAIPrompt('https://claude.ai/new')}>
+      <DropdownMenu.Item icon={ClaudeIcon} onSelect={() => handleOpenAIPrompt('https://claude.ai/new')}>
         Open in Claude
       </DropdownMenu.Item>
-      <DropdownMenu.Item icon={ExternalLink} onSelect={() => handleOpenAIPrompt('https://chatgpt.com')}>
+      <DropdownMenu.Item icon={OpenAiLogo} onSelect={() => handleOpenAIPrompt('https://chatgpt.com')}>
         Open in ChatGPT
       </DropdownMenu.Item>
     </DropdownMenu.Content>

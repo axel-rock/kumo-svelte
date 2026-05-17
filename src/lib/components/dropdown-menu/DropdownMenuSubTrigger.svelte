@@ -1,7 +1,7 @@
 <script lang="ts">
   import { DropdownMenu as DropdownMenuPrimitive } from 'bits-ui';
   import type { Component, Snippet } from 'svelte';
-  import { ChevronRight } from '@lucide/svelte';
+  import { CaretRight } from 'phosphor-svelte';
   import { cn } from '$lib/utils/cn';
 
   interface Props {
@@ -28,5 +28,5 @@
 >
   {#if Icon}<Icon class="mr-2 h-4 w-4" />{/if}
   {@render children?.()}
-  <ChevronRight class="ml-auto h-4 w-4" />
+  <CaretRight class="ml-auto h-4 w-4" />
 </DropdownMenuPrimitive.SubTrigger>

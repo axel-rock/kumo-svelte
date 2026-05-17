@@ -41,7 +41,7 @@
 
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { Check, Copy } from '@lucide/svelte';
+  import { Check, Copy } from 'phosphor-svelte';
   import { Button } from '$lib/components/button';
 
   interface Props extends KumoEmptyVariantsProps {

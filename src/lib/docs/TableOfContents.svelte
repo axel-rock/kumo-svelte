@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { ChevronDown } from '@lucide/svelte';
+  import { CaretDown } from 'phosphor-svelte';
   import { cn } from '$lib/utils/cn';
 
   export interface TocHeading {
@@ -40,27 +40,34 @@
       .replace(/^-+|-+$/g, '');
   }
 
+  function headingText(element: Element) {
+    const anchor = element.querySelector(':scope > a[href^="#"]');
+    const source = anchor?.cloneNode(true) as Element | undefined;
+    source?.querySelector('.heading-anchor-icon')?.remove();
+    return (source ?? element).textContent?.trim() ?? '';
+  }
+
   function scrapeHeadings(): TocHeading[] {
     const content = document.querySelector('.kumo-prose');
     if (!content) return [];
 
-    const usedSlugs = new Set<string>();
+    const usedSlugs: string[] = [];
 
     return Array.from(content.querySelectorAll('h2, h3'))
       .map((element) => {
-        const text = element.textContent?.trim() ?? '';
+        const text = headingText(element);
         if (!text) return null;
 
         let slug = element.id || slugify(text) || 'section';
         const baseSlug = slug;
         let index = 2;
 
-        while (usedSlugs.has(slug)) {
+        while (usedSlugs.includes(slug)) {
           slug = `${baseSlug}-${index}`;
           index += 1;
         }
 
-        usedSlugs.add(slug);
+        usedSlugs.push(slug);
         if (!element.id) element.id = slug;
 
         return {
@@ -159,7 +166,7 @@
           </optgroup>
         {/each}
       </select>
-      <ChevronDown
+      <CaretDown
         size={16}
         class="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-kumo-subtle"
         aria-hidden="true"

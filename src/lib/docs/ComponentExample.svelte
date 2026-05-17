@@ -14,10 +14,10 @@
   }
 
   let { children, code: codeProp, demo, lang = 'svelte', vrTitle }: Props = $props();
-  const code = $derived(codeProp ?? (demo ? getSvelteDemoSnippet(demo) : '') ?? '');
+  const code = $derived((codeProp ?? (demo ? getSvelteDemoSnippet(demo) : '') ?? '').replace(/^\n+|\n+$/g, ''));
 </script>
 
-<div class="not-prose my-4 overflow-hidden rounded-lg">
+<div class="not-prose overflow-hidden rounded-lg">
   <div class="flex min-h-[120px] items-center justify-center rounded-t-lg border border-kumo-hairline bg-kumo-canvas p-6">
     {#if demo}
       <DemoRenderer {demo} />

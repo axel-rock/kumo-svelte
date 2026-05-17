@@ -52,7 +52,6 @@
   },
   "dependencies": {
     "@internationalized/date": "^3.12.1",
-    "@lucide/svelte": "^1.16.0",
     "bits-ui": "^2.18.1",
     "clsx": "^2.1.1",
     "echarts": "^6.0.0",

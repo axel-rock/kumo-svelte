@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { RefreshCw } from '@lucide/svelte';
+  import { ArrowClockwise } from 'phosphor-svelte';
   import { cn } from '$lib/utils/cn';
   import Button from './Button.svelte';
 
@@ -23,7 +23,7 @@
 </script>
 
 <Button shape="square" {size} {variant} aria-label={ariaLabel} class={className} {...rest}>
-  <RefreshCw
+  <ArrowClockwise
     class={cn({
       'animate-refresh': loading,
       'size-4.5': size === 'base',

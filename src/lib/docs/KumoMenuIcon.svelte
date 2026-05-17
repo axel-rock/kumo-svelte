@@ -5,7 +5,7 @@
     class?: string;
   }
 
-  let { class: classValue }: Props = $props();
+  let { class: classValue = 'text-[var(--svelte-orange)]' }: Props = $props();
   let isHovered = $state(false);
 </script>
 

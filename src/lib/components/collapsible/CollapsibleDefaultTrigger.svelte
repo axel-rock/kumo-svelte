@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ChevronDown } from '@lucide/svelte';
+  import { CaretDown } from 'phosphor-svelte';
   import type { Snippet } from 'svelte';
   import { cn } from '$lib/utils/cn';
   import CollapsibleTrigger from './CollapsibleTrigger.svelte';
@@ -23,5 +23,5 @@
   {...rest}
 >
   {@render children?.()}
-  <ChevronDown class="h-4 w-4 transition-transform group-data-[state=open]:rotate-180" />
+  <CaretDown class="h-4 w-4 transition-transform group-data-[state=open]:rotate-180" />
 </CollapsibleTrigger>

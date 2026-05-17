@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CheckCircle, Info, OctagonAlert, TriangleAlert, X } from '@lucide/svelte';
+  import { CheckCircle, Info, Warning, WarningOctagon, X } from 'phosphor-svelte';
   import { Button } from '$lib/components/button';
   import { cn } from '$lib/utils/cn';
   import type { KumoToastObject, KumoToastVariant } from './manager.svelte';
@@ -20,8 +20,8 @@
 
   function iconForVariant(variant: KumoToastVariant = 'default') {
     if (variant === 'success') return CheckCircle;
-    if (variant === 'error') return OctagonAlert;
-    if (variant === 'warning') return TriangleAlert;
+    if (variant === 'error') return WarningOctagon;
+    if (variant === 'warning') return Warning;
     if (variant === 'info') return Info;
     return undefined;
   }

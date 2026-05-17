@@ -44,12 +44,12 @@ import { MenuBar } from "kumo-svelte/components/menubar";
 
 ```svelte
 import { MenuBar } from "kumo-svelte";
-import { Bold } from "@lucide/svelte";
+import { TextB } from "phosphor-svelte";
 
 <MenuBar
   options={[
     {
-      icon: Bold,
+      icon: TextB,
       id: "bold",
       tooltip: "Bold",
       onClick: () => console.log("Bold clicked"),

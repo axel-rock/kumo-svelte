@@ -2,6 +2,7 @@
   import type { Snippet } from 'svelte';
   import { cn } from '$lib/utils/cn';
   import { setFlowContext, type FlowAlign, type FlowOrientation } from './context';
+  import FlowList from './FlowList.svelte';
 
   interface Props {
     children?: Snippet;
@@ -38,15 +39,9 @@
 
 {#snippet contents()}
   <div class="w-max mx-auto" data-testid="flow-contents">
-    <ul
-      class={cn(
-        'relative ml-0 list-none',
-        orientation === 'vertical' ? 'grid auto-rows-min gap-16' : 'flex gap-16',
-        orientation === 'horizontal' && (align === 'center' ? 'items-center' : 'items-start')
-      )}
-    >
+    <FlowList>
       {@render children?.()}
-    </ul>
+    </FlowList>
   </div>
 {/snippet}
 

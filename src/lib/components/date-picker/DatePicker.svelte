@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { DateValue } from '@internationalized/date';
   import type { Snippet } from 'svelte';
-  import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from '@lucide/svelte';
+  import { Calendar as CalendarIcon, CaretLeft, CaretRight } from 'phosphor-svelte';
   import { DatePicker as DatePickerPrimitive } from 'bits-ui';
   import { cn } from '$lib/utils/cn';
 
@@ -106,14 +106,14 @@
                 class="inline-flex size-8 items-center justify-center rounded-md text-kumo-muted outline-none transition hover:bg-kumo-tint hover:text-kumo-default focus-visible:ring-2 focus-visible:ring-kumo-brand disabled:pointer-events-none disabled:opacity-40"
                 aria-label="Previous month"
               >
-                <ChevronLeft class="size-4" aria-hidden="true" />
+                <CaretLeft class="size-4" aria-hidden="true" />
               </DatePickerPrimitive.PrevButton>
               <DatePickerPrimitive.Heading class="text-sm font-medium text-kumo-default" />
               <DatePickerPrimitive.NextButton
                 class="inline-flex size-8 items-center justify-center rounded-md text-kumo-muted outline-none transition hover:bg-kumo-tint hover:text-kumo-default focus-visible:ring-2 focus-visible:ring-kumo-brand disabled:pointer-events-none disabled:opacity-40"
                 aria-label="Next month"
               >
-                <ChevronRight class="size-4" aria-hidden="true" />
+                <CaretRight class="size-4" aria-hidden="true" />
               </DatePickerPrimitive.NextButton>
             </DatePickerPrimitive.Header>
 

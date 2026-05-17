@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { ArrowRight, ExternalLink } from '@lucide/svelte';
+  import { ArrowRight, ArrowSquareOut as ExternalLink } from 'phosphor-svelte';
   import CommandPaletteItem from './CommandPaletteItem.svelte';
   import CommandPaletteHighlightedText from './CommandPaletteHighlightedText.svelte';
   import { cn } from '$lib/utils/cn';

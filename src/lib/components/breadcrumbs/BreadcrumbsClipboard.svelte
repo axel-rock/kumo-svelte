@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Check, Copy } from '@lucide/svelte';
+  import { Check, Copy } from 'phosphor-svelte';
   import { Button } from '$lib/components/button';
 
   interface Props {
@@ -38,7 +38,7 @@
   {...rest}
 >
   {#if isCopied}
-    <Check class="text-kumo-success" strokeWidth={3} />
+    <Check class="text-kumo-success" weight="bold" />
   {:else}
     <Copy />
   {/if}

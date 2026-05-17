@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Check, Copy } from '@lucide/svelte';
+  import { Check, Copy } from 'phosphor-svelte';
   import { Button } from '$lib/components/button';
   import { Tooltip } from '$lib/components/tooltip';
   import { cn } from '$lib/utils/cn';

@@ -1,5 +1,12 @@
 <script lang="ts">
-  import { BookOpen, Box, Layers, Search, X } from '@lucide/svelte';
+  import {
+    BookOpenIcon,
+    CubeIcon,
+    MagnifyingGlassIcon,
+    SquaresFourIcon,
+    StackIcon,
+    XIcon
+  } from 'phosphor-svelte';
   import { Badge } from '$lib';
   import { cn } from '$lib/utils/cn';
   import { staticPages, componentItems, chartItems, blockItems, type NavItem } from './nav';
@@ -217,7 +224,7 @@
     <button class="fixed inset-0 cursor-default bg-kumo-overlay opacity-80 transition-all duration-150" aria-label="Close search" onclick={close}></button>
     <div class="fixed top-[10vh] left-1/2 flex max-h-[min(640px,calc(100vh-7rem))] w-full max-w-2xl -translate-x-1/2 flex-col overflow-hidden rounded-lg bg-kumo-base shadow-lg ring-1 ring-kumo-hairline">
       <div class="flex items-center gap-3 bg-kumo-base px-4 py-3 focus-within:ring-2 focus-within:ring-kumo-brand">
-        <Search size={16} class="h-4 w-4 shrink-0 text-kumo-subtle" />
+        <MagnifyingGlassIcon size={16} weight="bold" class="h-4 w-4 shrink-0 text-kumo-subtle" />
         <input
           bind:this={inputRef}
           bind:value={query}
@@ -230,7 +237,7 @@
           aria-label="Close search"
           onclick={close}
         >
-          <X size={16} />
+          <XIcon size={16} />
         </button>
       </div>
 
@@ -256,13 +263,13 @@
                   >
                     <span class="flex shrink-0 items-center text-kumo-subtle">
                       {#if item.type === 'block'}
-                        <Layers size={15} />
+                        <StackIcon size={16} weight="duotone" />
                       {:else if item.type === 'layout'}
-                        <Box size={15} />
+                        <SquaresFourIcon size={16} weight="duotone" />
                       {:else if item.type === 'page'}
-                        <BookOpen size={15} />
+                        <BookOpenIcon size={16} weight="duotone" />
                       {:else}
-                        <Box size={15} />
+                        <CubeIcon size={16} weight="duotone" />
                       {/if}
                     </span>
                     <span class="min-w-0 flex-1">

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { Check, ChevronsUpDown, X } from '@lucide/svelte';
+  import { CaretUpDown, Check, X } from 'phosphor-svelte';
   import { Combobox as ComboboxPrimitive } from 'bits-ui';
   import Field from '$lib/components/field/Field.svelte';
   import Loader from '$lib/components/loader/Loader.svelte';
@@ -176,7 +176,7 @@
   {#if loading}
     <Loader size="sm" class="w-10 shrink-0" />
   {:else}
-    <ChevronsUpDown class={cn('shrink-0 text-kumo-subtle', iconSizes[size])} aria-hidden="true" />
+    <CaretUpDown class={cn('shrink-0 text-kumo-subtle', iconSizes[size])} aria-hidden="true" />
   {/if}
 
   <ComboboxPrimitive.Portal>

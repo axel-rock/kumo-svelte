@@ -1,14 +1,14 @@
 <script lang="ts">
   import {
-    AlertTriangle,
-    Bold,
+    Warning,
+    TextB,
     CheckCircle,
-    Italic,
-    Languages,
-    OctagonAlert,
+    TextItalic,
+    Globe,
+    WarningOctagon,
     Plus,
-    Search
-  } from '@lucide/svelte';
+    MagnifyingGlass
+  } from 'phosphor-svelte';
   import {
     Badge,
     Banner,
@@ -197,7 +197,7 @@
             {/snippet}
             <Tooltip trigger={addTooltipTrigger} open>Add</Tooltip>
             {#snippet languageTooltipTrigger(props: Record<string, unknown>)}
-              <Button {...props} shape="square" icon={Languages} aria-label="Change language" />
+              <Button {...props} shape="square" icon={Globe} aria-label="Change language" />
             {/snippet}
             <Tooltip trigger={languageTooltipTrigger}>Change language</Tooltip>
           </div>
@@ -276,8 +276,8 @@
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex flex-col gap-2">
             <Banner text="This is a default banner." />
-            <Banner text="This is an alert banner." variant="alert" icon={AlertTriangle} />
-            <Banner text="This is an error banner." variant="error" icon={OctagonAlert} />
+            <Banner text="This is an alert banner." variant="alert" icon={Warning} />
+            <Banner text="This is an error banner." variant="error" icon={WarningOctagon} />
           </div>
         </div>
       </li>
@@ -361,12 +361,12 @@
             isActive={activeMenuOption}
             options={[
               {
-                icon: Bold,
+                icon: TextB,
                 tooltip: 'Bold',
                 onClick: () => (activeMenuOption = activeMenuOption === 0 ? undefined : 0)
               },
               {
-                icon: Italic,
+                icon: TextItalic,
                 tooltip: 'Italic',
                 onClick: () => (activeMenuOption = activeMenuOption === 1 ? undefined : 1)
               }
@@ -403,7 +403,7 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="command-palette" href="/components/command-palette" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">CommandPalette</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <Button icon={Search}>Open Command Palette</Button>
+          <Button icon={MagnifyingGlass}>Open Command Palette</Button>
         </div>
       </li>
 

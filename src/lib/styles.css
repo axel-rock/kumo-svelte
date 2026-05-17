@@ -555,6 +555,10 @@ kbd,
   text-decoration: none;
 }
 
+.kumo-prose :where(.heading-anchor-icon) {
+  color: var(--text-color-kumo-subtle);
+}
+
 /* Headings — shared spacing and tracking */
 .kumo-prose :where(h2, h3, h4):not(:where(.not-prose, .not-prose *)) {
   @apply tracking-tight;
@@ -688,6 +692,11 @@ pre.shiki {
 .shiki .line {
   display: block;
   min-height: 1.5em;
+}
+
+.shiki .line:empty:first-child,
+.shiki .line:empty:last-child {
+  display: none;
 }
 
 /* Light mode (default) */

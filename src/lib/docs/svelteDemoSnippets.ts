@@ -1,9 +1,5 @@
 const snippets: Record<string, string> = {};
 
-function componentName(demo: string) {
-  return demo.replace(/Demo$/, '').replace(/([a-z])([A-Z])/g, '$1 $2').trim();
-}
-
 function chartSnippet(demo: string) {
   if (demo.startsWith('Sankey')) {
     return `<script lang="ts">
@@ -118,14 +114,162 @@ function chartSnippet(demo: string) {
 <TimeseriesChart {echarts} {data} xAxisName="Time (UTC)" yAxisName="Count" />`;
 }
 
-function genericSnippet(demo: string) {
-  const name = componentName(demo);
-  const root = name.split(' ')[0];
-  return `<script lang="ts">
-  import { ${root} } from 'kumo-svelte';
+function previewRendererSnippet(demo: string) {
+  return '';
+}
+
+function flowSnippet(demo: string) {
+  switch (demo) {
+    case 'FlowBasicDemo':
+      return `<script lang="ts">
+  import { Flow } from 'kumo-svelte';
 </script>
 
-<${root}>${name}</${root}>`;
+<Flow>
+  <Flow.Node>Step 1</Flow.Node>
+  <Flow.Node>Step 2</Flow.Node>
+  <Flow.Node>Step 3</Flow.Node>
+</Flow>`;
+    case 'FlowParallelDemo':
+      return `<script lang="ts">
+  import { Flow } from 'kumo-svelte';
+</script>
+
+<Flow>
+  <Flow.Node>Start</Flow.Node>
+  <Flow.Parallel>
+    <Flow.Node>Branch A</Flow.Node>
+    <Flow.Node>Branch B</Flow.Node>
+    <Flow.Node>Branch C</Flow.Node>
+  </Flow.Parallel>
+  <Flow.Node>End</Flow.Node>
+</Flow>`;
+    case 'FlowCustomContentDemo':
+      return `<script lang="ts">
+  import { Flow } from 'kumo-svelte';
+</script>
+
+<Flow>
+  <Flow.Node bare class="size-4 rounded-full bg-kumo-hairline" />
+  <Flow.Node bare class="rounded-lg bg-kumo-contrast px-3 py-2 font-medium text-kumo-inverse">
+    my-worker
+  </Flow.Node>
+</Flow>`;
+    case 'FlowCenteredDemo':
+      return `<script lang="ts">
+  import { Flow } from 'kumo-svelte';
+</script>
+
+<Flow align="center">
+  <Flow.Node bare class="size-4 rounded-full bg-kumo-hairline" />
+  <Flow.Node>my-worker</Flow.Node>
+  <Flow.Node class="px-3 py-6">Taller node</Flow.Node>
+</Flow>`;
+    case 'FlowComplexDemo':
+      return `<script lang="ts">
+  import { Flow } from 'kumo-svelte';
+</script>
+
+<Flow>
+  <Flow.Parallel>
+    <Flow.Node>HTTP Trigger</Flow.Node>
+    <Flow.Node>Cron Trigger</Flow.Node>
+  </Flow.Parallel>
+  <Flow.Node>Process Request</Flow.Node>
+  <Flow.Parallel>
+    <Flow.Node>Log Analytics</Flow.Node>
+    <Flow.Node>Update Cache</Flow.Node>
+    <Flow.Node>Send Notification</Flow.Node>
+  </Flow.Parallel>
+  <Flow.Node>Complete</Flow.Node>
+</Flow>`;
+    case 'FlowAnchorDemo':
+      return `<script lang="ts">
+  import { Flow } from 'kumo-svelte';
+</script>
+
+<Flow>
+  <Flow.Node>Load balancer</Flow.Node>
+  <Flow.Node bare class="overflow-hidden rounded-lg bg-kumo-overlay shadow-none ring ring-kumo-hairline">
+    <div class="flex h-10 items-center px-2.5 text-kumo-subtle">my-worker</div>
+    <div class="m-1.5 mt-0 rounded bg-kumo-base px-2 py-1.5 shadow ring ring-kumo-hairline">
+      Bindings <span class="ml-3 inline-block w-5 text-kumo-subtle">2</span>
+    </div>
+  </Flow.Node>
+  <Flow.Parallel>
+    <Flow.Node>DATABASE</Flow.Node>
+    <Flow.Node>OTHER_SERVICE</Flow.Node>
+  </Flow.Parallel>
+</Flow>`;
+    case 'FlowPanningDemo':
+      return `<script lang="ts">
+  import { Flow } from 'kumo-svelte';
+</script>
+
+<Flow class="max-w-full rounded-lg border border-kumo-hairline">
+  <Flow.Node>Start</Flow.Node>
+  <Flow.Node>Authenticate</Flow.Node>
+  <Flow.Node>Validate</Flow.Node>
+  <Flow.Node>Transform</Flow.Node>
+  <Flow.Node>Process</Flow.Node>
+  <Flow.Node>Store</Flow.Node>
+  <Flow.Node>Notify</Flow.Node>
+  <Flow.Node>Log</Flow.Node>
+  <Flow.Node>Complete</Flow.Node>
+  <Flow.Node>End</Flow.Node>
+</Flow>`;
+    case 'FlowDisabledDemo':
+      return `<script lang="ts">
+  import { Flow } from 'kumo-svelte';
+</script>
+
+<Flow>
+  <Flow.Node>Request</Flow.Node>
+  <Flow.Parallel>
+    <Flow.Node>Primary Handler</Flow.Node>
+    <Flow.Node disabled>Backup Handler (disabled)</Flow.Node>
+  </Flow.Parallel>
+  <Flow.Node>Response</Flow.Node>
+</Flow>`;
+    case 'FlowParallelAlignEndDemo':
+      return `<script lang="ts">
+  import { Flow } from 'kumo-svelte';
+</script>
+
+<Flow>
+  <Flow.Node>Start</Flow.Node>
+  <Flow.Parallel align="end">
+    <Flow.Node>Short</Flow.Node>
+    <Flow.Node>Medium Length</Flow.Node>
+    <Flow.Node>Very Long Node Name</Flow.Node>
+  </Flow.Parallel>
+  <Flow.Node>End</Flow.Node>
+</Flow>`;
+    case 'FlowParallelNestedListDemo':
+      return `<script lang="ts">
+  import { Flow } from 'kumo-svelte';
+</script>
+
+<Flow>
+  <Flow.Parallel>
+    <Flow.List>
+      <Flow.Node>Client Users</Flow.Node>
+      <Flow.Node>Engineering Team Access</Flow.Node>
+    </Flow.List>
+    <Flow.List>
+      <Flow.Parallel>
+        <Flow.Node>All Authenticated Users</Flow.Node>
+        <Flow.Node>Client Users</Flow.Node>
+        <Flow.Node>Site Users</Flow.Node>
+      </Flow.Parallel>
+      <Flow.Node>Contractor Access</Flow.Node>
+    </Flow.List>
+  </Flow.Parallel>
+  <Flow.Node>Destinations</Flow.Node>
+</Flow>`;
+    default:
+      return '';
+  }
 }
 
 function specializedSnippet(demo: string) {
@@ -288,7 +432,7 @@ function specializedSnippet(demo: string) {
     case 'ButtonBasicDemo':
       return `<script lang="ts">
   import { Button } from 'kumo-svelte';
-  import { Plus } from '@lucide/svelte';
+  import { Plus } from 'phosphor-svelte';
 </script>
 
 <div class="flex flex-wrap items-center gap-2">
@@ -514,7 +658,7 @@ function specializedSnippet(demo: string) {
     case 'MenuBarNoActiveDemo':
       return `<script lang="ts">
   import { MenuBar } from 'kumo-svelte';
-  import { Bold, Italic } from '@lucide/svelte';
+  import { TextB, TextItalic } from 'phosphor-svelte';
 
   let active = $state${demo === 'MenuBarNoActiveDemo' ? '<string | undefined>(undefined)' : '<string | undefined>("bold")'};
 </script>
@@ -524,13 +668,13 @@ function specializedSnippet(demo: string) {
   optionIds
   options={[
     {
-      icon: Bold,
+      icon: TextB,
       id: "bold",
       tooltip: "Bold",
       onClick: () => (active = active === "bold" ? undefined : "bold"),
     },
     {
-      icon: Italic,
+      icon: TextItalic,
       id: "italic",
       tooltip: "Italic",
       onClick: () => (active = active === "italic" ? undefined : "italic"),
@@ -734,7 +878,7 @@ function specializedSnippet(demo: string) {
     case 'ToastCustomContentDemo':
       return `<script lang="ts">
   import { Button, Link, Toasty } from 'kumo-svelte';
-  import { CheckCircle } from '@lucide/svelte';
+  import { CheckCircle } from 'phosphor-svelte';
 </script>
 
 <Toasty>
@@ -757,6 +901,8 @@ function specializedSnippet(demo: string) {
 export function getSvelteDemoSnippet(demo: string) {
   const specialized = specializedSnippet(demo);
   if (specialized) return specialized;
+  const flow = flowSnippet(demo);
+  if (flow) return flow;
   if (demo.includes('Chart') || demo.includes('Legend') || demo.includes('Sankey') || demo.includes('Pie') || demo.includes('Categorical') || demo.includes('Heatmap')) return chartSnippet(demo);
-  return snippets[demo] ?? genericSnippet(demo);
+  return snippets[demo] ?? previewRendererSnippet(demo);
 }

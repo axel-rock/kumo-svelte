@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from '@lucide/svelte';
+  import { CaretDoubleLeft, CaretDoubleRight, CaretLeft, CaretRight } from 'phosphor-svelte';
   import { InputGroup, InputGroupButton, InputGroupInput } from '$lib/components/input-group';
   import { cn } from '$lib/utils/cn';
   import { clamp, getPaginationContext } from './context';
@@ -44,7 +44,7 @@
           disabled={context.page <= 1}
           onclick={() => commitPage(1)}
         >
-          <ChevronsLeft class="size-4" />
+          <CaretDoubleLeft class="size-4" />
         </InputGroupButton>
       {/if}
       <InputGroupButton
@@ -53,7 +53,7 @@
         disabled={context.page <= 1}
         onclick={() => commitPage(context.page - 1)}
       >
-        <ChevronLeft class="size-4" />
+        <CaretLeft class="size-4" />
       </InputGroupButton>
       {#if controls === 'full'}
         {#if pageSelector === 'dropdown'}
@@ -91,7 +91,7 @@
         disabled={context.page === context.maxPage}
         onclick={() => commitPage(context.page + 1)}
       >
-        <ChevronRight class="size-4" />
+        <CaretRight class="size-4" />
       </InputGroupButton>
       {#if controls === 'full'}
         <InputGroupButton
@@ -100,7 +100,7 @@
           disabled={context.page === context.maxPage}
           onclick={() => commitPage(context.maxPage)}
         >
-          <ChevronsRight class="size-4" />
+          <CaretDoubleRight class="size-4" />
         </InputGroupButton>
       {/if}
     </InputGroup>

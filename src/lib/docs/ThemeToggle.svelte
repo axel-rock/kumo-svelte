@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Moon, Sun } from '@lucide/svelte';
+  import { MoonIcon, SunIcon } from 'phosphor-svelte';
   import { onMount } from 'svelte';
   import { Button } from '$lib';
 
@@ -31,8 +31,8 @@
   onclick={toggleTheme}
 >
   {#if mounted && theme === 'dark'}
-    <Sun size={20} />
+    <SunIcon size={20} />
   {:else}
-    <Moon size={20} />
+    <MoonIcon size={20} />
   {/if}
 </Button>

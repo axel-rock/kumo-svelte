@@ -56,13 +56,13 @@ Pass the `label` prop to InputGroup to enable the built-in Field wrapper with
 
 ```svelte
 <script>
-  import { Search } from "@lucide/svelte";
+  import { MagnifyingGlass } from "phosphor-svelte";
   import { InputGroup, InputGroupAddon, InputGroupInput } from "kumo-svelte/components/input-group";
 </script>
 
 <InputGroup label="Search" description="Find pages, components, and more">
   <InputGroupAddon>
-    <Search />
+    <MagnifyingGlass />
   </InputGroupAddon>
   <InputGroupInput placeholder="Search..." />
 </InputGroup>
@@ -77,13 +77,13 @@ For custom form layouts, use InputGroup without `label`. Must provide
 
 ```svelte
 <script>
-  import { Search } from "@lucide/svelte";
+  import { MagnifyingGlass } from "phosphor-svelte";
   import { InputGroup, InputGroupAddon, InputGroupInput } from "kumo-svelte/components/input-group";
 </script>
 
 <InputGroup>
   <InputGroupAddon>
-    <Search />
+    <MagnifyingGlass />
   </InputGroupAddon>
   <InputGroupInput placeholder="Search..." aria-label="Search" />
 </InputGroup>

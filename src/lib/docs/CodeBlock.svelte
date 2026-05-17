@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Check, Copy } from '@lucide/svelte';
+  import { Check, Copy } from 'phosphor-svelte';
   import { codeToHtml } from 'shiki';
 
   interface Props {
@@ -23,8 +23,10 @@
     txt: 'text'
   };
 
+  const normalizedCode = $derived(code.replace(/^\n+|\n+$/g, ''));
+
   const highlightedCode = $derived(
-    codeToHtml(code, {
+    codeToHtml(normalizedCode, {
       lang: languageAliases[lang] ?? lang,
       themes: {
         light: 'github-light',
@@ -35,7 +37,7 @@
   );
 
   async function copyCode() {
-    await navigator.clipboard?.writeText(code);
+    await navigator.clipboard?.writeText(normalizedCode);
     copied = true;
     setTimeout(() => (copied = false), 1200);
   }
@@ -43,7 +45,7 @@
 
 <div class="not-prose code-block relative">
   {#await highlightedCode}
-    <pre class="shiki shiki-themes github-light vesper"><code>{code}</code></pre>
+    <pre class="shiki shiki-themes github-light vesper"><code>{normalizedCode}</code></pre>
   {:then html}
     {@html html}
   {/await}

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { Info } from '@lucide/svelte';
+  import { Info } from 'phosphor-svelte';
   import { cn } from '$lib/utils/cn';
 
   type Size = 'xs' | 'sm' | 'base' | 'lg';

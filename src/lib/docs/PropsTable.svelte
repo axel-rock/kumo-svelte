@@ -214,29 +214,31 @@
   const rows = $derived(rowsByComponent[key] ?? commonRows);
 </script>
 
-<div class="not-prose my-6 overflow-x-auto rounded-lg border border-kumo-hairline bg-kumo-canvas shadow-xs">
-  <table class="w-full min-w-[760px] table-fixed text-left text-sm">
-    <colgroup>
-      <col class="w-[18%]" />
-      <col class="w-[32%]" />
-      <col class="w-[16%]" />
-      <col class="w-[34%]" />
-    </colgroup>
-    <thead class="bg-kumo-base text-kumo-default">
-      <tr>
-        <th class="border-b border-kumo-hairline px-4 py-3 font-semibold">Prop</th>
-        <th class="border-b border-kumo-hairline px-4 py-3 font-semibold">Type</th>
-        <th class="border-b border-kumo-hairline px-4 py-3 font-semibold">Default</th>
-        <th class="border-b border-kumo-hairline px-4 py-3 font-semibold">Description</th>
+<div class="not-prose overflow-x-auto">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="border-b border-kumo-hairline">
+        <th class="px-4 py-3 text-left font-semibold">Prop</th>
+        <th class="px-4 py-3 text-left font-semibold">Type</th>
+        <th class="px-4 py-3 text-left font-semibold">Default</th>
+        <th class="px-4 py-3 text-left font-semibold">Description</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="text-kumo-strong">
       {#each rows as row (row.prop)}
-        <tr class="border-b border-kumo-hairline/80 odd:bg-kumo-canvas even:bg-kumo-base/35 last:border-b-0">
-          <td class="px-4 py-3 align-top font-mono text-xs font-medium break-words text-kumo-default">{row.prop}</td>
-          <td class="px-4 py-3 align-top font-mono text-xs leading-relaxed break-words text-kumo-subtle">{row.type}</td>
-          <td class="px-4 py-3 align-top font-mono text-xs break-words text-kumo-subtle">{row.default ?? '-'}</td>
-          <td class="px-4 py-3 align-top leading-relaxed text-kumo-subtle">{row.description}</td>
+        <tr class="border-b border-kumo-hairline">
+          <td class="px-4 py-3 font-mono text-xs">{row.prop}</td>
+          <td class="max-w-xs px-4 py-3 font-mono text-xs">
+            <code class="text-wrap break-words">{row.type}</code>
+          </td>
+          <td class="px-4 py-3 font-mono text-xs">
+            {#if (row.default ?? '-') !== '-'}
+              <code>{row.default}</code>
+            {:else}
+              -
+            {/if}
+          </td>
+          <td class="max-w-md px-4 py-3 text-xs">{row.description}</td>
         </tr>
       {/each}
     </tbody>

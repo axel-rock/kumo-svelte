@@ -14,7 +14,7 @@
 
 <script lang="ts">
   import { Checkbox as CheckboxPrimitive } from 'bits-ui';
-  import { Check, Minus } from '@lucide/svelte';
+  import { Check, Minus } from 'phosphor-svelte';
   import { cn } from '$lib/utils/cn';
   import type { Snippet } from 'svelte';
 
@@ -86,9 +86,9 @@
     {...rest}
   >
     {#if indeterminate}
-      <Minus class="h-3 w-3 text-kumo-inverse" strokeWidth={3} aria-hidden="true" />
+      <Minus class="h-3 w-3 text-kumo-inverse" weight="bold" aria-hidden="true" />
     {:else if checked}
-      <Check class="h-3 w-3 text-kumo-inverse" strokeWidth={3} aria-hidden="true" />
+      <Check class="h-3 w-3 text-kumo-inverse" weight="bold" aria-hidden="true" />
     {/if}
   </CheckboxPrimitive.Root>
 {/snippet}

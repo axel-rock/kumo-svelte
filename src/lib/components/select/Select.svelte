@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { Check, ChevronsUpDown } from '@lucide/svelte';
+  import { CaretUpDown, Check } from 'phosphor-svelte';
   import { Select as SelectPrimitive } from 'bits-ui';
   import Field from '$lib/components/field/Field.svelte';
   import Loader from '$lib/components/loader/Loader.svelte';
@@ -144,7 +144,7 @@
           {/snippet}
         </SelectPrimitive.Value>
       {/if}
-      <ChevronsUpDown class={cn('shrink-0 text-kumo-subtle', iconSizes[size])} aria-hidden="true" />
+      <CaretUpDown class={cn('shrink-0 text-kumo-subtle', iconSizes[size])} aria-hidden="true" />
     </SelectPrimitive.Trigger>
 
     <SelectPrimitive.Portal>

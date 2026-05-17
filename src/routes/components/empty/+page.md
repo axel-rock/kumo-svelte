@@ -36,7 +36,7 @@ import { Empty } from "kumo-svelte";
 
 ```svelte
 import { Empty } from "kumo-svelte";
-import { Package } from "@lucide/svelte";
+import { Package } from "phosphor-svelte";
 
 <Empty
   title="No packages found"

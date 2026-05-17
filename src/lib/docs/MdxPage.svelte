@@ -4,6 +4,7 @@
 
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import { onMount } from 'svelte';
   import BaseUIIcon from './BaseUIIcon.svelte';
   import CopyPageButton from './CopyPageButton.svelte';
   import GitHubIcon from './GitHubIcon.svelte';
@@ -39,13 +40,75 @@
   const githubSourceUrl = $derived(
     sourceFile
       ? (() => {
-          const base = 'https://github.com/maxffarrell/kumo-svelte/blob/main/src/lib/';
+          const base = 'https://github.com/cloudflare/kumo/blob/main/packages/kumo/src/';
+          const sourceMap: Record<string, string> = {
+            'components/code-highlighted': 'code/code-highlighted.tsx',
+            'components/flow': 'components/flow/diagram.tsx',
+            'components/input-area': 'components/input/input-area.tsx',
+            'components/skeleton-line': 'components/loader/skeleton-line.tsx',
+            'components/chart': 'components/chart/EChart.tsx',
+            'components/chart/Color.ts': 'components/chart/Color.ts',
+            'primitives/skeleton-line': 'components/loader/skeleton-line.tsx'
+          };
+          if (sourceMap[sourceFile]) return `${base}${sourceMap[sourceFile]}`;
           if (/\.\w+$/.test(sourceFile)) return `${base}${sourceFile}`;
-          const componentName = sourceFile.split('/').pop();
-          return `${base}${sourceFile}/${componentName}.svelte`;
+          const sourceName = sourceFile.split('/').pop();
+          return `${base}${sourceFile}/${sourceName}.tsx`;
         })()
       : null
   );
+
+  function slugify(text: string) {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  }
+
+  function enhanceHeadingAnchors() {
+    const content = document.querySelector('.kumo-prose');
+    if (!content) return;
+
+    const usedSlugs: string[] = [];
+
+    for (const heading of Array.from(content.querySelectorAll('h2, h3, h4'))) {
+      const text = heading.textContent?.trim() ?? '';
+      if (!text) continue;
+
+      let slug = heading.id || slugify(text) || 'section';
+      const baseSlug = slug;
+      let index = 2;
+
+      while (usedSlugs.includes(slug)) {
+        slug = `${baseSlug}-${index}`;
+        index += 1;
+      }
+
+      usedSlugs.push(slug);
+      heading.id = slug;
+      heading.classList.add('group', 'relative', 'scroll-mt-24', 'tracking-tight');
+
+      if (heading.querySelector(':scope > a[href^="#"]')) continue;
+
+      const anchor = document.createElement('a');
+      anchor.href = `#${slug}`;
+      anchor.className = 'no-underline hover:underline';
+      anchor.setAttribute('aria-label', `Link to section: ${text}`);
+
+      const icon = document.createElement('span');
+      icon.className =
+        'heading-anchor-icon absolute -left-6 top-1/2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100';
+      icon.setAttribute('aria-hidden', 'true');
+      icon.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" class="size-4 text-kumo-subtle"><path d="M165.66,90.34a8,8,0,0,1,0,11.32l-64,64a8,8,0,0,1-11.32-11.32l64-64A8,8,0,0,1,165.66,90.34ZM209.94,46.06a48,48,0,0,0-67.88,0L112,76.12a8,8,0,0,0,11.31,11.31l30.07-30.06a32,32,0,0,1,45.25,45.25l-30.06,30.07A8,8,0,0,0,179.88,144l30.06-30.06A48,48,0,0,0,209.94,46.06ZM132.69,168.57l-30.07,30.06a32,32,0,0,1-45.25-45.25l30.06-30.07A8,8,0,0,0,76.12,112L46.06,142.06a48,48,0,0,0,67.88,67.88L144,179.88a8,8,0,0,0-11.31-11.31Z"></path></svg>';
+
+      anchor.append(icon, ...Array.from(heading.childNodes));
+      heading.append(anchor);
+    }
+  }
+
+  onMount(enhanceHeadingAnchors);
 </script>
 
 <svelte:head>
