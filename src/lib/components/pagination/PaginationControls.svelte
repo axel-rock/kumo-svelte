@@ -34,7 +34,7 @@
   }
 </script>
 
-<div data-slot="pagination-controls" class={cn('flex grow flex-col items-end', className)} {...rest}>
+<div data-slot="pagination-controls" class={cn('grow flex flex-col items-end', className)} {...rest}>
   <nav aria-label={context.labels.navigation}>
     <InputGroup focusMode="individual">
       {#if controls === 'full'}

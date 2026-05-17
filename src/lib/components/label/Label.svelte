@@ -49,19 +49,15 @@
     <span class="font-normal text-kumo-subtle">(optional)</span>
   {/if}
   {#if tooltip}
+    {#snippet tooltipTrigger(props: Record<string, unknown>)}
+      <Button variant="ghost" size="xs" shape="square" aria-label="More information" {...props}>
+        <Info class="size-4" />
+      </Button>
+    {/snippet}
     {#if typeof tooltip === 'string'}
-      <Tooltip content={tooltip}>
-        <Button variant="ghost" size="xs" shape="square" aria-label="More information">
-          <Info class="size-4" />
-        </Button>
-      </Tooltip>
+      <Tooltip content={tooltip} trigger={tooltipTrigger} />
     {:else}
-      <Tooltip>
-        {#snippet trigger(props)}
-          <Button variant="ghost" size="xs" shape="square" aria-label="More information" {...props}>
-            <Info class="size-4" />
-          </Button>
-        {/snippet}
+      <Tooltip trigger={tooltipTrigger}>
         {@render tooltip()}
       </Tooltip>
     {/if}

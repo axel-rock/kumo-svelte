@@ -2,7 +2,7 @@
   import type { Component, Snippet } from 'svelte';
   import { Button } from '$lib/components/button';
   import { cn } from '$lib/utils/cn';
-  import { getInputGroupAddonContext, getInputGroupContext, INPUT_GROUP_SIZE, type InputGroupSize } from './context';
+  import { getInputGroupContext, INPUT_GROUP_SIZE, type InputGroupSize } from './context';
 
   type Variant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'secondary-destructive' | 'outline';
   type Shape = 'base' | 'square' | 'circle';
@@ -41,9 +41,8 @@
   }: Props = $props();
 
   const context = getInputGroupContext();
-  const insideAddon = getInputGroupAddonContext();
   const groupSize = $derived(context?.size ?? 'base');
-  const isIndividual = $derived(!insideAddon && variant !== 'ghost');
+  const isIndividual = $derived(context?.focusMode === 'individual' || context?.focusMode === 'hybrid');
   const effectiveSize = $derived(size ?? (isIndividual ? groupSize : compactButtonSize[groupSize]));
   const iconClass = $derived(INPUT_GROUP_SIZE[groupSize].iconSize);
 </script>
@@ -58,9 +57,11 @@
   class={cn(
     'pointer-events-auto',
     isIndividual && [
-      'relative h-full! rounded-none border border-kumo-line ring-0',
-      'first:rounded-l-[inherit] last:rounded-r-[inherit] not-first:border-l-0',
-      'hover:z-[1] focus:z-[2] focus:border-kumo-line focus:-outline-offset-1 focus:outline',
+      'relative h-full! rounded-none ring-0 border border-kumo-line',
+      'first:rounded-l-[inherit] last:rounded-r-[inherit]',
+      'not-first:border-l-0',
+      'hover:z-[1]',
+      'focus:z-[2] focus:border-kumo-line focus:outline focus:-outline-offset-1',
       'focus-visible:ring-2 focus-visible:ring-kumo-focus',
       'disabled:bg-kumo-overlay disabled:text-kumo-inactive!'
     ],

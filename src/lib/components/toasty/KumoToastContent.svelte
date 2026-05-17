@@ -49,7 +49,7 @@
     {:else}
       <div class="flex items-start gap-2 pr-5">
         {#if Icon}
-          <Icon data-toast-icon class="mt-0.5 h-4 w-4 shrink-0" />
+          <Icon data-toast-icon class="mt-0.5 h-4 w-4 shrink-0" weight="fill" />
         {/if}
         <div class="flex min-w-0 flex-col gap-1 overflow-hidden">
           {#if toast.title}

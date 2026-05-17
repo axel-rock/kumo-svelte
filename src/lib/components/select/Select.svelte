@@ -152,6 +152,7 @@
         class={cn(
           'z-50 flex max-h-[var(--bits-select-content-available-height)] min-w-[calc(var(--bits-select-anchor-width)+3px)] flex-col overflow-hidden rounded-lg bg-kumo-base py-1.5 text-base text-kumo-default shadow-lg ring ring-kumo-line outline-none'
         )}
+        preventScroll
         sideOffset={4}
       >
         <SelectPrimitive.Viewport class="min-h-0 flex-1 overflow-y-auto overscroll-none scroll-pb-2 scroll-pt-2">

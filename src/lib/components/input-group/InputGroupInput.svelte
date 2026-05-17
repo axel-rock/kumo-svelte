@@ -45,17 +45,19 @@
   aria-invalid={hasError || undefined}
   aria-describedby={describedBy}
   class={cn(
-    'flex h-full min-w-0 grow items-center rounded-none border-0 bg-transparent font-sans text-ellipsis text-kumo-default outline-none',
+    'flex h-full min-w-0 grow items-center rounded-none border-0 bg-transparent font-sans',
+    tokens.inputOuter,
+    'text-ellipsis text-kumo-default outline-none',
     'placeholder:text-kumo-muted disabled:text-kumo-disabled',
     isIndividual
       ? [
-          'relative border border-kumo-line ring-0',
-          'first:rounded-l-[inherit] last:rounded-r-[inherit] not-first:border-l-0',
+          'relative ring-0 border border-kumo-line',
+          'first:rounded-l-[inherit] last:rounded-r-[inherit]',
+          'not-first:border-l-0',
           'hover:z-[1] hover:border-kumo-line',
-          'focus:z-[2] focus:border-kumo-line focus:-outline-offset-1 focus:outline'
+          'focus:z-[2] focus:border-kumo-line focus:outline focus:-outline-offset-1'
         ]
       : 'relative z-[1] ring-0! shadow-none focus:ring-0! focus:outline-none',
-    tokens.inputOuter,
     className
   )}
   oninput={handleInput}

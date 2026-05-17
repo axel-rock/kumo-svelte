@@ -12,7 +12,7 @@
     [key: string]: unknown;
   }
 
-  let { children, active = false, href = '#', class: className, ...rest }: Props = $props();
+  let { children, active = false, href, class: className, ...rest }: Props = $props();
 </script>
 
 <li class="-ml-0.5">

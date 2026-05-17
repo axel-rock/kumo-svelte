@@ -58,7 +58,9 @@
 <RadioGroupPrimitive.Root bind:value {orientation} {disabled} {required} {name} {onValueChange}>
   <fieldset class={cn('flex flex-col gap-4', className)} {disabled}>
     {#if legend}
-      <legend class="text-base font-medium text-kumo-default">{legend}</legend>
+      <legend class="mb-4 text-base font-medium text-kumo-default">
+        {legend}
+      </legend>
     {/if}
     <div
       class={cn(

@@ -56,6 +56,7 @@
 
   const today = startOfDay(new Date());
   let internalMonth = $state(startOfMonth(month ?? getSelectionMonth(selected) ?? today));
+  let navigationDirection = $state<'before' | 'after' | undefined>();
 
   const displayMonth = $derived(startOfMonth(month ?? internalMonth));
   const visibleMonths = $derived(
@@ -70,6 +71,7 @@
 
   function setMonth(nextMonth: Date) {
     const normalized = startOfMonth(nextMonth);
+    navigationDirection = normalized.getTime() > displayMonth.getTime() ? 'after' : 'before';
     internalMonth = normalized;
     month = normalized;
     onMonthChange?.(normalized);
@@ -215,55 +217,70 @@
   <div class="rdp-months">
     {#each visibleMonths as visibleMonth (visibleMonth.toISOString())}
       <div class={cn('rdp-month', classNames?.month)}>
-        <div class={cn('rdp-month_caption', classNames?.month_caption)}>
+        <div
+          class={cn(
+            'rdp-month_caption',
+            navigationDirection === 'after' && 'rdp-caption_after_enter',
+            navigationDirection === 'before' && 'rdp-caption_before_enter',
+            classNames?.month_caption
+          )}
+        >
           <span class={cn('rdp-caption_label', classNames?.caption_label)}>{getMonthLabel(visibleMonth)}</span>
         </div>
 
-        <table class={cn('rdp-month_grid', classNames?.month_grid)}>
-          <thead aria-hidden="true">
-            <tr class="rdp-weekdays">
-              {#each getWeekdayLabels() as weekday (weekday)}
-                <th class={cn('rdp-weekday', classNames?.weekday)} scope="col">{weekday}</th>
-              {/each}
-            </tr>
-          </thead>
-          <tbody class="rdp-weeks">
-            {#each getWeeks(visibleMonth) as week (week[0].toISOString())}
-              <tr class="rdp-week">
-                {#each week as day (day.toISOString())}
-                  {@const outside = day.getMonth() !== visibleMonth.getMonth()}
-                  {@const dayDisabled = isDisabled(day)}
-                  <td
-                    class={cn(
-                      'rdp-day',
-                      outside && 'rdp-outside',
-                      isSameDay(day, today) && 'rdp-today',
-                      isSelected(day) && 'rdp-selected',
-                      dayDisabled && 'rdp-disabled',
-                      isRangeStart(day) && 'rdp-range_start',
-                      isRangeMiddle(day) && 'rdp-range_middle',
-                      isRangeEnd(day) && 'rdp-range_end',
-                      !dayDisabled && 'rdp-focusable',
-                      classNames?.day
-                    )}
-                    data-day={day.toISOString()}
-                  >
-                    <button
-                      type="button"
-                      class={cn('rdp-day_button', classNames?.day_button)}
-                      disabled={dayDisabled}
-                      aria-label={day.toLocaleDateString(locale, { dateStyle: 'full' })}
-                      aria-pressed={isSelected(day)}
-                      onclick={() => handleDayClick(day)}
-                    >
-                      {day.getDate()}
-                    </button>
-                  </td>
+        <div class="rdp-month_grid_wrapper">
+          <table class={cn('rdp-month_grid', classNames?.month_grid)}>
+            <thead aria-hidden="true">
+              <tr class="rdp-weekdays">
+                {#each getWeekdayLabels() as weekday (weekday)}
+                  <th class={cn('rdp-weekday', classNames?.weekday)} scope="col">{weekday}</th>
                 {/each}
               </tr>
-            {/each}
-          </tbody>
-        </table>
+            </thead>
+            <tbody
+              class={cn(
+                'rdp-weeks',
+                navigationDirection === 'after' && 'rdp-weeks_after_enter',
+                navigationDirection === 'before' && 'rdp-weeks_before_enter'
+              )}
+            >
+              {#each getWeeks(visibleMonth) as week (week[0].toISOString())}
+                <tr class="rdp-week">
+                  {#each week as day (day.toISOString())}
+                    {@const outside = day.getMonth() !== visibleMonth.getMonth()}
+                    {@const dayDisabled = isDisabled(day)}
+                    <td
+                      class={cn(
+                        'rdp-day',
+                        outside && 'rdp-outside',
+                        isSameDay(day, today) && 'rdp-today',
+                        isSelected(day) && 'rdp-selected',
+                        dayDisabled && 'rdp-disabled',
+                        isRangeStart(day) && 'rdp-range_start',
+                        isRangeMiddle(day) && 'rdp-range_middle',
+                        isRangeEnd(day) && 'rdp-range_end',
+                        !dayDisabled && 'rdp-focusable',
+                        classNames?.day
+                      )}
+                      data-day={day.toISOString()}
+                    >
+                      <button
+                        type="button"
+                        class={cn('rdp-day_button', classNames?.day_button)}
+                        disabled={dayDisabled}
+                        aria-label={day.toLocaleDateString(locale, { dateStyle: 'full' })}
+                        aria-pressed={isSelected(day)}
+                        onclick={() => handleDayClick(day)}
+                      >
+                        {day.getDate()}
+                      </button>
+                    </td>
+                  {/each}
+                </tr>
+              {/each}
+            </tbody>
+          </table>
+        </div>
       </div>
     {/each}
   </div>

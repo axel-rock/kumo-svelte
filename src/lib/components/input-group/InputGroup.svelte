@@ -82,20 +82,25 @@
     data-disabled={disabled ? '' : undefined}
     role="group"
     class={cn(
-      'relative flex w-full cursor-text items-center gap-0 px-0 text-kumo-default',
+      'relative w-full cursor-text text-kumo-default',
+      sizes[size],
+      'shadow-xs',
+      'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       focusMode === 'container'
         ? [
-            'overflow-hidden bg-kumo-control shadow-xs ring ring-kumo-line',
-            'has-[input[aria-invalid=true]]:ring-kumo-danger focus-within:ring-kumo-focus'
+            'overflow-hidden bg-kumo-control ring ring-kumo-line',
+            'focus-within:ring-kumo-focus'
           ]
         : 'isolate overflow-visible bg-transparent ring-0 shadow-none',
-      'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'has-[input[aria-invalid=true]]:ring-kumo-danger',
+      'px-0',
+      'flex items-center gap-0',
       'has-[[data-slot=input-group-suffix]]:[&_input]:[field-sizing:content]',
       'has-[[data-slot=input-group-suffix]]:[&_input]:max-w-full',
       'has-[[data-slot=input-group-suffix]]:[&_input]:grow-0',
       'has-[[data-slot=input-group-suffix]]:[&_input]:pr-0',
-      sizes[size],
       INPUT_GROUP_HAS_CLASSES[size],
+      '!mb-0',
       className
     )}
     {...rest}
@@ -129,7 +134,11 @@
     {/if}
   </div>
 {:else}
-  <label class="!mb-0 block w-full">
+  {#if focusMode === 'container'}
+    <label class="!mb-0 block w-full">
+      {@render control()}
+    </label>
+  {:else}
     {@render control()}
-  </label>
+  {/if}
 {/if}
