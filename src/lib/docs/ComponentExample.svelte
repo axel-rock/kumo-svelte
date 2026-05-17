@@ -35,7 +35,7 @@
 </div>
 
 <style>
-  .component-example-code :global(pre.astro-code) {
+  .component-example-code :global(pre.shiki) {
     border-top: 0;
     border-radius: 0;
     border-bottom-right-radius: 0.5rem;

@@ -15,6 +15,11 @@ export const Flow = Object.assign(FlowRoot, {
   Parallel: FlowParallel,
   List: FlowList,
   Anchor: FlowAnchor
-});
+}) as typeof FlowRoot & {
+  Node: typeof FlowNode;
+  Parallel: typeof FlowParallel;
+  List: typeof FlowList;
+  Anchor: typeof FlowAnchor;
+};
 
 export type { FlowAlign, FlowOrientation } from './context';

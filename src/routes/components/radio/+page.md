@@ -192,33 +192,17 @@ Individual radio button within Radio.Group.
 
 <ComponentSection>
 
-## Accessibility
+<h2>Accessibility</h2>
 
-  <div class="space-y-4 text-sm">
-    <div>
+<h3>Semantic HTML</h3>
 
-      ### Semantic HTML
+<p>Radio.Group uses semantic <code>&lt;fieldset&gt;</code> and <code>&lt;legend&gt;</code> elements for proper grouping and screen reader announcement.</p>
 
-      
-Radio.Group uses semantic `<fieldset>` and `<legend>` elements for proper grouping and screen reader announcement.
+<h3>Keyboard Navigation</h3>
 
-    </div>
-    <div>
+<p><kbd class="rounded bg-kumo-control px-1.5 py-0.5">Arrow Up/Down</kbd> or <kbd class="rounded bg-kumo-control px-1.5 py-0.5">Arrow Left/Right</kbd> moves between options. <kbd class="rounded bg-kumo-control px-1.5 py-0.5">Space</kbd> selects the focused option. <kbd class="rounded bg-kumo-control px-1.5 py-0.5">Tab</kbd> moves focus to and from the radio group.</p>
 
-      ### Keyboard Navigation
+<h3>Screen Readers</h3>
 
-      
-<kbd class="rounded bg-kumo-control px-1.5 py-0.5">Arrow Up/Down</kbd> or <kbd class="rounded bg-kumo-control px-1.5 py-0.5">Arrow Left/Right</kbd> moves between options. <kbd class="rounded bg-kumo-control px-1.5 py-0.5">Space</kbd> selects the focused option. <kbd class="rounded bg-kumo-control px-1.5 py-0.5">Tab</kbd> moves focus to and from the radio group.
-
-    </div>
-    <div>
-
-      ### Screen Readers
-
-      
-Each radio is announced with its label and selection state. The group legend provides context for all options.
-
-    </div>
-
-  </div>
+<p>Each radio is announced with its label and selection state. The group legend provides context for all options.</p>
 </ComponentSection>

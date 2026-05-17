@@ -130,12 +130,13 @@
       {/if}
     </div>
     <a
-      href="https://github.com/maxffarrell/kumo-svelte"
+      href="https://github.com/cloudflare/kumo"
       target="_blank"
       rel="noopener noreferrer"
       class="font-mono text-sm text-kumo-subtle transition-colors hover:text-kumo-default"
     >
-      kumo-svelte
+      @cloudflare/kumo
+      <span class="ml-1 rounded bg-kumo-control px-1.5 py-0.5 text-xs">v2.2.1</span>
     </a>
   </div>
   <div class="hidden w-12 shrink-0 items-center justify-center md:flex">

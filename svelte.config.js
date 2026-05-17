@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-cloudflare';
 import { mdsx } from 'mdsx';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsxConfig } from './mdsx.config.js';
@@ -9,7 +9,7 @@ const config = {
   kit: {
     adapter: adapter(),
     prerender: {
-      handleMissingId: 'warn'
+      entries: ['*']
     }
   },
   vitePlugin: {

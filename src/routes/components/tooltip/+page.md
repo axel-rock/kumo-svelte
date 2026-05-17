@@ -81,6 +81,8 @@ Use `delay` to control how long to wait before opening (default: 600ms) and
 
 <!-- TooltipProvider -->
 
+<span id="tooltipprovider"></span>
+
 <ComponentSection>
 ## TooltipProvider
 

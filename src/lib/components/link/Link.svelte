@@ -36,6 +36,7 @@
 </script>
 
 <script lang="ts">
+  import { DEV } from 'esm-env';
   import type { Snippet } from 'svelte';
 
   interface Props {
@@ -50,7 +51,7 @@
   let { children, class: className, href, to, variant = 'inline', ...rest }: Props = $props();
 
   $effect(() => {
-    if (import.meta.env.DEV && to !== undefined) {
+    if (DEV && to !== undefined) {
       console.warn(
         '[kumo] Link: The `to` prop is deprecated. Use `href` instead.\n\n' +
           'Migration example:\n' +

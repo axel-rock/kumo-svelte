@@ -15,7 +15,7 @@
     Button,
     Checkbox,
     ClipboardText,
-    Code,
+    CodeBlock,
     Collapsible,
     Combobox,
     Autocomplete,
@@ -24,6 +24,7 @@
     Dialog,
     DropdownMenu,
     Empty,
+    Flow,
     Grid,
     GridItem,
     Input,
@@ -108,7 +109,7 @@
     <div class="mx-auto w-full grow md:border-r md:border-kumo-hairline">
       <ul class="grid auto-rows-min grid-cols-1 gap-px bg-kumo-hairline md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="button" href="#button" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Button</a>
+        <a id="button" href="/components/button" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Button</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="grid gap-3">
             <Button icon={Plus}>Create Worker</Button>
@@ -119,7 +120,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="input" href="#input" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Input</a>
+        <a id="input" href="/components/input" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Input</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="grid gap-3">
             <Input placeholder="Type something..." />
@@ -129,7 +130,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="select" href="#select" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Select</a>
+        <a id="select" href="/components/select" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Select</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Select class="w-[200px]" placeholder="Select version" {options} />
         </div>
@@ -143,7 +144,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="combobox" href="#combobox" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Combobox</a>
+        <a id="combobox" href="/components/combobox" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Combobox</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Combobox
             options={[
@@ -159,14 +160,14 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="switch" href="#switch" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Switch</a>
+        <a id="switch" href="/components/switch" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Switch</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Switch bind:checked={switchToggled} />
         </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="input-validation" href="/components/input" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Input (with validation)</a>
+        <a id="input" href="/components/input" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Input (with validation)</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="grid w-[220px] gap-1.5">
             <Label for="home-email">Email</Label>
@@ -178,7 +179,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="dialog" href="#dialog" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Dialog</a>
+        <a id="dialog" href="/components/dialog" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Dialog</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           {#snippet dialogTrigger()}Click me!{/snippet}
           <Dialog trigger={dialogTrigger} title="Hello!" description="I'm a dialog.">
@@ -188,7 +189,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="tooltip" href="#tooltip" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Tooltip</a>
+        <a id="tooltip" href="/components/tooltip" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Tooltip</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex gap-2">
             {#snippet addTooltipTrigger(props: Record<string, unknown>)}
@@ -204,7 +205,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="dropdown" href="#dropdown" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Dropdown</a>
+        <a id="dropdown" href="/components/dropdown" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Dropdown</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <DropdownMenu>
             <DropdownMenu.Trigger>
@@ -219,21 +220,21 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="collapsible" href="#collapsible" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Collapsible</a>
+        <a id="collapsible" href="/components/collapsible" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Collapsible</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Collapsible bind:open={collapsibleOpen} title="What is Kumo?">Kumo is Cloudflare's component library.</Collapsible>
         </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="checkbox" href="#checkbox" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Checkbox</a>
+        <a id="checkbox" href="/components/checkbox" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Checkbox</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Checkbox bind:checked={checked}>Max bandwidth</Checkbox>
         </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="layer-card" href="#layer-card" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">LayerCard</a>
+        <a id="layer-card" href="/components/layer-card" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">LayerCard</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <LayerCard class="w-[200px]">
             <LayerCard.Secondary>Next Steps</LayerCard.Secondary>
@@ -243,7 +244,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="loader" href="#loader" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Loader</a>
+        <a id="loader" href="/components/loader" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Loader</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><Loader /></div>
       </li>
 
@@ -261,12 +262,17 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="code-highlighted" href="/components/code-highlighted" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">CodeHighlighted</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <Code>const sum = (a, b) =&gt; a + b;</Code>
+          <CodeBlock
+            lang="ts"
+            code={`const sum = (a: number, b: number) => {
+  return a + b;
+};`}
+          />
         </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="banner" href="#banner" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Banner</a>
+        <a id="banner" href="/components/banner" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Banner</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex flex-col gap-2">
             <Banner text="This is a default banner." />
@@ -277,12 +283,12 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="tabs" href="#tabs" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Tabs</a>
+        <a id="tabs" href="/components/tabs" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Tabs</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><Tabs items={tabs} bind:value={activeTab} /></div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="badge" href="#badge" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Badge</a>
+        <a id="badge" href="/components/badge" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Badge</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex flex-col gap-2">
             <Badge variant="blue">Blue</Badge>
@@ -295,7 +301,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="toast" href="#toast" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Toast</a>
+        <a id="toast" href="/components/toast" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Toast</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Toasty {toastManager}>
             <Button
@@ -313,7 +319,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="pagination" href="#pagination" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Pagination</a>
+        <a id="pagination" href="/components/pagination" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Pagination</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Pagination bind:page perPage={10} totalCount={100} class="w-auto">
             <PaginationControls />
@@ -322,12 +328,12 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="input-area" href="#input-area" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">InputArea</a>
+        <a id="input-area" href="/components/input-area" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">InputArea</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><InputArea placeholder="Enter your name" /></div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="input-group" href="#input-group" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">InputGroup</a>
+        <a id="input-group" href="/components/input-group" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">InputGroup</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="w-full max-w-2xs">
             <InputGroup>
@@ -342,14 +348,14 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="meter" href="#meter" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Meter</a>
+        <a id="meter" href="/components/meter" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Meter</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Meter value={75} label="My meter" customValue="100 / 5,000" />
         </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="menu-bar" href="#menu-bar" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">MenuBar</a>
+        <a id="menu-bar" href="/components/menu-bar" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">MenuBar</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <MenuBar
             isActive={activeMenuOption}
@@ -370,14 +376,14 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="date-picker" href="#date-picker" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">DatePicker</a>
+        <a id="date-picker" href="/components/date-picker" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">DatePicker</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="-m-4 scale-85"><DatePicker /></div>
         </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="breadcrumbs" href="#breadcrumbs" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Breadcrumbs</a>
+        <a id="breadcrumbs" href="/components/breadcrumbs" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Breadcrumbs</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex items-center gap-1 text-sm">
             <span class="text-kumo-subtle">Home</span>
@@ -390,7 +396,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="clipboard-text" href="#clipboard-text" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">ClipboardText</a>
+        <a id="clipboard-text" href="/components/clipboard-text" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">ClipboardText</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><ClipboardText text="npx kumo add button" /></div>
       </li>
 
@@ -404,16 +410,15 @@
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
         <a id="flow" href="/components/flow" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Flow</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
-          <div class="flex items-center gap-2 text-sm">
-            <div class="rounded-lg border border-kumo-hairline bg-kumo-base px-3 py-2">Step 1</div>
-            <div class="h-px w-8 bg-kumo-hairline"></div>
-            <div class="rounded-lg border border-kumo-hairline bg-kumo-base px-3 py-2">Step 2</div>
-          </div>
+          <Flow canvas={false}>
+            <Flow.Node>Step 1</Flow.Node>
+            <Flow.Node>Step 2</Flow.Node>
+          </Flow>
         </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="link" href="#link" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Link</a>
+        <a id="link" href="/components/link" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Link</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex flex-col gap-2 text-sm">
             <Link href="#">Default link</Link>
@@ -424,7 +429,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="empty" href="#empty" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Empty</a>
+        <a id="empty" href="/components/empty" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Empty</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex flex-col items-center gap-1 text-center">
             <span class="text-sm font-medium">No results</span>
@@ -434,7 +439,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="grid" href="#grid" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Grid</a>
+        <a id="grid" href="/components/grid" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Grid</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Grid variant="side-by-side" gap="sm" class="w-[140px]">
             {#each [1, 2, 3, 4] as item (item)}
@@ -445,7 +450,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="label" href="#label" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Label</a>
+        <a id="label" href="/components/label" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Label</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex flex-col gap-2">
             <Label>Default Label</Label>
@@ -456,7 +461,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="popover" href="#popover" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Popover</a>
+        <a id="popover" href="/components/popover" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Popover</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           {#snippet popoverTrigger()}Open Popover{/snippet}
           <Popover trigger={popoverTrigger} title="Popover Title" description="This is a popover." />
@@ -464,7 +469,7 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="radio" href="#radio" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Radio</a>
+        <a id="radio" href="/components/radio" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Radio</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Radio.Group legend="Select option" defaultValue="option1">
             <Radio.Item value="option1" label="Option 1" />
@@ -474,12 +479,12 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="sensitive-input" href="#sensitive-input" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">SensitiveInput</a>
+        <a id="sensitive-input" href="/components/sensitive-input" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">SensitiveInput</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><SensitiveInput value="super-secret-api-key" readonly /></div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="table" href="#table" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Table</a>
+        <a id="table" href="/components/table" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Table</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <Table class="w-[200px] text-sm">
             <TableHeader>
@@ -498,12 +503,24 @@
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="table-of-contents" href="#table-of-contents" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">TableOfContents</a>
-        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal"><TableOfContents items={toc} /></div>
+        <a id="table-of-contents" href="/components/table-of-contents" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">TableOfContents</a>
+        <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
+          <div class="space-y-1 text-sm">
+            <div class="px-2 py-1 text-sm font-medium text-kumo-default">On this page</div>
+            {#each toc as item, index (item.href)}
+              <a
+                class={`block rounded-md px-2 py-1 ${index === 0 ? 'bg-kumo-tint text-kumo-default' : 'text-kumo-subtle hover:bg-kumo-tint hover:text-kumo-default'}`}
+                href={item.href}
+              >
+                {item.title}
+              </a>
+            {/each}
+          </div>
+        </div>
       </li>
 
       <li class="relative flex aspect-square items-center justify-center bg-kumo-canvas">
-        <a id="text" href="#text" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Text</a>
+        <a id="text" href="/components/text" class="absolute top-4 left-4 text-base font-medium text-kumo-subtle hover:text-kumo-default">Text</a>
         <div class="flex w-full items-center justify-center p-8 tracking-normal leading-normal">
           <div class="flex flex-col gap-1">
             <Text size="lg" bold>Large Bold Text</Text>

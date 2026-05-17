@@ -8,6 +8,9 @@
   <title>Kumo</title>
   <meta name="description" content="Kumo - a modern component library" />
   <meta name="color-scheme" content="light dark" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=optional" />
   <script>
     (function () {
       const stored = localStorage.getItem('theme');

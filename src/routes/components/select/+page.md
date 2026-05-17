@@ -73,10 +73,7 @@ baseUIComponent: "select"
 ### Basic
 
 
-A select with a visible label. When you provide the{" "}
-  <code class="rounded bg-kumo-control px-1 py-0.5 text-sm">label</code> prop,
-  the select automatically renders inside a Field wrapper with the label
-  displayed above it.
+A select with a visible label. When you provide the <code class="rounded bg-kumo-control px-1 py-0.5 text-sm">label</code> prop, the select automatically renders inside a Field wrapper with the label displayed above it.
 
 
   <ComponentExample demo="SelectBasicDemo" />
@@ -187,11 +184,7 @@ Use <code class="rounded bg-kumo-control px-1 py-0.5 text-sm">renderValue</code>
 <ComponentExample demo="SelectCustomRenderingDemo" />
 
 
-The{" "}
-  <code class="rounded bg-kumo-control px-1 py-0.5 text-sm">renderValue</code>{" "}
-  function is only called when a value is selected. Use{" "}
-  <code class="rounded bg-kumo-control px-1 py-0.5 text-sm">placeholder</code>{" "}
-  to define what to show when no value is selected.
+The <code class="rounded bg-kumo-control px-1 py-0.5 text-sm">renderValue</code> function is only called when a value is selected. Use <code class="rounded bg-kumo-control px-1 py-0.5 text-sm">placeholder</code> to define what to show when no value is selected.
 
 
 ```svelte

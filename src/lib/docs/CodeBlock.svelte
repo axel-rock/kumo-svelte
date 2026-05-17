@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Check, Copy } from '@lucide/svelte';
+  import { codeToHtml } from 'shiki';
 
   interface Props {
     code?: string;
@@ -9,19 +10,28 @@
   let { code = '', lang = 'txt' }: Props = $props();
   let copied = $state(false);
 
-  const escapedCode = $derived(
-    code
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/("(?:[^"\\]|\\.)*")|('(?:[^'\\]|\\.)*')|(`(?:[^`\\]|\\.)*`)|(\b(?:import|from|export|function|return|const|let|var|if|else|for|of|type|interface|as)\b)|(\b[A-Z][A-Za-z0-9_]*\b)|(\b\d+(?:\.\d+)?\b)/g,
-        (match) => {
-          if (/^["'`]/.test(match)) return `<span style="--shiki-light:#0A3069;--shiki-dark:#A5D6FF">${match}</span>`;
-          if (/^(import|from|export|function|return|const|let|var|if|else|for|of|type|interface|as)$/.test(match)) return `<span style="--shiki-light:#CF222E;--shiki-dark:#FF7B72">${match}</span>`;
-          if (/^\d/.test(match)) return `<span style="--shiki-light:#0550AE;--shiki-dark:#79C0FF">${match}</span>`;
-          return `<span style="--shiki-light:#953800;--shiki-dark:#FFA657">${match}</span>`;
-        }
-      )
+  const languageAliases: Record<string, string> = {
+    svelte: 'svelte',
+    ts: 'typescript',
+    tsx: 'tsx',
+    js: 'javascript',
+    jsx: 'jsx',
+    sh: 'bash',
+    shell: 'bash',
+    zsh: 'bash',
+    jsonc: 'jsonc',
+    txt: 'text'
+  };
+
+  const highlightedCode = $derived(
+    codeToHtml(code, {
+      lang: languageAliases[lang] ?? lang,
+      themes: {
+        light: 'github-light',
+        dark: 'vesper'
+      },
+      defaultColor: false
+    }).then((html) => html.replace(/\s+tabindex="0"/g, ''))
   );
 
   async function copyCode() {
@@ -32,7 +42,11 @@
 </script>
 
 <div class="not-prose code-block relative">
-  <pre class="astro-code"><code class={`language-${lang}`}>{@html escapedCode}</code></pre>
+  {#await highlightedCode}
+    <pre class="shiki shiki-themes github-light vesper"><code>{code}</code></pre>
+  {:then html}
+    {@html html}
+  {/await}
   <button
     type="button"
     class="code-block-copy-btn"

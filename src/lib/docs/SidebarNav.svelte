@@ -145,7 +145,7 @@
   </div>
 </aside>
 
-<div class="fixed inset-y-0 left-0 z-50 hidden w-12 bg-kumo-canvas ated md:block border-r border-kumo-hairline">
+<div class="fixed inset-y-0 left-0 z-50 hidden w-12 border-r border-kumo-hairline bg-kumo-canvas md:block">
   <div class="relative h-12 border-b border-kumo-hairline">
     <div class="absolute inset-0 grid place-items-center">
       <Button variant="ghost" shape="square" aria-label="Toggle sidebar" aria-pressed={sidebarOpen} onclick={() => (sidebarOpen = !sidebarOpen)}>

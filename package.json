@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Svelte port of Cloudflare's Kumo UI library using bits-ui primitives.",
   "type": "module",
+  "packageManager": "pnpm@11.1.1",
   "license": "Apache-2.0",
   "bin": {
     "kumo-svelte": "./bin/kumo-svelte.js"
@@ -54,25 +55,22 @@
     "bits-ui": "^2.18.1",
     "clsx": "^2.1.1",
     "echarts": "^6.0.0",
+    "esm-env": "^1.2.2",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
-    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/adapter-cloudflare": "^7.2.8",
     "@sveltejs/kit": "^2.60.1",
     "@sveltejs/package": "^2.5.7",
     "@sveltejs/vite-plugin-svelte": "^7.1.2",
     "@tailwindcss/vite": "^4.3.0",
     "mdsx": "^0.0.7",
+    "shiki": "^4.0.2",
     "svelte": "^5.55.7",
     "svelte-check": "^4.4.8",
     "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.13",
     "wrangler": "^4.91.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "@sveltejs/kit>cookie": "0.7.2"
-    }
   }
 }

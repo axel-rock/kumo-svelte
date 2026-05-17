@@ -648,12 +648,12 @@ kbd,
 }
 
 /* ==========================================================================
-   Shiki code blocks — markdown code blocks use .astro-code class
+   Shiki code blocks — markdown and docs copy blocks use Shiki HTML
    Dual theme support: light (github-light) and dark (vesper)
    ========================================================================== */
 
 /* Code block inside wrapper — extra right padding so text clears the copy button */
-.code-block .astro-code {
+.code-block .shiki {
   padding: 0.875rem 2rem 0.875rem 1rem;
   margin: 0;
   font-size: 0.875rem;
@@ -661,24 +661,45 @@ kbd,
   overflow-x: auto;
 }
 
-/* Container styling for standalone code blocks (not yet wrapped by JS) */
-pre.astro-code {
-  overflow: hidden;
+/* Container styling for standalone markdown code blocks */
+.kumo-prose :where(pre.shiki):not(:where(.not-prose, .not-prose *)),
+pre.shiki {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
   border-radius: 0.5rem;
   border: 1px solid var(--color-kumo-hairline);
   margin: 1rem 0;
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  letter-spacing: normal;
+}
+
+.shiki code {
+  display: block;
+  min-width: max-content;
+  width: fit-content;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
+.shiki .line {
+  display: block;
+  min-height: 1.5em;
 }
 
 /* Light mode (default) */
-.astro-code,
-.astro-code span {
+.shiki,
+.shiki span {
   color: var(--shiki-light) !important;
   background-color: var(--shiki-light-bg) !important;
 }
 
 /* Dark mode — toggle via data-mode attribute */
-[data-mode="dark"] .astro-code,
-[data-mode="dark"] .astro-code span {
+[data-mode="dark"] .shiki,
+[data-mode="dark"] .shiki span {
   color: var(--shiki-dark) !important;
   background-color: var(--shiki-dark-bg) !important;
 }

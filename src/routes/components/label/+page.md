@@ -226,44 +226,30 @@ These props are available on Input, InputArea, Select, Checkbox, Switch,
 
 <ComponentSection>
 
-## Design Guidelines
+<h2>Design Guidelines</h2>
 
-  <div class="space-y-4 text-sm">
-    <div>
+<h3>When to Use Optional Indicators</h3>
 
-      ### When to Use Optional Indicators
+<ul>
+  <li>Use "(optional)" for optional fields when most fields are required</li>
+  <li>Be consistent within a form</li>
+  <li>Default fields with no indicator are assumed required by users</li>
+</ul>
 
-      <ul class="ml-4 list-disc space-y-1">
-        <li>
-          Use "(optional)" for optional fields when most fields are required
-        </li>
-        <li>Be consistent within a form</li>
-        <li>Default fields (no indicator) are assumed required by users</li>
-      </ul>
-    </div>
-    <div>
+<h3>When to Use Tooltips</h3>
 
-      ### When to Use Tooltips
+<ul>
+  <li>Provide additional context that doesn't fit in the label</li>
+  <li>Explain format requirements or validation rules</li>
+  <li>Link to help documentation for complex fields</li>
+  <li>Keep tooltip content concise, usually 1-2 sentences</li>
+</ul>
 
-      <ul class="ml-4 list-disc space-y-1">
-        <li>Provide additional context that doesn't fit in the label</li>
-        <li>Explain format requirements or validation rules</li>
-        <li>Link to help documentation for complex fields</li>
-        <li>Keep tooltip content concise - 1-2 sentences max</li>
-      </ul>
-    </div>
-    <div>
+<h3>Accessibility</h3>
 
-      ### Accessibility
-
-      <ul class="ml-4 list-disc space-y-1">
-        <li>
-          Optional indicators are purely visual - use the `required` attribute
-          for validation
-        </li>
-        <li>Tooltips are accessible via keyboard focus on the info icon</li>
-        <li>Screen readers will announce tooltip content when focused</li>
-      </ul>
-    </div>
-  </div>
+<ul>
+  <li>Optional indicators are purely visual; use the <code>required</code> attribute for validation</li>
+  <li>Tooltips are accessible via keyboard focus on the info icon</li>
+  <li>Screen readers announce tooltip content when focused</li>
+</ul>
 </ComponentSection>

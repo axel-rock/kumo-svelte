@@ -265,41 +265,21 @@ When using `error` as an object, the `match` property corresponds to HTML5 Valid
 
 <ComponentSection>
 
-## Accessibility
+<h2>Accessibility</h2>
 
-  <div class="space-y-4 text-sm">
-    <div>
+<h3>Label Requirement</h3>
 
-      ### Label Requirement
+<p>InputGroup requires an accessible name via one of:</p>
 
+<ul>
+  <li><code>label</code> prop on InputGroup, which renders a visible label with built-in Field support</li>
+  <li><code>aria-label</code> on InputGroupInput for inputs without a visible label</li>
+  <li><code>aria-labelledby</code> on InputGroupInput for custom label association</li>
+</ul>
 
-InputGroup requires an accessible name via one of:
+<p>Missing accessible names trigger console warnings in development.</p>
 
-      <ul class="mt-2 ml-4 list-disc space-y-1">
-        <li>
-          `label` prop on InputGroup (renders a visible label with built-in
-          Field support)
-        </li>
-        <li>
-          `aria-label` on InputGroupInput for inputs without a visible label
-        </li>
-        <li>
-          `aria-labelledby` on InputGroupInput for custom label association
-        </li>
-      </ul>
-      <p class="mt-2">
-        Missing accessible names trigger console warnings in development.
-      </p>
-    </div>
-    <div>
+<h3>Group Role</h3>
 
-      ### Group Role
-
-
-InputGroup automatically renders with `role="group"`, which semantically
-        associates the input with its addons for assistive technologies.
-
-    </div>
-
-  </div>
+<p>InputGroup automatically renders with <code>role="group"</code>, which semantically associates the input with its addons for assistive technologies.</p>
 </ComponentSection>

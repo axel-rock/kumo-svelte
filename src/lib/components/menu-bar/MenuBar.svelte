@@ -1,7 +1,7 @@
 <script lang="ts">
+  import { BROWSER } from 'esm-env';
   import type { Component } from 'svelte';
   import { onDestroy, onMount } from 'svelte';
-  import { browser } from '$app/environment';
   import { Tooltip } from '$lib/components/tooltip';
   import { cn } from '$lib/utils/cn';
 
@@ -81,17 +81,17 @@
   }
 
   function addKeyListener() {
-    if (!browser) return;
+    if (!BROWSER) return;
     document.addEventListener('keydown', handleKeyDown);
   }
 
   function removeKeyListener() {
-    if (!browser) return;
+    if (!BROWSER) return;
     document.removeEventListener('keydown', handleKeyDown);
   }
 
   function handleFocusIn() {
-    if (!browser) return;
+    if (!BROWSER) return;
     activeElement = document.activeElement as HTMLElement;
     addKeyListener();
   }
@@ -114,7 +114,7 @@
 </script>
 
 <nav class={classes} bind:this={menuRef} {...rest}>
-  {#each options as option, index}
+  {#each options as option, index (optionIds ? option.id : index)}
     {@const id = optionIds ? option.id : index}
     {@const Icon = option.icon}
 

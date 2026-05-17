@@ -54,10 +54,9 @@ sourceFile: "components/text"
 <Text>Your content here</Text>
 ```
 
-<section class="mt-8 space-y-4">
-  <h3>Semantic HTML</h3>
+### Semantic HTML
 
-<p>The `variant` prop controls visual styling only—it does not determine the HTML element rendered. Heading variants **require** the `as` prop to avoid silently excluding real section headings from the document outline. Body and monospace variants have sensible defaults (`<p>` and `<span>` respectively) and accept `as` optionally.</p>
+The `variant` prop controls visual styling only - it does not determine the HTML element rendered. Heading variants **require** the `as` prop to avoid silently excluding real section headings from the document outline. Body and monospace variants have sensible defaults (`<p>` and `<span>` respectively) and accept `as` optionally.
 
 ```svelte
 <!-- Heading variants REQUIRE `as` — TypeScript will flag usages missing it -->
@@ -75,13 +74,11 @@ sourceFile: "components/text"
 ```
 
 
-<p>The `as` prop accepts: `"h1"` through `"h6"`, `"p"`, and `"span"`. Body variants default to `"p"`, monospace variants default to `"span"`, and heading variants have no default — you must choose explicitly.</p>
-</section>
+The `as` prop accepts: `"h1"` through `"h6"`, `"p"`, and `"span"`. Body variants default to `"p"`, monospace variants default to `"span"`, and heading variants have no default - you must choose explicitly.
 
-<section class="mt-8 space-y-4">
-  <h3>Restrictions</h3>
+### Restrictions
 
-<p>The `bold` and `size` props are intentionally restricted to the `base`, `secondary`, `success`, and `error` text variants.</p>
+The `bold` and `size` props are intentionally restricted to the `base`, `secondary`, `success`, and `error` text variants.
 
 ```svelte
 <Text size="sm" bold>Body</Text>
@@ -91,7 +88,7 @@ sourceFile: "components/text"
 ```
 
 
-<p>Monospace variants (`mono` and `mono-secondary`) can only set `size` to `lg` and cannot use the `bold` prop:</p>
+Monospace variants (`mono` and `mono-secondary`) can only set `size` to `lg` and cannot use the `bold` prop:
 
 ```svelte
 <Text variant="mono">Monospace</Text>
@@ -100,15 +97,13 @@ sourceFile: "components/text"
 ```
 
 
-<p>Headings (i.e. `heading1`, `heading2` and `heading3` variants) cannot use these props at all:</p>
+Headings (i.e. `heading1`, `heading2` and `heading3` variants) cannot use these props at all:
 
 ```svelte
 <Text variant="heading1" bold>
   Heading 1
 </Text> // Doesn't compile
 ```
-
-</section>
 
 </ComponentSection>
 

@@ -14,20 +14,17 @@ sourceFile: "components/chart"
 
 
 <ComponentSection>
-  <p class="mb-4">
-    Chart components are built on ECharts. Install it as a dependency:
-  
+
+Chart components are built on ECharts. Install it as a dependency:
 
 ```bash
 npm install echarts
 ```
 
-<p class="my-4">
-  For optimal bundle size, import only the ECharts components you need. The
-  examples below show the minimum required imports for our use cases.
+For optimal bundle size, import only the ECharts components you need. The
+examples below show the minimum required imports for our use cases.
 
 ```svelte
-
 echarts.use([
   BarChart,
   LineChart,
@@ -65,9 +62,7 @@ echarts.use([
 
 ## Legend
 
-<p class="mb-6">
-  Use <code>LegendItem</code> to display chart series information with color
-  indicators.
+Use `LegendItem` to display chart series information with color indicators.
 
 ### LargeItem
 

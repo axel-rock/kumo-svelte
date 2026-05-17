@@ -12,6 +12,8 @@ sourceFile: "components/table-of-contents"
 
 <!-- Hero Demo -->
 
+<span id="overview"></span>
+
 <ComponentSection>
   <ComponentExample demo="TableOfContentsBasicDemo" />
 </ComponentSection>
@@ -37,6 +39,8 @@ import { TableOfContents } from "kumo-svelte/components/table-of-contents";
 </ComponentSection>
 
 <!-- Usage -->
+
+<span id="usage"></span>
 
 <ComponentSection>
 
@@ -141,6 +145,8 @@ import Link from "next/link";
 </ComponentSection>
 
 <!-- API Reference -->
+
+<span id="api"></span>
 
 <ComponentSection>
 

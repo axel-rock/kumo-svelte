@@ -171,45 +171,25 @@ Composable legend sub-component for Checkbox.Group. Accepts `class` for
 
 Individual checkbox within Checkbox.Group.
 
-  <PropsTable component="Checkbox.Item" />
+<PropsTable component="Checkbox.Item" />
 </ComponentSection>
 
 <!-- Accessibility -->
 
 <ComponentSection>
 
-## Accessibility
+<h2>Accessibility</h2>
 
-  <div class="space-y-4 text-sm">
-    <div>
+<h3>Label Requirement</h3>
 
-      ### Label Requirement
+<p>Single checkboxes require a <code>label</code> prop or <code>aria-label</code> for accessibility. Missing labels trigger console warnings in development.</p>
 
+<h3>Keyboard Navigation</h3>
 
-Single checkboxes require a `label` prop or `aria-label` for accessibility.
-        Missing labels trigger console warnings in development.
+<p><kbd class="rounded bg-kumo-control px-1.5 py-0.5">Space</kbd> toggles the checkbox.</p>
+<p><kbd class="rounded bg-kumo-control px-1.5 py-0.5">Tab</kbd> moves focus between checkboxes.</p>
 
-    </div>
-    <div>
+<h3>Screen Readers</h3>
 
-      ### Keyboard Navigation
-
-
-<kbd class="rounded bg-kumo-control px-1.5 py-0.5">Space</kbd> toggles
-        the checkbox.
-        <kbd class="rounded bg-kumo-control px-1.5 py-0.5">Tab</kbd> moves focus
-        between checkboxes.
-
-    </div>
-    <div>
-
-      ### Screen Readers
-
-
-Checkbox.Group uses semantic `<fieldset>` and `<legend>` elements for
-        proper grouping announcement.
-
-    </div>
-
-  </div>
+<p>Checkbox.Group uses semantic <code>&lt;fieldset&gt;</code> and <code>&lt;legend&gt;</code> elements for proper grouping announcement.</p>
 </ComponentSection>

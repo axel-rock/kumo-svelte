@@ -36,6 +36,24 @@ export const DropdownMenu = Object.assign(DropdownMenuRoot, {
   Separator: DropdownMenuSeparator,
   Shortcut: DropdownMenuShortcut,
   Group: DropdownMenuPrimitive.Group
-});
+}) as typeof DropdownMenuRoot & {
+  Trigger: typeof DropdownMenuTrigger;
+  Portal: typeof DropdownMenuPrimitive.Portal;
+  Sub: typeof DropdownMenuPrimitive.Sub;
+  SubTrigger: typeof DropdownMenuSubTrigger;
+  SubContent: typeof DropdownMenuSubContent;
+  Content: typeof DropdownMenuContent;
+  Item: typeof DropdownMenuItem;
+  LinkItem: typeof DropdownMenuItem;
+  CheckboxItem: typeof DropdownMenuCheckboxItem;
+  CheckboxGroup: typeof DropdownMenuPrimitive.CheckboxGroup;
+  RadioGroup: typeof DropdownMenuPrimitive.RadioGroup;
+  RadioItem: typeof DropdownMenuRadioItem;
+  RadioItemIndicator: typeof DropdownMenuRadioItemIndicator;
+  Label: typeof DropdownMenuLabel;
+  Separator: typeof DropdownMenuSeparator;
+  Shortcut: typeof DropdownMenuShortcut;
+  Group: typeof DropdownMenuPrimitive.Group;
+};
 
 export default DropdownMenu;

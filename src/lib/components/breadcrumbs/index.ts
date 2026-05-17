@@ -9,7 +9,12 @@ export const Breadcrumbs = Object.assign(Root, {
   Current,
   Separator,
   Clipboard
-});
+}) as typeof Root & {
+  Link: typeof Link;
+  Current: typeof Current;
+  Separator: typeof Separator;
+  Clipboard: typeof Clipboard;
+};
 
 export {
   Root as BreadcrumbsRoot,
