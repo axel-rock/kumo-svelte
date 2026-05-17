@@ -5162,7 +5162,7 @@
           <td class="max-w-md px-4 py-3 text-xs">{row.description}</td>
         </tr>
       {:else}
-        <tr class="border-b border-kumo-hairline">
+        <tr>
           <td class="px-4 py-3 text-sm text-kumo-subtle" colspan="4">
             No component-specific props. Accepts standard HTML attributes.
           </td>
