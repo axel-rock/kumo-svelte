@@ -29,9 +29,11 @@ runs:
 
     - name: Install dependencies
       shell: bash
+      env:
+        PNPM_FILTER: ${{ inputs.filter }}
       run: |
-        if [ -n "${{ inputs.filter }}" ]; then
-          pnpm install --frozen-lockfile --filter "${{ inputs.filter }}"
+        if [ -n "$PNPM_FILTER" ]; then
+          pnpm install --frozen-lockfile --filter "$PNPM_FILTER"
         else
           pnpm install --frozen-lockfile
         fi

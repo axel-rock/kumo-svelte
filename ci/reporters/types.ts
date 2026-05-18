@@ -134,7 +134,7 @@ export function readReportArtifacts(): ReadReportResult {
       const content = readFileSync(join(REPORTS_DIR, file), "utf-8");
       items.push(JSON.parse(content) as ReportItem);
     } catch (error) {
-      console.warn(`  Failed to read report artifact: ${file}`, error);
+      console.warn("  Failed to read report artifact: %s", file, error);
       failures.push(file);
     }
   }
