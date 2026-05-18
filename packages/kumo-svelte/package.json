@@ -5,9 +5,13 @@
   "type": "module",
   "packageManager": "pnpm@11.1.2",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxffarrell/kumo-svelte"
+  },
   "publishConfig": {
     "access": "public",
-    "tag": "beta"
+    "registry": "https://registry.npmjs.org/"
   },
   "bin": {
     "kumo-svelte": "./dist/command-line/cli.js"
