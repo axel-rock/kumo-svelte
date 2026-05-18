@@ -1,6 +1,6 @@
 {
   "name": "kumo-svelte",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Svelte port of Cloudflare's Kumo UI library using bits-ui primitives.",
   "type": "module",
   "packageManager": "pnpm@11.1.2",
@@ -30,7 +30,10 @@
       "svelte": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./styles.css": "./dist/styles.css",
+    "./styles.css": {
+      "types": "./dist/styles.css.d.ts",
+      "default": "./dist/styles.css"
+    },
     "./ai/component-registry.json": {
       "default": "./ai/component-registry.json"
     },
@@ -50,7 +53,8 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "build:cli": "tsc -p tsconfig.cli.json",
     "package": "svelte-package",
-    "build": "pnpm check && pnpm package && pnpm build:cli && vite build",
+    "build:styles": "tsx scripts/build-package-css.ts",
+    "build": "pnpm check && pnpm package && pnpm build:styles && pnpm build:cli && vite build",
     "deploy": "pnpm build && wrangler deploy",
     "dev": "vite dev",
     "preview": "vite preview",
