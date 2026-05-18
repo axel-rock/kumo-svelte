@@ -1,13 +1,50 @@
-export { default as Table } from './Table.svelte';
-export { default as TableBody } from './TableBody.svelte';
-export { default as TableCell } from './TableCell.svelte';
-export { default as TableCheckCell } from './TableCheckCell.svelte';
-export { default as TableCheckHead } from './TableCheckHead.svelte';
-export { default as TableFooter } from './TableFooter.svelte';
-export { default as TableHead } from './TableHead.svelte';
-export { default as TableHeader } from './TableHeader.svelte';
-export { default as TableResizeHandle } from './TableResizeHandle.svelte';
-export { default as TableRow } from './TableRow.svelte';
+import Root from './Table.svelte';
+import Body from './TableBody.svelte';
+import Cell from './TableCell.svelte';
+import CheckCell from './TableCheckCell.svelte';
+import CheckHead from './TableCheckHead.svelte';
+import Footer from './TableFooter.svelte';
+import Head from './TableHead.svelte';
+import Header from './TableHeader.svelte';
+import ResizeHandle from './TableResizeHandle.svelte';
+import Row from './TableRow.svelte';
+
+const Table = Object.assign(Root, {
+  Root,
+  Body,
+  Cell,
+  CheckCell,
+  CheckHead,
+  Footer,
+  Head,
+  Header,
+  ResizeHandle,
+  Row
+}) as typeof Root & {
+  Root: typeof Root;
+  Body: typeof Body;
+  Cell: typeof Cell;
+  CheckCell: typeof CheckCell;
+  CheckHead: typeof CheckHead;
+  Footer: typeof Footer;
+  Head: typeof Head;
+  Header: typeof Header;
+  ResizeHandle: typeof ResizeHandle;
+  Row: typeof Row;
+};
+
+export {
+  Table,
+  Body as TableBody,
+  Cell as TableCell,
+  CheckCell as TableCheckCell,
+  CheckHead as TableCheckHead,
+  Footer as TableFooter,
+  Head as TableHead,
+  Header as TableHeader,
+  ResizeHandle as TableResizeHandle,
+  Row as TableRow
+};
 export {
   KUMO_TABLE_DEFAULT_VARIANTS,
   KUMO_TABLE_VARIANTS,

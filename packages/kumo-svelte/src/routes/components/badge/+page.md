@@ -26,7 +26,7 @@ sourceFile: "components/badge"
 
 ```svelte
 <script lang="ts">
-  import { Badge } from 'kumo-svelte/components/badge';
+  import { Badge } from 'kumo-svelte';
 </script>
 ```
 

@@ -34,7 +34,7 @@ sourceFile: "components/table"
 
 ```svelte
 <script lang="ts">
-  import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from 'kumo-svelte/components/table';
+  import { Table } from 'kumo-svelte';
 </script>
 ```
 
@@ -48,26 +48,25 @@ sourceFile: "components/table"
 
 ```svelte
 <script lang="ts">
-  import { LayerCard } from 'kumo-svelte';
-  import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from 'kumo-svelte/components/table';
+  import { LayerCard, Table } from 'kumo-svelte';
 </script>
 
 <LayerCard class="p-0">
   <Table>
-    <TableHeader>
-      <TableRow>
-        <TableHead>Name</TableHead>
-        <TableHead>Email</TableHead>
-        <TableHead>Role</TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      <TableRow>
-        <TableCell>John Doe</TableCell>
-        <TableCell>john@example.com</TableCell>
-        <TableCell>Admin</TableCell>
-      </TableRow>
-    </TableBody>
+    <Table.Header>
+      <Table.Row>
+        <Table.Head>Name</Table.Head>
+        <Table.Head>Email</Table.Head>
+        <Table.Head>Role</Table.Head>
+      </Table.Row>
+    </Table.Header>
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell>John Doe</Table.Cell>
+        <Table.Cell>john@example.com</Table.Cell>
+        <Table.Cell>Admin</Table.Cell>
+      </Table.Row>
+    </Table.Body>
   </Table>
 </LayerCard>
 ```
@@ -82,7 +81,7 @@ sourceFile: "components/table"
 
 ### With Checkboxes
 
-Add row selection with `TableCheckHead` and `TableCheckCell`. Both accept
+Add row selection with `Table.CheckHead` and `Table.CheckCell`. Both accept
 `onCheckedChange`, which matches the underlying Svelte `Checkbox` callback.
 
 The older `onValueChange` prop still works but is deprecated and will be
@@ -90,23 +89,23 @@ removed in a future major version. Migrate by renaming the prop:
 
 ```svelte
 <!-- Before (deprecated) -->
-<TableCheckCell onValueChange={(checked) => toggleRow(id)} />
+<Table.CheckCell onValueChange={(checked) => toggleRow(id)} />
 
 <!-- After -->
-<TableCheckCell onCheckedChange={(checked) => toggleRow(id)} />
+<Table.CheckCell onCheckedChange={(checked) => toggleRow(id)} />
 ```
 
 <ComponentExample demo="TableWithCheckboxDemo" />
 
 ### Compact Header
 
-Use `variant="compact"` on `TableHeader` for a more condensed header style.
+Use `variant="compact"` on `Table.Header` for a more condensed header style.
 
 <ComponentExample demo="TableWithCompactHeaderDemo" />
 
 ### Selected Row
 
-Use `variant="selected"` on `TableRow` to highlight selected rows.
+Use `variant="selected"` on `Table.Row` to highlight selected rows.
 
 <ComponentExample demo="TableSelectedRowDemo" />
 
@@ -120,7 +119,7 @@ For precise control over column widths, set `layout="fixed"` and use
 ### Sticky Column
 
 Pin a column to the left or right edge of the scroll container with
-`sticky="left"` or `sticky="right"` on `TableHead` and `TableCell`. The
+`sticky="left"` or `sticky="right"` on `Table.Head` and `Table.Cell`. The
 component automatically adds an opaque background and gradient fade. Wrap the
 table in an `overflow-x-auto` container.
 
@@ -128,7 +127,7 @@ table in an `overflow-x-auto` container.
 
 ### Compact Header with Sticky Column
 
-Combining `variant="compact"` on `TableHeader` with `sticky` columns.
+Combining `variant="compact"` on `Table.Header` with `sticky` columns.
 
 <ComponentExample demo="TableCompactStickyDemo" />
 
@@ -153,41 +152,49 @@ Root table component. Renders a semantic `<table>` element.
 
 <PropsTable component="Table" />
 
-### TableHeader
+### Table.Header
 
 Table header section. Renders `<thead>`. Set `sticky` to pin the header row to the top of the scroll container.
 
-### TableBody
+<PropsTable component="Table.Header" />
+
+### Table.Body
 
 Table body section. Renders `<tbody>`.
 
-### TableRow
+<PropsTable component="Table.Body" />
+
+### Table.Row
 
 Table row. Supports `variant="selected"` for highlighting.
 
 <PropsTable component="Table.Row" />
 
-### TableHead
+### Table.Head
 
 Header cell. Renders `<th>`. Accepts `sticky="left"` or `sticky="right"` to pin the column.
 
-### TableCell
+<PropsTable component="Table.Head" />
+
+### Table.Cell
 
 Body cell. Renders `<td>`. Accepts `sticky="left"` or `sticky="right"` to pin the column.
 
-### TableCheckHead
+<PropsTable component="Table.Cell" />
+
+### Table.CheckHead
 
 Header cell with checkbox for "select all" functionality.
 
 <PropsTable component="Table.CheckHead" />
 
-### TableCheckCell
+### Table.CheckCell
 
 Body cell with checkbox for row selection.
 
 <PropsTable component="Table.CheckCell" />
 
-### TableResizeHandle
+### Table.ResizeHandle
 
 Draggable handle for column resizing. Use with TanStack Table or custom resize
 logic.
@@ -204,7 +211,7 @@ For advanced features like sorting, filtering, and resizable columns, integrate 
 
 ```svelte
 <script lang="ts">
-  import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableResizeHandle } from 'kumo-svelte/components/table';
+  import { Table } from 'kumo-svelte';
 </script>
 
 <Table layout="fixed">
@@ -213,32 +220,32 @@ For advanced features like sorting, filtering, and resizable columns, integrate 
       <col style:width={`${column.getSize()}px`} />
     {/each}
   </colgroup>
-  <TableHeader>
+  <Table.Header>
     {#each table.getHeaderGroups() as headerGroup}
-      <TableRow>
+      <Table.Row>
         {#each headerGroup.headers as header}
-          <TableHead>
+          <Table.Head>
             {flexRender(header.column.columnDef.header, header.getContext())}
-            <TableResizeHandle
+            <Table.ResizeHandle
               onmousedown={header.getResizeHandler()}
               ontouchstart={header.getResizeHandler()}
             />
-          </TableHead>
+          </Table.Head>
         {/each}
-      </TableRow>
+      </Table.Row>
     {/each}
-  </TableHeader>
-  <TableBody>
+  </Table.Header>
+  <Table.Body>
     {#each table.getRowModel().rows as row}
-      <TableRow>
+      <Table.Row>
         {#each row.getVisibleCells() as cell}
-          <TableCell>
+          <Table.Cell>
             {flexRender(cell.column.columnDef.cell, cell.getContext())}
-          </TableCell>
+          </Table.Cell>
         {/each}
-      </TableRow>
+      </Table.Row>
     {/each}
-  </TableBody>
+  </Table.Body>
 </Table>
 ```
 
@@ -256,7 +263,7 @@ Table uses semantic `<table>`, `<thead>`, `<tbody>`, `<th>`, and `<td>` elements
 
 ### Checkbox Labels
 
-Always provide `aria-label` for `TableCheckHead` and `TableCheckCell` to
+Always provide `aria-label` for `Table.CheckHead` and `Table.CheckCell` to
 describe their purpose.
 
 ### Keyboard Navigation

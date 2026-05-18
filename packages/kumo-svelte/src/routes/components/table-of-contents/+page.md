@@ -33,7 +33,7 @@ import { TableOfContents } from "kumo-svelte";
 ### Granular
 
 ```svelte
-import { TableOfContents } from "kumo-svelte/components/table-of-contents";
+import { TableOfContents } from "kumo-svelte";
 ```
 
 </ComponentSection>
@@ -69,6 +69,8 @@ This component is purely presentational. All interaction logic — scroll
 </ComponentSection>
 
 <!-- Examples -->
+
+<span id="examples-demo"></span>
 
 <ComponentSection>
 
@@ -147,6 +149,7 @@ import Link from "next/link";
 <!-- API Reference -->
 
 <span id="api"></span>
+<span id="api-demo"></span>
 
 <ComponentSection>
 

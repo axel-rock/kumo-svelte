@@ -47,12 +47,11 @@ Import styled components from the main package entry point.
 </script>
 ```
 
-Granular imports are available for apps that prefer explicit component entry points.
+Import additional components from the same package entry point.
 
 ```svelte
 <script lang="ts">
-  import { Button } from 'kumo-svelte/components/button';
-  import { Input } from 'kumo-svelte/components/input';
+  import { Button, Input } from 'kumo-svelte';
 </script>
 ```
 

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Component, Snippet } from 'svelte';
+  import { SkeletonLine } from '../loader';
 
   interface Props {
     children?: Snippet;
@@ -18,7 +19,7 @@
         <Icon size={16} />
       </span>
     {/if}
-    <span class="h-4 w-full animate-pulse rounded-sm bg-kumo-tint" aria-hidden="true"></span>
+    <SkeletonLine />
   </div>
 {:else}
   <div class="flex min-w-0 max-w-full items-center gap-1 font-medium" aria-current="page" {...rest}>

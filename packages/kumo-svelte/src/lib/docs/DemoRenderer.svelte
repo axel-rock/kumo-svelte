@@ -20,14 +20,9 @@
     Field,
     Flow,
     Grid,
-    GridItem,
     Input,
     InputArea,
     InputGroup,
-    InputGroupAddon,
-    InputGroupButton,
-    InputGroupInput,
-    InputGroupSuffix,
     Label,
     LayerCard,
     Link,
@@ -42,15 +37,7 @@
     SensitiveInput,
     Surface,
     Switch,
-    SwitchGroup,
-    SwitchItem,
-    SwitchLegend,
     Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
     TableOfContents,
     Tabs,
     Text,
@@ -58,7 +45,7 @@
     Tooltip
   } from '$lib';
   import type { DateRange } from '$lib';
-  import { ArrowRight, ArrowSquareOut as ExternalLink, CalendarDotsIcon, CheckCircle, Cloud, Code as Code2, Copy, Database, Download, Eye, FolderOpen, Gear as Settings, Globe, Info, LinkSimple as Link2, MagnifyingGlass as Search, Package, Plus, Question as HelpCircle, TextB as Bold, TextItalic as Italic, Trash, Warning, WarningCircle, X } from 'phosphor-svelte';
+  import { ArrowRight, ArrowSquareOut as ExternalLink, CalendarDotsIcon, CheckCircle, Cloud, Code as Code2, Copy, Database, Download, Eye, FolderOpen, Gear as Settings, Globe, House, Info, LinkSimple as Link2, MagnifyingGlass as Search, Package, Plus, Question as HelpCircle, TextB as Bold, TextItalic as Italic, Trash, Warning, WarningCircle, X } from 'phosphor-svelte';
   import { generateCloudflareLogoSvg } from '$lib/components/cloudflare-logo';
   import { PoweredByCloudflare } from '$lib/components/cloudflare-logo';
   import { DeleteResource } from '../../blocks/delete-resource';
@@ -88,6 +75,8 @@
   let datePickerPresetRange = $state<DateRange | undefined>();
   let datePickerPresetMonth = $state<Date>(new Date());
   let sensitiveInputValue = $state('my-secret-value');
+  let tableOfContentsActive = $state('Introduction');
+  let tableOfContentsClicked = $state<string | null>(null);
 
   const selectOptions = [
     { label: 'Workers', value: 'workers' },
@@ -281,11 +270,6 @@
     { label: 'Delete', disabled: demo.includes('Disabled') }
   ]);
 
-  const breadcrumbItems = [
-    { label: 'Account', href: '/' },
-    { label: 'Workers', href: '/' },
-    { label: 'api-edge' }
-  ];
   const highlightedExampleCode = `interface WorkerRoute {
   pattern: string;
   script: string;
@@ -296,10 +280,12 @@ const route: WorkerRoute = {
   script: "edge-api"
 };`;
 
-  const tocItems = [
-    { href: '#overview', title: 'Overview', depth: 1 },
-    { href: '#usage', title: 'Usage', depth: 1 },
-    { href: '#api', title: 'API reference', depth: 1 }
+  const tableOfContentsHeadings = [
+    'Introduction',
+    'Installation',
+    'Usage',
+    'API Reference',
+    'Examples'
   ];
 
   const gridGaps = ['none', 'sm', 'base', 'lg'] as const;
@@ -451,15 +437,38 @@ const route: WorkerRoute = {
     {/if}
   {:else if looksLike('Breadcrumbs')}
     {#if demo === 'BreadcrumbsLoadingDemo'}
-      <Breadcrumbs><Breadcrumbs.Link href="#">Account</Breadcrumbs.Link><Breadcrumbs.Separator /><Breadcrumbs.Link href="#">Workers</Breadcrumbs.Link><Breadcrumbs.Separator /><Breadcrumbs.Current loading /></Breadcrumbs>
+      <Breadcrumbs>
+        <Breadcrumbs.Link href="#" icon={House}>Home</Breadcrumbs.Link>
+        <Breadcrumbs.Separator />
+        <Breadcrumbs.Link href="#">Docs</Breadcrumbs.Link>
+        <Breadcrumbs.Separator />
+        <Breadcrumbs.Current loading />
+      </Breadcrumbs>
     {:else if demo === 'BreadcrumbsRootDemo'}
-      <Breadcrumbs><Breadcrumbs.Current icon={Cloud}>Worker Analytics</Breadcrumbs.Current></Breadcrumbs>
+      <Breadcrumbs><Breadcrumbs.Current icon={House}>Worker Analytics</Breadcrumbs.Current></Breadcrumbs>
     {:else if demo === 'BreadcrumbsWithClipboardDemo'}
-      <Breadcrumbs><Breadcrumbs.Link href="#">Account</Breadcrumbs.Link><Breadcrumbs.Separator /><Breadcrumbs.Current>api-edge</Breadcrumbs.Current><Breadcrumbs.Clipboard text="/workers/api-edge" /></Breadcrumbs>
+      <Breadcrumbs>
+        <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+        <Breadcrumbs.Separator />
+        <Breadcrumbs.Current>Breadcrumbs</Breadcrumbs.Current>
+        <Breadcrumbs.Clipboard text="#" />
+      </Breadcrumbs>
     {:else if demo === 'BreadcrumbsWithIconsDemo'}
-      <Breadcrumbs><Breadcrumbs.Link href="#" icon={Globe}>Account</Breadcrumbs.Link><Breadcrumbs.Separator /><Breadcrumbs.Link href="#" icon={Cloud}>Workers</Breadcrumbs.Link><Breadcrumbs.Separator /><Breadcrumbs.Current icon={Code2}>api-edge</Breadcrumbs.Current></Breadcrumbs>
+      <Breadcrumbs>
+        <Breadcrumbs.Link href="#" icon={House}>Home</Breadcrumbs.Link>
+        <Breadcrumbs.Separator />
+        <Breadcrumbs.Link href="#">Projects</Breadcrumbs.Link>
+        <Breadcrumbs.Separator />
+        <Breadcrumbs.Current>Current Project</Breadcrumbs.Current>
+      </Breadcrumbs>
     {:else}
-      <Breadcrumbs items={breadcrumbItems} />
+      <Breadcrumbs>
+        <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+        <Breadcrumbs.Separator />
+        <Breadcrumbs.Link href="#">Docs</Breadcrumbs.Link>
+        <Breadcrumbs.Separator />
+        <Breadcrumbs.Current>Breadcrumbs</Breadcrumbs.Current>
+      </Breadcrumbs>
     {/if}
   {:else if demo === 'CheckboxBasicDemo'}
     <Checkbox>Accept terms and conditions</Checkbox>
@@ -1115,47 +1124,47 @@ const route: WorkerRoute = {
     {/if}
   {:else if demo === 'GridDemo'}
     <Grid variant="2up" gap="base" class="w-full">
-      <GridItem>
+      <Grid.Item>
         <Surface class="rounded-lg p-4">
           <Text bold>Item 1</Text>
           <div class="mt-1">
             <Text variant="secondary">First grid item</Text>
           </div>
         </Surface>
-      </GridItem>
-      <GridItem>
+      </Grid.Item>
+      <Grid.Item>
         <Surface class="rounded-lg p-4">
           <Text bold>Item 2</Text>
           <div class="mt-1">
             <Text variant="secondary">Second grid item</Text>
           </div>
         </Surface>
-      </GridItem>
+      </Grid.Item>
     </Grid>
   {:else if demo === 'GridVariantsDemo'}
     <div class="flex w-full flex-col gap-8">
       <div>
         <p class="mb-2 text-kumo-subtle">variant="2up"</p>
         <Grid variant="2up" gap="sm">
-          <GridItem><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></GridItem>
-          <GridItem><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></GridItem>
+          <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></Grid.Item>
+          <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></Grid.Item>
         </Grid>
       </div>
       <div>
         <p class="mb-2 text-kumo-subtle">variant="3up"</p>
         <Grid variant="3up" gap="sm">
-          <GridItem><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></GridItem>
-          <GridItem><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></GridItem>
-          <GridItem><Surface class="rounded-lg p-4 text-center"><Text>3</Text></Surface></GridItem>
+          <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></Grid.Item>
+          <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></Grid.Item>
+          <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>3</Text></Surface></Grid.Item>
         </Grid>
       </div>
       <div>
         <p class="mb-2 text-kumo-subtle">variant="4up"</p>
         <Grid variant="4up" gap="sm">
-          <GridItem><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></GridItem>
-          <GridItem><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></GridItem>
-          <GridItem><Surface class="rounded-lg p-4 text-center"><Text>3</Text></Surface></GridItem>
-          <GridItem><Surface class="rounded-lg p-4 text-center"><Text>4</Text></Surface></GridItem>
+          <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></Grid.Item>
+          <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></Grid.Item>
+          <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>3</Text></Surface></Grid.Item>
+          <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>4</Text></Surface></Grid.Item>
         </Grid>
       </div>
     </div>
@@ -1164,15 +1173,15 @@ const route: WorkerRoute = {
       <div>
         <p class="mb-2 text-kumo-subtle">variant="2-1" (66% / 33%)</p>
         <Grid variant="2-1" gap="sm">
-          <GridItem><Surface class="rounded-lg p-4"><Text bold>Main Content</Text><div class="mt-1"><Text variant="secondary">Two-thirds width</Text></div></Surface></GridItem>
-          <GridItem><Surface class="rounded-lg p-4"><Text bold>Sidebar</Text><div class="mt-1"><Text variant="secondary">One-third width</Text></div></Surface></GridItem>
+          <Grid.Item><Surface class="rounded-lg p-4"><Text bold>Main Content</Text><div class="mt-1"><Text variant="secondary">Two-thirds width</Text></div></Surface></Grid.Item>
+          <Grid.Item><Surface class="rounded-lg p-4"><Text bold>Sidebar</Text><div class="mt-1"><Text variant="secondary">One-third width</Text></div></Surface></Grid.Item>
         </Grid>
       </div>
       <div>
         <p class="mb-2 text-kumo-subtle">variant="1-2" (33% / 66%)</p>
         <Grid variant="1-2" gap="sm">
-          <GridItem><Surface class="rounded-lg p-4"><Text bold>Sidebar</Text><div class="mt-1"><Text variant="secondary">One-third width</Text></div></Surface></GridItem>
-          <GridItem><Surface class="rounded-lg p-4"><Text bold>Main Content</Text><div class="mt-1"><Text variant="secondary">Two-thirds width</Text></div></Surface></GridItem>
+          <Grid.Item><Surface class="rounded-lg p-4"><Text bold>Sidebar</Text><div class="mt-1"><Text variant="secondary">One-third width</Text></div></Surface></Grid.Item>
+          <Grid.Item><Surface class="rounded-lg p-4"><Text bold>Main Content</Text><div class="mt-1"><Text variant="secondary">Two-thirds width</Text></div></Surface></Grid.Item>
         </Grid>
       </div>
     </div>
@@ -1182,8 +1191,8 @@ const route: WorkerRoute = {
         <div>
           <p class="mb-2 text-kumo-subtle">gap="{gridGap}"{gridGap === 'base' ? ' (default, responsive)' : ''}</p>
           <Grid variant="side-by-side" gap={gridGap}>
-            <GridItem><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></GridItem>
-            <GridItem><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></GridItem>
+            <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></Grid.Item>
+            <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></Grid.Item>
           </Grid>
         </div>
       {/each}
@@ -1191,14 +1200,14 @@ const route: WorkerRoute = {
   {:else if demo === 'GridMobileDividerDemo'}
     <Grid variant="4up" gap="base" mobileDivider class="w-full">
       {#each [1, 2, 3, 4] as item}
-        <GridItem>
+        <Grid.Item>
           <Surface class="rounded-lg p-4">
             <Text bold>Item {item}</Text>
             <div class="mt-1">
               <Text variant="secondary">Has divider on mobile</Text>
             </div>
           </Surface>
-        </GridItem>
+        </Grid.Item>
       {/each}
     </Grid>
   {:else if looksLike('InputArea')}
@@ -1210,25 +1219,25 @@ const route: WorkerRoute = {
   {:else if looksLike('InputGroup')}
     {#if demo === 'InputGroupTextDemo'}
       <div class="flex flex-col gap-4">
-        <InputGroup class="w-full max-w-3xs"><InputGroupAddon>@</InputGroupAddon><InputGroupInput placeholder="username" aria-label="Username" /></InputGroup>
-        <InputGroup class="w-full max-w-3xs"><InputGroupInput placeholder="email" aria-label="Email" /><InputGroupAddon align="end">@example.com</InputGroupAddon></InputGroup>
-        <InputGroup class="w-full max-w-3xs"><InputGroupAddon>/api/</InputGroupAddon><InputGroupInput placeholder="endpoint" aria-label="API path" /><InputGroupAddon align="end">.json</InputGroupAddon></InputGroup>
+        <InputGroup class="w-full max-w-3xs"><InputGroup.Addon>@</InputGroup.Addon><InputGroup.Input placeholder="username" aria-label="Username" /></InputGroup>
+        <InputGroup class="w-full max-w-3xs"><InputGroup.Input placeholder="email" aria-label="Email" /><InputGroup.Addon align="end">@example.com</InputGroup.Addon></InputGroup>
+        <InputGroup class="w-full max-w-3xs"><InputGroup.Addon>/api/</InputGroup.Addon><InputGroup.Input placeholder="endpoint" aria-label="API path" /><InputGroup.Addon align="end">.json</InputGroup.Addon></InputGroup>
       </div>
     {:else if demo === 'InputGroupButtonsDemo'}
       <div class="flex flex-col gap-4">
-        <InputGroup class="w-full max-w-3xs"><InputGroupInput type="password" value="password" aria-label="Password" /><InputGroupAddon align="end"><InputGroupButton icon={Eye} class="text-kumo-subtle" aria-label="Show password" /></InputGroupAddon></InputGroup>
-        <InputGroup class="w-full max-w-3xs" focusMode="hybrid"><InputGroupAddon><Search /></InputGroupAddon><InputGroupInput value="search" aria-label="Search" /><InputGroupAddon align="end" class="pr-1"><InputGroupButton aria-label="Clear search"><X /></InputGroupButton></InputGroupAddon><InputGroupButton variant="secondary">Search</InputGroupButton></InputGroup>
+        <InputGroup class="w-full max-w-3xs"><InputGroup.Input type="password" value="password" aria-label="Password" /><InputGroup.Addon align="end"><InputGroup.Button icon={Eye} class="text-kumo-subtle" aria-label="Show password" /></InputGroup.Addon></InputGroup>
+        <InputGroup class="w-full max-w-3xs" focusMode="hybrid"><InputGroup.Addon><Search /></InputGroup.Addon><InputGroup.Input value="search" aria-label="Search" /><InputGroup.Addon align="end" class="pr-1"><InputGroup.Button aria-label="Clear search"><X /></InputGroup.Button></InputGroup.Addon><InputGroup.Button variant="secondary">Search</InputGroup.Button></InputGroup>
       </div>
     {:else if demo === 'InputGroupKbdDemo'}
-      <InputGroup class="w-full max-w-3xs"><InputGroupAddon><Search /></InputGroupAddon><InputGroupInput placeholder="Search..." aria-label="Search" /><InputGroupAddon align="end"><kbd class="border-none! bg-none!">⌘K</kbd></InputGroupAddon></InputGroup>
+      <InputGroup class="w-full max-w-3xs"><InputGroup.Addon><Search /></InputGroup.Addon><InputGroup.Input placeholder="Search..." aria-label="Search" /><InputGroup.Addon align="end"><kbd class="border-none! bg-none!">⌘K</kbd></InputGroup.Addon></InputGroup>
     {:else if demo === 'InputGroupLoadingDemo'}
-      <InputGroup class="w-full max-w-3xs"><InputGroupInput value="checking" aria-label="Domain" /><InputGroupSuffix>.workers.dev</InputGroupSuffix><InputGroupAddon align="end"><Loader /></InputGroupAddon></InputGroup>
+      <InputGroup class="w-full max-w-3xs"><InputGroup.Input value="checking" aria-label="Domain" /><InputGroup.Suffix>.workers.dev</InputGroup.Suffix><InputGroup.Addon align="end"><Loader /></InputGroup.Addon></InputGroup>
     {:else if demo === 'InputGroupTooltipButtonDemo'}
-      <InputGroup class="w-full max-w-2xs"><InputGroupAddon><Search /></InputGroupAddon><InputGroupInput placeholder="Search with query language..." aria-label="Search" /><InputGroupAddon align="end"><InputGroupButton icon={HelpCircle} tooltip="Query language help" class="text-kumo-subtle" /></InputGroupAddon></InputGroup>
+      <InputGroup class="w-full max-w-2xs"><InputGroup.Addon><Search /></InputGroup.Addon><InputGroup.Input placeholder="Search with query language..." aria-label="Search" /><InputGroup.Addon align="end"><InputGroup.Button icon={HelpCircle} tooltip="Query language help" class="text-kumo-subtle" /></InputGroup.Addon></InputGroup>
     {:else if demo === 'InputGroupIconsDemo'}
-      <InputGroup class="w-full max-w-3xs"><InputGroupAddon><Link2 /></InputGroupAddon><InputGroupInput placeholder="Paste a link..." aria-label="Link" /></InputGroup>
+      <InputGroup class="w-full max-w-3xs"><InputGroup.Addon><Link2 /></InputGroup.Addon><InputGroup.Input placeholder="Paste a link..." aria-label="Link" /></InputGroup>
     {:else}
-      <InputGroup class="w-full max-w-2xs"><InputGroupInput value="kumo" maxlength={20} /><InputGroupSuffix>.workers.dev</InputGroupSuffix><InputGroupAddon align="end"><CheckCircle class="text-kumo-success" /></InputGroupAddon></InputGroup>
+      <InputGroup class="w-full max-w-2xs"><InputGroup.Input value="kumo" maxlength={20} /><InputGroup.Suffix>.workers.dev</InputGroup.Suffix><InputGroup.Addon align="end"><CheckCircle class="text-kumo-success" /></InputGroup.Addon></InputGroup>
     {/if}
   {:else if demo === 'InputBasicDemo'}
     <div class="w-full max-w-sm space-y-2">
@@ -1638,42 +1647,139 @@ const route: WorkerRoute = {
   {:else if demo === 'SwitchCustomIdDemo'}
     <Switch id="my-custom-switch" label="Custom ID" bind:checked={switchCustomIdChecked} />
   {:else if demo === 'SwitchGroupDemo'}
-    <SwitchGroup legend="Notification settings">
-      <SwitchItem label="Email notifications" />
-      <SwitchItem label="SMS notifications" />
-      <SwitchItem label="Push notifications" />
-    </SwitchGroup>
+    <Switch.Group legend="Notification settings">
+      <Switch.Item label="Email notifications" />
+      <Switch.Item label="SMS notifications" />
+      <Switch.Item label="Push notifications" />
+    </Switch.Group>
   {:else if demo === 'SwitchLegendSrOnlyDemo'}
-    <SwitchGroup>
-      <SwitchLegend class="sr-only">Notification settings</SwitchLegend>
-      <SwitchItem label="Email notifications" />
-      <SwitchItem label="SMS notifications" />
-      <SwitchItem label="Push notifications" />
-    </SwitchGroup>
+    <Switch.Group>
+      <Switch.Legend class="sr-only">Notification settings</Switch.Legend>
+      <Switch.Item label="Email notifications" />
+      <Switch.Item label="SMS notifications" />
+      <Switch.Item label="Push notifications" />
+    </Switch.Group>
   {:else if demo === 'SwitchLegendCustomDemo'}
-    <SwitchGroup>
-      <SwitchLegend class="text-sm font-normal text-kumo-subtle">Notification settings</SwitchLegend>
-      <SwitchItem label="Email notifications" />
-      <SwitchItem label="SMS notifications" />
-      <SwitchItem label="Push notifications" />
-    </SwitchGroup>
+    <Switch.Group>
+      <Switch.Legend class="text-sm font-normal text-kumo-subtle">Notification settings</Switch.Legend>
+      <Switch.Item label="Email notifications" />
+      <Switch.Item label="SMS notifications" />
+      <Switch.Item label="Push notifications" />
+    </Switch.Group>
   {:else if looksLike('Switch')}
     <Switch label="Switch" checked={demo.includes('On') || demo.includes('Basic')} />
   {:else if looksLike('TableOfContents')}
-    <TableOfContents items={tocItems} />
+    <div class="min-w-48">
+      {#if demo === 'TableOfContentsBasicDemo'}
+        <TableOfContents>
+          <TableOfContents.Title>On this page</TableOfContents.Title>
+          <TableOfContents.List>
+            {#each tableOfContentsHeadings as heading (heading)}
+              <TableOfContents.Item active={heading === 'Usage'} class="cursor-pointer">
+                {heading}
+              </TableOfContents.Item>
+            {/each}
+          </TableOfContents.List>
+        </TableOfContents>
+      {:else if demo === 'TableOfContentsInteractiveDemo'}
+        <TableOfContents>
+          <TableOfContents.Title>On this page</TableOfContents.Title>
+          <TableOfContents.List>
+            {#each tableOfContentsHeadings as heading (heading)}
+              <TableOfContents.Item
+                active={heading === tableOfContentsActive}
+                onclick={() => (tableOfContentsActive = heading)}
+                class="cursor-pointer"
+              >
+                {heading}
+              </TableOfContents.Item>
+            {/each}
+          </TableOfContents.List>
+        </TableOfContents>
+      {:else if demo === 'TableOfContentsNoActiveDemo'}
+        <TableOfContents>
+          <TableOfContents.Title>On this page</TableOfContents.Title>
+          <TableOfContents.List>
+            {#each tableOfContentsHeadings as heading (heading)}
+              <TableOfContents.Item class="cursor-pointer">
+                {heading}
+              </TableOfContents.Item>
+            {/each}
+          </TableOfContents.List>
+        </TableOfContents>
+      {:else if demo === 'TableOfContentsGroupDemo'}
+        <TableOfContents>
+          <TableOfContents.Title>On this page</TableOfContents.Title>
+          <TableOfContents.List>
+            <TableOfContents.Item active class="cursor-pointer">Overview</TableOfContents.Item>
+            <TableOfContents.Group label="Examples" href="#examples-demo">
+              <TableOfContents.Item class="cursor-pointer">Basic example</TableOfContents.Item>
+              <TableOfContents.Item class="cursor-pointer">Advanced example</TableOfContents.Item>
+            </TableOfContents.Group>
+            <TableOfContents.Group label="Getting Started">
+              <TableOfContents.Item class="cursor-pointer">Installation</TableOfContents.Item>
+              <TableOfContents.Item class="cursor-pointer">Configuration</TableOfContents.Item>
+            </TableOfContents.Group>
+            <TableOfContents.Group label="API" href="#api-demo">
+              <TableOfContents.Item class="cursor-pointer">Props</TableOfContents.Item>
+              <TableOfContents.Item class="cursor-pointer">Events</TableOfContents.Item>
+            </TableOfContents.Group>
+          </TableOfContents.List>
+        </TableOfContents>
+      {:else if demo === 'TableOfContentsWithoutTitleDemo'}
+        <TableOfContents>
+          <TableOfContents.List>
+            {#each tableOfContentsHeadings.slice(0, 3) as heading (heading)}
+              <TableOfContents.Item active={heading === 'Introduction'} class="cursor-pointer">
+                {heading}
+              </TableOfContents.Item>
+            {/each}
+          </TableOfContents.List>
+        </TableOfContents>
+      {:else if demo === 'TableOfContentsRenderPropDemo'}
+        <div class="space-y-3">
+          <TableOfContents>
+            <TableOfContents.List>
+              {#each ['Introduction', 'Installation', 'Usage'] as heading (heading)}
+                <TableOfContents.Item
+                  as="button"
+                  type="button"
+                  active={heading === 'Introduction'}
+                  onclick={() => (tableOfContentsClicked = heading)}
+                >
+                  {heading}
+                </TableOfContents.Item>
+              {/each}
+            </TableOfContents.List>
+          </TableOfContents>
+          {#if tableOfContentsClicked}
+            <p class="text-xs text-kumo-subtle">Clicked: {tableOfContentsClicked}</p>
+          {/if}
+        </div>
+      {:else}
+        <TableOfContents>
+          <TableOfContents.Title>On this page</TableOfContents.Title>
+          <TableOfContents.List>
+            {#each tableOfContentsHeadings.slice(0, 3) as heading (heading)}
+              <TableOfContents.Item active={heading === 'Introduction'}>{heading}</TableOfContents.Item>
+            {/each}
+          </TableOfContents.List>
+        </TableOfContents>
+      {/if}
+    </div>
   {:else if looksLike('Table')}
     <LayerCard class="w-full max-w-md overflow-x-auto p-0">
       <Table>
-        <TableHeader variant={demo.includes('Compact') ? 'compact' : 'default'}>
-          <TableRow><TableHead>Subject</TableHead><TableHead>From</TableHead><TableHead>Date</TableHead></TableRow>
-        </TableHeader>
-        <TableBody>
+        <Table.Header variant={demo.includes('Compact') ? 'compact' : 'default'}>
+          <Table.Row><Table.Head>Subject</Table.Head><Table.Head>From</Table.Head><Table.Head>Date</Table.Head></Table.Row>
+        </Table.Header>
+        <Table.Body>
           {#each emailRows as row, index (row.subject)}
-            <TableRow variant={demo.includes('Selected') && index === 1 ? 'selected' : 'default'}>
-              <TableCell>{row.subject}</TableCell><TableCell>{row.from}</TableCell><TableCell>{row.date}</TableCell>
-            </TableRow>
+            <Table.Row variant={demo.includes('Selected') && index === 1 ? 'selected' : 'default'}>
+              <Table.Cell>{row.subject}</Table.Cell><Table.Cell>{row.from}</Table.Cell><Table.Cell>{row.date}</Table.Cell>
+            </Table.Row>
           {/each}
-        </TableBody>
+        </Table.Body>
       </Table>
     </LayerCard>
   {:else if looksLike('Tabs')}

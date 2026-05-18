@@ -156,7 +156,7 @@
     'table-of-contents': 'Presentational section navigation with active indicators.',
     tabs: 'Layered sections of content displayed one at a time.',
     text: 'A typography component for various heading and copy styles.',
-    toast: 'Displays brief, non-intrusive notifications.',
+    toast: 'Displays brief, non-intrusive notifications that appear temporarily.',
     tooltip: 'A popup that displays information on hover or focus.'
   };
 
@@ -172,7 +172,7 @@
   function fromNav(item: NavItem, type: SearchItem['type'], category: string): SearchItem {
     const slug = slugFromHref(item.href);
     return {
-      name: item.label,
+      name: slug === 'toast' ? 'Toasty' : item.label,
       type,
       description: COMPONENT_DESCRIPTIONS[slug] ?? `${item.label} documentation and examples.`,
       category,
@@ -360,7 +360,7 @@
                         <div class="flex items-center gap-2">
                         <span class="text-base font-medium text-kumo-default">
                           {#each highlight(item.name, query) as part, partIndex (partIndex)}
-                            {#if part.hit}<mark class="bg-transparent text-kumo-brand">{part.text}</mark>{:else}{part.text}{/if}
+                            {#if part.hit}<mark class="rounded-sm bg-kumo-warning/50 text-kumo-default">{part.text}</mark>{:else}{part.text}{/if}
                           {/each}
                         </span>
                         {#if query.trim() && item.type !== 'component'}
@@ -369,7 +369,7 @@
                         </div>
                         <span class="block truncate text-sm text-kumo-subtle">
                         {#each highlight(item.description, query) as part, partIndex (partIndex)}
-                          {#if part.hit}<mark class="bg-transparent text-kumo-brand">{part.text}</mark>{:else}{part.text}{/if}
+                          {#if part.hit}<mark class="rounded-sm bg-kumo-warning/50 text-kumo-default">{part.text}</mark>{:else}{part.text}{/if}
                         {/each}
                         </span>
                       </div>

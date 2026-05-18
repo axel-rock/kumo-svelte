@@ -36,7 +36,7 @@ sourceFile: "components/loader"
 
 ```svelte
 <script lang="ts">
-  import { Loader } from 'kumo-svelte/components/loader';
+  import { Loader } from 'kumo-svelte';
 </script>
 
 <Loader />

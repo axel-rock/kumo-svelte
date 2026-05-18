@@ -34,7 +34,7 @@ sourceFile: "components/pagination"
 
 ```svelte
 <script lang="ts">
-  import { Pagination } from 'kumo-svelte/components/pagination';
+  import { Pagination } from 'kumo-svelte';
 </script>
 ```
 
@@ -111,30 +111,24 @@ You can set custom pagination text.
   
 For more control over layout and features, use the compound component API. This allows you to compose `Pagination.Info`, `Pagination.PageSize`, `Pagination.Controls`, and `Pagination.Separator` in any order.
 
-In Svelte, import the compound pieces as named components:
+Import the compound pieces from the package barrel:
 
 ```svelte
 <script lang="ts">
-  import {
-    Pagination,
-    PaginationControls,
-    PaginationInfo,
-    PaginationPageSize,
-    PaginationSeparator
-  } from 'kumo-svelte';
+  import { Pagination } from 'kumo-svelte';
 
   let page = $state(1);
   let perPage = $state(25);
 </script>
 
 <Pagination bind:page {perPage} totalCount={500}>
-  <PaginationInfo />
-  <PaginationSeparator />
-  <PaginationPageSize bind:value={perPage} onChange={(size) => {
+  <Pagination.Info />
+  <Pagination.Separator />
+  <Pagination.PageSize bind:value={perPage} onChange={(size) => {
     perPage = size;
     page = 1;
   }} />
-  <PaginationControls />
+  <Pagination.Controls />
 </Pagination>
 ```
 
@@ -199,4 +193,20 @@ Use the `labels` prop to customize all UI strings for different locales. All lab
 ## API Reference
 
   <PropsTable component="Pagination" />
+
+### Pagination.Controls
+
+<PropsTable component="Pagination.Controls" />
+
+### Pagination.Info
+
+<PropsTable component="Pagination.Info" />
+
+### Pagination.PageSize
+
+<PropsTable component="Pagination.PageSize" />
+
+### Pagination.Separator
+
+<PropsTable component="Pagination.Separator" />
 </ComponentSection>

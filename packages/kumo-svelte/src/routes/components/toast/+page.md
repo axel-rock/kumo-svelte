@@ -26,8 +26,7 @@ sourceFile: "components/toast"
 
 ```svelte
 <script lang="ts">
-  import { Toasty } from 'kumo-svelte';
-  import { useKumoToastManager } from 'kumo-svelte/components/toasty';
+  import { Toasty, useKumoToastManager } from 'kumo-svelte';
 </script>
 ```
 
@@ -35,7 +34,7 @@ sourceFile: "components/toast"
 
 ```svelte
 <script lang="ts">
-  import { Toasty, useKumoToastManager } from 'kumo-svelte/components/toasty';
+  import { Toasty, useKumoToastManager } from 'kumo-svelte';
 </script>
 ```
 
@@ -52,8 +51,7 @@ The toast system consists of two parts: the `Toasty` provider component and the 
 ```svelte
 <!-- ToastTrigger.svelte -->
 <script lang="ts">
-  import { Button } from 'kumo-svelte';
-  import { useKumoToastManager } from 'kumo-svelte/components/toasty';
+  import { Button, useKumoToastManager } from 'kumo-svelte';
 
   const toastManager = useKumoToastManager();
 </script>

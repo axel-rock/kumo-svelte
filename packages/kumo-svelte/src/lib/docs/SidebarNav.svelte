@@ -171,7 +171,7 @@
     >
         <KumoMenuIcon />
     </Button>
-    <h1 class="text-base font-medium">Kumo-Svelte</h1>
+    <h1 class="text-base font-medium">Kumo Svelte</h1>
     <ThemeToggle />
 </div>
 
@@ -185,7 +185,7 @@
     <div
         class="flex h-12 flex-none items-center justify-between border-b border-kumo-hairline px-3"
     >
-        <h1 class="text-base font-medium">Kumo-Svelte</h1>
+        <h1 class="text-base font-medium">Kumo Svelte</h1>
         <Button
             variant="ghost"
             shape="square"
@@ -227,7 +227,7 @@
 <div
     class="pointer-events-none fixed top-0 left-12 z-50 hidden h-12 items-center px-3 font-medium select-none md:flex"
 >
-    <h1 class="text-base">Kumo-Svelte</h1>
+    <h1 class="text-base">Kumo Svelte</h1>
 </div>
 
 <aside

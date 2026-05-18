@@ -29,20 +29,6 @@ import { Breadcrumbs } from 'kumo-svelte';
 
 ## Usage
 
-```svelte
-<script>
-  import { Breadcrumbs } from 'kumo-svelte';
-</script>
-
-<Breadcrumbs>
-  <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
-  <Breadcrumbs.Separator />
-  <Breadcrumbs.Link href="#">Docs</Breadcrumbs.Link>
-  <Breadcrumbs.Separator />
-  <Breadcrumbs.Current>Breadcrumbs</Breadcrumbs.Current>
-</Breadcrumbs>
-```
-
   <ComponentExample demo="BreadcrumbsDemo" />
 </ComponentSection>
 
@@ -59,16 +45,6 @@ import { Breadcrumbs } from 'kumo-svelte';
 
 ### Loading
 
-```svelte
-<Breadcrumbs>
-  <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
-  <Breadcrumbs.Separator />
-  <Breadcrumbs.Link href="#">Docs</Breadcrumbs.Link>
-  <Breadcrumbs.Separator />
-  <Breadcrumbs.Current loading />
-</Breadcrumbs>
-```
-
   <ComponentExample demo="BreadcrumbsLoadingDemo" />
 </ComponentSection>
 
@@ -76,31 +52,12 @@ import { Breadcrumbs } from 'kumo-svelte';
 
 ### Root
 
-```svelte
-<script>
-  import { House } from 'phosphor-svelte';
-</script>
-
-<Breadcrumbs>
-  <Breadcrumbs.Current icon={House}>Worker Analytics</Breadcrumbs.Current>
-</Breadcrumbs>
-```
-
   <ComponentExample demo="BreadcrumbsRootDemo" />
 </ComponentSection>
 
 <ComponentSection>
 
 ### Clipboard
-
-```svelte
-<Breadcrumbs>
-  <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
-  <Breadcrumbs.Separator />
-  <Breadcrumbs.Current>Breadcrumbs</Breadcrumbs.Current>
-  <Breadcrumbs.Clipboard text="#" />
-</Breadcrumbs>
-```
 
   <ComponentExample demo="BreadcrumbsWithClipboardDemo" />
 </ComponentSection>

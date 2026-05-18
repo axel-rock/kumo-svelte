@@ -259,6 +259,120 @@ function buttonSnippet(demo: string) {
   }
 }
 
+function switchSnippet(demo: string) {
+  switch (demo) {
+    case 'SwitchBasicDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+
+  let checked = $state(false);
+</script>
+
+<Switch label="Switch" bind:checked />`;
+    case 'SwitchOffDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+</script>
+
+<Switch label="Switch" checked={false} />`;
+    case 'SwitchOnDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+</script>
+
+<Switch label="Switch" checked={true} />`;
+    case 'SwitchDisabledDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+</script>
+
+<Switch label="Disabled" checked={false} disabled />`;
+    case 'SwitchNeutralDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+
+  let checked = $state(false);
+</script>
+
+<Switch label="Neutral switch" variant="neutral" bind:checked />`;
+    case 'SwitchNeutralStatesDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+</script>
+
+<div class="flex flex-col gap-4">
+  <Switch label="Neutral off" variant="neutral" checked={false} />
+  <Switch label="Neutral on" variant="neutral" checked={true} />
+  <Switch label="Neutral disabled" variant="neutral" checked={false} disabled />
+</div>`;
+    case 'SwitchVariantsDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+</script>
+
+<div class="grid grid-cols-2 gap-x-8 gap-y-4">
+  <Switch label="Default off" checked={false} />
+  <Switch label="Default on" checked={true} />
+  <Switch label="Neutral off" variant="neutral" checked={false} />
+  <Switch label="Neutral on" variant="neutral" checked={true} />
+</div>`;
+    case 'SwitchSizesDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+</script>
+
+<div class="flex flex-col gap-4">
+  <Switch label="Small" size="sm" checked={true} />
+  <Switch label="Base (default)" size="base" checked={true} />
+  <Switch label="Large" size="lg" checked={true} />
+</div>`;
+    case 'SwitchCustomIdDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+
+  let checked = $state(false);
+</script>
+
+<Switch id="my-custom-switch" label="Custom ID" bind:checked />`;
+    case 'SwitchGroupDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+</script>
+
+<Switch.Group legend="Notification settings">
+  <Switch.Item label="Email notifications" />
+  <Switch.Item label="SMS notifications" />
+  <Switch.Item label="Push notifications" />
+</Switch.Group>`;
+    case 'SwitchLegendSrOnlyDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+</script>
+
+<Switch.Group>
+  <Switch.Legend class="sr-only">Notification settings</Switch.Legend>
+  <Switch.Item label="Email notifications" />
+  <Switch.Item label="SMS notifications" />
+  <Switch.Item label="Push notifications" />
+</Switch.Group>`;
+    case 'SwitchLegendCustomDemo':
+      return `<script lang="ts">
+  import { Switch } from 'kumo-svelte';
+</script>
+
+<Switch.Group>
+  <Switch.Legend class="text-sm font-normal text-kumo-subtle">
+    Notification settings
+  </Switch.Legend>
+  <Switch.Item label="Email notifications" />
+  <Switch.Item label="SMS notifications" />
+  <Switch.Item label="Push notifications" />
+</Switch.Group>`;
+    default:
+      return '';
+  }
+}
+
 function autocompleteSnippet(demo: string) {
   const fruits = `const fruits = [
   'Apple',
@@ -966,11 +1080,107 @@ function flowSnippet(demo: string) {
   }
 }
 
+function tabsSnippet(demo: string) {
+  const items = `  const items = [
+    { value: 'tab1', label: 'Tab 1' },
+    { value: 'tab2', label: 'Tab 2' },
+    { value: 'tab3', label: 'Tab 3' }
+  ];`;
+
+  switch (demo) {
+    case 'TabsDefaultDemo':
+      return `<script lang="ts">
+  import { Tabs } from 'kumo-svelte';
+
+${items}
+</script>
+
+<div class="flex flex-col gap-6">
+  <div>
+    <p class="mb-2 text-sm text-kumo-subtle">Segmented (default)</p>
+    <Tabs variant="segmented" {items} value="tab1" />
+  </div>
+  <div>
+    <p class="mb-2 text-sm text-kumo-subtle">Underline</p>
+    <Tabs variant="underline" {items} value="tab1" />
+  </div>
+</div>`;
+    case 'TabsSegmentedDemo':
+      return `<script lang="ts">
+  import { Tabs } from 'kumo-svelte';
+
+${items}
+</script>
+
+<Tabs variant="segmented" {items} value="tab1" />`;
+    case 'TabsUnderlineDemo':
+      return `<script lang="ts">
+  import { Tabs } from 'kumo-svelte';
+
+${items}
+</script>
+
+<Tabs variant="underline" {items} value="tab1" />`;
+    case 'TabsSmDemo':
+      return `<script lang="ts">
+  import { Tabs } from 'kumo-svelte';
+
+${items}
+</script>
+
+<div class="flex flex-col gap-6">
+  <div>
+    <p class="mb-2 text-sm text-kumo-subtle">Segmented sm</p>
+    <Tabs variant="segmented" size="sm" {items} value="tab1" />
+  </div>
+  <div>
+    <p class="mb-2 text-sm text-kumo-subtle">Underline sm</p>
+    <Tabs variant="underline" size="sm" {items} value="tab1" />
+  </div>
+</div>`;
+    case 'TabsControlledDemo':
+      return `<script lang="ts">
+  import { Tabs } from 'kumo-svelte';
+
+${items}
+  let value = $state('tab1');
+</script>
+
+<div class="space-y-4">
+  <Tabs {items} bind:value />
+  <p class="text-sm text-kumo-subtle">
+    Active tab: <code class="text-sm">{value}</code>
+  </p>
+</div>`;
+    case 'TabsManyDemo':
+      return `<script lang="ts">
+  import { Tabs } from 'kumo-svelte';
+
+  const items = [
+    { value: 'overview', label: 'Overview' },
+    { value: 'analytics', label: 'Analytics' },
+    { value: 'reports', label: 'Reports' },
+    { value: 'notifications', label: 'Notifications' },
+    { value: 'settings', label: 'Settings' },
+    { value: 'billing', label: 'Billing' },
+    { value: 'security', label: 'Security' },
+    { value: 'integrations', label: 'Integrations' }
+  ];
+</script>
+
+<div class="w-full max-w-md">
+  <Tabs {items} value="overview" />
+</div>`;
+    default:
+      return '';
+  }
+}
+
 function specializedSnippet(demo: string) {
   switch (demo) {
     case 'CodeHighlightedBasicDemo':
       return `<script lang="ts">
-  import { CodeHighlighted } from 'kumo-svelte/components/code-highlighted';
+  import { CodeHighlighted } from 'kumo-svelte';
 </script>
 
 <CodeHighlighted
@@ -982,7 +1192,7 @@ function specializedSnippet(demo: string) {
 />`;
     case 'CodeHighlightedCopyButtonDemo':
       return `<script lang="ts">
-  import { CodeHighlighted } from 'kumo-svelte/components/code-highlighted';
+  import { CodeHighlighted } from 'kumo-svelte';
 </script>
 
 <CodeHighlighted code="npm install kumo-svelte" lang="bash" showCopyButton />`;
@@ -1038,13 +1248,13 @@ function specializedSnippet(demo: string) {
 </div>`;
     case 'PoweredByCloudflareBasicDemo':
       return `<script lang="ts">
-  import { PoweredByCloudflare } from 'kumo-svelte/components/cloudflare-logo';
+  import { PoweredByCloudflare } from 'kumo-svelte';
 </script>
 
 <PoweredByCloudflare />`;
     case 'PoweredByCloudflareVariantsDemo':
       return `<script lang="ts">
-  import { PoweredByCloudflare } from 'kumo-svelte/components/cloudflare-logo';
+  import { PoweredByCloudflare } from 'kumo-svelte';
 </script>
 
 <div class="flex flex-wrap items-center gap-4">
@@ -1054,6 +1264,64 @@ function specializedSnippet(demo: string) {
     <PoweredByCloudflare color="white" />
   </div>
 </div>`;
+    case 'BreadcrumbsDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs } from 'kumo-svelte';
+</script>
+
+<Breadcrumbs>
+  <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Link href="#">Docs</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Current>Breadcrumbs</Breadcrumbs.Current>
+</Breadcrumbs>`;
+    case 'BreadcrumbsWithIconsDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs } from 'kumo-svelte';
+  import { House } from 'phosphor-svelte';
+</script>
+
+<Breadcrumbs>
+  <Breadcrumbs.Link href="#" icon={House}>Home</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Link href="#">Projects</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Current>Current Project</Breadcrumbs.Current>
+</Breadcrumbs>`;
+    case 'BreadcrumbsLoadingDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs } from 'kumo-svelte';
+  import { House } from 'phosphor-svelte';
+</script>
+
+<Breadcrumbs>
+  <Breadcrumbs.Link href="#" icon={House}>Home</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Link href="#">Docs</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Current loading />
+</Breadcrumbs>`;
+    case 'BreadcrumbsRootDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs } from 'kumo-svelte';
+  import { House } from 'phosphor-svelte';
+</script>
+
+<Breadcrumbs>
+  <Breadcrumbs.Current icon={House}>Worker Analytics</Breadcrumbs.Current>
+</Breadcrumbs>`;
+    case 'BreadcrumbsWithClipboardDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs } from 'kumo-svelte';
+</script>
+
+<Breadcrumbs>
+  <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+  <Breadcrumbs.Separator />
+  <Breadcrumbs.Current>Breadcrumbs</Breadcrumbs.Current>
+  <Breadcrumbs.Clipboard text="#" />
+</Breadcrumbs>`;
     case 'MeterBasicDemo':
       return `<script lang="ts">
   import { Meter } from 'kumo-svelte';
@@ -1452,14 +1720,22 @@ function specializedSnippet(demo: string) {
 </script>
 
 <Table>
-  <thead>
-    <tr><th>Subject</th><th>From</th><th>Date</th></tr>
-  </thead>
-  <tbody>
+  <Table.Header>
+    <Table.Row>
+      <Table.Head>Subject</Table.Head>
+      <Table.Head>From</Table.Head>
+      <Table.Head>Date</Table.Head>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
     {#each rows as row}
-      <tr><td>{row.subject}</td><td>{row.from}</td><td>{row.date}</td></tr>
+      <Table.Row>
+        <Table.Cell>{row.subject}</Table.Cell>
+        <Table.Cell>{row.from}</Table.Cell>
+        <Table.Cell>{row.date}</Table.Cell>
+      </Table.Row>
     {/each}
-  </tbody>
+  </Table.Body>
 </Table>`;
     case 'CodeBasicDemo':
       return `<script lang="ts">
@@ -1743,78 +2019,78 @@ function specializedSnippet(demo: string) {
 </div>`;
     case 'GridDemo':
       return `<script lang="ts">
-  import { Grid, GridItem, Surface, Text } from 'kumo-svelte';
+  import { Grid, Surface, Text } from 'kumo-svelte';
 </script>
 
 <Grid variant="2up" gap="base">
-  <GridItem>
+  <Grid.Item>
     <Surface class="rounded-lg p-4">
       <Text bold>Item 1</Text>
       <div class="mt-1">
         <Text variant="secondary">First grid item</Text>
       </div>
     </Surface>
-  </GridItem>
-  <GridItem>
+  </Grid.Item>
+  <Grid.Item>
     <Surface class="rounded-lg p-4">
       <Text bold>Item 2</Text>
       <div class="mt-1">
         <Text variant="secondary">Second grid item</Text>
       </div>
     </Surface>
-  </GridItem>
+  </Grid.Item>
 </Grid>`;
     case 'GridVariantsDemo':
       return `<script lang="ts">
-  import { Grid, GridItem, Surface, Text } from 'kumo-svelte';
+  import { Grid, Surface, Text } from 'kumo-svelte';
 </script>
 
 <Grid variant="3up" gap="sm">
-  <GridItem><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></GridItem>
-  <GridItem><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></GridItem>
-  <GridItem><Surface class="rounded-lg p-4 text-center"><Text>3</Text></Surface></GridItem>
+  <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></Grid.Item>
+  <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></Grid.Item>
+  <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>3</Text></Surface></Grid.Item>
 </Grid>`;
     case 'GridAsymmetricDemo':
       return `<script lang="ts">
-  import { Grid, GridItem, Surface, Text } from 'kumo-svelte';
+  import { Grid, Surface, Text } from 'kumo-svelte';
 </script>
 
 <Grid variant="2-1" gap="sm">
-  <GridItem>
+  <Grid.Item>
     <Surface class="rounded-lg p-4">
       <Text bold>Main Content</Text>
       <div class="mt-1"><Text variant="secondary">Two-thirds width</Text></div>
     </Surface>
-  </GridItem>
-  <GridItem>
+  </Grid.Item>
+  <Grid.Item>
     <Surface class="rounded-lg p-4">
       <Text bold>Sidebar</Text>
       <div class="mt-1"><Text variant="secondary">One-third width</Text></div>
     </Surface>
-  </GridItem>
+  </Grid.Item>
 </Grid>`;
     case 'GridGapDemo':
       return `<script lang="ts">
-  import { Grid, GridItem, Surface, Text } from 'kumo-svelte';
+  import { Grid, Surface, Text } from 'kumo-svelte';
 </script>
 
 <Grid variant="side-by-side" gap="base">
-  <GridItem><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></GridItem>
-  <GridItem><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></GridItem>
+  <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>1</Text></Surface></Grid.Item>
+  <Grid.Item><Surface class="rounded-lg p-4 text-center"><Text>2</Text></Surface></Grid.Item>
 </Grid>`;
     case 'GridMobileDividerDemo':
       return `<script lang="ts">
-  import { Grid, GridItem, Surface, Text } from 'kumo-svelte';
+  import { Grid, Surface, Text } from 'kumo-svelte';
 </script>
 
 <Grid variant="4up" gap="base" mobileDivider>
   {#each [1, 2, 3, 4] as item}
-    <GridItem>
+    <Grid.Item>
       <Surface class="rounded-lg p-4">
         <Text bold>Item {item}</Text>
         <div class="mt-1"><Text variant="secondary">Has divider on mobile</Text></div>
       </Surface>
-    </GridItem>
+    </Grid.Item>
   {/each}
 </Grid>`;
     case 'ToastBasicDemo':
@@ -1869,17 +2145,167 @@ function specializedSnippet(demo: string) {
   }
 }
 
+function tableOfContentsSnippet(demo: string) {
+  const headings = `  const headings = [
+    'Introduction',
+    'Installation',
+    'Usage',
+    'API Reference',
+    'Examples'
+  ];`;
+
+  switch (demo) {
+    case 'TableOfContentsBasicDemo':
+      return `<script lang="ts">
+  import { TableOfContents } from 'kumo-svelte';
+
+${headings}
+</script>
+
+<div class="min-w-48">
+  <TableOfContents>
+    <TableOfContents.Title>On this page</TableOfContents.Title>
+    <TableOfContents.List>
+      {#each headings as heading (heading)}
+        <TableOfContents.Item active={heading === 'Usage'} class="cursor-pointer">
+          {heading}
+        </TableOfContents.Item>
+      {/each}
+    </TableOfContents.List>
+  </TableOfContents>
+</div>`;
+    case 'TableOfContentsInteractiveDemo':
+      return `<script lang="ts">
+  import { TableOfContents } from 'kumo-svelte';
+
+${headings}
+  let active = $state('Introduction');
+</script>
+
+<div class="min-w-48">
+  <TableOfContents>
+    <TableOfContents.Title>On this page</TableOfContents.Title>
+    <TableOfContents.List>
+      {#each headings as heading (heading)}
+        <TableOfContents.Item
+          active={heading === active}
+          onclick={() => (active = heading)}
+          class="cursor-pointer"
+        >
+          {heading}
+        </TableOfContents.Item>
+      {/each}
+    </TableOfContents.List>
+  </TableOfContents>
+</div>`;
+    case 'TableOfContentsNoActiveDemo':
+      return `<script lang="ts">
+  import { TableOfContents } from 'kumo-svelte';
+
+${headings}
+</script>
+
+<div class="min-w-48">
+  <TableOfContents>
+    <TableOfContents.Title>On this page</TableOfContents.Title>
+    <TableOfContents.List>
+      {#each headings as heading (heading)}
+        <TableOfContents.Item class="cursor-pointer">{heading}</TableOfContents.Item>
+      {/each}
+    </TableOfContents.List>
+  </TableOfContents>
+</div>`;
+    case 'TableOfContentsGroupDemo':
+      return `<script lang="ts">
+  import { TableOfContents } from 'kumo-svelte';
+</script>
+
+<div class="min-w-48">
+  <TableOfContents>
+    <TableOfContents.Title>On this page</TableOfContents.Title>
+    <TableOfContents.List>
+      <TableOfContents.Item active class="cursor-pointer">Overview</TableOfContents.Item>
+      <TableOfContents.Group label="Examples" href="#examples-demo">
+        <TableOfContents.Item class="cursor-pointer">Basic example</TableOfContents.Item>
+        <TableOfContents.Item class="cursor-pointer">Advanced example</TableOfContents.Item>
+      </TableOfContents.Group>
+      <TableOfContents.Group label="Getting Started">
+        <TableOfContents.Item class="cursor-pointer">Installation</TableOfContents.Item>
+        <TableOfContents.Item class="cursor-pointer">Configuration</TableOfContents.Item>
+      </TableOfContents.Group>
+      <TableOfContents.Group label="API" href="#api-demo">
+        <TableOfContents.Item class="cursor-pointer">Props</TableOfContents.Item>
+        <TableOfContents.Item class="cursor-pointer">Events</TableOfContents.Item>
+      </TableOfContents.Group>
+    </TableOfContents.List>
+  </TableOfContents>
+</div>`;
+    case 'TableOfContentsWithoutTitleDemo':
+      return `<script lang="ts">
+  import { TableOfContents } from 'kumo-svelte';
+
+${headings}
+</script>
+
+<div class="min-w-48">
+  <TableOfContents>
+    <TableOfContents.List>
+      {#each headings.slice(0, 3) as heading (heading)}
+        <TableOfContents.Item active={heading === 'Introduction'} class="cursor-pointer">
+          {heading}
+        </TableOfContents.Item>
+      {/each}
+    </TableOfContents.List>
+  </TableOfContents>
+</div>`;
+    case 'TableOfContentsRenderPropDemo':
+      return `<script lang="ts">
+  import { TableOfContents } from 'kumo-svelte';
+
+  let clicked = $state<string | null>(null);
+</script>
+
+<div class="min-w-48 space-y-3">
+  <TableOfContents>
+    <TableOfContents.List>
+      {#each ['Introduction', 'Installation', 'Usage'] as heading (heading)}
+        <TableOfContents.Item
+          as="button"
+          type="button"
+          active={heading === 'Introduction'}
+          onclick={() => (clicked = heading)}
+        >
+          {heading}
+        </TableOfContents.Item>
+      {/each}
+    </TableOfContents.List>
+  </TableOfContents>
+  {#if clicked}
+    <p class="text-xs text-kumo-subtle">Clicked: {clicked}</p>
+  {/if}
+</div>`;
+    default:
+      return '';
+  }
+}
+
 export function getSvelteDemoSnippet(demo: string) {
   const specialized = specializedSnippet(demo);
   if (specialized) return specialized;
+  const tableOfContents = tableOfContentsSnippet(demo);
+  if (tableOfContents) return tableOfContents;
   const badge = badgeSnippet(demo);
   if (badge) return badge;
   const button = buttonSnippet(demo);
   if (button) return button;
+  const switchDemo = switchSnippet(demo);
+  if (switchDemo) return switchDemo;
   const autocomplete = autocompleteSnippet(demo);
   if (autocomplete) return autocomplete;
   const flow = flowSnippet(demo);
   if (flow) return flow;
+  const tabs = tabsSnippet(demo);
+  if (tabs) return tabs;
   if (demo.includes('Chart') || demo.includes('Legend') || demo.includes('Sankey') || demo.includes('Pie') || demo.includes('Categorical') || demo.includes('Heatmap')) return chartSnippet(demo);
   return snippets[demo] ?? previewRendererSnippet(demo);
 }

@@ -1,5 +1,16 @@
+import Root from './Grid.svelte';
+import Item from './GridItem.svelte';
+
+const Grid = Object.assign(Root, {
+  Root,
+  Item
+}) as typeof Root & {
+  Root: typeof Root;
+  Item: typeof Item;
+};
+
+export { Grid };
 export {
-  default as Grid,
   gridItemVariants,
   gridVariants,
   KUMO_GRID_DEFAULT_VARIANTS,
@@ -8,4 +19,4 @@ export {
   type KumoGridVariant,
   type KumoGridVariantsProps
 } from './Grid.svelte';
-export { default as GridItem } from './GridItem.svelte';
+export { Item as GridItem };

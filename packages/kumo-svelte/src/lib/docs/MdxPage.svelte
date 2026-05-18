@@ -34,6 +34,18 @@
   );
   const pageTitle = $derived(title ?? 'Kumo');
   const pageDescription = $derived(description ?? 'Kumo - a modern component library');
+  const tocHeadings = $derived(
+    Array.isArray(metadata.headings)
+      ? metadata.headings.filter(
+          (heading): heading is { depth: number; slug: string; text: string } =>
+            typeof heading === 'object' &&
+            heading !== null &&
+            typeof heading.depth === 'number' &&
+            typeof heading.slug === 'string' &&
+            typeof heading.text === 'string'
+        )
+      : []
+  );
   const bitsUIUrl = $derived(
     bitsUIComponent ? `https://bits-ui.com/docs/components/${bitsUIComponent}` : null
   );
@@ -70,7 +82,7 @@
 
     const usedSlugs: string[] = [];
 
-    for (const heading of Array.from(content.querySelectorAll('h2, h3, h4'))) {
+    for (const heading of Array.from(content.querySelectorAll('h2, h3, h4')).filter((element) => !element.closest('.not-prose'))) {
       const text = heading.textContent?.trim() ?? '';
       if (!text) continue;
 
@@ -110,7 +122,7 @@
 </script>
 
 <svelte:head>
-  <title>{pageTitle} - Kumo</title>
+  <title>{pageTitle} - Kumo Svelte</title>
   <meta name="description" content={pageDescription} />
 </svelte:head>
 
@@ -162,7 +174,7 @@
     <div class="mx-auto w-full grow md:border-r md:border-kumo-hairline">
       <div class="sticky top-24 z-1 border-b border-kumo-hairline bg-kumo-canvas xl:hidden md:top-12">
         <div class="mx-auto max-w-7xl px-2 py-3 md:px-3">
-          <TableOfContents layout="select" />
+          <TableOfContents layout="select" headings={tocHeadings} />
         </div>
       </div>
 
@@ -173,7 +185,7 @@
           </div>
           <aside class="hidden min-w-0 xl:block">
             <div class="sticky top-24">
-              <TableOfContents />
+              <TableOfContents headings={tocHeadings} />
             </div>
           </aside>
         </div>

@@ -31,7 +31,7 @@ import { Flow } from "kumo-svelte";
 ### Granular
 
 ```svelte
-import { Flow } from "kumo-svelte/components/flow";
+import { Flow } from "kumo-svelte";
 ```
 
 </ComponentSection>
@@ -86,8 +86,8 @@ Use `Flow.Parallel` to create branching paths that run in parallel.
 ### Custom Node Styling
 
 
-Use the `render` prop to completely customize node appearance. The render prop
-  accepts a Svelte snippet that will be used instead of the default styled node.
+Use the `bare` prop to remove the default card styling, then pass your own
+  content and classes inside the node.
 
 <ComponentExample demo="FlowCustomContentDemo" />
 
@@ -110,7 +110,7 @@ Combine sequential and parallel nodes to build complex workflows.
 
 
 By default, connectors attach to the center of each node. Use `Flow.Anchor`
-  with its `render` prop to specify custom attachment points. The `type` prop
+  around custom content to specify attachment points. The `type` prop
   controls whether the anchor serves as a `"start"` point (where connectors
   leave) or `"end"` point (where connectors arrive).
 
@@ -206,6 +206,11 @@ The root container for flow diagrams. Provides panning and scrolling for large
     </thead>
     <tbody>
       <tr class="border-b border-kumo-hairline">
+        <td class="px-4 py-3 font-mono">orientation</td>
+        <td class="px-4 py-3 font-mono">"horizontal" | "vertical"</td>
+        <td class="px-4 py-3">Layout direction for the flow</td>
+      </tr>
+      <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono">align</td>
         <td class="px-4 py-3 font-mono">"start" | "center"</td>
         <td class="px-4 py-3">
@@ -217,6 +222,16 @@ The root container for flow diagrams. Provides panning and scrolling for large
         <td class="px-4 py-3 font-mono">class</td>
         <td class="px-4 py-3 font-mono">string</td>
         <td class="px-4 py-3">Additional CSS classes for the container</td>
+      </tr>
+      <tr class="border-b border-kumo-hairline">
+        <td class="px-4 py-3 font-mono">canvas</td>
+        <td class="px-4 py-3 font-mono">boolean</td>
+        <td class="px-4 py-3">Enables the scrollable canvas wrapper</td>
+      </tr>
+      <tr class="border-b border-kumo-hairline">
+        <td class="px-4 py-3 font-mono">padding</td>
+        <td class="px-4 py-3 font-mono">&#123; x?: number; y?: number &#125;</td>
+        <td class="px-4 py-3">Canvas padding in pixels</td>
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono">children</td>
@@ -231,7 +246,7 @@ The root container for flow diagrams. Provides panning and scrolling for large
 
 
 A single node in the flow diagram. Renders as a styled card with automatic
-  connector points. Use the `render` prop to customize the element.
+  connector points. Use `bare` and `class` to customize the element chrome.
 
 <div class="overflow-x-auto">
   <table class="w-full">
@@ -244,13 +259,6 @@ A single node in the flow diagram. Renders as a styled card with automatic
     </thead>
     <tbody>
       <tr class="border-b border-kumo-hairline">
-        <td class="px-4 py-3 font-mono">render</td>
-        <td class="px-4 py-3 font-mono">Snippet</td>
-        <td class="px-4 py-3">
-          Custom element to render instead of the default styled node
-        </td>
-      </tr>
-      <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono">disabled</td>
         <td class="px-4 py-3 font-mono">boolean</td>
         <td class="px-4 py-3">
@@ -259,9 +267,24 @@ A single node in the flow diagram. Renders as a styled card with automatic
         </td>
       </tr>
       <tr class="border-b border-kumo-hairline">
+        <td class="px-4 py-3 font-mono">id</td>
+        <td class="px-4 py-3 font-mono">string</td>
+        <td class="px-4 py-3">Stable node id used for connector registration</td>
+      </tr>
+      <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono">children</td>
         <td class="px-4 py-3 font-mono">Snippet</td>
         <td class="px-4 py-3">Content to display inside the node</td>
+      </tr>
+      <tr class="border-b border-kumo-hairline">
+        <td class="px-4 py-3 font-mono">bare</td>
+        <td class="px-4 py-3 font-mono">boolean</td>
+        <td class="px-4 py-3">Removes the default node card styling</td>
+      </tr>
+      <tr class="border-b border-kumo-hairline">
+        <td class="px-4 py-3 font-mono">class</td>
+        <td class="px-4 py-3 font-mono">string</td>
+        <td class="px-4 py-3">Additional CSS classes for the node</td>
       </tr>
     </tbody>
   </table>
@@ -272,7 +295,7 @@ A single node in the flow diagram. Renders as a styled card with automatic
 
 A component that marks a custom attachment point for connectors within a
   Flow.Node. Use this to control exactly where connector lines attach instead of
-  the default node center by providing a custom element via the `render` prop.
+  the default node center by wrapping the anchor point content.
 
 <div class="overflow-x-auto">
   <table class="w-full">
@@ -291,11 +314,6 @@ A component that marks a custom attachment point for connectors within a
           Whether this anchor serves as a "start" point (outgoing connectors) or
           "end" point (incoming connectors). When omitted, serves as both.
         </td>
-      </tr>
-      <tr class="border-b border-kumo-hairline">
-        <td class="px-4 py-3 font-mono">render</td>
-        <td class="px-4 py-3 font-mono">Snippet</td>
-        <td class="px-4 py-3">Custom element to render for the anchor point</td>
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono">children</td>
@@ -337,6 +355,11 @@ A container for parallel branches. Child Flow.Node components are displayed in
           Flow.Node or Flow.List components to display in parallel
         </td>
       </tr>
+      <tr class="border-b border-kumo-hairline">
+        <td class="px-4 py-3 font-mono">class</td>
+        <td class="px-4 py-3 font-mono">string</td>
+        <td class="px-4 py-3">Additional CSS classes for the parallel group</td>
+      </tr>
     </tbody>
   </table>
 </div>
@@ -362,6 +385,11 @@ A container for a sequence of Flow.Node components with automatic
           <td class="px-4 py-3 font-mono">children</td>
           <td class="px-4 py-3 font-mono">Snippet</td>
           <td class="px-4 py-3">Flow.Node components to display in sequence</td>
+        </tr>
+        <tr class="border-b border-kumo-hairline">
+          <td class="px-4 py-3 font-mono">class</td>
+          <td class="px-4 py-3 font-mono">string</td>
+          <td class="px-4 py-3">Additional CSS classes for the list</td>
         </tr>
       </tbody>
     </table>

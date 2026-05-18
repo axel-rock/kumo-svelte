@@ -1,6 +1,29 @@
-export { default as Collapsible } from './Collapsible.svelte';
-export { default as CollapsibleRoot } from './CollapsibleRoot.svelte';
-export { default as CollapsibleTrigger } from './CollapsibleTrigger.svelte';
-export { default as CollapsiblePanel } from './CollapsiblePanel.svelte';
-export { default as CollapsibleDefaultTrigger } from './CollapsibleDefaultTrigger.svelte';
-export { default as CollapsibleDefaultPanel } from './CollapsibleDefaultPanel.svelte';
+import Root from './Collapsible.svelte';
+import CollapsibleRoot from './CollapsibleRoot.svelte';
+import Trigger from './CollapsibleTrigger.svelte';
+import Panel from './CollapsiblePanel.svelte';
+import DefaultTrigger from './CollapsibleDefaultTrigger.svelte';
+import DefaultPanel from './CollapsibleDefaultPanel.svelte';
+
+const Collapsible = Object.assign(Root, {
+  Root: CollapsibleRoot,
+  Trigger,
+  Panel,
+  DefaultTrigger,
+  DefaultPanel
+}) as typeof Root & {
+  Root: typeof CollapsibleRoot;
+  Trigger: typeof Trigger;
+  Panel: typeof Panel;
+  DefaultTrigger: typeof DefaultTrigger;
+  DefaultPanel: typeof DefaultPanel;
+};
+
+export {
+  Collapsible,
+  CollapsibleRoot,
+  Trigger as CollapsibleTrigger,
+  Panel as CollapsiblePanel,
+  DefaultTrigger as CollapsibleDefaultTrigger,
+  DefaultPanel as CollapsibleDefaultPanel
+};

@@ -30,7 +30,7 @@ sourceFile: "components/code-highlighted"
 
 ```svelte
 <script lang="ts">
-  import { CodeHighlighted } from 'kumo-svelte/components/code-highlighted';
+  import { CodeHighlighted } from 'kumo-svelte';
 </script>
 ```
 

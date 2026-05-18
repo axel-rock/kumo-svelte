@@ -34,7 +34,7 @@ sourceFile: "components/input"
 
 ```svelte
 <script lang="ts">
-  import { Input } from 'kumo-svelte/components/input';
+  import { Input } from 'kumo-svelte';
 </script>
 ```
 

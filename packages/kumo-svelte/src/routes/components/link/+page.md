@@ -33,7 +33,7 @@ sourceFile: "components/link"
 
 ```svelte
 <script lang="ts">
-  import { Link, LinkExternalIcon } from 'kumo-svelte/components/link';
+  import { Link, LinkExternalIcon } from 'kumo-svelte';
 </script>
 ```
 
@@ -65,7 +65,7 @@ Use `LinkExternalIcon` to indicate links that open in a new tab.
 
 ```svelte
 <script lang="ts">
-  import { Link, LinkExternalIcon } from 'kumo-svelte/components/link';
+  import { Link, LinkExternalIcon } from 'kumo-svelte';
 </script>
 
 <Link
@@ -142,7 +142,7 @@ Extends all native anchor element attributes.
     <tbody>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">variant</td>
-        <td class="px-4 py-3 font-mono text-xs">"inline" | "current" | "plain"</td>
+        <td class="px-4 py-3 font-mono text-xs">KumoLinkVariant</td>
         <td class="px-4 py-3 font-mono text-xs">"inline"</td>
         <td class="px-4 py-3 text-xs">Visual style variant</td>
       </tr>
@@ -205,13 +205,13 @@ Extends all native anchor element attributes.
   </table>
 </div>
 
-### LinkExternalIcon
+### Link.ExternalIcon
 
 SVG icon component to indicate external links. Accepts SVG element attributes.
 
 ```svelte
 <script lang="ts">
-  import { Link, LinkExternalIcon } from 'kumo-svelte/components/link';
+  import { Link, LinkExternalIcon } from 'kumo-svelte';
 </script>
 
 <Link href="https://example.com" target="_blank" rel="noopener noreferrer">

@@ -31,7 +31,7 @@ import { MenuBar } from "kumo-svelte";
 ### Granular
 
 ```svelte
-import { MenuBar } from "kumo-svelte/components/menubar";
+import { MenuBar } from "kumo-svelte";
 ```
 
 </ComponentSection>

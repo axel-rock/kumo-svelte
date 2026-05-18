@@ -32,7 +32,7 @@ import { DropdownMenu } from "kumo-svelte";
 ### Granular
 
 ```svelte
-import { DropdownMenu } from "kumo-svelte/components/dropdown-menu";
+import { DropdownMenu } from "kumo-svelte";
 ```
 
 </ComponentSection>

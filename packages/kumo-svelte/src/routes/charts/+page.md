@@ -1,30 +1,59 @@
 ---
 title: "Charts"
-description: "Composable chart primitives built on ECharts."
+description: "Charts built on ECharts."
 sourceFile: "components/chart"
+headings:
+  - depth: 2
+    slug: "available-charts"
+    text: "Available Charts"
+  - depth: 2
+    slug: "color-system"
+    text: "Color System"
+  - depth: 2
+    slug: "legend"
+    text: "Legend"
+  - depth: 3
+    slug: "largeitem"
+    text: "LargeItem"
+  - depth: 3
+    slug: "smallitem"
+    text: "SmallItem"
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
+  import ChartCard from '$lib/docs/ChartCard.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
-  import CodeBlock from '$lib/docs/CodeBlock.svelte';
-  import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
 
 
 <ComponentSection>
 
-Chart components are built on ECharts. Install it as a dependency:
+<p class="mb-4">
+  Chart components are built on ECharts. Install it as a dependency:
+</p>
 
 ```bash
 npm install echarts
 ```
 
+<p class="my-4">
 For optimal bundle size, import only the ECharts components you need. The
 examples below show the minimum required imports for our use cases.
+</p>
 
-```svelte
+```ts
+import * as echarts from "echarts/core";
+import { BarChart, LineChart, PieChart } from "echarts/charts";
+import {
+  AriaComponent,
+  AxisPointerComponent,
+  BrushComponent,
+  GridComponent,
+  TooltipComponent,
+} from "echarts/components";
+import { CanvasRenderer } from "echarts/renderers";
+
 echarts.use([
   BarChart,
   LineChart,
@@ -44,27 +73,21 @@ echarts.use([
 
 ## Available Charts
 
-Kumo exposes a low-level `Chart` wrapper for custom ECharts options, plus
-specialized chart components for common dashboard patterns.
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+  <ChartCard
+    title="Timeseries Chart"
+    description="A specialized chart for displaying time-based data."
+    href="/charts/timeseries"
+    demo="TimeseriesChartPreviewDemo"
+  />
 
-### Timeseries
-
-Use `TimeseriesChart` for line and bar charts over time. It includes accessible
-chart labels, tooltips, loading states, incomplete data styling and optional
-range brushing.
-
-<ComponentExample demo="TimeseriesChartPreviewDemo" />
-
-### Sankey
-
-Use `SankeyChart` when showing flow between systems, resources or account
-boundaries.
-
-<ComponentExample demo="SankeyChartPreviewDemo" />
-
-### Custom ECharts
-
-<ComponentExample demo="PieChartPreviewDemo" />
+  <ChartCard
+    title="Custom Chart"
+    description="Examples like pie charts."
+    href="/charts/custom"
+    demo="PieChartPreviewDemo"
+  />
+</div>
 
 </ComponentSection>
 
@@ -72,11 +95,11 @@ boundaries.
 
 ## Color System
 
-Chart colors are split into semantic, categorical and sequential systems. Use
-semantic colors only when the data has status-like meaning; otherwise use the
-categorical palette for nominal series and sequential scales for density.
-
-<ComponentExample demo="ChartColorSystemsDemo" />
+<ChartCard
+  title="Color Palette"
+  description="Information about our color system."
+  href="/charts/colors"
+/>
 
 </ComponentSection>
 
@@ -84,7 +107,10 @@ categorical palette for nominal series and sequential scales for density.
 
 ## Legend
 
-Use `LegendItem` to display chart series information with color indicators.
+<p class="mb-6">
+  Use <code>LegendItem</code> to display chart series information with color
+  indicators.
+</p>
 
 ### LargeItem
 
@@ -96,31 +122,4 @@ Use `LegendItem` to display chart series information with color indicators.
 
 </ComponentSection>
 
-<ComponentSection>
-
-## Composition
-
-Combine `ChartLegend`, `LayerCard` and chart primitives to build dashboard
-panels without changing the chart API.
-
 <ComponentExample demo="ChartExampleDemo" />
-
-</ComponentSection>
-
-<ComponentSection>
-
-## API Reference
-
-### Chart
-
-<PropsTable component="Chart" />
-
-### TimeseriesChart
-
-<PropsTable component="TimeseriesChart" />
-
-### ChartLegend
-
-<PropsTable component="ChartLegend" />
-
-</ComponentSection>

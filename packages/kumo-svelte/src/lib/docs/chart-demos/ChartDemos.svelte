@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import * as echarts from 'echarts';
   import type { EChartsOption } from 'echarts';
-  import { Chart, ChartLegend, ChartPalette, LayerCard, SankeyChart, TimeseriesChart } from '$lib';
+  import { Chart, ChartLegend, ChartPalette, LayerCard, SankeyChart, Table, TimeseriesChart } from '$lib';
 
   interface Props {
     demo: string;
@@ -22,14 +22,19 @@
     return () => observer.disconnect();
   });
 
+  const seededNoise = (seed: number, index: number) => {
+    const x = Math.sin((index + 1) * (seed + 1) * 12.9898) * 43758.5453;
+    return (x - Math.floor(x) - 0.5) * 8;
+  };
+
   const buildSeriesData = (seed = 0, points = 50, stepMs = 60_000, timeScale = 1): [number, number][] => {
     const end = Date.now();
     const start = end - (points - 1) * stepMs;
     return Array.from({ length: points }, (_, i) => {
       const ts = start + i * stepMs;
       const trend = i * 0.15;
-      const wave = Math.sin((i + seed) / 4) * 8;
-      const value = Math.round((30 + seed * 15 + trend + wave) * 100) / 100;
+      const noise = seededNoise(seed, i);
+      const value = Math.round((30 + seed * 15 + trend + noise) * 100) / 100;
       return [ts, value * timeScale];
     });
   };
@@ -41,13 +46,11 @@
 
   const pieOptions = (count = 5): EChartsOption => ({
     animation: true,
-    animationDuration: 1600,
-    animationEasing: 'cubicOut',
+    animationDuration: 2000,
     tooltip: { show: true },
     series: [
       {
         type: 'pie',
-        radius: count > 3 ? ['35%', '70%'] : '70%',
         data: [
           { value: 101, name: 'Series A' },
           { value: 202, name: 'Series B' },
@@ -103,23 +106,6 @@
     }))
   });
 
-  const categoricalBarOptions = $derived<EChartsOption>({
-    animation: true,
-    animationDuration: 900,
-    animationEasing: 'cubicOut',
-    color: ['Success', 'Attention', 'Neutral', 'Warning', 'Disabled'].map((name) => ChartPalette.semantic(name as any, isDarkMode)),
-    tooltip: { trigger: 'axis' },
-    grid: { left: 32, right: 16, top: 20, bottom: 24 },
-    xAxis: { type: 'category', data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] },
-    yAxis: { type: 'value', splitLine: { lineStyle: { type: 'dashed' } } },
-    series: ['Hit', 'Miss', 'Bypass', 'Expired', 'Other'].map((name, index) => ({
-      name,
-      type: 'bar',
-      stack: 'total',
-      data: [32, 42, 36, 48, 41].map((value) => Math.max(4, value - index * 6))
-    }))
-  });
-
   const heatmapOptions = $derived<EChartsOption>({
     animation: true,
     animationDuration: 700,
@@ -137,8 +123,89 @@
     ]
   });
 
-  const semanticColorNames = ['Attention', 'Warning', 'Success', 'Neutral', 'Disabled'] as const;
-  const categoricalCvdColors = ['#2F7ED8', '#B68A00', '#CC79A7', '#7F3FBF', '#009E73', '#A66400'];
+  const sixSeries = ['US', 'EU', 'APAC', 'LATAM', 'MEA', 'Other'];
+  const regionBaselines = [4820, 3610, 2190, 1120, 640, 870];
+  const lineTimestamps = (() => {
+    const end = Date.now();
+    const step = 6 * 60 * 60 * 1000;
+    return Array.from({ length: 28 }, (_, i) => end - (27 - i) * step);
+  })();
+  const countrySlices = [
+    { name: 'United States', value: 2000 },
+    { name: 'United Kingdom', value: 1500 },
+    { name: 'Germany', value: 1000 },
+    { name: 'France', value: 500 },
+    { name: 'Japan', value: 300 },
+    { name: 'Canada', value: 250 }
+  ];
+  const barLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const cacheData = {
+    Hit: [18200, 19400, 21000, 20500, 22100, 16800, 15200],
+    Miss: [4200, 4800, 5100, 4900, 5300, 3900, 3600],
+    Revalidated: [2800, 3100, 3300, 3200, 3500, 2600, 2400],
+    Expired: [1100, 1200, 1300, 1250, 1400, 1050, 950],
+    Unknown: [900, 1000, 1100, 1050, 1150, 850, 780]
+  };
+  const heatmapHours = ['00:00', '06:00', '12:00', '18:00'];
+  const heatmapDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const heatmapValues = [
+    [4, 12, 24, 36],
+    [6, 14, 26, 38],
+    [8, 16, 28, 40],
+    [10, 18, 30, 42],
+    [12, 20, 32, 44],
+    [14, 22, 34, 46],
+    [16, 24, 36, 48]
+  ];
+  const lineStyleBySeries: Record<string, 'solid' | 'dashed' | 'dotted'> = {
+    US: 'dashed',
+    EU: 'solid',
+    APAC: 'dashed',
+    LATAM: 'solid',
+    MEA: 'dotted',
+    Other: 'solid'
+  };
+  const semanticColorNames = ['Attention', 'Warning', 'Success', 'Neutral', 'Disabled', 'Skeleton'] as const;
+  const categoricalColorIndices = Array.from({ length: 6 }, (_, i) => i);
+  const colorSystemRows = [
+    { system: 'Semantic', when: 'Data has inherent polarity - good/bad, pass/fail, blocked/allowed', task: 'Evaluate', examples: 'WAF actions, Web Vitals, error rates, TLS versions' },
+    { system: 'Categorical', when: 'Nominal categories with no inherent order or polarity', task: 'Identify', examples: 'Countries, URLs, ASNs, worker versions, service names' },
+    { system: 'Sequential', when: 'Single metric varying in magnitude - more = darker', task: 'Read magnitude', examples: 'Choropleth maps, heatmaps, bot score histograms' }
+  ];
+  const deuteranopiaMatrix = [
+    [0.367, 0.861, -0.228],
+    [0.28, 0.673, 0.047],
+    [-0.012, 0.043, 0.969]
+  ] as const;
+
+  const clampChannel = (value: number) => Math.max(0, Math.min(255, Math.round(value)));
+  const hexToRgb = (hex: string): [number, number, number] => {
+    const normalized = hex.replace('#', '');
+    const chunk = normalized.length === 3 ? normalized.split('').map((char) => `${char}${char}`).join('') : normalized;
+    return [Number.parseInt(chunk.slice(0, 2), 16), Number.parseInt(chunk.slice(2, 4), 16), Number.parseInt(chunk.slice(4, 6), 16)];
+  };
+  const rgbToHex = ([r, g, b]: [number, number, number]) =>
+    `#${[r, g, b].map((channel) => clampChannel(channel).toString(16).padStart(2, '0')).join('').toUpperCase()}`;
+  const srgbToLinear = (channel: number) => {
+    const normalized = channel / 255;
+    return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+  };
+  const linearToSrgb = (channel: number) => {
+    const clamped = Math.max(0, Math.min(1, channel));
+    const encoded = clamped <= 0.0031308 ? clamped * 12.92 : 1.055 * clamped ** (1 / 2.4) - 0.055;
+    return encoded * 255;
+  };
+  const simulateCvdHex = (hex: string) => {
+    const [r, g, b] = hexToRgb(hex);
+    const lr = srgbToLinear(r);
+    const lg = srgbToLinear(g);
+    const lb = srgbToLinear(b);
+    return rgbToHex([
+      linearToSrgb(deuteranopiaMatrix[0][0] * lr + deuteranopiaMatrix[0][1] * lg + deuteranopiaMatrix[0][2] * lb),
+      linearToSrgb(deuteranopiaMatrix[1][0] * lr + deuteranopiaMatrix[1][1] * lg + deuteranopiaMatrix[1][2] * lb),
+      linearToSrgb(deuteranopiaMatrix[2][0] * lr + deuteranopiaMatrix[2][1] * lg + deuteranopiaMatrix[2][2] * lb)
+    ]);
+  };
 
   const is = (name: string) => demo === name;
 </script>
@@ -179,11 +246,37 @@
   {:else if is('LoadingChartDemo')}
     <TimeseriesChart {echarts} isDarkMode={isDarkMode} xAxisName="Time (UTC)" yAxisName="Count" data={[]} loading />
   {:else if is('TimeseriesChartPreviewDemo')}
-    <TimeseriesChart {echarts} isDarkMode={isDarkMode} data={baseTimeseries()} height={160} yAxisTickCount={2} />
+    <TimeseriesChart
+      {echarts}
+      isDarkMode={isDarkMode}
+      data={[
+        { name: 'Requests', data: buildSeriesData(0, 30, 60_000, 1), color: ChartPalette.semantic('Neutral', isDarkMode) },
+        { name: 'Errors', data: buildSeriesData(1, 30, 60_000, 0.3), color: ChartPalette.semantic('Attention', isDarkMode) }
+      ]}
+      height={160}
+      yAxisTickCount={2}
+    />
   {:else if is('PieChartDemo')}
     <Chart {echarts} options={pieOptions()} height={400} isDarkMode={isDarkMode} />
   {:else if is('PieChartPreviewDemo')}
-    <Chart {echarts} options={pieOptions(3)} height={160} isDarkMode={isDarkMode} />
+    <Chart
+      {echarts}
+      height={160}
+      isDarkMode={isDarkMode}
+      options={{
+        toolbox: { show: false },
+        series: [
+          {
+            type: 'pie',
+            data: [
+              { value: 101, name: 'Series A' },
+              { value: 202, name: 'Series B' },
+              { value: 303, name: 'Series C' }
+            ]
+          }
+        ]
+      }}
+    />
   {:else if is('CustomTooltipChartDemo')}
     <Chart
       {echarts}
@@ -231,16 +324,23 @@
       </div>
     </div>
   {:else if is('ChartExampleDemo')}
+    {@const data = [
+      { name: 'P99', data: buildSeriesData(3, 30, 60_000, 1), color: ChartPalette.semantic('Attention', isDarkMode) },
+      { name: 'P95', data: buildSeriesData(2, 30, 60_000, 0.6), color: ChartPalette.semantic('Warning', isDarkMode) },
+      { name: 'P75', data: buildSeriesData(1, 30, 60_000, 0.4), color: ChartPalette.semantic('Neutral', isDarkMode) },
+      { name: 'P50', data: buildSeriesData(0, 30, 60_000, 0.2), color: ChartPalette.semantic('Neutral', isDarkMode) }
+    ]}
     <LayerCard>
-      <div class="p-4">
-        <div class="text-sm text-kumo-subtle">Read latency</div>
+      <LayerCard.Secondary>Read latency</LayerCard.Secondary>
+      <LayerCard.Primary>
         <div class="mb-2 flex gap-4 divide-x divide-kumo-hairline px-2">
           <ChartLegend variant="large" name="P99" color={ChartPalette.semantic('Attention', isDarkMode)} value="124" unit="ms" />
           <ChartLegend variant="large" name="P95" color={ChartPalette.semantic('Warning', isDarkMode)} value="76" unit="ms" />
           <ChartLegend variant="large" name="P75" color={ChartPalette.semantic('Neutral', isDarkMode)} value="32" unit="ms" />
+          <ChartLegend variant="large" name="P50" color={ChartPalette.semantic('Neutral', isDarkMode)} value="10" unit="ms" />
         </div>
-        <TimeseriesChart {echarts} isDarkMode={isDarkMode} data={baseTimeseries()} height={300} animationDuration={900} />
-      </div>
+        <TimeseriesChart {echarts} isDarkMode={isDarkMode} {data} height={300} />
+      </LayerCard.Primary>
     </LayerCard>
   {:else if is('SankeyChartBasicDemo')}
     <SankeyChart {echarts} nodes={sankeyNodes} links={sankeyLinks} height={350} isDarkMode={isDarkMode} />
@@ -256,66 +356,271 @@
     <SankeyChart {echarts} nodes={sankeyNodes} links={sankeyLinks} height={350} isDarkMode={isDarkMode} onNodeClick={(node) => (selectedRange = `Node: ${node.name}`)} onLinkClick={(link) => (selectedRange = `Link: ${link.source} -> ${link.target}`)} />
     {#if selectedRange}<p class="mt-3 text-sm text-kumo-subtle">{selectedRange}</p>{/if}
   {:else if is('CategoricalLineChartDemo')}
-    <Chart {echarts} options={categoricalLineOptions} height={320} isDarkMode={isDarkMode} />
+    {@const seriesData = sixSeries.map((name, i) => ({
+      name,
+      data: lineTimestamps.map((ts, j) => [
+        ts,
+        Math.max(0, Math.round(regionBaselines[i] * (0.8 + 0.4 * Math.sin(j * 0.4 + i)) + Math.sin(j + i) * regionBaselines[i] * 0.075))
+      ] as [number, number]),
+      color: ChartPalette.categorical(i, isDarkMode)
+    }))}
+    <LayerCard>
+      <LayerCard.Secondary>Line chart - requests by region</LayerCard.Secondary>
+      <LayerCard.Primary class="!overflow-visible">
+        <Chart
+          {echarts}
+          height={260}
+          isDarkMode={isDarkMode}
+          options={{
+            backgroundColor: 'transparent',
+            legend: { top: 4, left: 0, itemWidth: 10, itemHeight: 10, icon: 'circle', textStyle: { fontSize: 11 } },
+            grid: { left: 56, right: 16, top: 40, bottom: 40 },
+            tooltip: { trigger: 'axis', appendTo: 'body', confine: false },
+            xAxis: { type: 'time', name: 'Time (UTC)', axisLine: { show: false }, axisTick: { show: false } },
+            yAxis: { type: 'value', name: 'Requests', axisLine: { show: false }, axisTick: { show: false }, splitLine: { lineStyle: { type: 'dashed', opacity: 0.5 } } },
+            series: seriesData.map((s) => ({
+              name: s.name,
+              type: 'line',
+              data: s.data,
+              color: s.color,
+              showSymbol: false,
+              lineStyle: { width: 2, type: lineStyleBySeries[s.name] ?? 'solid' }
+            }))
+          }}
+        />
+      </LayerCard.Primary>
+    </LayerCard>
   {:else if is('CategoricalBarChartDemo')}
-    <Chart {echarts} options={categoricalBarOptions} height={320} isDarkMode={isDarkMode} />
+    {@const seriesData = [
+      { name: 'Hit', data: cacheData.Hit, color: ChartPalette.semantic('Success', isDarkMode), type: 'bar' as const, stack: 'total' as const, barWidth: 28 },
+      { name: 'Miss', data: cacheData.Miss, color: ChartPalette.semantic('Attention', isDarkMode), type: 'bar' as const, stack: 'total' as const, barWidth: 28 },
+      { name: 'Revalidated', data: cacheData.Revalidated, color: ChartPalette.semantic('Neutral', isDarkMode), type: 'bar' as const, stack: 'total' as const, barWidth: 28 },
+      { name: 'Expired', data: cacheData.Expired, color: ChartPalette.semantic('Warning', isDarkMode), type: 'bar' as const, stack: 'total' as const, barWidth: 28 },
+      { name: 'Unknown', data: cacheData.Unknown, color: ChartPalette.semantic('Disabled', isDarkMode), type: 'bar' as const, stack: 'total' as const, barWidth: 28 }
+    ]}
+    <LayerCard>
+      <LayerCard.Secondary>Bar chart - cache status by day (semantic tokens)</LayerCard.Secondary>
+      <LayerCard.Primary class="!overflow-visible">
+        <Chart
+          {echarts}
+          height={260}
+          isDarkMode={isDarkMode}
+          options={{
+            backgroundColor: 'transparent',
+            grid: { left: 56, right: 16, top: 40, bottom: 40 },
+            legend: { top: 4, left: 0, itemWidth: 10, itemHeight: 10, icon: 'circle', textStyle: { fontSize: 11 } },
+            tooltip: { trigger: 'axis', appendTo: 'body', confine: false },
+            xAxis: { type: 'category', data: barLabels, axisLine: { show: false }, axisTick: { show: false } },
+            yAxis: { type: 'value', axisLine: { show: false }, axisTick: { show: false }, splitLine: { lineStyle: { type: 'dashed', opacity: 0.5 } } },
+            series: seriesData
+          }}
+        />
+      </LayerCard.Primary>
+    </LayerCard>
   {:else if is('CategoricalDonutChartDemo')}
-    <Chart {echarts} options={pieOptions()} height={320} isDarkMode={isDarkMode} />
+    <LayerCard>
+      <LayerCard.Secondary>Donut chart - traffic by country</LayerCard.Secondary>
+      <LayerCard.Primary class="!overflow-visible">
+        <Chart
+          {echarts}
+          height={300}
+          isDarkMode={isDarkMode}
+          options={{
+            color: countrySlices.map((_, i) => ChartPalette.categorical(i, isDarkMode)),
+            backgroundColor: 'transparent',
+            tooltip: { trigger: 'item', appendTo: 'body', confine: false },
+            series: [{ type: 'pie', radius: ['42%', '70%'], data: countrySlices, label: { show: true, formatter: '{b}' } }]
+          }}
+        />
+      </LayerCard.Primary>
+    </LayerCard>
   {:else if is('ChartColorSystemsDemo')}
-    <div class="grid gap-4 md:grid-cols-3">
-      {#each ['Semantic', 'Categorical', 'Sequential'] as title, groupIndex}
-        <div class="rounded-lg border border-kumo-hairline bg-kumo-base p-4">
-          <div class="mb-3 text-sm font-medium">{title}</div>
-          <div class="flex gap-2">
-            {#each Array.from({ length: 5 }) as _, index}
-              <span class="h-10 flex-1 rounded" style:background-color={groupIndex === 0 ? ChartPalette.semantic(['Attention', 'Warning', 'Success', 'Neutral', 'Disabled'][index] as any, isDarkMode) : groupIndex === 1 ? ChartPalette.categorical(index, isDarkMode) : ChartPalette.sequential('blues', isDarkMode)[index]}></span>
+    <LayerCard>
+      <LayerCard.Secondary class="!m-0 !p-0" />
+      <Table class="!m-0 !p-0 [&_tbody]:text-sm [&_tbody]:font-medium [&_tbody]:text-kumo-default">
+        <colgroup>
+          <col class="w-[14%]" />
+          <col class="w-[38%]" />
+          <col class="w-[16%]" />
+          <col class="w-[32%]" />
+        </colgroup>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>System</Table.Cell>
+            <Table.Cell>When to use</Table.Cell>
+            <Table.Cell>User task</Table.Cell>
+            <Table.Cell>Examples</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
+      <LayerCard.Primary class="!m-0 !p-0">
+        <Table layout="fixed" class="!m-0 !w-full !p-0 [&_td]:align-top [&_td]:text-kumo-default">
+          <colgroup>
+            <col class="w-[14%]" />
+            <col class="w-[38%]" />
+            <col class="w-[16%]" />
+            <col class="w-[32%]" />
+          </colgroup>
+          <Table.Body>
+            {#each colorSystemRows as row (row.system)}
+              <Table.Row>
+                <Table.Cell>{row.system}</Table.Cell>
+                <Table.Cell>{row.when}</Table.Cell>
+                <Table.Cell>{row.task}</Table.Cell>
+                <Table.Cell>{row.examples}</Table.Cell>
+              </Table.Row>
             {/each}
-          </div>
-        </div>
-      {/each}
-    </div>
+          </Table.Body>
+        </Table>
+      </LayerCard.Primary>
+    </LayerCard>
   {:else if is('SemanticColorsDemo')}
-    <div class="grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-5">
-      {#each semanticColorNames as name (name)}
-        <div class="rounded-lg border border-kumo-hairline bg-kumo-base p-4">
-          <span class="mb-3 block h-10 rounded" style:background-color={ChartPalette.semantic(name, isDarkMode)}></span>
-          <div class="text-sm font-medium">{name}</div>
-          <code class="text-xs text-kumo-subtle">ChartPalette.semantic('{name}')</code>
-        </div>
-      {/each}
-    </div>
+    <LayerCard>
+      <LayerCard.Secondary class="!m-0 !p-0">
+        <Table layout="fixed" class="!m-0 !p-0">
+          <Table.Body>
+            <Table.Row>
+              {#each semanticColorNames as name (name)}
+                <Table.Cell class="w-1/6 whitespace-nowrap">{name}</Table.Cell>
+              {/each}
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      </LayerCard.Secondary>
+      <LayerCard.Primary class="!m-0 !p-0">
+        <Table layout="fixed" class="!m-0 !p-0">
+          <Table.Body>
+            <Table.Row>
+              {#each semanticColorNames as name (name)}
+                {@const color = ChartPalette.semantic(name, isDarkMode)}
+                <Table.Cell class="w-1/6">
+                  <div class="flex items-center gap-2">
+                    <div style:background-color={color} class="size-5 rounded"></div>
+                    <span class="font-mono text-xs">{color}</span>
+                  </div>
+                </Table.Cell>
+              {/each}
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      </LayerCard.Primary>
+    </LayerCard>
   {:else if is('CategoricalColorsDemo')}
-    <div class="grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-6">
-      {#each Array.from({ length: 6 }) as _, index (index)}
-        <div class="rounded-lg border border-kumo-hairline bg-kumo-base p-4">
-          <span class="mb-3 block h-10 rounded" style:background-color={ChartPalette.categorical(index, isDarkMode)}></span>
-          <div class="text-sm font-medium">Category {index + 1}</div>
-          <code class="text-xs text-kumo-subtle">categorical({index})</code>
-        </div>
-      {/each}
-    </div>
+    <LayerCard>
+      <LayerCard.Secondary class="!m-0 !p-0">
+        <Table layout="fixed" class="!m-0 !p-0">
+          <Table.Body>
+            <Table.Row>
+              {#each categoricalColorIndices as index (index)}
+                <Table.Cell class="w-1/6 whitespace-nowrap">{index}</Table.Cell>
+              {/each}
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      </LayerCard.Secondary>
+      <LayerCard.Primary class="!m-0 !p-0">
+        <Table layout="fixed" class="!m-0 !p-0">
+          <Table.Body>
+            <Table.Row>
+              {#each categoricalColorIndices as index (index)}
+                {@const color = ChartPalette.categorical(index, isDarkMode)}
+                <Table.Cell class="w-1/6">
+                  <div class="flex items-center gap-2">
+                    <div style:background-color={color} class="size-5 rounded"></div>
+                    <span class="font-mono text-xs">{color}</span>
+                  </div>
+                </Table.Cell>
+              {/each}
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      </LayerCard.Primary>
+    </LayerCard>
   {:else if is('CategoricalCvdDemo')}
-    <div class="grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-6">
-      {#each categoricalCvdColors as color, index (color)}
-        <div class="rounded-lg border border-kumo-hairline bg-kumo-base p-4">
-          <span class="mb-3 block h-10 rounded" style:background-color={color}></span>
-          <div class="text-sm font-medium">Simulated {index + 1}</div>
-          <div class="text-xs text-kumo-subtle">Deuteranopia check</div>
-        </div>
-      {/each}
-    </div>
+    <LayerCard>
+      <LayerCard.Secondary class="!m-0 !p-0">
+        <Table layout="fixed" class="!m-0 !p-0">
+          <Table.Body>
+            <Table.Row>
+              {#each categoricalColorIndices as index (index)}
+                <Table.Cell class="w-1/6 whitespace-nowrap">{index}</Table.Cell>
+              {/each}
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      </LayerCard.Secondary>
+      <LayerCard.Primary class="!m-0 !p-0">
+        <Table layout="fixed" class="!m-0 !p-0">
+          <Table.Body>
+            <Table.Row>
+              {#each categoricalColorIndices.map((index) => simulateCvdHex(ChartPalette.categorical(index, isDarkMode))) as color, index (index)}
+                <Table.Cell class="w-1/6 text-center">
+                  <div class="flex items-center gap-2">
+                    <div style:background-color={color} class="size-5 rounded"></div>
+                    <span class="font-mono text-xs">{color}</span>
+                  </div>
+                </Table.Cell>
+              {/each}
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      </LayerCard.Primary>
+    </LayerCard>
   {:else if is('SequentialColorsDemo')}
-    <div class="w-full rounded-lg border border-kumo-hairline bg-kumo-base p-4">
-      <div class="mb-3 flex items-center justify-between text-sm">
-        <span class="font-medium">Lower density</span>
-        <span class="text-kumo-subtle">Higher density</span>
-      </div>
-      <div class="grid grid-cols-5 overflow-hidden rounded">
-        {#each ChartPalette.sequential('blues', isDarkMode) as color (color)}
-          <span class="h-14" style:background-color={color}></span>
-        {/each}
-      </div>
-    </div>
+    <LayerCard>
+      <LayerCard.Secondary class="!m-0 !p-0">
+        <Table layout="fixed" class="!m-0 !p-0">
+          <Table.Body>
+            <Table.Row>
+              {#each ChartPalette.sequential('blues', isDarkMode) as _, index (index)}
+                <Table.Cell class="w-1/5 whitespace-nowrap">Step {index + 1}</Table.Cell>
+              {/each}
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      </LayerCard.Secondary>
+      <LayerCard.Primary class="!m-0 !p-0">
+        <Table layout="fixed" class="!m-0 !p-0">
+          <Table.Body>
+            <Table.Row>
+              {#each ChartPalette.sequential('blues', isDarkMode) as color (color)}
+                <Table.Cell class="w-1/5">
+                  <div class="flex items-center gap-2">
+                    <div style:background-color={color} class="size-5 rounded"></div>
+                    <span class="font-mono text-xs">{color}</span>
+                  </div>
+                </Table.Cell>
+              {/each}
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      </LayerCard.Primary>
+    </LayerCard>
+  {:else if is('SequentialHeatmapDemo')}
+    {@const scale = ChartPalette.sequential('blues', isDarkMode)}
+    {@const maxValue = Math.max(...heatmapValues.flatMap((row) => row))}
+    {@const stepSize = Math.max(1, Math.ceil((maxValue + 1) / scale.length))}
+    {@const visualPieces = scale.map((color, i) => ({ min: i * stepSize, max: i === scale.length - 1 ? maxValue : (i + 1) * stepSize - 1, color, label: `${i * stepSize}-${i === scale.length - 1 ? maxValue : (i + 1) * stepSize - 1}` }))}
+    {@const heatmapData = heatmapDays.flatMap((day, dayIndex) => heatmapHours.map((hour, hourIndex) => [hourIndex, dayIndex, heatmapValues[dayIndex][hourIndex]] as [number, number, number]))}
+    <LayerCard>
+      <LayerCard.Secondary>Heatmap - request density by day and hour (sequential scale)</LayerCard.Secondary>
+      <LayerCard.Primary class="!overflow-visible">
+        <Chart
+          {echarts}
+          height={300}
+          isDarkMode={isDarkMode}
+          options={{
+            backgroundColor: 'transparent',
+            grid: { left: 72, right: 24, top: 20, bottom: 70 },
+            tooltip: { appendTo: 'body', confine: false, position: 'top' },
+            xAxis: { type: 'category', data: heatmapHours, splitArea: { show: true }, axisLine: { show: false }, axisTick: { show: false } },
+            yAxis: { type: 'category', data: heatmapDays, splitArea: { show: true }, axisLine: { show: false }, axisTick: { show: false } },
+            visualMap: { type: 'piecewise', show: true, dimension: 2, orient: 'horizontal', left: 'center', bottom: 16, itemWidth: 16, itemHeight: 10, textStyle: { fontSize: 11 }, pieces: visualPieces },
+            series: [{ type: 'heatmap', data: heatmapData, label: { show: false }, itemStyle: { borderColor: isDarkMode ? '#1F2937' : '#bcd8fa', borderWidth: 0.5 } }]
+          }}
+        />
+      </LayerCard.Primary>
+    </LayerCard>
   {:else if demo.includes('Heatmap') || demo.includes('Sequential')}
     <Chart {echarts} options={heatmapOptions} height={300} isDarkMode={isDarkMode} />
   {:else}

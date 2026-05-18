@@ -39,7 +39,7 @@ baseUIComponent: "switch"
 
 ```svelte
 <script lang="ts">
-  import { Switch } from 'kumo-svelte/components/switch';
+  import { Switch } from 'kumo-svelte';
 </script>
 ```
 
@@ -119,7 +119,7 @@ When a custom `id` is provided, clicking the label still toggles the switch.
 ### Switch Group
 
 
-Group related switches with `SwitchGroup`. Provides a shared legend,
+Group related switches with `Switch.Group`. Provides a shared legend,
   description, and error message for the group.
 
 <ComponentExample demo="SwitchGroupDemo" />
@@ -127,7 +127,7 @@ Group related switches with `SwitchGroup`. Provides a shared legend,
 ### Visually Hidden Legend
 
 
-Use `SwitchLegend` with `class="sr-only"` to keep the legend accessible
+Use `Switch.Legend` with `class="sr-only"` to keep the legend accessible
   to screen readers while hiding it visually. This is useful when the group is
   already labeled by a parent `Field` or heading, and showing the legend would
   create a redundant label.
@@ -137,7 +137,7 @@ Use `SwitchLegend` with `class="sr-only"` to keep the legend accessible
 ### Custom Legend Styling
 
 
-`SwitchLegend` accepts `class` for full control over legend presentation.
+`Switch.Legend` accepts `class` for full control over legend presentation.
   Use it instead of the `legend` string prop when you need custom typography,
   colors, or layout.
 
@@ -158,26 +158,26 @@ Individual switch toggle with built-in label.
 
 <PropsTable component="Switch" />
 
-### SwitchGroup
+### Switch.Group
 
 
 Container for multiple switches with legend, description, and error support.
 
 <PropsTable component="Switch.Group" />
 
-### SwitchLegend
+### Switch.Legend
 
 
-Composable legend sub-component for SwitchGroup. Accepts `class` for full
+Composable legend sub-component for Switch.Group. Accepts `class` for full
   styling control (e.g. `class="sr-only"` to visually hide). Use instead of
   the `legend` string prop when you need custom legend styling.
 
 <PropsTable component="Switch.Legend" />
 
-### SwitchItem
+### Switch.Item
 
 
-Individual switch within SwitchGroup.
+Individual switch within Switch.Group.
 
 <PropsTable component="Switch.Item" />
 

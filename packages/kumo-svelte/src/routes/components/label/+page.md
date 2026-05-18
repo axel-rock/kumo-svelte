@@ -34,7 +34,7 @@ sourceFile: "components/label"
 
 ```svelte
 <script lang="ts">
-  import { Label } from 'kumo-svelte/components/label';
+  import { Label } from 'kumo-svelte';
 </script>
 ```
 
@@ -162,7 +162,7 @@ Props for the standalone Label component:
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">tooltip</td>
-        <td class="px-4 py-3 font-mono text-xs">Snippet</td>
+        <td class="px-4 py-3 font-mono text-xs">string | Snippet</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
         <td class="px-4 py-3 text-xs">Tooltip content shown via info icon</td>
       </tr>
@@ -195,7 +195,7 @@ These props are available on Input, InputArea, Select, Checkbox, Switch,
     <tbody>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">label</td>
-        <td class="px-4 py-3 font-mono text-xs">Snippet</td>
+        <td class="px-4 py-3 font-mono text-xs">string | Snippet</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
         <td class="px-4 py-3 text-xs">Label content (enables Field wrapper)</td>
       </tr>
@@ -210,7 +210,7 @@ These props are available on Input, InputArea, Select, Checkbox, Switch,
       </tr>
       <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">labelTooltip</td>
-        <td class="px-4 py-3 font-mono text-xs">Snippet</td>
+        <td class="px-4 py-3 font-mono text-xs">string | Snippet</td>
         <td class="px-4 py-3 font-mono text-xs">-</td>
         <td class="px-4 py-3 text-xs">
           Tooltip content shown via info icon next to label

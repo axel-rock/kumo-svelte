@@ -34,7 +34,7 @@ import { Banner } from "kumo-svelte";
 
 
 ```svelte
-import { Banner } from "kumo-svelte/components/banner";
+import { Banner } from "kumo-svelte";
 ```
 
 </ComponentSection>

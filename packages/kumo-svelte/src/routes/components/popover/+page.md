@@ -32,14 +32,7 @@ import { Popover } from "kumo-svelte";
 ### Granular
 
 ```svelte
-import {
-  PopoverRoot,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverTitle,
-  PopoverDescription,
-  PopoverClose
-} from "kumo-svelte/components/popover";
+import { Popover } from "kumo-svelte";
 ```
 
 </ComponentSection>
@@ -52,27 +45,20 @@ import {
 
 ```svelte
 <script>
-  import { Button } from "kumo-svelte";
-  import {
-    PopoverRoot,
-    PopoverTrigger,
-    PopoverContent,
-    PopoverTitle,
-    PopoverDescription
-  } from "kumo-svelte/components/popover";
+  import { Button, Popover } from "kumo-svelte";
 </script>
 
-<PopoverRoot>
-  <PopoverTrigger>
+<Popover.Root>
+  <Popover.Trigger>
     {#snippet child({ props })}
       <Button {...props}>Open</Button>
     {/snippet}
-  </PopoverTrigger>
-  <PopoverContent>
-    <PopoverTitle>Popover Title</PopoverTitle>
-    <PopoverDescription>Popover content goes here.</PopoverDescription>
-  </PopoverContent>
-</PopoverRoot>
+  </Popover.Trigger>
+  <Popover.Content>
+    <Popover.Title>Popover Title</Popover.Title>
+    <Popover.Description>Popover content goes here.</Popover.Description>
+  </Popover.Content>
+</Popover.Root>
 ```
 
 </ComponentSection>
@@ -191,7 +177,7 @@ Popovers can contain any content, including custom layouts with avatars,
 ### Virtual Anchor
 
 
-Use the `customAnchor` prop on `PopoverContent` to position the popover against an
+Use the `customAnchor` prop on `Popover.Content` to position the popover against an
   element other than the trigger, or against a virtual point (e.g., a `DOMRect`
   from `getBoundingClientRect()`). This is useful when the trigger and the
   desired anchor are in different component trees.
@@ -214,20 +200,20 @@ the common trigger/title/description pattern.
 
 <PropsTable component="Popover" />
 
-### PopoverRoot
+### Popover.Root
 
 The root component that manages the popover's open state.
 
-<PropsTable component="PopoverRoot" />
+<PropsTable component="Popover.Root" />
 
-### PopoverTrigger
+### Popover.Trigger
 
 A button that opens the popover when clicked. Use a `child` snippet to render
 your own element.
 
 <PropsTable component="PopoverTrigger" />
 
-### PopoverContent
+### Popover.Content
 
 
 The container for popover content. Controls positioning via `side`, `align`,
@@ -238,21 +224,21 @@ The container for popover content. Controls positioning via `side`, `align`,
 
 <PropsTable component="PopoverContent" />
 
-### PopoverTitle
+### Popover.Title
 
 
 A heading that labels the popover for accessibility.
 
 <PropsTable component="PopoverTitle" />
 
-### PopoverDescription
+### Popover.Description
 
 
 A paragraph providing additional context about the popover content.
 
 <PropsTable component="PopoverDescription" />
 
-### PopoverClose
+### Popover.Close
 
 
 A button that closes the popover when clicked. Use a `child` snippet to render

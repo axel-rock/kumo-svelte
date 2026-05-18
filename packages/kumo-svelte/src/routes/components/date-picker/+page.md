@@ -36,7 +36,7 @@ sourceFile: "components/date-picker"
   import {
     DatePicker,
     type DateRange
-  } from 'kumo-svelte/components/date-picker';
+  } from 'kumo-svelte';
 </script>
 ```
 

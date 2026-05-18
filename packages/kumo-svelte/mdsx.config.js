@@ -6,7 +6,7 @@ import { codeToHtml } from 'shiki';
  * @property {string=} type
  * @property {string=} tagName
  * @property {string=} value
- * @property {{ className?: unknown }=} properties
+ * @property {{ className?: unknown, id?: string }=} properties
  * @property {MdsxNode[]=} children
  */
 
@@ -105,6 +105,59 @@ function rehypeShikiCodeBlocks() {
 }
 
 /**
+ * @param {string} text
+ * @returns {string}
+ */
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[`'"’]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function rehypeDocHeadings() {
+  /**
+   * @param {MdsxNode} tree
+   * @param {{ data: Record<string, unknown> }} file
+   */
+  return (tree, file) => {
+    /** @type {{ depth: number; slug: string; text: string }[]} */
+    const headings = [];
+    /** @type {string[]} */
+    const usedSlugs = [];
+
+    walk(tree, (node) => {
+      if (!['h2', 'h3', 'h4'].includes(node.tagName ?? '')) return;
+
+      const text = textContent(node).trim();
+      if (!text) return;
+
+      const depth = Number(node.tagName?.slice(1));
+      const baseSlug = slugify(text) || 'section';
+      let slug = baseSlug;
+      let index = 2;
+
+      while (usedSlugs.includes(slug)) {
+        slug = `${baseSlug}-${index}`;
+        index += 1;
+      }
+
+      usedSlugs.push(slug);
+      node.properties = { ...node.properties, id: slug };
+
+      if (depth <= 3) {
+        headings.push({ depth, slug, text });
+      }
+    });
+
+    const matter = typeof file.data.matter === 'object' && file.data.matter !== null ? file.data.matter : {};
+    file.data.matter = { ...matter, headings };
+  };
+}
+
+/**
  * @param {MdsxNode} node
  * @param {(node: MdsxNode) => void} callback
  */
@@ -122,7 +175,7 @@ export const mdsxConfig = defineConfig({
   blueprints: {
     default: {
       path: 'src/lib/docs/MdxPage.svelte',
-      rehypePlugins: [rehypeShikiCodeBlocks]
+      rehypePlugins: [rehypeDocHeadings, rehypeShikiCodeBlocks]
     }
   }
 });

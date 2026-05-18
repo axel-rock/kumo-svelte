@@ -81,14 +81,20 @@
     const nextChart = echarts.init(el, isDarkMode ? 'dark' : { color: isDarkMode ? CHART_DARK_COLORS : CHART_LIGHT_COLORS }, { renderer: 'canvas' });
     chart = nextChart;
     chartRef = nextChart;
-    nextChart.setOption(prepareChartOptions(options), { notMerge: false, lazyUpdate: false, ...optionUpdateBehavior });
-    nextChart.resize();
+    nextChart.setOption(prepareChartOptions(options), { notMerge: false, lazyUpdate: true, ...optionUpdateBehavior });
     bindEvents();
   };
 
   onMount(() => {
     initChart();
-    resizeObserver = new ResizeObserver(() => chart?.resize());
+    let isInitialResize = true;
+    resizeObserver = new ResizeObserver(() => {
+      if (isInitialResize) {
+        isInitialResize = false;
+        return;
+      }
+      chart?.resize();
+    });
     resizeObserver.observe(el);
     return () => {
       resizeObserver?.disconnect();
@@ -104,8 +110,7 @@
 
   $effect(() => {
     if (chart) {
-      chart.setOption(prepareChartOptions(options), { notMerge: false, lazyUpdate: false, ...optionUpdateBehavior });
-      chart.resize();
+      chart.setOption(prepareChartOptions(options), { notMerge: false, lazyUpdate: true, ...optionUpdateBehavior });
       bindEvents();
     }
   });

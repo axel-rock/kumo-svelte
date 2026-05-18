@@ -1,7 +1,6 @@
 import { getContext, setContext } from 'svelte';
 import type { Snippet } from 'svelte';
-import { toast as sonnerToast } from 'svelte-sonner';
-import KumoToastContent from './KumoToastContent.svelte';
+import { cn } from '$lib/utils/cn';
 
 const TOAST_CONTEXT = 'kumo-toast-manager';
 
@@ -33,6 +32,7 @@ export interface KumoToastObject<Data extends object = Record<string, unknown>>
 
 export class KumoToastManager {
   toasts = $state<KumoToastObject[]>([]);
+  #timeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
   add(options: KumoToastOptions = {}) {
     const id = options.id ?? this.#createId();
@@ -53,18 +53,18 @@ export class KumoToastManager {
     };
 
     this.toasts = [toast, ...this.toasts].slice(0, 6);
-    this.#render(toast);
+    this.#scheduleRemoval(toast);
     return id;
   }
 
   update(id: string, options: Partial<KumoToastOptions & Pick<KumoToastObject, 'transitionStatus'>>) {
     this.toasts = this.toasts.map((toast) => (toast.id === id ? { ...toast, ...options } : toast));
     const toast = this.toasts.find((item) => item.id === id);
-    if (toast) this.#render(toast);
+    if (toast) this.#scheduleRemoval(toast);
   }
 
   remove(id: string) {
-    sonnerToast.dismiss(id);
+    this.#clearRemoval(id);
     this.#deleteLocal(id);
   }
 
@@ -92,18 +92,20 @@ export class KumoToastManager {
     return id;
   }
 
-  #render(toast: KumoToastObject) {
-    sonnerToast.custom(KumoToastContent, {
-      id: toast.id,
-      class: 'w-[var(--width)]',
-      duration: toast.timeout === 0 ? Number.POSITIVE_INFINITY : (toast.timeout ?? 5000),
-      componentProps: {
-        toast,
-        onClose: () => this.remove(toast.id)
-      },
-      onAutoClose: () => this.#deleteLocal(toast.id),
-      onDismiss: () => this.#deleteLocal(toast.id)
-    });
+  #scheduleRemoval(toast: KumoToastObject) {
+    this.#clearRemoval(toast.id);
+    if (toast.timeout === 0) return;
+
+    this.#timeouts.set(
+      toast.id,
+      setTimeout(() => this.remove(toast.id), toast.timeout ?? 5000)
+    );
+  }
+
+  #clearRemoval(id: string) {
+    const timeout = this.#timeouts.get(id);
+    if (timeout) clearTimeout(timeout);
+    this.#timeouts.delete(id);
   }
 
   #deleteLocal(id: string) {
@@ -116,6 +118,25 @@ export class KumoToastManager {
     }
     return `toast-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   }
+}
+
+const TOAST_VARIANT_CLASSES: Record<KumoToastVariant, string> = {
+  default: 'border-kumo-hairline bg-kumo-base',
+  success:
+    'border-kumo-success bg-kumo-base [&_[data-toast-icon]]:text-kumo-success [&_[data-toast-title]]:text-kumo-success',
+  error:
+    'border-kumo-danger bg-kumo-base [&_[data-toast-icon]]:text-kumo-danger [&_[data-toast-title]]:text-kumo-danger',
+  warning:
+    'border-kumo-warning bg-kumo-base [&_[data-toast-icon]]:text-kumo-warning [&_[data-toast-title]]:text-kumo-warning',
+  info:
+    'border-kumo-info bg-kumo-control [&_[data-toast-icon]]:text-kumo-info [&_[data-toast-title]]:text-kumo-info'
+};
+
+export function toastRootClass(variant: KumoToastVariant = 'default') {
+  return cn(
+    'relative !w-[calc(100vw-2rem)] overflow-hidden rounded-xl border bg-clip-padding p-4 text-kumo-default shadow-[0_2px_8px_rgb(0_0_0_/_0.12)] sm:!w-[340px]',
+    TOAST_VARIANT_CLASSES[variant]
+  );
 }
 
 export function createKumoToastManager() {

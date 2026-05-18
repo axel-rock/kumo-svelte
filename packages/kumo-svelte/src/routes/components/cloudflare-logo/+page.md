@@ -40,7 +40,7 @@ sourceFile: "components/cloudflare-logo"
     CloudflareLogo,
     PoweredByCloudflare,
     generateCloudflareLogoSvg
-  } from 'kumo-svelte/components/cloudflare-logo';
+  } from 'kumo-svelte';
 </script>
 ```
 
@@ -138,7 +138,7 @@ Use <code>generateCloudflareLogoSvg()</code> to get copy-paste ready SVG markup 
 
 
 ```svelte
-import { generateCloudflareLogoSvg } from "kumo-svelte/components/cloudflare-logo";
+import { generateCloudflareLogoSvg } from "kumo-svelte";
 
 // Generate glyph SVG (cloud only)
 const glyphSvg = generateCloudflareLogoSvg({ variant: "glyph" });
@@ -199,7 +199,7 @@ CloudflareLogo extends <code>SVGSVGElement</code> and accepts all standard SVG a
     </table>
   </div>
 
-### PoweredByCloudflare
+### CloudflareLogo.PoweredByCloudflare
 
   
 Extends <code>HTMLAnchorElement</code> and accepts all standard anchor attributes.

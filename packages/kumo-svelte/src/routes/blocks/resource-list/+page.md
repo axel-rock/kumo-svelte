@@ -112,7 +112,7 @@ A minimal resource list page with title, description, and icon.
         </tr>
         <tr class="border-b border-kumo-hairline">
           <td class="px-4 py-3 font-mono text-xs">icon</td>
-          <td class="px-4 py-3 font-mono text-xs">Snippet</td>
+          <td class="px-4 py-3 font-mono text-xs">Component</td>
           <td class="px-4 py-3">Icon displayed next to the title</td>
         </tr>
         <tr class="border-b border-kumo-hairline">

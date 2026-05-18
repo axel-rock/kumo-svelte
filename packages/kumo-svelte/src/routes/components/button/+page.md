@@ -35,7 +35,7 @@ sourceFile: "components/button"
 
 ```svelte
 <script lang="ts">
-  import { Button, LinkButton, RefreshButton } from 'kumo-svelte/components/button';
+  import { Button, LinkButton, RefreshButton } from 'kumo-svelte';
 </script>
 ```
 
@@ -186,7 +186,7 @@ Use the `title` prop to wrap the button in a tooltip. This is useful for
 ### Link as Button
 
 
-Use `LinkButton` when the interaction should navigate somewhere but still look
+Use `Button.LinkButton` when the interaction should navigate somewhere but still look
   like a button. Use `Button` for in-place actions like submitting, opening, or
   toggling UI.
 

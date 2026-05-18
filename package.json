@@ -2,7 +2,7 @@
   "name": "kumo-svelte-workspace",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@11.1.1",
+  "packageManager": "pnpm@11.1.2",
   "scripts": {
     "build": "pnpm --filter kumo-svelte build",
     "build:all": "pnpm -r build",
@@ -26,17 +26,17 @@
     "test:tools": "node --test --import tsx tools/deployments/validate-pr-description.test.ts"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.7",
+    "@changesets/cli": "^2.31.0",
     "@octokit/rest": "^22.0.1",
-    "@types/node": "^24.12.4",
+    "@types/node": "^25.8.0",
     "@types/pngjs": "^6.0.5",
-    "lefthook": "^2.0.12",
-    "oxlint": "1.42.0",
-    "pixelmatch": "^7.1.0",
+    "lefthook": "^2.1.6",
+    "oxlint": "1.65.0",
+    "pixelmatch": "^7.2.0",
     "pngjs": "^7.0.0",
-    "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.7.1",
-    "tsx": "^4.20.6",
+    "prettier": "^3.8.3",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "tsx": "^4.22.0",
     "typescript": "^6.0.3"
   }
 }

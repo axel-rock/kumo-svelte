@@ -33,7 +33,7 @@ import { Dialog } from "kumo-svelte";
 ### Granular
 
 ```svelte
-import { Dialog } from "kumo-svelte/components/dialog";
+import { Dialog } from "kumo-svelte";
 ```
 
 </ComponentSection>

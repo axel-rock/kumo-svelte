@@ -36,7 +36,7 @@ baseUIComponent: "select"
 
 ```svelte
 <script lang="ts">
-  import { Select } from 'kumo-svelte/components/select';
+  import { Select } from 'kumo-svelte';
 </script>
 ```
 

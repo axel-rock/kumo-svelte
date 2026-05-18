@@ -573,6 +573,23 @@ kbd,
   font-weight: 600;
 }
 
+.kumo-prose :where(h2):not(:where(.not-prose, .not-prose *)) {
+  @apply mt-8 text-2xl;
+}
+
+.kumo-prose :where(h3):not(:where(.not-prose, .not-prose *)) {
+  @apply mt-6 text-xl;
+}
+
+.kumo-prose :where(h4):not(:where(.not-prose, .not-prose *)) {
+  @apply mt-4 text-base;
+  margin-bottom: 0.75rem;
+}
+
+.kumo-prose :where(h2, h3, h4):first-child:not(:where(.not-prose, .not-prose *)) {
+  margin-top: 0;
+}
+
 /* Adjacent sibling spacing after headings */
 .kumo-prose :where(h2, h3, h4):not(:where(.not-prose, .not-prose *)) + * {
   margin-top: 0;
@@ -581,6 +598,7 @@ kbd,
 /* Paragraphs */
 .kumo-prose :where(p):not(:where(.not-prose, .not-prose *)) {
   @apply text-base leading-normal;
+  margin-bottom: 1rem;
 }
 
 /* Adjacent sibling spacing between paragraphs */
@@ -655,6 +673,18 @@ kbd,
   /* Reset any inherited typography transforms */
   font-size: inherit;
   line-height: inherit;
+}
+
+/* Chart wave-loader animation: slides the SVG path left by one full period,
+   creating a seamless looping sine wave. Used by TimeseriesChart loading state. */
+@keyframes kumo-chart-wave {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-400px);
+  }
 }
 
 /* ==========================================================================

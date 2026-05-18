@@ -8,26 +8,41 @@
     children?: Snippet;
     active?: boolean;
     href?: string;
+    as?: 'a' | 'button';
     class?: string;
     [key: string]: unknown;
   }
 
-  let { children, active = false, href, class: className, ...rest }: Props = $props();
-</script>
+  let { children, active = false, href, as = 'a', class: className, ...rest }: Props = $props();
 
-<li class="-ml-0.5">
-  <a
-    {href}
-    aria-current={active ? 'true' : undefined}
-    class={cn(
+  const itemClass = $derived(
+    cn(
       ITEM_BASE,
       active
         ? 'border-kumo-brand font-medium text-kumo-default'
         : 'text-kumo-subtle hover:border-kumo-line hover:font-medium hover:text-kumo-default',
       className
-    )}
-    {...rest}
-  >
-    <span class="block min-w-0 leading-5">{@render children?.()}</span>
-  </a>
+    )
+  );
+</script>
+
+<li class="-ml-0.5">
+  {#if as === 'button'}
+    <button
+      aria-current={active ? 'true' : undefined}
+      class={itemClass}
+      {...rest}
+    >
+      <span class="block min-w-0 leading-5">{@render children?.()}</span>
+    </button>
+  {:else}
+    <a
+      {href}
+      aria-current={active ? 'true' : undefined}
+      class={itemClass}
+      {...rest}
+    >
+      <span class="block min-w-0 leading-5">{@render children?.()}</span>
+    </a>
+  {/if}
 </li>

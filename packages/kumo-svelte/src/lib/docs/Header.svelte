@@ -11,7 +11,7 @@
       class="font-mono text-sm text-kumo-subtle transition-colors hover:text-kumo-default"
     >
       kumo-svelte
-      <span class="ml-1 rounded bg-kumo-control px-1.5 py-0.5 text-xs">v2.2.1</span>
+
     </a>
   </div>
 

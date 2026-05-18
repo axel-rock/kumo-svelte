@@ -34,7 +34,7 @@ sourceFile: "components/meter"
 
 ```svelte
 <script lang="ts">
-  import { Meter } from 'kumo-svelte/components/meter';
+  import { Meter } from 'kumo-svelte';
 </script>
 ```
 

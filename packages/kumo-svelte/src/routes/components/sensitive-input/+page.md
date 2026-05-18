@@ -34,7 +34,7 @@ sourceFile: "components/sensitive-input"
 
 ```svelte
 <script lang="ts">
-  import { SensitiveInput } from 'kumo-svelte/components/sensitive-input';
+  import { SensitiveInput } from 'kumo-svelte';
 </script>
 ```
 

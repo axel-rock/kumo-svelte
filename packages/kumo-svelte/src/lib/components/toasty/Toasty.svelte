@@ -1,11 +1,11 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { Toaster } from 'svelte-sonner';
-  import type { ToasterProps } from 'svelte-sonner';
   import { cn } from '$lib/utils/cn';
+  import KumoToastContent from './KumoToastContent.svelte';
   import {
     createKumoToastManager,
     setKumoToastManager,
+    toastRootClass,
     type KumoToastManager,
     type KumoToastVariant
   } from './manager.svelte';
@@ -58,40 +58,40 @@
     children?: Snippet<[KumoToastManager]>;
     class?: string;
     toastManager?: KumoToastManager;
-    position?: ToasterProps['position'];
-    duration?: ToasterProps['duration'];
-    visibleToasts?: ToasterProps['visibleToasts'];
-    expand?: ToasterProps['expand'];
-    hotkey?: ToasterProps['hotkey'];
-    gap?: ToasterProps['gap'];
-    offset?: ToasterProps['offset'];
-    mobileOffset?: ToasterProps['mobileOffset'];
-    pauseWhenPageIsHidden?: ToasterProps['pauseWhenPageIsHidden'];
+    visibleToasts?: number;
     [key: string]: unknown;
   }
 
   const fallbackToastManager = createKumoToastManager();
-  const { children, class: className, toastManager = fallbackToastManager, ...rest }: Props = $props();
+  const {
+    children,
+    class: className,
+    toastManager = fallbackToastManager,
+    visibleToasts = 3
+  }: Props = $props();
+
+  const visibleToastItems = $derived(toastManager.toasts.slice(0, visibleToasts));
 
   setKumoToastManager(() => toastManager);
 </script>
 
 {@render children?.(toastManager)}
 
-<Toaster
-  class={cn('kumo-toasty', className)}
-  position="bottom-right"
-  duration={5000}
-  visibleToasts={3}
-  expand={false}
-  offset="32px"
-  mobileOffset="16px"
-  closeButton={false}
-  {...rest}
-/>
-
-<style>
-  :global(.kumo-toasty [data-sonner-toast]) {
-    width: var(--width);
-  }
-</style>
+{#if visibleToastItems.length}
+  <div
+    class={cn(
+      'fixed right-4 bottom-4 z-[1000] flex w-[calc(100%-2rem)] flex-col-reverse items-end gap-3 sm:right-8 sm:bottom-8 sm:w-[340px]',
+      className
+    )}
+    aria-label="Notifications"
+    aria-live="polite"
+    aria-relevant="additions text"
+    aria-atomic="false"
+  >
+    {#each visibleToastItems as toast (toast.id)}
+      <div class={toastRootClass(toast.variant)}>
+        <KumoToastContent {toast} onClose={() => toastManager.remove(toast.id)} />
+      </div>
+    {/each}
+  </div>
+{/if}

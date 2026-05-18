@@ -53,12 +53,12 @@
 
 <style>
   @keyframes shimmer {
-    from {
-      transform: translateX(-400px);
+    0% {
+      transform: translateX(-100%);
     }
 
-    to {
-      transform: translateX(400px);
+    100% {
+      transform: translateX(100%);
     }
   }
 

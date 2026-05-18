@@ -60,19 +60,19 @@
       },
       {
         "prop": "shape",
-        "type": "Shape",
+        "type": "'base' | 'square' | 'circle'",
         "required": false,
         "description": "Shape preset."
       },
       {
         "prop": "size",
-        "type": "Size",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
       {
         "prop": "variant",
-        "type": "Variant",
+        "type": "'primary' | 'secondary' | 'ghost' | 'destructive' | 'secondary-destructive' | 'outline'",
         "required": false,
         "description": "Visual variant."
       },
@@ -89,7 +89,7 @@
         "description": "Title content."
       }
     ],
-    "LinkButton": [
+    "Button.LinkButton": [
       {
         "prop": "children",
         "type": "Snippet",
@@ -160,7 +160,7 @@
       },
       {
         "prop": "variant",
-        "type": "BadgeVariant",
+        "type": "'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'destructive' | 'info' | 'beta' | 'outline' | 'red' | 'green' | 'neutral' | 'orange' | 'purple' | 'teal' | 'teal-subtle' | 'blue'",
         "required": false,
         "description": "Visual variant."
       }
@@ -192,7 +192,7 @@
       },
       {
         "prop": "variant",
-        "type": "Variant",
+        "type": "'default' | 'alert' | 'error'",
         "required": false,
         "description": "Visual variant."
       },
@@ -218,13 +218,13 @@
     "Grid": [
       {
         "prop": "gap",
-        "type": "KumoGridGap",
+        "type": "'none' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Grid gap scale."
       },
       {
         "prop": "variant",
-        "type": "KumoGridVariant",
+        "type": "'2up' | 'side-by-side' | '2-1' | '1-2' | '1-3up' | '3up' | '4up' | '6up' | '1-2-4up'",
         "required": false,
         "description": "Visual variant."
       },
@@ -270,13 +270,13 @@
       },
       {
         "prop": "size",
-        "type": "Size",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
       {
         "prop": "variant",
-        "type": "Variant",
+        "type": "'default' | 'error'",
         "required": false,
         "description": "Visual variant."
       },
@@ -356,13 +356,13 @@
       },
       {
         "prop": "size",
-        "type": "Size",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
       {
         "prop": "variant",
-        "type": "Variant",
+        "type": "'default' | 'error'",
         "required": false,
         "description": "Visual variant."
       },
@@ -436,13 +436,13 @@
       },
       {
         "prop": "size",
-        "type": "Size",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
       {
         "prop": "variant",
-        "type": "Variant",
+        "type": "'default' | 'error'",
         "required": false,
         "description": "Visual variant."
       },
@@ -564,7 +564,7 @@
       },
       {
         "prop": "size",
-        "type": "Size",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
@@ -662,13 +662,13 @@
       },
       {
         "prop": "size",
-        "type": "DialogSize",
+        "type": "KumoDialogSize",
         "required": false,
         "description": "Size preset."
       },
       {
         "prop": "role",
-        "type": "DialogRole",
+        "type": "'dialog' | 'alertdialog'",
         "required": false,
         "description": "role prop."
       },
@@ -828,7 +828,7 @@
       },
       {
         "prop": "variant",
-        "type": "KumoDropdownVariant",
+        "type": "'default' | 'danger'",
         "required": false,
         "description": "Visual variant."
       },
@@ -1002,13 +1002,13 @@
       },
       {
         "prop": "side",
-        "type": "TooltipSide",
+        "type": "KumoTooltipSide",
         "required": false,
         "description": "Preferred floating side."
       },
       {
         "prop": "align",
-        "type": "TooltipAlign",
+        "type": "'start' | 'center'",
         "required": false,
         "description": "Floating alignment."
       },
@@ -1070,13 +1070,13 @@
       },
       {
         "prop": "variant",
-        "type": "TabsVariant",
+        "type": "(typeof KUMO_TABS_VARIANTS.variant)[number]",
         "required": false,
         "description": "Visual variant."
       },
       {
         "prop": "size",
-        "type": "TabsSize",
+        "type": "(typeof KUMO_TABS_VARIANTS.size)[number]",
         "required": false,
         "description": "Size preset."
       },
@@ -1174,19 +1174,19 @@
       },
       {
         "prop": "appearance",
-        "type": "RadioAppearance",
+        "type": "'default' | 'card'",
         "required": false,
         "description": "Visual appearance preset."
       },
       {
         "prop": "variant",
-        "type": "RadioVariant",
+        "type": "'default' | 'error'",
         "required": false,
         "description": "Visual variant."
       },
       {
         "prop": "controlPosition",
-        "type": "RadioControlPosition",
+        "type": "'start' | 'end'",
         "required": false,
         "description": "Control position relative to label."
       },
@@ -1242,7 +1242,7 @@
       },
       {
         "prop": "appearance",
-        "type": "RadioAppearance",
+        "type": "'default' | 'card'",
         "required": false,
         "description": "Visual appearance preset."
       },
@@ -1284,7 +1284,7 @@
       },
       {
         "prop": "controlPosition",
-        "type": "RadioControlPosition",
+        "type": "'start' | 'end'",
         "required": false,
         "description": "Control position relative to label."
       },
@@ -1342,13 +1342,13 @@
       },
       {
         "prop": "variant",
-        "type": "RadioVariant",
+        "type": "'default' | 'error'",
         "required": false,
         "description": "Visual variant."
       },
       {
         "prop": "appearance",
-        "type": "RadioAppearance",
+        "type": "'default' | 'card'",
         "required": false,
         "description": "Visual appearance preset."
       },
@@ -1404,7 +1404,7 @@
       },
       {
         "prop": "variant",
-        "type": "CheckboxVariant",
+        "type": "'default' | 'error'",
         "required": false,
         "description": "Visual variant."
       },
@@ -1584,7 +1584,7 @@
       },
       {
         "prop": "variant",
-        "type": "CheckboxVariant",
+        "type": "'default' | 'error'",
         "required": false,
         "description": "Visual variant."
       },
@@ -1640,13 +1640,13 @@
       },
       {
         "prop": "size",
-        "type": "SwitchSize",
+        "type": "'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
       {
         "prop": "variant",
-        "type": "SwitchVariant",
+        "type": "'default' | 'neutral'",
         "required": false,
         "description": "Visual variant."
       },
@@ -1790,13 +1790,13 @@
       },
       {
         "prop": "size",
-        "type": "SwitchSize",
+        "type": "'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
       {
         "prop": "variant",
-        "type": "SwitchVariant",
+        "type": "'default' | 'neutral'",
         "required": false,
         "description": "Visual variant."
       },
@@ -1860,7 +1860,7 @@
       },
       {
         "prop": "variant",
-        "type": "KumoTableRowVariant",
+        "type": "'default' | 'selected'",
         "required": false,
         "description": "Visual variant."
       }
@@ -2498,7 +2498,7 @@
       },
       {
         "prop": "size",
-        "type": "AutocompleteSize",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
@@ -2560,7 +2560,7 @@
       },
       {
         "prop": "size",
-        "type": "AutocompleteSize",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       }
@@ -2732,7 +2732,7 @@
       },
       {
         "prop": "size",
-        "type": "ComboboxSize",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
@@ -2894,7 +2894,7 @@
       },
       {
         "prop": "size",
-        "type": "ClipboardTextSize",
+        "type": "'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
@@ -2920,7 +2920,7 @@
     "Empty": [
       {
         "prop": "size",
-        "type": "KumoEmptySize",
+        "type": "'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
@@ -3116,7 +3116,7 @@
     "Text": [
       {
         "prop": "variant",
-        "type": "KumoTextVariant",
+        "type": "'heading1' | 'heading2' | 'heading3' | 'body' | 'secondary' | 'mono' | 'mono-secondary' | 'success' | 'error'",
         "required": false,
         "description": "Visual variant."
       },
@@ -3128,7 +3128,7 @@
       },
       {
         "prop": "size",
-        "type": "KumoTextSize",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
@@ -3372,13 +3372,13 @@
       },
       {
         "prop": "size",
-        "type": "SensitiveInputSize",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
       {
         "prop": "variant",
-        "type": "SensitiveInputVariant",
+        "type": "'default' | 'error'",
         "required": false,
         "description": "Visual variant."
       },
@@ -3520,7 +3520,7 @@
       },
       {
         "prop": "size",
-        "type": "InputGroupSize",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
@@ -3658,19 +3658,19 @@
       },
       {
         "prop": "variant",
-        "type": "Variant",
+        "type": "'primary' | 'secondary' | 'ghost' | 'destructive' | 'secondary-destructive' | 'outline'",
         "required": false,
         "description": "Visual variant."
       },
       {
         "prop": "size",
-        "type": "InputGroupSize",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
         "description": "Size preset."
       },
       {
         "prop": "shape",
-        "type": "Shape",
+        "type": "'base' | 'square' | 'circle'",
         "required": false,
         "description": "Shape preset."
       },
@@ -3746,13 +3746,13 @@
       },
       {
         "prop": "side",
-        "type": "'top' | 'bottom' | 'left' | 'right'",
+        "type": "KumoPopoverSide",
         "required": false,
         "description": "Preferred floating side."
       },
       {
         "prop": "align",
-        "type": "'start' | 'center' | 'end'",
+        "type": "'start' | 'center'",
         "required": false,
         "description": "Floating alignment."
       },
@@ -3866,13 +3866,13 @@
       },
       {
         "prop": "side",
-        "type": "PopoverSide",
+        "type": "'top' | 'bottom' | 'left' | 'right'",
         "required": false,
         "description": "Preferred floating side."
       },
       {
         "prop": "align",
-        "type": "PopoverAlign",
+        "type": "'start' | 'center' | 'end'",
         "required": false,
         "description": "Floating alignment."
       },
@@ -3964,7 +3964,7 @@
     "Breadcrumbs": [
       {
         "prop": "size",
-        "type": "KumoBreadcrumbsSize",
+        "type": "'sm' | 'base'",
         "required": false,
         "description": "Size preset."
       },
@@ -4057,7 +4057,7 @@
       },
       {
         "prop": "variant",
-        "type": "CloudflareLogoVariant",
+        "type": "'glyph' | 'full'",
         "required": false,
         "description": "Visual variant."
       },
@@ -4080,7 +4080,7 @@
         "description": "poweredBy prop."
       }
     ],
-    "PoweredByCloudflare": [
+    "CloudflareLogo.PoweredByCloudflare": [
       {
         "prop": "class",
         "type": "string",
@@ -4375,7 +4375,7 @@
       },
       {
         "prop": "align",
-        "type": "FlowAlign",
+        "type": "'start' | 'center' | 'end'",
         "required": false,
         "description": "Floating alignment."
       },
@@ -4991,8 +4991,15 @@
     'Dialog.Close': 'Dialog',
     'DropdownMenu.LinkItem': 'DropdownMenu.Item',
     'DropdownMenu.Sub': 'DropdownMenu',
+    'InputGroup.Input': 'InputGroupInput',
+    'InputGroup.Addon': 'InputGroupAddon',
+    'InputGroup.Button': 'InputGroupButton',
+    'InputGroup.Suffix': 'InputGroupSuffix',
+    'Popover.Root': 'PopoverRoot',
     'Tooltip.Provider': 'Tooltip',
-    'Select.Option': 'Select'
+    'Select.Option': 'Select',
+    LinkButton: 'Button.LinkButton',
+    PoweredByCloudflare: 'CloudflareLogo.PoweredByCloudflare'
   };
 
   const omittedProps: Record<string, string[]> = {
@@ -5009,13 +5016,14 @@
   };
 
   const requiredProps: Record<string, string[]> = {
-    Badge: ['children'],
     Meter: ['label'],
     Empty: ['title'],
     Label: ['children'],
     ClipboardText: ['text'],
     CodeHighlighted: ['code', 'lang'],
     DatePicker: ['mode'],
+    'Collapsible.DefaultTrigger': ['children'],
+    'Collapsible.DefaultPanel': ['children'],
     'Flow.Parallel': ['children'],
     'Flow.List': ['children'],
     'Checkbox.Group': ['children'],
@@ -5035,9 +5043,8 @@
     'Pagination.PageSize': ['value', 'onChange'],
     'TableOfContents.Group': ['label'],
     Tooltip: ['content'],
-    Dialog: ['children'],
-    Autocomplete: ['children', 'items'],
-    Combobox: ['children', 'items']
+    Autocomplete: ['items'],
+    Combobox: ['items']
   };
 
   const snippetPropsOmittedByComponent: Record<string, string[]> = {
@@ -5090,7 +5097,7 @@
     'Label',
     'LayerCard',
     'Link',
-    'LinkButton',
+    'Button.LinkButton',
     'Loader',
     'MenuBar',
     'Meter',

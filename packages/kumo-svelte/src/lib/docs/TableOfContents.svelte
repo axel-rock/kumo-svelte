@@ -54,6 +54,7 @@
     const usedSlugs: string[] = [];
 
     return Array.from(content.querySelectorAll('h2, h3'))
+      .filter((element) => !element.closest('.not-prose'))
       .map((element) => {
         const text = headingText(element);
         if (!text) return null;
@@ -102,46 +103,61 @@
   }
 
   onMount(() => {
-    headings = headingsProp.filter((heading) => heading.depth <= 3);
-    if (headings.length === 0) headings = scrapeHeadings();
-    activeId = headings[0]?.slug ?? '';
+    let observer: IntersectionObserver | undefined;
+    let retryTimer: ReturnType<typeof setTimeout> | undefined;
 
-    const elements = headings
-      .map((heading) => document.getElementById(heading.slug))
-      .filter((element): element is HTMLElement => element !== null);
+    const initialize = () => {
+      headings = headingsProp.filter((heading) => heading.depth <= 3);
+      if (headings.length === 0) headings = scrapeHeadings();
+      activeId = headings[0]?.slug ?? '';
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (suppressObserver) return;
+      const elements = headings
+        .map((heading) => document.getElementById(heading.slug))
+        .filter((element): element is HTMLElement => element !== null);
 
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              (a.target as HTMLElement).offsetTop - (b.target as HTMLElement).offsetTop
-          );
+      if (elements.length === 0) return false;
 
-        if (visible.length > 0) {
-          activeId = visible[0].target.id;
-          return;
-        }
+      observer?.disconnect();
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (suppressObserver) return;
 
-        const first = document.getElementById(headings[0]?.slug);
-        const last = document.getElementById(headings.at(-1)?.slug ?? '');
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort(
+              (a, b) =>
+                (a.target as HTMLElement).offsetTop - (b.target as HTMLElement).offsetTop
+            );
 
-        if (first && window.scrollY < first.offsetTop) {
-          activeId = headings[0]?.slug ?? '';
-        } else if (last && window.scrollY >= last.offsetTop) {
-          activeId = headings.at(-1)?.slug ?? '';
-        }
-      },
-      { rootMargin: '-10% 0px -70% 0px', threshold: [0, 1] }
-    );
+          if (visible.length > 0) {
+            activeId = visible[0].target.id;
+            return;
+          }
 
-    for (const element of elements) observer.observe(element);
+          const first = document.getElementById(headings[0]?.slug);
+          const last = document.getElementById(headings.at(-1)?.slug ?? '');
+
+          if (first && window.scrollY < first.offsetTop) {
+            activeId = headings[0]?.slug ?? '';
+          } else if (last && window.scrollY >= last.offsetTop) {
+            activeId = headings.at(-1)?.slug ?? '';
+          }
+        },
+        { rootMargin: '-10% 0px -70% 0px', threshold: [0, 1] }
+      );
+
+      for (const element of elements) observer.observe(element);
+      return true;
+    };
+
+    if (!initialize()) {
+      retryTimer = setTimeout(initialize);
+    }
+
     return () => {
       clearTimeout(suppressTimer);
-      observer.disconnect();
+      clearTimeout(retryTimer);
+      observer?.disconnect();
     };
   });
 

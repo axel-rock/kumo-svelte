@@ -32,7 +32,7 @@ import { Tooltip, TooltipProvider } from "kumo-svelte";
 ### Granular
 
 ```svelte
-import { Tooltip, TooltipProvider } from "kumo-svelte/components/tooltip";
+import { Tooltip, TooltipProvider } from "kumo-svelte";
 ```
 
 </ComponentSection>

@@ -36,7 +36,7 @@ baseUIComponent: "combobox"
 
 ```svelte
 <script lang="ts">
-  import { Combobox } from 'kumo-svelte/components/combobox';
+  import { Combobox } from 'kumo-svelte';
 </script>
 ```
 

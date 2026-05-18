@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <title>Kumo</title>
+  <title>Kumo Svelte</title>
   <meta name="description" content="Kumo - a modern component library" />
   <meta name="color-scheme" content="light dark" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />

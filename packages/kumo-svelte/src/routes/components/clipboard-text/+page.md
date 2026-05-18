@@ -37,7 +37,7 @@ sourceFile: "components/clipboard-text"
 
 ```svelte
 <script lang="ts">
-  import { ClipboardText } from 'kumo-svelte/components/clipboard-text';
+  import { ClipboardText } from 'kumo-svelte';
 </script>
 ```
 

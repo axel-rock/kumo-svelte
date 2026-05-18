@@ -31,7 +31,7 @@ import { LayerCard } from "kumo-svelte";
 ### Granular
 
 ```svelte
-import { LayerCard } from "kumo-svelte/components/layer-card";
+import { LayerCard } from "kumo-svelte";
 ```
 
 </ComponentSection>

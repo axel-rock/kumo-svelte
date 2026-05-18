@@ -211,9 +211,24 @@
 
 <div class="relative w-full" style:height={`${height}px`}>
   {#if loading}
+    {@const mid = height / 2}
+    {@const amp = Math.min(height * 0.12, 28)}
+    {@const period = 400}
+    {@const wavePath = Array.from({ length: 121 }, (_, i) => {
+      const x = -period + (i / 120) * period * 3;
+      const y = mid + Math.sin((i / 120) * 2 * Math.PI * 3) * amp;
+      return `${i === 0 ? 'M' : 'L'}${x.toFixed(2)},${y.toFixed(2)}`;
+    }).join(' ')}
     <div aria-hidden="true" class="absolute inset-0 overflow-hidden" style:height={`${height}px`}>
-      <svg width="100%" height={height} viewBox={`0 0 400 ${height}`} preserveAspectRatio="none" class="w-full animate-pulse">
-        <path d={`M-400,${height / 2} C-300,${height * 0.25} -200,${height * 0.75} -100,${height / 2} C0,${height * 0.25} 100,${height * 0.75} 200,${height / 2} C300,${height * 0.25} 400,${height * 0.75} 500,${height / 2} C600,${height * 0.25} 700,${height * 0.75} 800,${height / 2}`} fill="none" stroke={isDarkMode ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'} stroke-width="2"></path>
+      <svg width="100%" height={height} viewBox={`0 0 ${period} ${height}`} preserveAspectRatio="none" class="w-full animate-pulse">
+        <path
+          d={wavePath}
+          fill="none"
+          stroke={isDarkMode ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'}
+          stroke-width="2"
+          style:animation="kumo-chart-wave 2.4s linear infinite"
+          style:transform-origin="0 0"
+        ></path>
       </svg>
     </div>
   {:else}

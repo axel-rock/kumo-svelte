@@ -32,7 +32,7 @@ import { Tabs } from "kumo-svelte";
 ### Granular
 
 ```svelte
-import { Tabs } from "kumo-svelte/components/tabs";
+import { Tabs } from "kumo-svelte";
 ```
 
 </ComponentSection>
@@ -130,8 +130,23 @@ Tabs automatically scroll horizontally when there are many items.
         <td class="px-4 py-3 font-mono text-xs">Yes</td>
       </tr>
       <tr class="border-b border-kumo-hairline">
+        <td class="px-4 py-3 font-mono text-xs">disabled</td>
+        <td class="px-4 py-3 font-mono text-xs">boolean</td>
+        <td class="px-4 py-3 font-mono text-xs">No</td>
+      </tr>
+      <tr class="border-b border-kumo-hairline">
+        <td class="px-4 py-3 font-mono text-xs">class</td>
+        <td class="px-4 py-3 font-mono text-xs">string</td>
+        <td class="px-4 py-3 font-mono text-xs">No</td>
+      </tr>
+      <tr class="border-b border-kumo-hairline">
         <td class="px-4 py-3 font-mono text-xs">className</td>
         <td class="px-4 py-3 font-mono text-xs">string</td>
+        <td class="px-4 py-3 font-mono text-xs">No</td>
+      </tr>
+      <tr class="border-b border-kumo-hairline">
+        <td class="px-4 py-3 font-mono text-xs">content</td>
+        <td class="px-4 py-3 font-mono text-xs">Snippet</td>
         <td class="px-4 py-3 font-mono text-xs">No</td>
       </tr>
     </tbody>

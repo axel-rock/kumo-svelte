@@ -34,7 +34,7 @@ import { Autocomplete } from "kumo-svelte";
 
 
 ```svelte
-import { Autocomplete } from "kumo-svelte/components/autocomplete";
+import { Autocomplete } from "kumo-svelte";
 ```
 
 </ComponentSection>

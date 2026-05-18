@@ -32,7 +32,7 @@ import { Radio } from "kumo-svelte";
 ### Granular
 
 ```svelte
-import { Radio } from "kumo-svelte/components/radio";
+import { Radio } from "kumo-svelte";
 ```
 
 </ComponentSection>

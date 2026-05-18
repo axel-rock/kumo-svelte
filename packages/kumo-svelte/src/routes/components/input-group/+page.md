@@ -30,13 +30,7 @@ import { InputGroup } from "kumo-svelte";
 
 
 ```svelte
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-  InputGroupSuffix
-} from "kumo-svelte/components/input-group";
+import { InputGroup } from "kumo-svelte";
 ```
 
 </ComponentSection>
@@ -57,14 +51,14 @@ Pass the `label` prop to InputGroup to enable the built-in Field wrapper with
 ```svelte
 <script>
   import { MagnifyingGlass } from "phosphor-svelte";
-  import { InputGroup, InputGroupAddon, InputGroupInput } from "kumo-svelte/components/input-group";
+  import { InputGroup } from "kumo-svelte";
 </script>
 
 <InputGroup label="Search" description="Find pages, components, and more">
-  <InputGroupAddon>
+  <InputGroup.Addon>
     <MagnifyingGlass />
-  </InputGroupAddon>
-  <InputGroupInput placeholder="Search..." />
+  </InputGroup.Addon>
+  <InputGroup.Input placeholder="Search..." />
 </InputGroup>
 ```
 
@@ -72,20 +66,20 @@ Pass the `label` prop to InputGroup to enable the built-in Field wrapper with
 
 
 For custom form layouts, use InputGroup without `label`. Must provide
-  `aria-label` on `InputGroupInput` for accessibility.
+  `aria-label` on `InputGroup.Input` for accessibility.
 
 
 ```svelte
 <script>
   import { MagnifyingGlass } from "phosphor-svelte";
-  import { InputGroup, InputGroupAddon, InputGroupInput } from "kumo-svelte/components/input-group";
+  import { InputGroup } from "kumo-svelte";
 </script>
 
 <InputGroup>
-  <InputGroupAddon>
+  <InputGroup.Addon>
     <MagnifyingGlass />
-  </InputGroupAddon>
-  <InputGroupInput placeholder="Search..." aria-label="Search" />
+  </InputGroup.Addon>
+  <InputGroup.Input placeholder="Search..." aria-label="Search" />
 </InputGroup>
 ```
 
@@ -112,7 +106,7 @@ Use Addon to place text prefixes or suffixes alongside the input.
 ### Button
 
 
-Place `InputGroupButton` inside an Addon for actions that operate directly on
+Place `InputGroup.Button` inside an Addon for actions that operate directly on
   the input value, such as reveal/hide or clear.
 
 <ComponentExample demo="InputGroupButtonsDemo" />
@@ -120,7 +114,7 @@ Place `InputGroupButton` inside an Addon for actions that operate directly on
 ### Button with Tooltip
 
 
-Pass a `tooltip` prop to `InputGroupButton` to show a tooltip on hover. When
+Pass a `tooltip` prop to `InputGroup.Button` to show a tooltip on hover. When
   no explicit `aria-label` is provided, the button derives it from a string
   tooltip value.
 
@@ -179,38 +173,38 @@ The root container that provides context to all child components. Accepts
 
 <PropsTable component="InputGroup" />
 
-### `InputGroupInput`
+### `InputGroup.Input`
 
 
 The text input element. Inherits `size`, `disabled`, and `error` from
   InputGroup context. Accepts all standard input attributes except Field-related
   props which are handled by the parent.
 
-<PropsTable component="InputGroupInput" />
+<PropsTable component="InputGroup.Input" />
 
-### `InputGroupAddon`
+### `InputGroup.Addon`
 
 
 Container for icons, text, or compact buttons positioned at the start or end
   of the input.
 
-<PropsTable component="InputGroupAddon" />
+<PropsTable component="InputGroup.Addon" />
 
-### `InputGroupButton`
+### `InputGroup.Button`
 
 
 Button for secondary actions like toggle, copy, or help. Renders inside an
   Addon. Pass a `tooltip` prop to show a tooltip on hover.
 
-<PropsTable component="InputGroupButton" />
+<PropsTable component="InputGroup.Button" />
 
-### `InputGroupSuffix`
+### `InputGroup.Suffix`
 
 
 Inline text that flows seamlessly next to the typed value (e.g.,
   `.workers.dev`). The input width adjusts automatically as the user types.
 
-<PropsTable component="InputGroupSuffix" />
+<PropsTable component="InputGroup.Suffix" />
 
 ### Validation Error Types
 
@@ -273,8 +267,8 @@ When using `error` as an object, the `match` property corresponds to HTML5 Valid
 
 <ul>
   <li><code>label</code> prop on InputGroup, which renders a visible label with built-in Field support</li>
-  <li><code>aria-label</code> on InputGroupInput for inputs without a visible label</li>
-  <li><code>aria-labelledby</code> on InputGroupInput for custom label association</li>
+  <li><code>aria-label</code> on InputGroup.Input for inputs without a visible label</li>
+  <li><code>aria-labelledby</code> on InputGroup.Input for custom label association</li>
 </ul>
 
 <p>Missing accessible names trigger console warnings in development.</p>

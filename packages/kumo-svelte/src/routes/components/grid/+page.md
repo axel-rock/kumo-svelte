@@ -23,7 +23,7 @@ sourceFile: "components/grid"
 ## Installation
 
 ```svelte
-import { Grid, GridItem } from "kumo-svelte";
+import { Grid } from "kumo-svelte";
 ```
 
 </ComponentSection>
@@ -147,10 +147,10 @@ Reference for all available grid variants:
 
   <PropsTable component="Grid" />
 
-### GridItem
+### Grid.Item
 
 
-GridItem is a wrapper component for grid children. It accepts standard div
+`Grid.Item` is a wrapper component for grid children. It accepts standard div
   props including `class` and `children`.
 
 
