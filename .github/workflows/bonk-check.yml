@@ -15,7 +15,7 @@ permissions:
 jobs:
   bonk-check:
     if: github.event.pull_request != null || github.event.issue.pull_request != null || github.event.review != null
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Check for /bonk from a collaborator
         id: check
