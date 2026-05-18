@@ -1,5 +1,3 @@
-import { defineRule } from "oxlint";
-
 /**
  * Enforces the Kumo variant export standard for components:
  * - KUMO_{COMPONENT}_VARIANTS (required)
@@ -76,7 +74,7 @@ function validateExportName(exportName, componentName) {
   return { valid: true }; // Not a variant-related export
 }
 
-export const enforceVariantStandardRule = defineRule({
+export const enforceVariantStandardRule = {
   meta: {
     type: "problem",
     docs: {
@@ -183,4 +181,4 @@ export const enforceVariantStandardRule = defineRule({
       },
     };
   },
-});
+};

@@ -10,8 +10,8 @@
  * 2. Invalid/unknown semantic tokens not defined in theme-kumo.css
  *
  * Usage:
- *   node lint/lint-astro-colors.js [directory]
- *   node lint/lint-astro-colors.js packages/kumo-svelte/src
+ *   tsx lint/lint-astro-colors.ts [directory]
+ *   tsx lint/lint-astro-colors.ts packages/kumo-svelte/src
  *
  * Exit codes:
  *   0 - No issues found
@@ -25,7 +25,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // ============================================================================
-// Token validation logic (synced with no-primitive-colors.js)
+// Token validation logic (synced with no-primitive-colors.ts)
 // ============================================================================
 
 const TOKEN_RE =

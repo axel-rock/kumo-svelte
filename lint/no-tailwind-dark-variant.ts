@@ -1,5 +1,3 @@
-import { defineRule } from "oxlint";
-
 const RULE_NAME = "no-tailwind-dark-variant";
 
 function extractStrings(node) {
@@ -91,7 +89,7 @@ function isInsideJsxAttribute(node) {
   return false;
 }
 
-export const noTailwindDarkVariantRule = defineRule({
+export const noTailwindDarkVariantRule = {
   meta: {
     type: "problem",
     docs: {
@@ -148,4 +146,4 @@ export const noTailwindDarkVariantRule = defineRule({
       },
     };
   },
-});
+};

@@ -1,5 +1,3 @@
-import { defineRule } from "oxlint";
-
 const RULE_NAME = "no-cross-package-imports";
 
 // Known package directory names in this monorepo
@@ -81,7 +79,7 @@ function getImportSource(node) {
   return null;
 }
 
-export const noCrossPackageImportsRule = defineRule({
+export const noCrossPackageImportsRule = {
   meta: {
     type: "problem",
     docs: {
@@ -159,4 +157,4 @@ export const noCrossPackageImportsRule = defineRule({
       },
     };
   },
-});
+};

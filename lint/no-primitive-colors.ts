@@ -1,4 +1,3 @@
-import { defineRule } from "oxlint";
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -388,7 +387,7 @@ function findInvalidToken(str) {
   return null;
 }
 
-export const noPrimitiveColorsRule = defineRule({
+export const noPrimitiveColorsRule = {
   meta: {
     type: "problem",
     docs: {
@@ -440,4 +439,4 @@ export const noPrimitiveColorsRule = defineRule({
       },
     };
   },
-});
+};

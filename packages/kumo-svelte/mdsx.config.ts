@@ -1,17 +1,22 @@
 import { defineConfig } from 'mdsx';
 import { codeToHtml } from 'shiki';
 
-/**
- * @typedef {object} MdsxNode
- * @property {string=} type
- * @property {string=} tagName
- * @property {string=} value
- * @property {{ className?: unknown, id?: string }=} properties
- * @property {MdsxNode[]=} children
- */
+type MdsxNode = {
+  type?: string;
+  tagName?: string;
+  value?: string;
+  properties?: { className?: unknown; id?: string };
+  children?: MdsxNode[];
+};
 
-/** @type {Record<string, string>} */
-const languageAliases = {
+type MdsxFile = {
+  data: {
+    matter?: unknown;
+    [key: string]: unknown;
+  };
+};
+
+const languageAliases: Record<string, string> = {
   svelte: 'svelte',
   ts: 'typescript',
   tsx: 'tsx',
@@ -23,22 +28,14 @@ const languageAliases = {
   jsonc: 'jsonc'
 };
 
-/**
- * @param {MdsxNode | undefined} node
- * @returns {string}
- */
-function textContent(node) {
+function textContent(node: MdsxNode | undefined): string {
   if (!node) return '';
   if (node.type === 'text') return node.value ?? '';
   if (!Array.isArray(node.children)) return '';
   return node.children.map(textContent).join('');
 }
 
-/**
- * @param {string} html
- * @returns {string}
- */
-function escapeSvelte(html) {
+function escapeSvelte(html: string): string {
   return html.replace(/[{}`]/g, (character) => {
     if (character === '{') return '&#123;';
     if (character === '}') return '&#125;';
@@ -46,22 +43,14 @@ function escapeSvelte(html) {
   });
 }
 
-/**
- * @param {string} code
- * @returns {string}
- */
-function normalizeCode(code) {
+function normalizeCode(code: string): string {
   return code
     .replace(/^\n+|\n+$/g, '')
     .replace(/(<script\b[^>]*>)\n{2,}/g, '$1\n')
     .replace(/\n{2,}(<\/script>)/g, '\n$1');
 }
 
-/**
- * @param {MdsxNode} node
- * @returns {string}
- */
-function codeLanguage(node) {
+function codeLanguage(node: MdsxNode): string {
   const code = node.children?.find((child) => child.type === 'element' && child.tagName === 'code');
   const classNames = Array.isArray(code?.properties?.className) ? code.properties.className : [];
   const languageClass = classNames.find(
@@ -72,10 +61,8 @@ function codeLanguage(node) {
 }
 
 function rehypeShikiCodeBlocks() {
-  /** @param {MdsxNode} tree */
-  return async (tree) => {
-    /** @type {Promise<void>[]} */
-    const highlights = [];
+  return async (tree: MdsxNode) => {
+    const highlights: Promise<void>[] = [];
 
     walk(tree, (node) => {
       if (node.tagName !== 'pre') return;
@@ -104,11 +91,7 @@ function rehypeShikiCodeBlocks() {
   };
 }
 
-/**
- * @param {string} text
- * @returns {string}
- */
-function slugify(text) {
+function slugify(text: string): string {
   return text
     .toLowerCase()
     .trim()
@@ -118,15 +101,9 @@ function slugify(text) {
 }
 
 function rehypeDocHeadings() {
-  /**
-   * @param {MdsxNode} tree
-   * @param {{ data: Record<string, unknown> }} file
-   */
-  return (tree, file) => {
-    /** @type {{ depth: number; slug: string; text: string }[]} */
-    const headings = [];
-    /** @type {string[]} */
-    const usedSlugs = [];
+  return (tree: MdsxNode, file: MdsxFile) => {
+    const headings: { depth: number; slug: string; text: string }[] = [];
+    const usedSlugs: string[] = [];
 
     walk(tree, (node) => {
       if (!['h2', 'h3', 'h4'].includes(node.tagName ?? '')) return;
@@ -157,11 +134,7 @@ function rehypeDocHeadings() {
   };
 }
 
-/**
- * @param {MdsxNode} node
- * @param {(node: MdsxNode) => void} callback
- */
-function walk(node, callback) {
+function walk(node: MdsxNode, callback: (node: MdsxNode) => void): void {
   callback(node);
   if (!Array.isArray(node.children)) return;
   for (const child of node.children) {

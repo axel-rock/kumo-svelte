@@ -1,7 +1,7 @@
-import { noTailwindDarkVariantRule } from "./no-tailwind-dark-variant.js";
-import { noPrimitiveColorsRule } from "./no-primitive-colors.js";
-import { enforceVariantStandardRule } from "./enforce-variant-standard.js";
-import { noCrossPackageImportsRule } from "./no-cross-package-imports.js";
+import { noTailwindDarkVariantRule } from "./no-tailwind-dark-variant.ts";
+import { noPrimitiveColorsRule } from "./no-primitive-colors.ts";
+import { enforceVariantStandardRule } from "./enforce-variant-standard.ts";
+import { noCrossPackageImportsRule } from "./no-cross-package-imports.ts";
 
 const plugin = {
   meta: {
