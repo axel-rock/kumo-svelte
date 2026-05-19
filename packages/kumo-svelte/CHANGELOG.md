@@ -1,5 +1,11 @@
 # kumo-svelte
 
+## 0.1.3
+
+### Patch Changes
+
+- Restore the horizontal tabs overflow fade and hidden scrollbar styling used by Kumo.
+
 ## 0.1.2
 
 ### Patch Changes
