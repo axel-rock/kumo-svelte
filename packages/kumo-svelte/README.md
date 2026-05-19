@@ -47,7 +47,18 @@ Kumo Svelte re-exports primitives for advanced use cases:
 
 ## CLI
 
-The original Kumo CLI is not ported yet.
+Kumo Svelte includes the ported Kumo CLI for component discovery, block installation, migration helpers, and AI usage docs.
+
+```bash
+npx kumo-svelte help
+npx kumo-svelte init
+npx kumo-svelte blocks
+npx kumo-svelte add PageHeader
+npx kumo-svelte ls
+npx kumo-svelte doc Button
+npx kumo-svelte migrate --classes
+npx kumo-svelte ai
+```
 
 ## Development
 
