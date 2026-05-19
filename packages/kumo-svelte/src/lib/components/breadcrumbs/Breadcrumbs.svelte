@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import type { Snippet } from 'svelte';
+  import type { Component, Snippet } from 'svelte';
   import { cn } from '$lib/utils/cn';
 
   export const KUMO_BREADCRUMBS_VARIANTS = {
@@ -28,6 +28,7 @@
   export interface BreadcrumbsItem {
     label: string;
     href?: string;
+    icon?: Component;
   }
 
   export function breadcrumbsVariants({
@@ -85,9 +86,9 @@
           <BreadcrumbsSeparator />
         {/if}
         {#if item.href && index < mobileItems.length - 1}
-          <BreadcrumbsLink href={item.href}>{item.label}</BreadcrumbsLink>
+          <BreadcrumbsLink href={item.href} icon={item.icon}>{item.label}</BreadcrumbsLink>
         {:else}
-          <BreadcrumbsCurrent>{item.label}</BreadcrumbsCurrent>
+          <BreadcrumbsCurrent icon={item.icon}>{item.label}</BreadcrumbsCurrent>
         {/if}
       {/each}
     </div>
@@ -97,9 +98,9 @@
           <BreadcrumbsSeparator />
         {/if}
         {#if item.href && index < items.length - 1}
-          <BreadcrumbsLink href={item.href}>{item.label}</BreadcrumbsLink>
+          <BreadcrumbsLink href={item.href} icon={item.icon}>{item.label}</BreadcrumbsLink>
         {:else}
-          <BreadcrumbsCurrent>{item.label}</BreadcrumbsCurrent>
+          <BreadcrumbsCurrent icon={item.icon}>{item.label}</BreadcrumbsCurrent>
         {/if}
       {/each}
     </div>

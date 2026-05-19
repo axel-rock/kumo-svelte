@@ -193,20 +193,4 @@ Use the `labels` prop to customize all UI strings for different locales. All lab
 ## API Reference
 
   <PropsTable component="Pagination" />
-
-### Pagination.Controls
-
-<PropsTable component="Pagination.Controls" />
-
-### Pagination.Info
-
-<PropsTable component="Pagination.Info" />
-
-### Pagination.PageSize
-
-<PropsTable component="Pagination.PageSize" />
-
-### Pagination.Separator
-
-<PropsTable component="Pagination.Separator" />
 </ComponentSection>

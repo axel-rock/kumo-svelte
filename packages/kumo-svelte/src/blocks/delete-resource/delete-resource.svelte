@@ -1,11 +1,4 @@
-<script lang="ts">
-  import { Banner } from '$lib/components/banner';
-  import { Button } from '$lib/components/button';
-  import { Dialog } from '$lib/components/dialog';
-  import { Input } from '$lib/components/input';
-  import { cn } from '$lib/utils/cn';
-  import { Check, Copy, WarningCircle, X } from 'phosphor-svelte';
-
+<script module lang="ts">
   export const KUMO_DELETE_RESOURCE_VARIANTS = {
     size: {
       sm: {
@@ -24,20 +17,27 @@
   } as const;
 
   type DeleteResourceSize = keyof typeof KUMO_DELETE_RESOURCE_VARIANTS.size;
+</script>
+
+<script lang="ts">
+  import { Banner } from '$lib/components/banner';
+  import { Button } from '$lib/components/button';
+  import { Dialog } from '$lib/components/dialog';
+  import { Input } from '$lib/components/input';
+  import { cn } from '$lib/utils/cn';
+  import { Check, Copy, WarningCircle, X } from 'phosphor-svelte';
 
   interface Props {
     resourceType: string;
     resourceName: string;
-    open?: boolean;
-    onOpenChange?: (open: boolean) => void;
-    triggerLabel?: string;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
     deleteButtonText?: string;
-    cancelLabel?: string;
     errorMessage?: string;
     isDeleting?: boolean;
     caseSensitive?: boolean;
     size?: DeleteResourceSize;
-    onDelete?: () => void | Promise<void>;
+    onDelete: () => void | Promise<void>;
     class?: string;
   }
 
@@ -46,11 +46,9 @@
     resourceName,
     open = $bindable(false),
     onOpenChange,
-    triggerLabel,
     deleteButtonText,
-    cancelLabel = 'Cancel',
     errorMessage,
-    isDeleting: controlledIsDeleting = false,
+    isDeleting = false,
     caseSensitive = true,
     size = KUMO_DELETE_RESOURCE_DEFAULT_VARIANTS.size,
     onDelete,
@@ -58,15 +56,12 @@
   }: Props = $props();
 
   let confirmationInput = $state('');
-  let internalIsDeleting = $state(false);
   let copied = $state(false);
   let copyTimer: ReturnType<typeof setTimeout> | undefined;
 
-  const isDeleting = $derived(controlledIsDeleting || internalIsDeleting);
   const normalizedInput = $derived(caseSensitive ? confirmationInput : confirmationInput.toLowerCase());
   const normalizedName = $derived(caseSensitive ? resourceName : resourceName.toLowerCase());
   const isConfirmed = $derived(normalizedInput === normalizedName);
-  const canDelete = $derived(isConfirmed && !isDeleting);
 
   function setOpen(nextOpen: boolean) {
     open = nextOpen;
@@ -78,14 +73,8 @@
   }
 
   async function handleDelete() {
-    if (!canDelete) return;
-    internalIsDeleting = true;
-    try {
-      await onDelete?.();
-      setOpen(false);
-    } finally {
-      internalIsDeleting = false;
-    }
+    if (!isConfirmed || isDeleting) return;
+    await onDelete();
   }
 
   async function handleCopy() {
@@ -96,21 +85,21 @@
       copied = false;
     }, 1500);
   }
+
+  $effect(() => {
+    if (!open) {
+      confirmationInput = '';
+      copied = false;
+    }
+  });
 </script>
 
 <Dialog
   bind:open
-  role="alertdialog"
   {size}
   class={cn('p-0', className)}
   onOpenChange={setOpen}
 >
-  {#snippet trigger(props)}
-    <Button {...props} variant="destructive">
-      {triggerLabel ?? `Delete ${resourceType}`}
-    </Button>
-  {/snippet}
-
   <div class="flex items-center justify-between border-b border-kumo-line px-6 py-4">
     <h2 class="text-lg font-semibold">Delete {resourceName}</h2>
     <Button
@@ -149,9 +138,9 @@
           >
             {resourceName}
             {#if copied}
-              <Check size={12} class="inline ml-1.5" />
+              <Check size={12} weight="bold" class="inline ml-1.5" />
             {:else}
-              <Copy size={12} class="inline text-kumo-subtle group-hover:text-kumo-default ml-1.5" />
+              <Copy size={12} weight="bold" class="inline text-kumo-subtle group-hover:text-kumo-default ml-1.5" />
             {/if}
           </button>
           to confirm:
@@ -172,7 +161,7 @@
   </div>
 
   <div class="flex justify-end gap-3 border-t border-kumo-line px-6 py-4">
-    <Button variant="secondary" disabled={isDeleting} onclick={() => setOpen(false)}>{cancelLabel}</Button>
+    <Button variant="secondary" disabled={isDeleting} onclick={() => setOpen(false)}>Cancel</Button>
     <Button variant="destructive" onclick={handleDelete} disabled={!isConfirmed || isDeleting} loading={isDeleting}>
       {deleteButtonText || `Delete ${resourceType}`}
     </Button>

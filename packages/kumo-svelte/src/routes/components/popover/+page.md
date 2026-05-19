@@ -194,56 +194,48 @@ Use the `customAnchor` prop on `Popover.Content` to position the popover against
 
 ### Popover
 
-
-Compatibility component that can either wrap compound Popover children or render
-the common trigger/title/description pattern.
+The root component that manages the popover's open state.
 
 <PropsTable component="Popover" />
 
-### Popover.Root
-
-The root component that manages the popover's open state.
-
-<PropsTable component="Popover.Root" />
-
 ### Popover.Trigger
 
-A button that opens the popover when clicked. Use a `child` snippet to render
+A button that opens the popover when clicked. Use a `render` prop to render
 your own element.
 
-<PropsTable component="PopoverTrigger" />
+<PropsTable component="Popover.Trigger" />
 
 ### Popover.Content
 
 
 The container for popover content. Controls positioning via `side`, `align`,
-  `sideOffset`, and `alignOffset` props. Use the `customAnchor` prop to position
+  `sideOffset`, and `alignOffset` props. Use the `anchor` prop to position
   against a custom element or virtual point instead of the trigger. Use
   `positionMethod="fixed"` when the popover needs to escape stacking contexts,
   such as when inside sticky headers.
 
-<PropsTable component="PopoverContent" />
+<PropsTable component="Popover.Content" />
 
 ### Popover.Title
 
 
 A heading that labels the popover for accessibility.
 
-<PropsTable component="PopoverTitle" />
+<PropsTable component="Popover.Title" />
 
 ### Popover.Description
 
 
 A paragraph providing additional context about the popover content.
 
-<PropsTable component="PopoverDescription" />
+<PropsTable component="Popover.Description" />
 
 ### Popover.Close
 
 
-A button that closes the popover when clicked. Use a `child` snippet to render
+A button that closes the popover when clicked. Use a `render` prop to render
 your own element.
 
-<PropsTable component="PopoverClose" />
+<PropsTable component="Popover.Close" />
 
 </ComponentSection>

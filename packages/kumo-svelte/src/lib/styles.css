@@ -777,6 +777,33 @@ pre.shiki {
   background-color: var(--shiki-dark-bg) !important;
 }
 
+/* Input placeholder color - vanilla CSS to avoid Tailwind parsing issues */
+.kumo-input-placeholder::placeholder {
+  color: var(--text-color-kumo-placeholder);
+}
+
+/* InputGroup container mode needs :has(:focus-visible) on the group itself. */
+[data-slot="input-group"][data-focus-mode="container"]:has(:focus-visible) {
+  outline: solid 1px var(--color-kumo-focus);
+}
+
+/* InputGroup hybrid mode uses the same 1px active outline as individual controls. */
+[data-slot="input-group-container-zone"]:has(:focus-visible) {
+  outline: solid 1px var(--color-kumo-focus);
+  outline-offset: -1px;
+}
+
+/* Individual InputGroup inputs show the active border on focus; buttons only show it for keyboard focus. */
+[data-slot="input-group"][data-focus-mode="individual"] input:focus {
+  outline: solid 1px var(--color-kumo-focus) !important;
+  outline-offset: -1px !important;
+}
+
+[data-slot="input-group"][data-focus-mode="individual"] button:focus-visible {
+  outline: solid 1px var(--color-kumo-focus) !important;
+  outline-offset: -1px !important;
+}
+
 /* ==========================================================================
    Code block copy button
    ========================================================================== */

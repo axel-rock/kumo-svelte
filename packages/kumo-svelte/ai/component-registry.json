@@ -58,7 +58,7 @@
       "category": "Layout",
       "description": "Resource list page layout with optional sidebar content.",
       "files": ["resource-list/resource-list.svelte", "resource-list/index.ts"],
-      "dependencies": ["LayerCard"]
+      "dependencies": []
     },
     "DeleteResource": {
       "name": "DeleteResource",

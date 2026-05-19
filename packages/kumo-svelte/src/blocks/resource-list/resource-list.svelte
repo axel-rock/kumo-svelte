@@ -1,10 +1,9 @@
 <script lang="ts">
   import type { Component, Snippet } from 'svelte';
-  import { LayerCard } from '$lib/components/layer-card';
   import { cn } from '$lib/utils/cn';
 
   interface Props {
-    title: string;
+    title?: string;
     description?: string;
     icon?: Component;
     usage?: Snippet;
@@ -24,33 +23,34 @@
   }: Props = $props();
 </script>
 
-<div class={cn('grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]', className)}>
-  <main class="min-w-0 space-y-6">
-    <div class="space-y-2">
-      <div class="flex items-center gap-3">
+<div class={cn('h-full min-h-screen w-full bg-kumo-overlay', className)}>
+  <div class="mx-auto flex max-w-[1400px] flex-col p-6 md:gap-4 md:p-8 lg:px-10 lg:py-9 xl:gap-6">
+    <div class="flex flex-col">
+      <div class="mb-1.5 flex items-center gap-1.5">
         {#if Icon}
-          <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-kumo-tint text-kumo-default">
-            <Icon />
-          </span>
+          <Icon size={32} class="text-kumo-subtle" />
         {/if}
-        <h1 class="text-2xl font-semibold tracking-normal text-kumo-default">{title}</h1>
+        <h1 class="font-heading m-0 p-0 text-3xl font-semibold">{title}</h1>
       </div>
       {#if description}
-        <p class="max-w-3xl text-sm leading-6 text-kumo-subtle">{description}</p>
+        <p class="hidden p-0 text-lg leading-normal text-pretty text-kumo-subtle md:block">{description}</p>
       {/if}
     </div>
 
-    {@render children?.()}
-  </main>
+    <div class="flex flex-col-reverse gap-6 xl:flex-row xl:gap-8">
+      <div class="min-w-0 grow">{@render children?.()}</div>
 
-  {#if usage || additionalContent}
-    <aside class="space-y-4">
-      {#if usage}
-        <LayerCard class="p-4">{@render usage()}</LayerCard>
+      {#if usage || additionalContent}
+        <div class="top-22 flex h-fit w-full shrink-0 flex-col gap-4 xl:sticky xl:w-[380px]">
+          {@render usage?.()}
+
+          <div class={cn('hidden xl:block', usage ? 'mt-6' : '')}>
+            {@render additionalContent?.()}
+          </div>
+        </div>
       {/if}
-      {#if additionalContent}
-        <LayerCard class="p-4">{@render additionalContent()}</LayerCard>
-      {/if}
-    </aside>
-  {/if}
+    </div>
+
+    <div class="mt-6 xl:hidden">{@render additionalContent?.()}</div>
+  </div>
 </div>

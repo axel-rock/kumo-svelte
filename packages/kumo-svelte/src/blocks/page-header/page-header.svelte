@@ -1,19 +1,56 @@
+<script module lang="ts">
+  import { cn } from '$lib/utils/cn';
+
+  export const KUMO_PAGE_HEADER_VARIANTS = {
+    spacing: {
+      compact: {
+        classes: 'gap-1',
+        description: 'Compact spacing between header elements'
+      },
+      base: {
+        classes: 'gap-2',
+        description: 'Default spacing between header elements'
+      },
+      relaxed: {
+        classes: 'gap-4',
+        description: 'Relaxed spacing for more prominent headers'
+      }
+    }
+  } as const;
+
+  export const KUMO_PAGE_HEADER_DEFAULT_VARIANTS = {
+    spacing: 'base'
+  } as const;
+
+  type PageHeaderSpacing = keyof typeof KUMO_PAGE_HEADER_VARIANTS.spacing;
+
+  export function pageHeaderVariants({
+    spacing = KUMO_PAGE_HEADER_DEFAULT_VARIANTS.spacing
+  }: {
+    spacing?: PageHeaderSpacing;
+  } = {}) {
+    return cn('flex flex-col', KUMO_PAGE_HEADER_VARIANTS.spacing[spacing].classes);
+  }
+</script>
+
 <script lang="ts">
-  import type { Component, Snippet } from 'svelte';
+  import type { Snippet } from 'svelte';
   import { Breadcrumbs, type BreadcrumbsItem } from '$lib/components/breadcrumbs';
   import { Tabs, type TabsItem } from '$lib/components/tabs';
-  import { cn } from '$lib/utils/cn';
 
   interface Props {
     breadcrumbs?: BreadcrumbsItem[];
+    breadcrumbContent?: Snippet;
     title?: string;
     description?: string;
-    icon?: Component;
     tabs?: TabsItem[];
     activeTab?: string;
+    defaultTab?: string;
     onTabChange?: (value: string) => void;
+    onValueChange?: (value: string) => void;
     actions?: Snippet;
     children?: Snippet;
+    spacing?: PageHeaderSpacing;
     class?: string;
     className?: string;
     [key: string]: unknown;
@@ -21,51 +58,59 @@
 
   let {
     breadcrumbs = [],
+    breadcrumbContent,
     title,
     description,
-    icon: Icon,
     tabs = [],
     activeTab = $bindable(),
+    defaultTab,
     onTabChange,
+    onValueChange,
     actions,
     children,
+    spacing = KUMO_PAGE_HEADER_DEFAULT_VARIANTS.spacing,
     class: className,
     className: classNameAlias,
     ...rest
   }: Props = $props();
+
+  function handleTabChange(value: string) {
+    onTabChange?.(value);
+    onValueChange?.(value);
+  }
 </script>
 
-<header class={cn('space-y-4', className, classNameAlias)} {...rest}>
-  {#if breadcrumbs.length > 0}
-    <Breadcrumbs items={breadcrumbs} />
-  {/if}
-
-  <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-    <div class="min-w-0 space-y-2">
-      {#if title}
-        <div class="flex min-w-0 items-center gap-3">
-          {#if Icon}
-            <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-kumo-tint text-kumo-default">
-              <Icon />
-            </span>
-          {/if}
-          <h1 class="truncate text-2xl font-semibold tracking-normal text-kumo-default">{title}</h1>
-        </div>
-      {/if}
-
-      {#if description}
-        <p class="max-w-3xl text-sm leading-6 text-kumo-subtle">{description}</p>
-      {/if}
-
-      {@render children?.()}
-    </div>
-
-    {#if actions}
-      <div class="flex shrink-0 items-center gap-2">{@render actions()}</div>
+<div class={cn(pageHeaderVariants({ spacing }), className, classNameAlias)} {...rest}>
+  <div class="border-b border-kumo-line">
+    {#if breadcrumbContent}
+      {@render breadcrumbContent()}
+    {:else if breadcrumbs.length > 0}
+      <Breadcrumbs items={breadcrumbs} />
     {/if}
   </div>
 
-  {#if tabs.length > 0}
-    <Tabs bind:value={activeTab} items={tabs} onValueChange={onTabChange} />
+  {#if title || description}
+    <div class="flex flex-col gap-2 py-3 pl-3">
+      {#if title}
+        <h1 class="font-heading text-3xl font-semibold text-kumo-default">{title}</h1>
+      {/if}
+      {#if description}
+        <p class="max-w-prose text-base text-kumo-subtle">{description}</p>
+      {/if}
+    </div>
   {/if}
-</header>
+
+  {#if tabs.length > 0}
+    <div class="flex w-full items-center justify-between border-b border-kumo-line pt-1 pb-3 pl-3">
+      <Tabs bind:value={activeTab} selectedValue={defaultTab} items={tabs} onValueChange={handleTabChange} />
+
+      <div class="flex items-center gap-2">
+        {#if actions}
+          {@render actions()}
+        {:else}
+          {@render children?.()}
+        {/if}
+      </div>
+    </div>
+  {/if}
+</div>

@@ -15,6 +15,146 @@
   let { component, sourceFile }: Props = $props();
 
   const rowsByComponent: Record<string, PropRow[]> = {
+    "DeleteResource": [
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": true,
+        "description": "Whether the dialog is open."
+      },
+      {
+        "prop": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": true,
+        "description": "Callback fired when the open state changes."
+      },
+      {
+        "prop": "resourceType",
+        "type": "string",
+        "required": true,
+        "description": "Type of resource being deleted, such as Zone, Worker, or KV Namespace."
+      },
+      {
+        "prop": "resourceName",
+        "type": "string",
+        "required": true,
+        "description": "Name of the resource users must type to confirm deletion."
+      },
+      {
+        "prop": "onDelete",
+        "type": "() => void | Promise<void>",
+        "required": true,
+        "description": "Callback fired when the delete action is confirmed."
+      },
+      {
+        "prop": "isDeleting",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the delete action is currently in progress."
+      },
+      {
+        "prop": "caseSensitive",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the confirmation input must match the resource name case exactly."
+      },
+      {
+        "prop": "deleteButtonText",
+        "type": "string",
+        "required": false,
+        "description": "Custom label for the destructive confirmation button."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the dialog content."
+      },
+      {
+        "prop": "errorMessage",
+        "type": "string",
+        "required": false,
+        "description": "Error message displayed above the confirmation copy."
+      },
+      {
+        "prop": "size",
+        "type": "'sm' | 'base'",
+        "required": false,
+        "default": "\"base\"",
+        "description": "Dialog size preset."
+      }
+    ],
+    "PageHeader": [
+      {
+        "prop": "breadcrumbContent",
+        "type": "Snippet",
+        "required": false,
+        "description": "Rendered breadcrumb composition for full Breadcrumbs API parity."
+      },
+      {
+        "prop": "breadcrumbs",
+        "type": "BreadcrumbsItem[]",
+        "required": false,
+        "description": "Data-driven breadcrumb items for simple headers."
+      },
+      {
+        "prop": "title",
+        "type": "string",
+        "required": false,
+        "description": "Optional page title."
+      },
+      {
+        "prop": "description",
+        "type": "string",
+        "required": false,
+        "description": "Optional page description."
+      },
+      {
+        "prop": "tabs",
+        "type": "TabsItem[]",
+        "required": false,
+        "description": "Tabs shown in the lower header row."
+      },
+      {
+        "prop": "defaultTab",
+        "type": "string",
+        "required": false,
+        "description": "Initial selected tab value."
+      },
+      {
+        "prop": "activeTab",
+        "type": "string",
+        "required": false,
+        "description": "Bindable selected tab value."
+      },
+      {
+        "prop": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Callback fired when the active tab changes."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Action content rendered on the right side of the tabs row."
+      },
+      {
+        "prop": "spacing",
+        "type": "'compact' | 'base' | 'relaxed'",
+        "required": false,
+        "default": "\"base\"",
+        "description": "Spacing preset between header rows."
+      },
+      {
+        "prop": "class",
+        "type": "string",
+        "required": false,
+        "description": "Additional classes merged onto the root element."
+      }
+    ],
     "Button": [
       {
         "prop": "children",
@@ -35,6 +175,54 @@
         "description": "Icon rendered by the component."
       },
       {
+        "prop": "loading",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Loading state."
+      },
+      {
+        "prop": "title",
+        "type": "string",
+        "required": false,
+        "description": "Title content."
+      },
+      {
+        "prop": "shape",
+        "type": "'base' | 'square' | 'circle'",
+        "required": false,
+        "default": "\"base\"",
+        "description": "Shape preset."
+      },
+      {
+        "prop": "size",
+        "type": "'xs' | 'sm' | 'base' | 'lg'",
+        "required": false,
+        "default": "\"base\"",
+        "description": "Size preset."
+      },
+      {
+        "prop": "variant",
+        "type": "'primary' | 'secondary' | 'ghost' | 'destructive' | 'secondary-destructive' | 'outline'",
+        "required": false,
+        "default": "\"secondary\"",
+        "description": "Visual variant."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Disables the component."
+      },
+      {
+        "prop": "type",
+        "type": "'button' | 'submit' | 'reset'",
+        "required": false,
+        "default": "\"button\"",
+        "description": "Element or semantic type."
+      },
+      {
         "prop": "href",
         "type": "string",
         "required": false,
@@ -44,49 +232,8 @@
         "prop": "external",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Opens links in a new tab with safe rel attributes."
-      },
-      {
-        "prop": "type",
-        "type": "'button' | 'submit' | 'reset'",
-        "required": false,
-        "description": "Element or semantic type."
-      },
-      {
-        "prop": "disabled",
-        "type": "boolean",
-        "required": false,
-        "description": "Disables the component."
-      },
-      {
-        "prop": "shape",
-        "type": "'base' | 'square' | 'circle'",
-        "required": false,
-        "description": "Shape preset."
-      },
-      {
-        "prop": "size",
-        "type": "'xs' | 'sm' | 'base' | 'lg'",
-        "required": false,
-        "description": "Size preset."
-      },
-      {
-        "prop": "variant",
-        "type": "'primary' | 'secondary' | 'ghost' | 'destructive' | 'secondary-destructive' | 'outline'",
-        "required": false,
-        "description": "Visual variant."
-      },
-      {
-        "prop": "loading",
-        "type": "boolean",
-        "required": false,
-        "description": "Loading state."
-      },
-      {
-        "prop": "title",
-        "type": "string",
-        "required": false,
-        "description": "Title content."
       }
     ],
     "Button.LinkButton": [
@@ -103,28 +250,10 @@
         "description": "Additional classes merged onto the root element."
       },
       {
-        "prop": "icon",
-        "type": "Component",
-        "required": false,
-        "description": "Icon rendered by the component."
-      },
-      {
         "prop": "href",
         "type": "string",
         "required": false,
         "description": "Destination URL."
-      },
-      {
-        "prop": "external",
-        "type": "boolean",
-        "required": false,
-        "description": "Opens links in a new tab with safe rel attributes."
-      },
-      {
-        "prop": "linksExternal",
-        "type": "boolean",
-        "required": false,
-        "description": "Treats links as external."
       },
       {
         "prop": "shape",
@@ -143,14 +272,33 @@
         "type": "'primary' | 'secondary' | 'ghost' | 'destructive' | 'secondary-destructive' | 'outline'",
         "required": false,
         "description": "Visual variant."
+      },
+      {
+        "prop": "icon",
+        "type": "Component",
+        "required": false,
+        "description": "Icon rendered by the component."
+      },
+      {
+        "prop": "external",
+        "type": "boolean",
+        "required": false,
+        "description": "Opens links in a new tab with safe rel attributes."
+      },
+      {
+        "prop": "linksExternal",
+        "type": "boolean",
+        "required": false,
+        "description": "Treats links as external."
       }
     ],
     "Badge": [
       {
-        "prop": "children",
-        "type": "Snippet",
+        "prop": "variant",
+        "type": "'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'destructive' | 'info' | 'beta' | 'outline' | 'red' | 'green' | 'neutral' | 'orange' | 'purple' | 'teal' | 'teal-subtle' | 'blue'",
         "required": false,
-        "description": "Child snippet rendered by the component."
+        "default": "\"primary\"",
+        "description": "Visual variant."
       },
       {
         "prop": "class",
@@ -159,10 +307,10 @@
         "description": "Additional classes merged onto the root element."
       },
       {
-        "prop": "variant",
-        "type": "'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'destructive' | 'info' | 'beta' | 'outline' | 'red' | 'green' | 'neutral' | 'orange' | 'purple' | 'teal' | 'teal-subtle' | 'blue'",
+        "prop": "children",
+        "type": "Snippet",
         "required": false,
-        "description": "Visual variant."
+        "description": "Child snippet rendered by the component."
       }
     ],
     "Banner": [
@@ -194,6 +342,7 @@
         "prop": "variant",
         "type": "'default' | 'alert' | 'error'",
         "required": false,
+        "default": "\"default\"",
         "description": "Visual variant."
       },
       {
@@ -220,7 +369,8 @@
         "prop": "gap",
         "type": "'none' | 'sm' | 'base' | 'lg'",
         "required": false,
-        "description": "Grid gap scale."
+        "description": "Grid gap scale.",
+        "default": "\"base\""
       },
       {
         "prop": "variant",
@@ -272,6 +422,7 @@
         "prop": "size",
         "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
+        "default": "\"base\"",
         "description": "Size preset."
       },
       {
@@ -284,6 +435,7 @@
         "prop": "invalid",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Forces invalid styling and ARIA state."
       },
       {
@@ -314,12 +466,14 @@
         "prop": "passwordManagerIgnore",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Adds password-manager ignore attributes."
       },
       {
         "prop": "value",
         "type": "string | number",
         "required": false,
+        "default": "\"\"",
         "description": "Controlled value."
       },
       {
@@ -358,6 +512,7 @@
         "prop": "size",
         "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
+        "default": "\"base\"",
         "description": "Size preset."
       },
       {
@@ -370,6 +525,7 @@
         "prop": "invalid",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Forces invalid styling and ARIA state."
       },
       {
@@ -400,6 +556,7 @@
         "prop": "value",
         "type": "string",
         "required": false,
+        "default": "\"\"",
         "description": "Controlled value."
       },
       {
@@ -438,6 +595,7 @@
         "prop": "size",
         "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
+        "default": "\"base\"",
         "description": "Size preset."
       },
       {
@@ -450,6 +608,7 @@
         "prop": "invalid",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Forces invalid styling and ARIA state."
       },
       {
@@ -480,6 +639,7 @@
         "prop": "value",
         "type": "string",
         "required": false,
+        "default": "\"\"",
         "description": "Controlled value."
       },
       {
@@ -518,6 +678,7 @@
         "prop": "options",
         "type": "Option[]",
         "required": false,
+        "default": "[]",
         "description": "Options rendered by the component."
       },
       {
@@ -542,30 +703,35 @@
         "prop": "placeholder",
         "type": "string",
         "required": false,
+        "default": "\"Select...\"",
         "description": "Placeholder text."
       },
       {
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
         "prop": "loading",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Loading state."
       },
       {
         "prop": "multiple",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Enables multiple selection."
       },
       {
         "prop": "size",
         "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
+        "default": "\"base\"",
         "description": "Size preset."
       },
       {
@@ -578,6 +744,7 @@
         "prop": "hideLabel",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "hideLabel prop."
       },
       {
@@ -608,6 +775,7 @@
         "prop": "required",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Marks the field as required."
       },
       {
@@ -625,64 +793,36 @@
     ],
     "Dialog": [
       {
-        "prop": "trigger",
-        "type": "Snippet<[Record<string, unknown>]>",
+        "prop": "size",
+        "type": "'sm' | 'base' | 'lg' | 'xl'",
         "required": false,
-        "description": "trigger prop."
-      },
-      {
-        "prop": "children",
-        "type": "Snippet",
-        "required": false,
-        "description": "Child snippet rendered by the component."
-      },
-      {
-        "prop": "title",
-        "type": "string",
-        "required": false,
-        "description": "Title content."
-      },
-      {
-        "prop": "description",
-        "type": "string",
-        "required": false,
-        "description": "Supporting description text."
+        "default": "\"base\"",
+        "description": "Dialog width preset."
       },
       {
         "prop": "class",
         "type": "string",
         "required": false,
-        "description": "Additional classes merged onto the root element."
+        "description": "Additional classes merged onto the dialog content."
       },
       {
-        "prop": "open",
-        "type": "boolean",
-        "required": false,
-        "description": "Controlled open state."
-      },
-      {
-        "prop": "size",
-        "type": "KumoDialogSize",
-        "required": false,
-        "description": "Size preset."
-      },
-      {
-        "prop": "role",
-        "type": "'dialog' | 'alertdialog'",
-        "required": false,
-        "description": "role prop."
-      },
-      {
-        "prop": "disablePointerDismissal",
-        "type": "boolean",
-        "required": false,
-        "description": "disablePointerDismissal prop."
+        "prop": "children",
+        "type": "Snippet",
+        "required": true,
+        "description": "Dialog content, typically title, description, close, and action buttons."
       },
       {
         "prop": "style",
         "type": "string",
         "required": false,
-        "description": "Inline style string."
+        "description": "Inline styles for the dialog content."
+      },
+      {
+        "prop": "container",
+        "type": "HTMLElement",
+        "required": false,
+        "default": "document.body (or KumoPortalProvider container)",
+        "description": "Portal container for custom roots or Shadow DOM."
       }
     ],
     "DropdownMenu": [
@@ -696,6 +836,7 @@
         "prop": "open",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Controlled open state."
       },
       {
@@ -728,6 +869,7 @@
         "prop": "type",
         "type": "'button' | 'submit' | 'reset'",
         "required": false,
+        "default": "\"button\"",
         "description": "Element or semantic type."
       }
     ],
@@ -748,6 +890,7 @@
         "prop": "sideOffset",
         "type": "number",
         "required": false,
+        "default": "8",
         "description": "Distance from the anchor."
       },
       {
@@ -780,6 +923,7 @@
         "prop": "sideOffset",
         "type": "number",
         "required": false,
+        "default": "8",
         "description": "Distance from the anchor."
       },
       {
@@ -812,6 +956,7 @@
         "prop": "inset",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "inset prop."
       },
       {
@@ -824,13 +969,15 @@
         "prop": "selected",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "selected prop."
       },
       {
         "prop": "variant",
         "type": "'default' | 'danger'",
         "required": false,
-        "description": "Visual variant."
+        "description": "Visual variant.",
+        "default": "\"default\""
       },
       {
         "prop": "href",
@@ -874,6 +1021,7 @@
         "prop": "checked",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Checked state."
       },
       {
@@ -900,6 +1048,7 @@
         "prop": "inset",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "inset prop."
       },
       {
@@ -934,6 +1083,7 @@
         "prop": "inset",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "inset prop."
       },
       {
@@ -1004,7 +1154,8 @@
         "prop": "side",
         "type": "KumoTooltipSide",
         "required": false,
-        "description": "Preferred floating side."
+        "description": "Preferred floating side.",
+        "default": "\"top\""
       },
       {
         "prop": "align",
@@ -1016,6 +1167,7 @@
         "prop": "delay",
         "type": "number",
         "required": false,
+        "default": "600",
         "description": "delay prop."
       },
       {
@@ -1066,19 +1218,22 @@
         "prop": "activateOnFocus",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "activateOnFocus prop."
       },
       {
         "prop": "variant",
         "type": "(typeof KUMO_TABS_VARIANTS.variant)[number]",
         "required": false,
-        "description": "Visual variant."
+        "description": "Visual variant.",
+        "default": "\"segmented\""
       },
       {
         "prop": "size",
         "type": "(typeof KUMO_TABS_VARIANTS.size)[number]",
         "required": false,
-        "description": "Size preset."
+        "description": "Size preset.",
+        "default": "\"base\""
       },
       {
         "prop": "class",
@@ -1134,6 +1289,7 @@
         "prop": "options",
         "type": "Option[]",
         "required": false,
+        "default": "[]",
         "description": "Options rendered by the component."
       },
       {
@@ -1158,6 +1314,7 @@
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
@@ -1170,18 +1327,21 @@
         "prop": "orientation",
         "type": "'vertical' | 'horizontal'",
         "required": false,
+        "default": "\"vertical\"",
         "description": "Layout orientation."
       },
       {
         "prop": "appearance",
         "type": "'default' | 'card'",
         "required": false,
+        "default": "\"default\"",
         "description": "Visual appearance preset."
       },
       {
         "prop": "variant",
         "type": "'default' | 'error'",
         "required": false,
+        "default": "\"default\"",
         "description": "Visual variant."
       },
       {
@@ -1238,12 +1398,14 @@
         "prop": "orientation",
         "type": "'vertical' | 'horizontal'",
         "required": false,
+        "default": "\"vertical\"",
         "description": "Layout orientation."
       },
       {
         "prop": "appearance",
         "type": "'default' | 'card'",
         "required": false,
+        "default": "\"default\"",
         "description": "Visual appearance preset."
       },
       {
@@ -1274,6 +1436,7 @@
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
@@ -1338,12 +1501,14 @@
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
         "prop": "variant",
         "type": "'default' | 'error'",
         "required": false,
+        "default": "\"default\"",
         "description": "Visual variant."
       },
       {
@@ -1388,24 +1553,28 @@
         "prop": "checked",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Checked state."
       },
       {
         "prop": "indeterminate",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Indeterminate checked state."
       },
       {
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
         "prop": "variant",
         "type": "'default' | 'error'",
         "required": false,
+        "default": "\"default\"",
         "description": "Visual variant."
       },
       {
@@ -1424,6 +1593,7 @@
         "prop": "controlFirst",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "Renders the control before label content."
       },
       {
@@ -1504,12 +1674,14 @@
         "prop": "value",
         "type": "string[]",
         "required": false,
+        "default": "[]",
         "description": "Controlled value."
       },
       {
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
@@ -1528,6 +1700,7 @@
         "prop": "controlFirst",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "Renders the control before label content."
       },
       {
@@ -1574,18 +1747,21 @@
         "prop": "indeterminate",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Indeterminate checked state."
       },
       {
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
         "prop": "variant",
         "type": "'default' | 'error'",
         "required": false,
+        "default": "\"default\"",
         "description": "Visual variant."
       },
       {
@@ -1630,24 +1806,28 @@
         "prop": "checked",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Checked state."
       },
       {
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
         "prop": "size",
         "type": "'sm' | 'base' | 'lg'",
         "required": false,
+        "default": "\"base\"",
         "description": "Size preset."
       },
       {
         "prop": "variant",
         "type": "'default' | 'neutral'",
         "required": false,
+        "default": "\"default\"",
         "description": "Visual variant."
       },
       {
@@ -1672,6 +1852,7 @@
         "prop": "controlFirst",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "Renders the control before label content."
       },
       {
@@ -1740,12 +1921,14 @@
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
         "prop": "controlFirst",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "Renders the control before label content."
       },
       {
@@ -1780,24 +1963,28 @@
         "prop": "checked",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Checked state."
       },
       {
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
         "prop": "size",
         "type": "'sm' | 'base' | 'lg'",
         "required": false,
+        "default": "\"base\"",
         "description": "Size preset."
       },
       {
         "prop": "variant",
         "type": "'default' | 'neutral'",
         "required": false,
+        "default": "\"default\"",
         "description": "Visual variant."
       },
       {
@@ -1827,10 +2014,11 @@
     ],
     "Table": [
       {
-        "prop": "children",
-        "type": "Snippet",
+        "prop": "layout",
+        "type": "KumoTableLayout",
         "required": false,
-        "description": "Child snippet rendered by the component."
+        "description": "Table layout strategy.",
+        "default": "\"auto\""
       },
       {
         "prop": "class",
@@ -1839,10 +2027,10 @@
         "description": "Additional classes merged onto the root element."
       },
       {
-        "prop": "layout",
-        "type": "KumoTableLayout",
+        "prop": "children",
+        "type": "Snippet",
         "required": false,
-        "description": "Table layout strategy."
+        "description": "Child snippet rendered by the component."
       }
     ],
     "Table.Row": [
@@ -1876,12 +2064,14 @@
         "prop": "checked",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Checked state."
       },
       {
         "prop": "indeterminate",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Indeterminate checked state."
       },
       {
@@ -1906,6 +2096,7 @@
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       }
     ],
@@ -1920,12 +2111,14 @@
         "prop": "checked",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Checked state."
       },
       {
         "prop": "indeterminate",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Indeterminate checked state."
       },
       {
@@ -1950,6 +2143,7 @@
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       }
     ],
@@ -1970,12 +2164,14 @@
         "prop": "variant",
         "type": "'default' | 'compact'",
         "required": false,
+        "default": "\"default\"",
         "description": "Visual variant."
       },
       {
         "prop": "sticky",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Sticky column or header setting."
       }
     ],
@@ -2040,6 +2236,7 @@
         "prop": "mode",
         "type": "DatePickerMode",
         "required": false,
+        "default": "\"single\"",
         "description": "mode prop."
       },
       {
@@ -2070,6 +2267,7 @@
         "prop": "numberOfMonths",
         "type": "number",
         "required": false,
+        "default": "1",
         "description": "numberOfMonths prop."
       },
       {
@@ -2088,6 +2286,7 @@
         "prop": "disabled",
         "type": "boolean | DisabledMatcher",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
@@ -2100,12 +2299,14 @@
         "prop": "fixedWeeks",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "fixedWeeks prop."
       },
       {
         "prop": "locale",
         "type": "string",
         "required": false,
+        "default": "\"en-US\"",
         "description": "locale prop."
       },
       {
@@ -2156,24 +2357,28 @@
         "prop": "isDarkMode",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "isDarkMode prop."
       },
       {
         "prop": "height",
         "type": "number",
         "required": false,
+        "default": "350",
         "description": "Chart height in pixels."
       },
       {
         "prop": "onEvents",
         "type": "Partial<ChartEvents>",
         "required": false,
+        "default": "{}",
         "description": "onEvents prop."
       },
       {
         "prop": "chartRef",
         "type": "EChartsType | null",
         "required": false,
+        "default": "null",
         "description": "chartRef prop."
       }
     ],
@@ -2188,6 +2393,7 @@
         "prop": "type",
         "type": "'line' | 'bar'",
         "required": false,
+        "default": "\"line\"",
         "description": "Element or semantic type."
       },
       {
@@ -2254,6 +2460,7 @@
         "prop": "height",
         "type": "number",
         "required": false,
+        "default": "350",
         "description": "Chart height in pixels."
       },
       {
@@ -2266,18 +2473,21 @@
         "prop": "isDarkMode",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "isDarkMode prop."
       },
       {
         "prop": "gradient",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "gradient prop."
       },
       {
         "prop": "loading",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Loading state."
       },
       {
@@ -2290,12 +2500,14 @@
         "prop": "animation",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "animation prop."
       },
       {
         "prop": "animationDuration",
         "type": "number",
         "required": false,
+        "default": "600",
         "description": "animationDuration prop."
       },
       {
@@ -2310,6 +2522,7 @@
         "prop": "variant",
         "type": "'large' | 'small'",
         "required": false,
+        "default": "\"small\"",
         "description": "Visual variant."
       },
       {
@@ -2340,6 +2553,7 @@
         "prop": "inactive",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "inactive prop."
       }
     ],
@@ -2366,6 +2580,7 @@
         "prop": "height",
         "type": "number",
         "required": false,
+        "default": "400",
         "description": "Chart height in pixels."
       },
       {
@@ -2390,18 +2605,21 @@
         "prop": "nodeWidth",
         "type": "number",
         "required": false,
+        "default": "8",
         "description": "nodeWidth prop."
       },
       {
         "prop": "nodePadding",
         "type": "number",
         "required": false,
+        "default": "10",
         "description": "nodePadding prop."
       },
       {
         "prop": "showTooltip",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "showTooltip prop."
       },
       {
@@ -2426,12 +2644,14 @@
         "prop": "linkColor",
         "type": "'gradient' | 'gray'",
         "required": false,
+        "default": "\"gradient\"",
         "description": "linkColor prop."
       },
       {
         "prop": "linkOpacity",
         "type": "number",
         "required": false,
+        "default": "0.5",
         "description": "linkOpacity prop."
       },
       {
@@ -2444,6 +2664,7 @@
         "prop": "isDarkMode",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "isDarkMode prop."
       },
       {
@@ -2476,6 +2697,7 @@
         "prop": "items",
         "type": "AutocompleteItem[]",
         "required": false,
+        "default": "[]",
         "description": "Items rendered by the component."
       },
       {
@@ -2494,12 +2716,14 @@
         "prop": "open",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Controlled open state."
       },
       {
         "prop": "size",
         "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
+        "default": "\"base\"",
         "description": "Size preset."
       },
       {
@@ -2636,6 +2860,7 @@
         "prop": "items",
         "type": "AutocompleteItem[]",
         "required": false,
+        "default": "[]",
         "description": "Items rendered by the component."
       }
     ],
@@ -2698,6 +2923,7 @@
         "prop": "options",
         "type": "ComboboxItem[]",
         "required": false,
+        "default": "[]",
         "description": "Options rendered by the component."
       },
       {
@@ -2716,24 +2942,28 @@
         "prop": "open",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Controlled open state."
       },
       {
         "prop": "multiple",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Enables multiple selection."
       },
       {
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
         "prop": "size",
         "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
+        "default": "\"base\"",
         "description": "Size preset."
       },
       {
@@ -2896,7 +3126,8 @@
         "prop": "size",
         "type": "'sm' | 'base' | 'lg'",
         "required": false,
-        "description": "Size preset."
+        "description": "Size preset.",
+        "default": "\"lg\""
       },
       {
         "prop": "onCopy",
@@ -2914,6 +3145,7 @@
         "prop": "labels",
         "type": "{ copyAction?: string; }",
         "required": false,
+        "default": "{}",
         "description": "labels prop."
       }
     ],
@@ -2922,6 +3154,7 @@
         "prop": "size",
         "type": "'sm' | 'base' | 'lg'",
         "required": false,
+        "default": "\"base\"",
         "description": "Size preset."
       },
       {
@@ -2984,6 +3217,7 @@
         "prop": "as",
         "type": "string",
         "required": false,
+        "default": "\"div\"",
         "description": "as prop."
       }
     ],
@@ -2998,7 +3232,8 @@
         "prop": "size",
         "type": "KumoLoaderSize | number",
         "required": false,
-        "description": "Size preset."
+        "description": "Size preset.",
+        "default": "\"base\""
       },
       {
         "prop": "aria-label",
@@ -3012,36 +3247,42 @@
         "prop": "minWidth",
         "type": "number",
         "required": false,
+        "default": "30",
         "description": "minWidth prop."
       },
       {
         "prop": "maxWidth",
         "type": "number",
         "required": false,
+        "default": "100",
         "description": "maxWidth prop."
       },
       {
         "prop": "minDuration",
         "type": "number",
         "required": false,
+        "default": "1.3",
         "description": "minDuration prop."
       },
       {
         "prop": "maxDuration",
         "type": "number",
         "required": false,
+        "default": "1.7",
         "description": "maxDuration prop."
       },
       {
         "prop": "minDelay",
         "type": "number",
         "required": false,
+        "default": "0",
         "description": "minDelay prop."
       },
       {
         "prop": "maxDelay",
         "type": "number",
         "required": false,
+        "default": "0.5",
         "description": "maxDelay prop."
       },
       {
@@ -3068,18 +3309,21 @@
         "prop": "value",
         "type": "number",
         "required": false,
+        "default": "0",
         "description": "Controlled value."
       },
       {
         "prop": "min",
         "type": "number",
         "required": false,
+        "default": "0",
         "description": "Minimum value."
       },
       {
         "prop": "max",
         "type": "number",
         "required": false,
+        "default": "100",
         "description": "Maximum value."
       },
       {
@@ -3098,6 +3342,7 @@
         "prop": "showValue",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "Shows the current value."
       },
       {
@@ -3118,7 +3363,8 @@
         "prop": "variant",
         "type": "'heading1' | 'heading2' | 'heading3' | 'body' | 'secondary' | 'mono' | 'mono-secondary' | 'success' | 'error'",
         "required": false,
-        "description": "Visual variant."
+        "description": "Visual variant.",
+        "default": "\"body\""
       },
       {
         "prop": "color",
@@ -3130,18 +3376,21 @@
         "prop": "size",
         "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
-        "description": "Size preset."
+        "description": "Size preset.",
+        "default": "\"base\""
       },
       {
         "prop": "bold",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "bold prop."
       },
       {
         "prop": "truncate",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "truncate prop."
       },
       {
@@ -3218,6 +3467,7 @@
         "prop": "items",
         "type": "Item[]",
         "required": false,
+        "default": "[]",
         "description": "Items rendered by the component."
       },
       {
@@ -3272,6 +3522,7 @@
         "prop": "active",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "active prop."
       },
       {
@@ -3284,6 +3535,7 @@
         "prop": "as",
         "type": "'a' | 'button'",
         "required": false,
+        "default": "\"a\"",
         "description": "as prop."
       },
       {
@@ -3316,6 +3568,7 @@
         "prop": "active",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "active prop."
       },
       {
@@ -3342,6 +3595,7 @@
         "prop": "items",
         "type": "Item[]",
         "required": false,
+        "default": "[]",
         "description": "Items rendered by the component."
       }
     ],
@@ -3356,6 +3610,7 @@
         "prop": "defaultValue",
         "type": "string",
         "required": false,
+        "default": "\"\"",
         "description": "Initial uncontrolled value."
       },
       {
@@ -3374,13 +3629,15 @@
         "prop": "size",
         "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
-        "description": "Size preset."
+        "description": "Size preset.",
+        "default": "\"base\""
       },
       {
         "prop": "variant",
         "type": "'default' | 'error'",
         "required": false,
-        "description": "Visual variant."
+        "description": "Visual variant.",
+        "default": "\"default\""
       },
       {
         "prop": "label",
@@ -3422,18 +3679,21 @@
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
         "prop": "readOnly",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Makes the input read-only."
       },
       {
         "prop": "readonly",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Makes the input read-only."
       },
       {
@@ -3452,6 +3712,7 @@
         "prop": "autoComplete",
         "type": "string",
         "required": false,
+        "default": "\"off\"",
         "description": "Autocomplete attribute."
       },
       {
@@ -3496,12 +3757,14 @@
         "prop": "options",
         "type": "MenuOptionProps[]",
         "required": false,
+        "default": "[]",
         "description": "Options rendered by the component."
       },
       {
         "prop": "optionIds",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "optionIds prop."
       }
     ],
@@ -3522,18 +3785,21 @@
         "prop": "size",
         "type": "'xs' | 'sm' | 'base' | 'lg'",
         "required": false,
+        "default": "\"base\"",
         "description": "Size preset."
       },
       {
         "prop": "focusMode",
         "type": "InputGroupFocusMode",
         "required": false,
+        "default": "\"container\"",
         "description": "focusMode prop."
       },
       {
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
@@ -3584,6 +3850,7 @@
         "prop": "value",
         "type": "string | number",
         "required": false,
+        "default": "\"\"",
         "description": "Controlled value."
       },
       {
@@ -3628,12 +3895,14 @@
         "prop": "align",
         "type": "'start' | 'end'",
         "required": false,
+        "default": "\"start\"",
         "description": "Floating alignment."
       },
       {
         "prop": "containsButton",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "containsButton prop."
       }
     ],
@@ -3660,6 +3929,7 @@
         "prop": "variant",
         "type": "'primary' | 'secondary' | 'ghost' | 'destructive' | 'secondary-destructive' | 'outline'",
         "required": false,
+        "default": "\"ghost\"",
         "description": "Visual variant."
       },
       {
@@ -3709,76 +3979,30 @@
     ],
     "Popover": [
       {
-        "prop": "trigger",
-        "type": "Snippet<[Record<string, unknown>]>",
-        "required": false,
-        "description": "trigger prop."
-      },
-      {
-        "prop": "children",
-        "type": "Snippet",
-        "required": false,
-        "description": "Child snippet rendered by the component."
-      },
-      {
-        "prop": "class",
-        "type": "string",
-        "required": false,
-        "description": "Additional classes merged onto the root element."
-      },
-      {
         "prop": "open",
         "type": "boolean",
         "required": false,
         "description": "Controlled open state."
       },
       {
-        "prop": "title",
-        "type": "string",
-        "required": false,
-        "description": "Title content."
-      },
-      {
-        "prop": "description",
-        "type": "string",
-        "required": false,
-        "description": "Supporting description text."
-      },
-      {
-        "prop": "side",
-        "type": "KumoPopoverSide",
-        "required": false,
-        "description": "Preferred floating side."
-      },
-      {
-        "prop": "align",
-        "type": "'start' | 'center'",
-        "required": false,
-        "description": "Floating alignment."
-      },
-      {
-        "prop": "sideOffset",
-        "type": "number",
-        "required": false,
-        "description": "Distance from the anchor."
-      },
-      {
-        "prop": "alignOffset",
-        "type": "number",
-        "required": false,
-        "description": "Cross-axis offset from the anchor."
-      },
-      {
-        "prop": "openOnHover",
+        "prop": "defaultOpen",
         "type": "boolean",
         "required": false,
-        "description": "openOnHover prop."
+        "default": "false",
+        "description": "Initial open state for uncontrolled usage."
       },
       {
-        "prop": "delay",
-        "type": "number",
+        "prop": "onOpenChange",
+        "type": "(open: boolean) => void",
         "required": false,
-        "description": "delay prop."
+        "description": "Called when the open state changes."
+      },
+      {
+        "prop": "modal",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the popover is modal."
       }
     ],
     "PopoverRoot": [
@@ -3792,6 +4016,7 @@
         "prop": "open",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Controlled open state."
       },
       {
@@ -3809,156 +4034,128 @@
     ],
     "PopoverTrigger": [
       {
-        "prop": "children",
-        "type": "Snippet",
+        "prop": "render",
+        "type": "Snippet | Component",
         "required": false,
-        "description": "Child snippet rendered by the component."
-      },
-      {
-        "prop": "child",
-        "type": "Snippet<[{ props: Record<string, unknown> }]>",
-        "required": false,
-        "description": "child prop."
-      },
-      {
-        "prop": "class",
-        "type": "string",
-        "required": false,
-        "description": "Additional classes merged onto the root element."
+        "description": "Custom trigger render target."
       },
       {
         "prop": "openOnHover",
         "type": "boolean",
         "required": false,
-        "description": "openOnHover prop."
+        "default": "false",
+        "description": "Opens the popover on hover."
       },
       {
-        "prop": "openDelay",
+        "prop": "delay",
         "type": "number",
         "required": false,
-        "description": "openDelay prop."
-      },
-      {
-        "prop": "closeDelay",
-        "type": "number",
-        "required": false,
-        "description": "closeDelay prop."
-      },
-      {
-        "prop": "type",
-        "type": "'button' | 'submit' | 'reset'",
-        "required": false,
-        "description": "Element or semantic type."
+        "default": "700",
+        "description": "Delay before opening on hover, in milliseconds."
       }
     ],
     "PopoverContent": [
       {
-        "prop": "children",
-        "type": "Snippet",
-        "required": false,
-        "description": "Child snippet rendered by the component."
-      },
-      {
-        "prop": "class",
-        "type": "string",
-        "required": false,
-        "description": "Additional classes merged onto the root element."
-      },
-      {
         "prop": "side",
-        "type": "'top' | 'bottom' | 'left' | 'right'",
+        "type": "'top' | 'right' | 'bottom' | 'left'",
         "required": false,
-        "description": "Preferred floating side."
+        "default": "\"bottom\"",
+        "description": "Preferred side of the trigger."
+      },
+      {
+        "prop": "anchor",
+        "type": "HTMLElement | null",
+        "required": false,
+        "description": "Custom anchor element."
       },
       {
         "prop": "align",
         "type": "'start' | 'center' | 'end'",
         "required": false,
-        "description": "Floating alignment."
+        "default": "\"center\"",
+        "description": "Alignment relative to the anchor."
       },
       {
         "prop": "sideOffset",
         "type": "number",
         "required": false,
-        "description": "Distance from the anchor."
+        "default": "8",
+        "description": "Distance from the anchor side."
       },
       {
         "prop": "alignOffset",
         "type": "number",
         "required": false,
-        "description": "Cross-axis offset from the anchor."
-      },
-      {
-        "prop": "strategy",
-        "type": "'absolute' | 'fixed'",
-        "required": false,
-        "description": "strategy prop."
+        "default": "0",
+        "description": "Offset along the alignment axis."
       },
       {
         "prop": "positionMethod",
         "type": "'absolute' | 'fixed'",
         "required": false,
-        "description": "positionMethod prop."
+        "default": "\"absolute\"",
+        "description": "CSS positioning strategy."
       },
       {
-        "prop": "customAnchor",
-        "type": "HTMLElement | { getBoundingClientRect: () => DOMRect } | null",
+        "prop": "class",
+        "type": "string",
         "required": false,
-        "description": "customAnchor prop."
+        "description": "Additional classes merged onto the content."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Popover content."
+      },
+      {
+        "prop": "container",
+        "type": "HTMLElement",
+        "required": false,
+        "default": "document.body (or KumoPortalProvider container)",
+        "description": "Portal container for custom roots or Shadow DOM."
       }
     ],
     "PopoverTitle": [
       {
-        "prop": "children",
-        "type": "Snippet",
-        "required": false,
-        "description": "Child snippet rendered by the component."
-      },
-      {
         "prop": "class",
         "type": "string",
         "required": false,
-        "description": "Additional classes merged onto the root element."
+        "description": "Additional classes merged onto the title."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Title content."
       }
     ],
     "PopoverDescription": [
       {
-        "prop": "children",
-        "type": "Snippet",
-        "required": false,
-        "description": "Child snippet rendered by the component."
-      },
-      {
         "prop": "class",
         "type": "string",
         "required": false,
-        "description": "Additional classes merged onto the root element."
+        "description": "Additional classes merged onto the description."
+      },
+      {
+        "prop": "children",
+        "type": "Snippet",
+        "required": false,
+        "description": "Description content."
       }
     ],
     "PopoverClose": [
       {
-        "prop": "children",
-        "type": "Snippet",
+        "prop": "render",
+        "type": "Snippet | Component",
         "required": false,
-        "description": "Child snippet rendered by the component."
+        "description": "Custom close render target."
       },
       {
-        "prop": "child",
-        "type": "Snippet<[{ props: Record<string, unknown> }]>",
+        "prop": "asChild",
+        "type": "boolean",
         "required": false,
-        "description": "child prop."
-      },
-      {
-        "prop": "class",
-        "type": "string",
-        "required": false,
-        "description": "Additional classes merged onto the root element."
-      },
-      {
-        "prop": "type",
-        "type": "'button' | 'submit' | 'reset'",
-        "required": false,
-        "description": "Element or semantic type."
+        "description": "Render as a child element."
       }
     ],
     "Breadcrumbs": [
@@ -3966,7 +4163,8 @@
         "prop": "size",
         "type": "'sm' | 'base'",
         "required": false,
-        "description": "Size preset."
+        "description": "Size preset.",
+        "default": "\"base\""
       },
       {
         "prop": "children",
@@ -3990,6 +4188,7 @@
         "prop": "items",
         "type": "BreadcrumbsItem[]",
         "required": false,
+        "default": "[]",
         "description": "Items rendered by the component."
       }
     ],
@@ -4030,6 +4229,7 @@
         "prop": "loading",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Loading state."
       }
     ],
@@ -4059,24 +4259,28 @@
         "prop": "variant",
         "type": "'glyph' | 'full'",
         "required": false,
-        "description": "Visual variant."
+        "description": "Visual variant.",
+        "default": "\"full\""
       },
       {
         "prop": "color",
         "type": "CloudflareLogoColor",
         "required": false,
-        "description": "color prop."
+        "description": "color prop.",
+        "default": "\"color\""
       },
       {
         "prop": "href",
         "type": "string",
         "required": false,
+        "default": "\"https://www.cloudflare.com\"",
         "description": "Destination URL."
       },
       {
         "prop": "poweredBy",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "poweredBy prop."
       }
     ],
@@ -4129,6 +4333,7 @@
         "prop": "showOptional",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "showOptional prop."
       },
       {
@@ -4141,6 +4346,7 @@
         "prop": "asContent",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "asContent prop."
       }
     ],
@@ -4173,6 +4379,7 @@
         "prop": "defaultOpen",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Initial uncontrolled open state."
       },
       {
@@ -4185,6 +4392,7 @@
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
@@ -4223,12 +4431,14 @@
         "prop": "defaultOpen",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Initial uncontrolled open state."
       },
       {
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
@@ -4261,12 +4471,14 @@
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
         "prop": "type",
         "type": "'button' | 'submit' | 'reset'",
         "required": false,
+        "default": "\"button\"",
         "description": "Element or semantic type."
       }
     ],
@@ -4287,18 +4499,21 @@
         "prop": "keepMounted",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "keepMounted prop."
       },
       {
         "prop": "forceMount",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "forceMount prop."
       },
       {
         "prop": "hiddenUntilFound",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "hiddenUntilFound prop."
       }
     ],
@@ -4319,6 +4534,7 @@
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       }
     ],
@@ -4339,18 +4555,21 @@
         "prop": "keepMounted",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "keepMounted prop."
       },
       {
         "prop": "forceMount",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "forceMount prop."
       },
       {
         "prop": "hiddenUntilFound",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "hiddenUntilFound prop."
       }
     ],
@@ -4371,18 +4590,21 @@
         "prop": "orientation",
         "type": "FlowOrientation",
         "required": false,
+        "default": "\"horizontal\"",
         "description": "Layout orientation."
       },
       {
         "prop": "align",
         "type": "'start' | 'center' | 'end'",
         "required": false,
+        "default": "\"start\"",
         "description": "Floating alignment."
       },
       {
         "prop": "canvas",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "canvas prop."
       },
       {
@@ -4415,12 +4637,14 @@
         "prop": "disabled",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Disables the component."
       },
       {
         "prop": "bare",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "bare prop."
       }
     ],
@@ -4455,6 +4679,7 @@
         "prop": "align",
         "type": "'start' | 'end'",
         "required": false,
+        "default": "\"start\"",
         "description": "Floating alignment."
       }
     ],
@@ -4489,6 +4714,7 @@
         "prop": "page",
         "type": "number",
         "required": false,
+        "default": "1",
         "description": "page prop."
       },
       {
@@ -4519,7 +4745,8 @@
         "prop": "controls",
         "type": "Controls",
         "required": false,
-        "description": "controls prop."
+        "description": "controls prop.",
+        "default": "\"full\""
       },
       {
         "prop": "text",
@@ -4539,12 +4766,14 @@
         "prop": "controls",
         "type": "Controls",
         "required": false,
+        "default": "\"full\"",
         "description": "controls prop."
       },
       {
         "prop": "pageSelector",
         "type": "PageSelector",
         "required": false,
+        "default": "\"input\"",
         "description": "pageSelector prop."
       },
       {
@@ -4597,6 +4826,7 @@
         "prop": "label",
         "type": "string | Snippet",
         "required": false,
+        "default": "\"Per page:\"",
         "description": "Visible label content."
       },
       {
@@ -4625,12 +4855,14 @@
         "prop": "lang",
         "type": "CodeHighlightedLang",
         "required": false,
+        "default": "\"typescript\"",
         "description": "Code language."
       },
       {
         "prop": "showCopyButton",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Shows the copy button."
       },
       {
@@ -4663,18 +4895,21 @@
         "prop": "commands",
         "type": "CommandPaletteCommand[]",
         "required": false,
+        "default": "[]",
         "description": "commands prop."
       },
       {
         "prop": "placeholder",
         "type": "string",
         "required": false,
+        "default": "\"Type a command...\"",
         "description": "Placeholder text."
       },
       {
         "prop": "value",
         "type": "string",
         "required": false,
+        "default": "\"\"",
         "description": "Controlled value."
       },
       {
@@ -4693,36 +4928,42 @@
         "prop": "label",
         "type": "string",
         "required": false,
+        "default": "\"Command menu\"",
         "description": "Visible label content."
       },
       {
         "prop": "loop",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "loop prop."
       },
       {
         "prop": "shouldFilter",
         "type": "boolean",
         "required": false,
+        "default": "true",
         "description": "shouldFilter prop."
       },
       {
         "prop": "loading",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Loading state."
       },
       {
         "prop": "loadingText",
         "type": "string",
         "required": false,
+        "default": "\"Loading...\"",
         "description": "loadingText prop."
       },
       {
         "prop": "emptyText",
         "type": "string",
         "required": false,
+        "default": "\"No results found.\"",
         "description": "emptyText prop."
       },
       {
@@ -4773,6 +5014,7 @@
         "prop": "open",
         "type": "boolean",
         "required": false,
+        "default": "false",
         "description": "Controlled open state."
       },
       {
@@ -4793,12 +5035,14 @@
         "prop": "value",
         "type": "string",
         "required": false,
+        "default": "\"\"",
         "description": "Controlled value."
       },
       {
         "prop": "placeholder",
         "type": "string",
         "required": false,
+        "default": "\"Type a command...\"",
         "description": "Placeholder text."
       }
     ],
@@ -4972,30 +5216,125 @@
         "prop": "as",
         "type": "string",
         "required": false,
+        "default": "\"div\"",
         "description": "as prop."
       },
       {
         "prop": "color",
         "type": "SurfaceColor",
         "required": false,
+        "default": "\"primary\"",
         "description": "color prop."
+      }
+    ],
+    "Dialog.Root": [
+      {
+        "prop": "role",
+        "type": "'dialog' | 'alertdialog'",
+        "required": false,
+        "default": "\"dialog\"",
+        "description": "ARIA role for the dialog."
+      },
+      {
+        "prop": "disablePointerDismissal",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Prevents pointer dismissal when true."
+      },
+      {
+        "prop": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "prop": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "prop": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when the open state changes."
+      },
+      {
+        "prop": "modal",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the dialog is modal."
+      },
+      {
+        "prop": "dismissible",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the dialog can be dismissed."
+      }
+    ],
+    "Dialog.Trigger": [
+      {
+        "prop": "render",
+        "type": "Snippet | Component",
+        "required": false,
+        "description": "Custom trigger render target."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the trigger."
+      }
+    ],
+    "Dialog.Title": [
+      {
+        "prop": "render",
+        "type": "Snippet | Component",
+        "required": false,
+        "description": "Custom title render target."
+      }
+    ],
+    "Dialog.Description": [
+      {
+        "prop": "render",
+        "type": "Snippet | Component",
+        "required": false,
+        "description": "Custom description render target."
+      }
+    ],
+    "Dialog.Close": [
+      {
+        "prop": "render",
+        "type": "Snippet | Component",
+        "required": false,
+        "description": "Custom close render target."
+      },
+      {
+        "prop": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the close control."
       }
     ]
   };
 
   const aliases: Record<string, string> = {
-    'Dialog.Root': 'Dialog',
-    'Dialog.Trigger': 'Dialog',
-    'Dialog.Title': 'Dialog',
-    'Dialog.Description': 'Dialog',
-    'Dialog.Close': 'Dialog',
     'DropdownMenu.LinkItem': 'DropdownMenu.Item',
     'DropdownMenu.Sub': 'DropdownMenu',
     'InputGroup.Input': 'InputGroupInput',
     'InputGroup.Addon': 'InputGroupAddon',
     'InputGroup.Button': 'InputGroupButton',
     'InputGroup.Suffix': 'InputGroupSuffix',
-    'Popover.Root': 'PopoverRoot',
+    'Popover.Root': 'Popover',
+    'Popover.Trigger': 'PopoverTrigger',
+    'Popover.Content': 'PopoverContent',
+    'Popover.Title': 'PopoverTitle',
+    'Popover.Description': 'PopoverDescription',
+    'Popover.Close': 'PopoverClose',
     'Tooltip.Provider': 'Tooltip',
     'Select.Option': 'Select',
     LinkButton: 'Button.LinkButton',

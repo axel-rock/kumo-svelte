@@ -118,6 +118,318 @@ function previewRendererSnippet(demo: string) {
   return '';
 }
 
+function blockSnippet(demo: string) {
+  switch (demo) {
+    case 'PageHeaderHeroDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs, Button } from 'kumo-svelte';
+  import { PageHeader } from './page-header';
+  import { Code, Globe, House } from 'phosphor-svelte';
+
+  let activeTab = $state('overview');
+</script>
+
+{#snippet breadcrumbs()}
+  <Breadcrumbs>
+    <Breadcrumbs.Link icon={House} href="#">Workers & Pages</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Current>cloudflare-dev-platform</Breadcrumbs.Current>
+  </Breadcrumbs>
+{/snippet}
+
+<PageHeader
+  class="w-full"
+  breadcrumbContent={breadcrumbs}
+  tabs={[
+    { label: 'Overview', value: 'overview' },
+    { label: 'Metrics', value: 'metrics' },
+    { label: 'Deployments', value: 'deployments' },
+    { label: 'Bindings', value: 'bindings' },
+    { label: 'Observability', value: 'observability' },
+    { label: 'Settings', value: 'settings' }
+  ]}
+  defaultTab="overview"
+  bind:activeTab
+>
+  <Button icon={Code} class="h-8">Edit code</Button>
+  <Button icon={Globe} variant="primary" class="h-8">Visit</Button>
+</PageHeader>`;
+    case 'PageHeaderBasicDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs } from 'kumo-svelte';
+  import { PageHeader } from './page-header';
+</script>
+
+{#snippet breadcrumbs()}
+  <Breadcrumbs>
+    <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Current>Dashboard</Breadcrumbs.Current>
+  </Breadcrumbs>
+{/snippet}
+
+<PageHeader breadcrumbContent={breadcrumbs} />`;
+    case 'PageHeaderWithIconsDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs } from 'kumo-svelte';
+  import { PageHeader } from './page-header';
+  import { Gear, House } from 'phosphor-svelte';
+</script>
+
+{#snippet breadcrumbs()}
+  <Breadcrumbs>
+    <Breadcrumbs.Link icon={House} href="#">Home</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Current icon={Gear}>Settings</Breadcrumbs.Current>
+  </Breadcrumbs>
+{/snippet}
+
+<PageHeader breadcrumbContent={breadcrumbs} />`;
+    case 'PageHeaderWithTabsDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs } from 'kumo-svelte';
+  import { PageHeader } from './page-header';
+</script>
+
+{#snippet breadcrumbs()}
+  <Breadcrumbs>
+    <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Current>Settings</Breadcrumbs.Current>
+  </Breadcrumbs>
+{/snippet}
+
+<PageHeader
+  breadcrumbContent={breadcrumbs}
+  tabs={[
+    { label: 'General', value: 'general' },
+    { label: 'Security', value: 'security' },
+    { label: 'Notifications', value: 'notifications' }
+  ]}
+  defaultTab="general"
+/>`;
+    case 'PageHeaderWithActionsDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs, Button } from 'kumo-svelte';
+  import { PageHeader } from './page-header';
+</script>
+
+{#snippet breadcrumbs()}
+  <Breadcrumbs>
+    <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Link href="#">Projects</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Current>My Project</Breadcrumbs.Current>
+  </Breadcrumbs>
+{/snippet}
+
+<PageHeader
+  breadcrumbContent={breadcrumbs}
+  tabs={[
+    { label: 'Overview', value: 'overview' },
+    { label: 'Settings', value: 'settings' }
+  ]}
+  defaultTab="overview"
+>
+  <Button variant="primary" size="base">Deploy</Button>
+</PageHeader>`;
+    case 'PageHeaderWithTitleDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs } from 'kumo-svelte';
+  import { PageHeader } from './page-header';
+</script>
+
+{#snippet breadcrumbs()}
+  <Breadcrumbs>
+    <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Link href="#">Products</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Current>Page title</Breadcrumbs.Current>
+  </Breadcrumbs>
+{/snippet}
+
+<PageHeader breadcrumbContent={breadcrumbs} title="Page title" />`;
+    case 'PageHeaderWithTitleDescriptionDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs } from 'kumo-svelte';
+  import { PageHeader } from './page-header';
+</script>
+
+{#snippet breadcrumbs()}
+  <Breadcrumbs>
+    <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Link href="#">Products</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Current>Page title</Breadcrumbs.Current>
+  </Breadcrumbs>
+{/snippet}
+
+<PageHeader
+  breadcrumbContent={breadcrumbs}
+  title="Page title"
+  description="Action-led, value-oriented description of what this page does. Optional second sentence with use cases or prerequisites."
+/>`;
+    case 'PageHeaderCompleteDemo':
+      return `<script lang="ts">
+  import { Breadcrumbs, Button } from 'kumo-svelte';
+  import { PageHeader } from './page-header';
+  import { Plus } from 'phosphor-svelte';
+</script>
+
+{#snippet breadcrumbs()}
+  <Breadcrumbs>
+    <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Link href="#">Products</Breadcrumbs.Link>
+    <Breadcrumbs.Separator />
+    <Breadcrumbs.Current>Page title</Breadcrumbs.Current>
+  </Breadcrumbs>
+{/snippet}
+
+<PageHeader
+  breadcrumbContent={breadcrumbs}
+  title="Page title"
+  description="Action-led, value-oriented description of what this page does."
+  tabs={[
+    { label: 'Overview', value: 'overview' },
+    { label: 'Analytics', value: 'analytics' },
+    { label: 'Settings', value: 'settings' }
+  ]}
+  defaultTab="overview"
+>
+  <Button variant="outline" size="sm">Export</Button>
+  <Button variant="primary" size="sm" icon={Plus}>New Item</Button>
+</PageHeader>`;
+    case 'ResourceListBasicDemo':
+      return `<script lang="ts">
+  import { Surface } from 'kumo-svelte';
+  import { ResourceListPage } from './resource-list';
+  import { Database } from 'phosphor-svelte';
+</script>
+
+<ResourceListPage
+  title="Databases"
+  description="Manage your database instances and configurations"
+  icon={Database}
+>
+  <Surface class="p-6">
+    <p>Main content area - your resource list would go here</p>
+  </Surface>
+</ResourceListPage>`;
+    case 'ResourceListWithUsageDemo':
+      return `<script lang="ts">
+  import { Code, Surface } from 'kumo-svelte';
+  import { ResourceListPage } from './resource-list';
+</script>
+
+{#snippet usage()}
+  <Surface class="p-4">
+    <h3 class="mb-2 font-semibold">Quick Start</h3>
+    <p class="mb-3 text-sm text-kumo-subtle">Generate an API key to authenticate your requests</p>
+    <Code lang="bash" code={'curl -H "Authorization: Bearer YOUR_API_KEY" https://api.example.com'} />
+  </Surface>
+{/snippet}
+
+<ResourceListPage
+  title="API Keys"
+  description="Create and manage API keys for your applications"
+  {usage}
+>
+  <Surface class="p-6">
+    <p>API keys list would appear here</p>
+  </Surface>
+</ResourceListPage>`;
+    case 'ResourceListCompleteDemo':
+      return `<script lang="ts">
+  import { Code, Surface } from 'kumo-svelte';
+  import { ResourceListPage } from './resource-list';
+  import { Database } from 'phosphor-svelte';
+</script>
+
+{#snippet usage()}
+  <Surface class="p-4">
+    <h3 class="mb-2 font-semibold">Usage Example</h3>
+    <Code
+      lang="ts"
+      code={\`// Read from KV
+const value = await KV.get('key');
+
+// Write to KV
+await KV.put('key', 'value');\`}
+    />
+  </Surface>
+{/snippet}
+
+{#snippet additionalContent()}
+  <Surface class="p-4">
+    <h3 class="mb-2 font-semibold">Learn More</h3>
+    <p class="text-sm text-kumo-subtle">
+      Check out our documentation to learn more about KV storage.
+    </p>
+  </Surface>
+{/snippet}
+
+<ResourceListPage
+  title="KV Namespaces"
+  description="Store key-value data globally with low-latency access"
+  icon={Database}
+  {usage}
+  {additionalContent}
+>
+  <div class="space-y-4">
+    <Surface class="p-6">
+      <h4 class="mb-2 font-semibold">production-kv</h4>
+      <p class="text-sm text-kumo-subtle">Created 2 days ago</p>
+    </Surface>
+    <Surface class="p-6">
+      <h4 class="mb-2 font-semibold">staging-kv</h4>
+      <p class="text-sm text-kumo-subtle">Created 1 week ago</p>
+    </Surface>
+  </div>
+</ResourceListPage>`;
+    case 'DeleteResourceBasicDemo':
+    case 'DeleteResourceWorkerDemo':
+    case 'DeleteResourceErrorDemo': {
+      const worker = demo === 'DeleteResourceWorkerDemo';
+      const error = demo === 'DeleteResourceErrorDemo';
+      return `<script lang="ts">
+  import { Button } from 'kumo-svelte';
+  import { DeleteResource } from './delete-resource';
+
+  let open = $state(false);
+  let isDeleting = $state(false);
+  let errorMessage = $state('');
+
+  async function handleDelete() {
+    ${error ? `errorMessage = '';` : ''}
+    isDeleting = true;
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    isDeleting = false;
+    ${error ? `errorMessage = 'Something went wrong';` : `open = false;`}
+  }
+</script>
+
+<Button variant="destructive" onclick={() => (open = true)}>
+  ${worker ? 'Delete Worker' : 'Delete Zone'}
+</Button>
+
+<DeleteResource
+  bind:open
+  onOpenChange={(nextOpen) => (open = nextOpen)}
+  resourceType="${worker ? 'Worker' : 'Zone'}"
+  resourceName="${worker ? 'api-gateway-worker' : 'example.com'}"
+  onDelete={handleDelete}
+  isDeleting={isDeleting}${error ? `\n  errorMessage={errorMessage}` : ''}
+/>`;
+    }
+    default:
+      return '';
+  }
+}
+
 function badgeSnippet(demo: string) {
   switch (demo) {
     case 'BadgeSemanticVariantsDemo':
@@ -2290,6 +2602,8 @@ ${headings}
 }
 
 export function getSvelteDemoSnippet(demo: string) {
+  const block = blockSnippet(demo);
+  if (block) return block;
   const specialized = specializedSnippet(demo);
   if (specialized) return specialized;
   const tableOfContents = tableOfContentsSnippet(demo);

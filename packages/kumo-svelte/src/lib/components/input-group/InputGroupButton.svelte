@@ -61,8 +61,8 @@
       'first:rounded-l-[inherit] last:rounded-r-[inherit]',
       'not-first:border-l-0',
       'hover:z-[1]',
-      'focus:z-[2] focus:border-kumo-line focus:outline focus:-outline-offset-1',
-      'focus-visible:ring-2 focus-visible:ring-kumo-focus',
+      'focus:z-[2] focus:border-kumo-line',
+      'focus-visible:[outline:solid_1px_var(--color-kumo-focus)] focus-visible:[outline-offset:-1px]',
       'disabled:bg-kumo-overlay disabled:text-kumo-inactive!'
     ],
     className

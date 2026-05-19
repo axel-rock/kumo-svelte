@@ -91,7 +91,7 @@
             'overflow-hidden bg-kumo-control ring ring-kumo-line',
             'focus-within:ring-kumo-focus'
           ]
-        : 'isolate overflow-visible bg-transparent ring-0 shadow-none',
+        : 'isolate overflow-visible bg-kumo-control ring-0 shadow-none',
       'has-[input[aria-invalid=true]]:ring-kumo-danger',
       'px-0',
       'flex items-center gap-0',

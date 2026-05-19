@@ -156,13 +156,9 @@ Root table component. Renders a semantic `<table>` element.
 
 Table header section. Renders `<thead>`. Set `sticky` to pin the header row to the top of the scroll container.
 
-<PropsTable component="Table.Header" />
-
 ### Table.Body
 
 Table body section. Renders `<tbody>`.
-
-<PropsTable component="Table.Body" />
 
 ### Table.Row
 
@@ -174,13 +170,9 @@ Table row. Supports `variant="selected"` for highlighting.
 
 Header cell. Renders `<th>`. Accepts `sticky="left"` or `sticky="right"` to pin the column.
 
-<PropsTable component="Table.Head" />
-
 ### Table.Cell
 
 Body cell. Renders `<td>`. Accepts `sticky="left"` or `sticky="right"` to pin the column.
-
-<PropsTable component="Table.Cell" />
 
 ### Table.CheckHead
 

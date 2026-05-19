@@ -1,5 +1,11 @@
 # kumo-svelte
 
+## 0.1.2
+
+### Patch Changes
+
+- Re-port block docs, demos, and Svelte block implementations for PageHeader, ResourceListPage, and DeleteResource from upstream Kumo.
+
 ## 0.1.0
 
 ### Patch Changes

@@ -185,50 +185,10 @@ The main dialog container that renders the modal overlay and popup.
 
 <PropsTable component="Dialog" />
 
-<div class="mb-4 overflow-hidden rounded-lg border border-kumo-hairline">
-  <table class="w-full text-sm">
-    <thead class="bg-kumo-elevated">
-      <tr>
-        <th class="px-4 py-2 text-left font-medium">Prop</th>
-        <th class="px-4 py-2 text-left font-medium">Type</th>
-        <th class="px-4 py-2 text-left font-medium">Default</th>
-        <th class="px-4 py-2 text-left font-medium">Description</th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-kumo-hairline">
-      <tr>
-        <td class="px-4 py-2 font-mono text-xs">size</td>
-        <td class="px-4 py-2 font-mono text-xs">"sm" | "base" | "lg" | "xl"</td>
-        <td class="px-4 py-2 font-mono text-xs">"base"</td>
-        <td class="px-4 py-2 text-kumo-subtle">Dialog width.</td>
-      </tr>
-      <tr>
-        <td class="px-4 py-2 font-mono text-xs">role</td>
-        <td class="px-4 py-2 font-mono text-xs">"dialog" | "alertdialog"</td>
-        <td class="px-4 py-2 font-mono text-xs">"dialog"</td>
-        <td class="px-4 py-2 text-kumo-subtle">
-          The ARIA role for the dialog. Use `"alertdialog"` for destructive or
-          confirmation flows.
-        </td>
-      </tr>
-      <tr>
-        <td class="px-4 py-2 font-mono text-xs">disablePointerDismissal</td>
-        <td class="px-4 py-2 font-mono text-xs">boolean</td>
-        <td class="px-4 py-2 font-mono text-xs">false</td>
-        <td class="px-4 py-2 text-kumo-subtle">
-          When true, prevents the dialog from being dismissed by clicking
-          outside.
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
 ### Dialog.Root
 
 
-The upstream React package exposes compound primitives. In Svelte, `Dialog`
-wraps the Bits UI root, trigger, portal, overlay, and content in one component.
+Controls the open state of the dialog. Doesn't render its own HTML element.
 
 <div class="mb-4 overflow-hidden rounded-lg border border-kumo-hairline">
   <table class="w-full text-sm">

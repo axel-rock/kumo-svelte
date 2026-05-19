@@ -50,6 +50,7 @@
   import { PoweredByCloudflare } from '$lib/components/cloudflare-logo';
   import { DeleteResource } from '../../blocks/delete-resource';
   import { PageHeader } from '../../blocks/page-header';
+  import { ResourceListPage } from '../../blocks/resource-list';
   import ChartDemos from './chart-demos/ChartDemos.svelte';
 
   interface Props {
@@ -62,6 +63,8 @@
   let switchCustomIdChecked = $state(false);
   let pageHeaderTab = $state('overview');
   let deleteResourceOpen = $state(false);
+  let deleteResourceDeleting = $state(false);
+  let deleteResourceErrorMessage = $state('');
   let menuBarActive = $state<string | undefined>('bold');
   let copiedCloudflareLogo = $state<string | undefined>();
   let autocompleteValue = $state('');
@@ -77,6 +80,37 @@
   let sensitiveInputValue = $state('my-secret-value');
   let tableOfContentsActive = $state('Introduction');
   let tableOfContentsClicked = $state<string | null>(null);
+  let paginationPages = $state<Record<string, number>>({});
+  let paginationPerPages = $state<Record<string, number>>({});
+  const paginationInitialPage = $derived(demo === 'PaginationMidPageDemo' ? 5 : 1);
+  const paginationInitialPerPage = $derived(demo === 'PaginationCustomPageSizeOptionsDemo' ? 10 : 25);
+  const paginationPage = $derived(paginationPages[demo] ?? paginationInitialPage);
+  const paginationPerPage = $derived(paginationPerPages[demo] ?? paginationInitialPerPage);
+
+  function setPaginationPage(nextPage: number) {
+    paginationPages[demo] = nextPage;
+  }
+
+  function setPaginationPerPage(nextPerPage: number) {
+    paginationPerPages[demo] = nextPerPage;
+  }
+
+  function openDeleteResource() {
+    deleteResourceErrorMessage = '';
+    deleteResourceOpen = true;
+  }
+
+  async function handleDeleteResource() {
+    deleteResourceErrorMessage = '';
+    deleteResourceDeleting = true;
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    deleteResourceDeleting = false;
+    if (demo === 'DeleteResourceErrorDemo') {
+      deleteResourceErrorMessage = 'Something went wrong';
+      return;
+    }
+    deleteResourceOpen = false;
+  }
 
   const selectOptions = [
     { label: 'Workers', value: 'workers' },
@@ -1417,31 +1451,115 @@ const route: WorkerRoute = {
       {/if}
     </div>
   {:else if looksLike('Pagination')}
-    <Pagination page={demo.includes('Mid') ? 6 : 1} pages={12} />
+    {#if demo === 'PaginationSimpleDemo'}
+      <Pagination page={paginationPage} setPage={setPaginationPage} perPage={10} totalCount={100} controls="simple" />
+    {:else if demo === 'PaginationFullDemo'}
+      <Pagination page={paginationPage} setPage={setPaginationPage} perPage={10} totalCount={100} controls="full" />
+    {:else if demo === 'PaginationMidPageDemo'}
+      <Pagination page={paginationPage} setPage={setPaginationPage} perPage={10} totalCount={100} />
+    {:else if demo === 'PaginationLargeDatasetDemo'}
+      <Pagination page={paginationPage} setPage={setPaginationPage} perPage={25} totalCount={1250} />
+    {:else if demo === 'PaginationCustomTextDemo'}
+      <Pagination
+        page={paginationPage} setPage={setPaginationPage}
+        perPage={25}
+        totalCount={100}
+        text={({ perPage }) => `Page ${paginationPage} - showing ${perPage} per page`}
+      />
+    {:else if demo === 'PaginationPageSizeSelectorDemo' || demo === 'PaginationDropdownSelectorDemo'}
+      <Pagination page={paginationPage} setPage={setPaginationPage} perPage={paginationPerPage} totalCount={500}>
+        <Pagination.Info />
+        <Pagination.Separator />
+        <Pagination.PageSize
+          value={paginationPerPage}
+          onChange={(size) => {
+            setPaginationPerPage(size);
+            setPaginationPage(1);
+          }}
+        />
+        <Pagination.Controls pageSelector={demo === 'PaginationDropdownSelectorDemo' ? 'dropdown' : 'input'} />
+      </Pagination>
+    {:else if demo === 'PaginationCustomPageSizeOptionsDemo'}
+      <Pagination page={paginationPage} setPage={setPaginationPage} perPage={paginationPerPage} totalCount={200}>
+        <Pagination.Info />
+        <Pagination.Separator />
+        <Pagination.PageSize
+          value={paginationPerPage}
+          options={[10, 20, 50]}
+          onChange={(size) => {
+            setPaginationPerPage(size);
+            setPaginationPage(1);
+          }}
+        />
+        <Pagination.Controls />
+      </Pagination>
+    {:else if demo === 'PaginationPageSizeRightDemo'}
+      <Pagination page={paginationPage} setPage={setPaginationPage} perPage={paginationPerPage} totalCount={500}>
+        <Pagination.Info />
+        <div class="flex items-center gap-2">
+          <Pagination.Controls />
+          <Pagination.Separator />
+          <Pagination.PageSize
+            value={paginationPerPage}
+            onChange={(size) => {
+              setPaginationPerPage(size);
+              setPaginationPage(1);
+            }}
+          />
+        </div>
+      </Pagination>
+    {:else}
+      <Pagination page={paginationPage} setPage={setPaginationPage} perPage={10} totalCount={100} />
+    {/if}
   {:else if looksLike('PageHeader')}
     <div class="w-full">
+      {#snippet pageHeaderBreadcrumbs()}
+        <Breadcrumbs>
+          {#if demo === 'PageHeaderHeroDemo'}
+            <Breadcrumbs.Link icon={House} href="#">Workers & Pages</Breadcrumbs.Link>
+            <Breadcrumbs.Separator />
+            <Breadcrumbs.Current>cloudflare-dev-platform</Breadcrumbs.Current>
+          {:else if demo === 'PageHeaderBasicDemo'}
+            <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+            <Breadcrumbs.Separator />
+            <Breadcrumbs.Current>Dashboard</Breadcrumbs.Current>
+          {:else if demo === 'PageHeaderWithIconsDemo'}
+            <Breadcrumbs.Link icon={House} href="#">Home</Breadcrumbs.Link>
+            <Breadcrumbs.Separator />
+            <Breadcrumbs.Current icon={Settings}>Settings</Breadcrumbs.Current>
+          {:else if demo === 'PageHeaderWithTabsDemo'}
+            <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+            <Breadcrumbs.Separator />
+            <Breadcrumbs.Current>Settings</Breadcrumbs.Current>
+          {:else if demo === 'PageHeaderWithActionsDemo'}
+            <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+            <Breadcrumbs.Separator />
+            <Breadcrumbs.Link href="#">Projects</Breadcrumbs.Link>
+            <Breadcrumbs.Separator />
+            <Breadcrumbs.Current>My Project</Breadcrumbs.Current>
+          {:else}
+            <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+            <Breadcrumbs.Separator />
+            <Breadcrumbs.Link href="#">Products</Breadcrumbs.Link>
+            <Breadcrumbs.Separator />
+            <Breadcrumbs.Current>Page title</Breadcrumbs.Current>
+          {/if}
+        </Breadcrumbs>
+      {/snippet}
       {#snippet pageHeaderActions()}
         {#if demo === 'PageHeaderHeroDemo'}
-          <Button class="h-8"><Code2 class="size-4" />Edit code</Button>
-          <Button variant="primary" class="h-8"><Globe class="size-4" />Visit</Button>
+          <Button icon={Code2} class="h-8">Edit code</Button>
+          <Button icon={Globe} variant="primary" class="h-8">Visit</Button>
         {:else if demo === 'PageHeaderWithActionsDemo'}
           <Button variant="primary" size="base">Deploy</Button>
         {:else if demo === 'PageHeaderCompleteDemo'}
           <Button variant="outline" size="sm">Export</Button>
-          <Button variant="primary" size="sm"><Plus class="size-4" />New Item</Button>
+          <Button variant="primary" size="sm" icon={Plus}>New Item</Button>
         {/if}
       {/snippet}
       <PageHeader
         class="w-full"
-        breadcrumbs={demo === 'PageHeaderHeroDemo'
-          ? [{ label: 'Workers & Pages', href: '#' }, { label: 'cloudflare-dev-platform' }]
-          : demo === 'PageHeaderBasicDemo'
-            ? [{ label: 'Home', href: '#' }, { label: 'Dashboard' }]
-            : demo === 'PageHeaderWithIconsDemo'
-              ? [{ label: 'Home', href: '#' }, { label: 'Settings' }]
-              : demo === 'PageHeaderWithActionsDemo'
-                ? [{ label: 'Home', href: '#' }, { label: 'Projects', href: '#' }, { label: 'My Project' }]
-                : [{ label: 'Home', href: '#' }, { label: 'Products', href: '#' }, { label: 'Page title' }]}
+        breadcrumbContent={pageHeaderBreadcrumbs}
         title={demo === 'PageHeaderWithTitleDemo' || demo === 'PageHeaderWithTitleDescriptionDemo' || demo === 'PageHeaderCompleteDemo' ? 'Page title' : undefined}
         description={demo === 'PageHeaderWithTitleDescriptionDemo'
           ? 'Action-led, value-oriented description of what this page does. Optional second sentence with use cases or prerequisites.'
@@ -1476,6 +1594,7 @@ const route: WorkerRoute = {
                   ]
                 : []}
         bind:activeTab={pageHeaderTab}
+        defaultTab={demo === 'PageHeaderWithTabsDemo' ? 'general' : 'overview'}
         actions={demo === 'PageHeaderHeroDemo' || demo === 'PageHeaderWithActionsDemo' || demo === 'PageHeaderCompleteDemo' ? pageHeaderActions : undefined}
       />
     </div>
@@ -1490,23 +1609,73 @@ const route: WorkerRoute = {
       {#if demo.includes('Error')}<p class="text-sm text-kumo-danger">Choose an environment to continue.</p>{/if}
     </div>
   {:else if looksLike('ResourceList')}
-    <div class="w-full max-w-xl divide-y divide-kumo-hairline rounded-lg border border-kumo-hairline bg-kumo-base">
-      {#each ['api-edge', 'checkout-worker', 'image-resizer'] as item}
-        <div class="flex items-center justify-between px-4 py-3">
-          <span class="font-mono text-sm">{item}</span>
-          <Badge variant="success">Active</Badge>
-        </div>
-      {/each}
+    {#snippet resourceUsage()}
+      <Surface class="p-4">
+        <h3 class="mb-2 font-semibold">{demo === 'ResourceListWithUsageDemo' ? 'Quick Start' : 'Usage Example'}</h3>
+        {#if demo === 'ResourceListWithUsageDemo'}
+          <p class="mb-3 text-sm text-kumo-subtle">Generate an API key to authenticate your requests</p>
+          <Code lang="bash" code={'curl -H "Authorization: Bearer YOUR_API_KEY" https://api.example.com'} />
+        {:else}
+          <Code
+            lang="ts"
+            code={`// Read from KV
+const value = await KV.get('key');
+
+// Write to KV
+await KV.put('key', 'value');`}
+          />
+        {/if}
+      </Surface>
+    {/snippet}
+    {#snippet resourceAdditionalContent()}
+      <Surface class="p-4">
+        <h3 class="mb-2 font-semibold">Learn More</h3>
+        <p class="text-sm text-kumo-subtle">Check out our documentation to learn more about KV storage.</p>
+      </Surface>
+    {/snippet}
+    <div class="w-full">
+      <ResourceListPage
+        class="min-h-[400px]"
+        title={demo === 'ResourceListWithUsageDemo' ? 'API Keys' : demo === 'ResourceListCompleteDemo' ? 'KV Namespaces' : 'Databases'}
+        description={demo === 'ResourceListWithUsageDemo'
+          ? 'Create and manage API keys for your applications'
+          : demo === 'ResourceListCompleteDemo'
+            ? 'Store key-value data globally with low-latency access'
+            : 'Manage your database instances and configurations'}
+        icon={demo === 'ResourceListWithUsageDemo' ? undefined : Database}
+        usage={demo === 'ResourceListWithUsageDemo' || demo === 'ResourceListCompleteDemo' ? resourceUsage : undefined}
+        additionalContent={demo === 'ResourceListCompleteDemo' ? resourceAdditionalContent : undefined}
+      >
+        {#if demo === 'ResourceListCompleteDemo'}
+          <div class="space-y-4">
+            <Surface class="p-6">
+              <h4 class="mb-2 font-semibold">production-kv</h4>
+              <p class="text-sm text-kumo-subtle">Created 2 days ago</p>
+            </Surface>
+            <Surface class="p-6">
+              <h4 class="mb-2 font-semibold">staging-kv</h4>
+              <p class="text-sm text-kumo-subtle">Created 1 week ago</p>
+            </Surface>
+          </div>
+        {:else}
+          <Surface class="p-6">
+            <p>{demo === 'ResourceListWithUsageDemo' ? 'API keys list would appear here' : 'Main content area - your resource list would go here'}</p>
+          </Surface>
+        {/if}
+      </ResourceListPage>
     </div>
   {:else if looksLike('DeleteResource')}
+    <Button variant="destructive" onclick={openDeleteResource}>
+      {demo === 'DeleteResourceWorkerDemo' ? 'Delete Worker' : 'Delete Zone'}
+    </Button>
     <DeleteResource
       bind:open={deleteResourceOpen}
+      onOpenChange={(open) => (deleteResourceOpen = open)}
       resourceType={demo === 'DeleteResourceWorkerDemo' ? 'Worker' : 'Zone'}
-      resourceName={demo === 'DeleteResourceWorkerDemo' ? 'api-edge-worker' : 'example.com'}
-      errorMessage={demo === 'DeleteResourceErrorDemo' ? 'Unable to delete this resource because it still has active dependencies.' : undefined}
-      onDelete={() => {
-        deleteResourceOpen = false;
-      }}
+      resourceName={demo === 'DeleteResourceWorkerDemo' ? 'api-gateway-worker' : 'example.com'}
+      errorMessage={demo === 'DeleteResourceErrorDemo' ? deleteResourceErrorMessage : undefined}
+      isDeleting={deleteResourceDeleting}
+      onDelete={handleDeleteResource}
     />
   {:else if looksLike('Select')}
     <div class="w-full max-w-xs space-y-2">
