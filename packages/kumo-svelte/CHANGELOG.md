@@ -1,5 +1,11 @@
 # kumo-svelte
 
+## 0.1.5
+
+### Patch Changes
+
+- Align component API reference props and missing Svelte component prop support with upstream Kumo.
+
 ## 0.1.4
 
 ### Patch Changes

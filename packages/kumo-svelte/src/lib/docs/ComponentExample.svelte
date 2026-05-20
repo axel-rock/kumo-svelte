@@ -18,7 +18,12 @@
 </script>
 
 <div class="not-prose overflow-hidden rounded-lg">
-  <div class="flex min-h-[120px] items-center justify-center rounded-t-lg border border-kumo-hairline bg-kumo-canvas p-6">
+  <div
+    class={[
+      'flex min-h-[120px] items-center justify-center border border-kumo-hairline bg-kumo-canvas p-6',
+      code ? 'rounded-t-lg' : 'rounded-lg'
+    ]}
+  >
     {#if demo}
       <DemoRenderer {demo} />
     {:else if children}

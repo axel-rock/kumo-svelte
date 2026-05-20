@@ -5,9 +5,13 @@ sourceFile: "components/autocomplete"
 ---
 
 <script>
+  import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
+
+  const barrelImport = `import { Autocomplete } from "kumo-svelte";`;
+  const granularImport = `import { Autocomplete } from "kumo-svelte";`;
 </script>
 
 <!-- Hero Demo -->
@@ -24,18 +28,11 @@ sourceFile: "components/autocomplete"
 
 ### Barrel
 
-
-```svelte
-import { Autocomplete } from "kumo-svelte";
-```
-
+<CodeBlock code={barrelImport} lang="svelte" />
 
 ### Granular
 
-
-```svelte
-import { Autocomplete } from "kumo-svelte";
-```
+<CodeBlock code={granularImport} lang="svelte" />
 
 </ComponentSection>
 
@@ -113,37 +110,6 @@ The `size` prop on `Autocomplete.InputGroup` supports four variants matching the
 <ComponentExample demo="AutocompleteSizesDemo" />
 </ComponentSection>
 
-<!-- Custom Filtering -->
-
-<ComponentSection>
-
-## Custom Filtering
-
-
-By default, Base UI filters items using a built-in string match. Pass a custom
-  `filter` function for advanced logic such as fuzzy matching or object
-  properties.
-
-
-```svelte
-// Filter on a property of object items
-<Autocomplete
-  items={countries}
-  filter={(item, query) =>
-    item.label.toLowerCase().includes(query.toLowerCase())
-  }
->
-  ...
-</Autocomplete>
-
-// Disable filtering entirely (e.g. async search)
-<Autocomplete items={results} filter={null}>
-  ...
-</Autocomplete>
-```
-
-</ComponentSection>
-
 <!-- API Reference -->
 
 <ComponentSection>
@@ -160,17 +126,23 @@ Root component. Wraps all sub-components and manages state.
 ### Autocomplete.InputGroup
 
 
-Self-contained input wrapper that renders the text input, clear button, and
-  dropdown trigger together.
+Autocomplete text input with Input component styling.
 
 <PropsTable component="Autocomplete.InputGroup" />
 
 ### Autocomplete.Content
 
 
-Dropdown popup container. Wraps Portal, Positioner, and Popup.
+Dropdown popup container.
 
 <PropsTable component="Autocomplete.Content" />
+
+### Autocomplete.List
+
+
+Scrollable list container with render prop.
+
+<PropsTable component="Autocomplete.List" />
 
 ### Autocomplete.Item
 
@@ -179,13 +151,31 @@ Individual suggestion item in the list.
 
 <PropsTable component="Autocomplete.Item" />
 
-### Additional Sub-components
+### Autocomplete.Group
 
-  <ul class="list-disc list-inside space-y-1">
-    <li>`Autocomplete.List` — scrollable list container with render prop</li>
-    <li>`Autocomplete.Group` — groups items under a heading</li>
-    <li>`Autocomplete.GroupLabel` — heading label for a group</li>
-    <li>`Autocomplete.Collection` — item container within a group</li>
-    <li>`Autocomplete.Separator` — horizontal divider between items</li>
-  </ul>
+
+Groups items under a heading.
+
+<PropsTable component="Autocomplete.Group" />
+
+### Autocomplete.GroupLabel
+
+
+Heading label for a group.
+
+<PropsTable component="Autocomplete.GroupLabel" />
+
+### Autocomplete.Collection
+
+
+Item container within a group.
+
+<PropsTable component="Autocomplete.Collection" />
+
+### Autocomplete.Separator
+
+
+Horizontal divider between items.
+
+<PropsTable component="Autocomplete.Separator" />
 </ComponentSection>

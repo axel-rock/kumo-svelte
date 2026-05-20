@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import { onMount, type Snippet } from 'svelte';
   import Field from '$lib/components/field/Field.svelte';
   import { cn } from '$lib/utils/cn';
   import {
@@ -59,6 +59,7 @@
   }: Props = $props();
 
   let query = $state('');
+  let rootElement: HTMLDivElement | null = $state(null);
 
   const sourceItems = $derived(items ?? options);
   const normalizedItems = $derived(sourceItems.map(normalizeComboboxItem));
@@ -136,6 +137,33 @@
     emit(value.filter((selected) => !valuesEqual(itemValue, selected)));
   }
 
+  function close() {
+    if (!open) return;
+    open = false;
+    query = '';
+    onOpenChange?.(false);
+  }
+
+  function handleDocumentPointerDown(event: PointerEvent) {
+    if (!rootElement || !open || !(event.target instanceof Node)) return;
+    if (!rootElement.contains(event.target)) close();
+  }
+
+  function handleFocusOut(event: FocusEvent) {
+    if (!rootElement || !open) return;
+    const nextTarget = event.relatedTarget;
+    if (nextTarget instanceof Node && rootElement.contains(nextTarget)) return;
+    close();
+  }
+
+  onMount(() => {
+    document.addEventListener('pointerdown', handleDocumentPointerDown);
+
+    return () => {
+      document.removeEventListener('pointerdown', handleDocumentPointerDown);
+    };
+  });
+
   setComboboxContext({
     get items() {
       return normalizedItems;
@@ -183,7 +211,12 @@
 </script>
 
 {#snippet control()}
-  <div class={cn('relative inline-block max-w-full', className)} {...rest}>
+  <div
+    bind:this={rootElement}
+    onfocusout={handleFocusOut}
+    class={cn('relative inline-block max-w-full', className)}
+    {...rest}
+  >
     {@render children?.()}
   </div>
 {/snippet}

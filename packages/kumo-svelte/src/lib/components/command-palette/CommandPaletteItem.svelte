@@ -6,23 +6,25 @@
   interface Props {
     children?: Snippet;
     class?: string;
-    value?: string;
+    value: unknown;
     keywords?: string[];
     disabled?: boolean;
     forceMount?: boolean;
     onSelect?: () => void;
+    onclick?: (event: MouseEvent) => void;
     [key: string]: unknown;
   }
 
-  let { children, class: className, value, keywords, disabled, forceMount, onSelect, ...rest }: Props = $props();
+  let { children, class: className, value, keywords, disabled, forceMount, onSelect, onclick, ...rest }: Props = $props();
 </script>
 
 <CommandPrimitive.Item
-  {value}
+  value={String(value)}
   {keywords}
   {disabled}
   {forceMount}
   {onSelect}
+  {onclick}
   class={cn(
     'flex min-h-8 cursor-default select-none items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm text-kumo-default outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[selected]:bg-kumo-tint',
     className

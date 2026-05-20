@@ -2,17 +2,13 @@ import type { Snippet } from 'svelte';
 import { getContext, setContext } from 'svelte';
 
 export type AutocompleteSize = 'xs' | 'sm' | 'base' | 'lg';
+export type AutocompleteValue = string | number | string[];
 
-export type AutocompleteItem = string | {
-  label: string;
-  value: string;
-  disabled?: boolean;
-  group?: string;
-};
+export type AutocompleteItem = unknown;
 
 export type NormalizedAutocompleteItem = {
   label: string;
-  value: string;
+  value: string | number;
   disabled?: boolean;
   group?: string;
   raw: AutocompleteItem;
@@ -23,12 +19,13 @@ export type AutocompleteContext = {
   get filteredItems(): NormalizedAutocompleteItem[];
   get query(): string;
   set query(value: string);
-  get value(): string;
-  set value(value: string);
+  get value(): AutocompleteValue;
+  set value(value: AutocompleteValue);
   get open(): boolean;
   set open(value: boolean);
   get size(): AutocompleteSize;
   get invalid(): boolean;
+  isSelected(item: NormalizedAutocompleteItem): boolean;
   select(item: NormalizedAutocompleteItem): void;
 };
 
@@ -58,15 +55,30 @@ export function getAutocompleteGroupContext() {
 }
 
 export function normalizeAutocompleteItem(item: AutocompleteItem): NormalizedAutocompleteItem {
-  if (typeof item === 'string') {
-    return { label: item, value: item, raw: item };
+  if (typeof item === 'string' || typeof item === 'number') {
+    return { label: String(item), value: item, raw: item };
+  }
+
+  if (item && typeof item === 'object' && 'label' in item && 'value' in item) {
+    const option = item as {
+      label: unknown;
+      value: unknown;
+      disabled?: unknown;
+      group?: unknown;
+    };
+
+    return {
+      label: String(option.label),
+      value: typeof option.value === 'number' ? option.value : String(option.value),
+      disabled: typeof option.disabled === 'boolean' ? option.disabled : undefined,
+      group: typeof option.group === 'string' ? option.group : undefined,
+      raw: item
+    };
   }
 
   return {
-    label: item.label,
-    value: item.value,
-    disabled: item.disabled,
-    group: item.group,
+    label: String(item),
+    value: String(item),
     raw: item
   };
 }

@@ -6,10 +6,12 @@
 
   interface Props {
     toast: KumoToastObject;
+    behind?: boolean;
+    expanded?: boolean;
     onClose?: () => void;
   }
 
-  const { toast, onClose }: Props = $props();
+  const { toast, behind = false, expanded = false, onClose }: Props = $props();
 
   const backgroundClasses: Partial<Record<KumoToastVariant, string>> = {
     success: 'bg-kumo-success/5',
@@ -30,7 +32,11 @@
 </script>
 
 <div class={cn('absolute inset-0 rounded-[11px] bg-kumo-base/90', toast.variant && backgroundClasses[toast.variant])}></div>
-<div class="isolate flex flex-col gap-1">
+<div
+  class="isolate flex flex-col gap-1 transition-opacity [transition-duration:250ms] data-[behind]:pointer-events-none data-[behind]:opacity-0 data-[expanded]:pointer-events-auto data-[expanded]:opacity-100"
+  data-behind={behind ? '' : undefined}
+  data-expanded={expanded ? '' : undefined}
+>
   {#if toast.content}
     {@render toast.content()}
   {:else}

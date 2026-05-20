@@ -18,25 +18,40 @@
     markClass?: string;
   }
 
-  let { text, highlights = [], markClass = 'rounded bg-kumo-tint text-kumo-default' }: Props = $props();
+  let {
+    text,
+    highlights = [],
+    class: className,
+    markClass = 'rounded bg-kumo-tint text-kumo-default'
+  }: Props = $props();
 
   const segments = $derived.by<Segment[]>(() => {
     if (highlights.length === 0) return [{ text, highlighted: false }];
 
     const sorted: Highlight[] = highlights
-      .map(([start, end]) => ({ start: Math.max(0, start), end: Math.min(text.length, end) }))
-      .filter(({ start, end }) => end > start)
+      .map(([start, end]) => ({ start: Math.max(0, start), end: Math.min(text.length - 1, end) }))
+      .filter(({ start, end }) => end >= start)
       .sort((a, b) => a.start - b.start);
+
+    const merged: Highlight[] = [];
+    for (const highlight of sorted) {
+      const previous = merged[merged.length - 1];
+      if (previous && highlight.start <= previous.end + 1) {
+        previous.end = Math.max(previous.end, highlight.end);
+      } else {
+        merged.push({ ...highlight });
+      }
+    }
 
     const nextSegments: Segment[] = [];
     let cursor = 0;
 
-    for (const highlight of sorted) {
+    for (const highlight of merged) {
       if (highlight.start > cursor) {
         nextSegments.push({ text: text.slice(cursor, highlight.start), highlighted: false });
       }
-      nextSegments.push({ text: text.slice(highlight.start, highlight.end), highlighted: true });
-      cursor = highlight.end;
+      nextSegments.push({ text: text.slice(highlight.start, highlight.end + 1), highlighted: true });
+      cursor = highlight.end + 1;
     }
 
     if (cursor < text.length) {
@@ -47,6 +62,8 @@
   });
 </script>
 
-{#each segments as segment}
-  {#if segment.highlighted}<mark class={markClass}>{segment.text}</mark>{:else}{segment.text}{/if}
-{/each}
+<span class={className}>
+  {#each segments as segment, index (`${index}-${segment.text}-${segment.highlighted}`)}
+    {#if segment.highlighted}<mark class={markClass}>{segment.text}</mark>{:else}{segment.text}{/if}
+  {/each}
+</span>

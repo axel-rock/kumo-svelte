@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import type { SeriesOption } from 'echarts';
   import type { EChartsType } from 'echarts/core';
   import Chart, { type ChartEvents, type KumoChartOption } from './Chart.svelte';
@@ -48,7 +49,7 @@
     incomplete,
     height = 350,
     onTimeRangeChange,
-    isDarkMode = false,
+    isDarkMode,
     gradient = false,
     loading = false,
     ariaDescription,
@@ -58,6 +59,31 @@
   }: Props = $props();
 
   let chartRef: EChartsType | null = $state(null);
+  let detectedDarkMode = $state(false);
+  const effectiveDarkMode = $derived(isDarkMode ?? detectedDarkMode);
+
+  onMount(() => {
+    const updateDetectedDarkMode = () => {
+      detectedDarkMode =
+        document.documentElement.classList.contains('dark') ||
+        document.body.classList.contains('dark') ||
+        document.documentElement.dataset.mode === 'dark' ||
+        document.body.dataset.mode === 'dark' ||
+        window.matchMedia?.('(prefers-color-scheme: dark)').matches === true;
+    };
+    const themeObserver = new MutationObserver(updateDetectedDarkMode);
+    updateDetectedDarkMode();
+    [document.documentElement, document.body].forEach((node) => {
+      themeObserver.observe(node, { attributes: true, attributeFilter: ['data-mode', 'class'] });
+    });
+    const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
+    mediaQuery?.addEventListener('change', updateDetectedDarkMode);
+
+    return () => {
+      themeObserver.disconnect();
+      mediaQuery?.removeEventListener('change', updateDetectedDarkMode);
+    };
+  });
 
   const colorWithOpacity = (color: string, alpha: number): string => {
     const a = Math.max(0, Math.min(1, alpha));
@@ -132,6 +158,10 @@
         trigger: 'axis',
         appendTo: 'body',
         axisPointer: { type: 'shadow' },
+        backgroundColor: effectiveDarkMode ? '#3A3E44' : '#FFFFFF',
+        borderColor: effectiveDarkMode ? '#5B5E64' : '#DDDDDD',
+        textStyle: { color: effectiveDarkMode ? '#B3B4B7' : '#1F1F1F' },
+        extraCssText: `color: ${effectiveDarkMode ? '#B3B4B7' : '#1F1F1F'};`,
         dangerousHtmlFormatter: (params: any) => {
           const items = Array.isArray(params) ? params : [params];
           const seenNames = new Set<string>();
@@ -224,7 +254,7 @@
         <path
           d={wavePath}
           fill="none"
-          stroke={isDarkMode ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'}
+          stroke={effectiveDarkMode ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'}
           stroke-width="2"
           style:animation="kumo-chart-wave 2.4s linear infinite"
           style:transform-origin="0 0"
@@ -232,6 +262,6 @@
       </svg>
     </div>
   {:else}
-    <Chart {echarts} bind:chartRef options={options} {height} {isDarkMode} onEvents={events} optionUpdateBehavior={optionUpdateBehavior as any} />
+    <Chart {echarts} bind:chartRef options={options} {height} isDarkMode={effectiveDarkMode} onEvents={events} optionUpdateBehavior={optionUpdateBehavior as any} />
   {/if}
 </div>

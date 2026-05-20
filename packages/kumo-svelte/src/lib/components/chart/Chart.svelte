@@ -3,7 +3,7 @@
   import type { EChartsOption, SetOptionOpts, TooltipComponentOption } from 'echarts';
   import type { EChartsType } from 'echarts/core';
   import { cn } from '$lib/utils/cn';
-  import { CHART_DARK_COLORS, CHART_LIGHT_COLORS } from './Color';
+  import { CHART_DARK_COLORS, CHART_LIGHT_COLORS, ChartPalette } from './Color';
 
   export type SafeTooltipOption = Omit<TooltipComponentOption, 'formatter'> & {
     dangerousHtmlFormatter?: TooltipComponentOption['formatter'];
@@ -31,7 +31,7 @@
     options,
     optionUpdateBehavior,
     class: className,
-    isDarkMode = false,
+    isDarkMode,
     height = 350,
     onEvents = {},
     chartRef = $bindable(null)
@@ -40,8 +40,31 @@
   let el: HTMLDivElement;
   let chart: EChartsType | null = null;
   let resizeObserver: ResizeObserver | null = null;
+  let intersectionObserver: IntersectionObserver | null = null;
+  let detectedDarkMode = $state(false);
+  let hasBeenVisible = $state(false);
   const eventWrappers = new Map<string, (params: any) => void>();
   let boundEvents = new Set<string>();
+  const effectiveDarkMode = $derived(isDarkMode ?? detectedDarkMode);
+
+  const themedTooltipDefaults = $derived({
+    backgroundColor: effectiveDarkMode ? '#3A3E44' : '#FFFFFF',
+    borderColor: effectiveDarkMode ? '#505372' : '#DDDDDD',
+    textStyle: {
+      color: effectiveDarkMode ? '#B3B4B7' : '#1F1F1F'
+    },
+    extraCssText: `color: ${effectiveDarkMode ? '#B3B4B7' : '#1F1F1F'}; box-shadow: 0 8px 24px rgba(0, 0, 0, ${effectiveDarkMode ? '0.45' : '0.12'});`
+  });
+
+  const mergeTooltipTheme = (tooltipObj: SafeTooltipOption): SafeTooltipOption => ({
+    ...themedTooltipDefaults,
+    ...tooltipObj,
+    textStyle: {
+      ...themedTooltipDefaults.textStyle,
+      ...tooltipObj.textStyle
+    },
+    extraCssText: [themedTooltipDefaults.extraCssText, tooltipObj.extraCssText].filter(Boolean).join(' ')
+  });
 
   const transformTooltip = (tooltipObj: SafeTooltipOption) => {
     const { dangerousHtmlFormatter, ...restOfTooltip } = tooltipObj;
@@ -49,10 +72,19 @@
   };
 
   const prepareChartOptions = (rawOptions: KumoChartOption): EChartsOption => {
-    if (!rawOptions.tooltip) return rawOptions as EChartsOption;
-    return {
+    const optionsWithTheme = {
       ...rawOptions,
-      tooltip: Array.isArray(rawOptions.tooltip) ? rawOptions.tooltip.map(transformTooltip) : transformTooltip(rawOptions.tooltip)
+      textStyle: {
+        color: ChartPalette.text('primary', effectiveDarkMode),
+        ...(rawOptions.textStyle ?? {})
+      }
+    };
+    if (!optionsWithTheme.tooltip) return optionsWithTheme as EChartsOption;
+    return {
+      ...optionsWithTheme,
+      tooltip: Array.isArray(optionsWithTheme.tooltip)
+        ? optionsWithTheme.tooltip.map((tooltip) => transformTooltip(mergeTooltipTheme(tooltip)))
+        : transformTooltip(mergeTooltipTheme(optionsWithTheme.tooltip))
     } as EChartsOption;
   };
 
@@ -75,18 +107,58 @@
     boundEvents = nextBound;
   };
 
-  const initChart = () => {
-    if (!el) return;
-    chart?.dispose();
-    const nextChart = echarts.init(el, isDarkMode ? 'dark' : { color: isDarkMode ? CHART_DARK_COLORS : CHART_LIGHT_COLORS }, { renderer: 'canvas' });
-    chart = nextChart;
-    chartRef = nextChart;
-    nextChart.setOption(prepareChartOptions(options), { notMerge: false, lazyUpdate: true, ...optionUpdateBehavior });
+  const updateOptions = () => {
+    if (!chart) return;
+    chart.setOption(prepareChartOptions(options), { notMerge: false, lazyUpdate: true, ...optionUpdateBehavior });
+    chartRef = chart;
     bindEvents();
   };
 
+  const initChart = () => {
+    if (!el) return;
+    chart?.dispose();
+    const theme = effectiveDarkMode ? { darkMode: true, color: CHART_DARK_COLORS } : { color: CHART_LIGHT_COLORS };
+    const nextChart = echarts.init(el, theme, { renderer: 'canvas' });
+    chart = nextChart;
+    updateOptions();
+  };
+
   onMount(() => {
+    const updateDetectedDarkMode = () => {
+      detectedDarkMode =
+        document.documentElement.classList.contains('dark') ||
+        document.body.classList.contains('dark') ||
+        document.documentElement.dataset.mode === 'dark' ||
+        document.body.dataset.mode === 'dark' ||
+        window.matchMedia?.('(prefers-color-scheme: dark)').matches === true;
+    };
+    const themeObserver = new MutationObserver(updateDetectedDarkMode);
+    updateDetectedDarkMode();
+    [document.documentElement, document.body].forEach((node) => {
+      themeObserver.observe(node, { attributes: true, attributeFilter: ['data-mode', 'class'] });
+    });
+    const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
+    mediaQuery?.addEventListener('change', updateDetectedDarkMode);
+
     initChart();
+
+    if ('IntersectionObserver' in window) {
+      intersectionObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry?.isIntersecting) return;
+          hasBeenVisible = true;
+          updateOptions();
+          intersectionObserver?.disconnect();
+          intersectionObserver = null;
+        },
+        { threshold: 0.1 }
+      );
+      intersectionObserver.observe(el);
+    } else {
+      hasBeenVisible = true;
+      updateOptions();
+    }
+
     let isInitialResize = true;
     resizeObserver = new ResizeObserver(() => {
       if (isInitialResize) {
@@ -97,6 +169,9 @@
     });
     resizeObserver.observe(el);
     return () => {
+      intersectionObserver?.disconnect();
+      themeObserver.disconnect();
+      mediaQuery?.removeEventListener('change', updateDetectedDarkMode);
       resizeObserver?.disconnect();
       for (const event of boundEvents) {
         const wrapper = eventWrappers.get(event);
@@ -109,14 +184,11 @@
   });
 
   $effect(() => {
-    if (chart) {
-      chart.setOption(prepareChartOptions(options), { notMerge: false, lazyUpdate: true, ...optionUpdateBehavior });
-      bindEvents();
-    }
+    updateOptions();
   });
 
   $effect(() => {
-    isDarkMode;
+    effectiveDarkMode;
     if (chart) initChart();
   });
 </script>

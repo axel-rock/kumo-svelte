@@ -103,7 +103,7 @@
   {:else}
     {#if IconComponent}
       <span class={cn('shrink-0', variantConfig.iconClasses)}>
-        <IconComponent />
+        <IconComponent weight="fill" />
       </span>
     {/if}
     {#if children}

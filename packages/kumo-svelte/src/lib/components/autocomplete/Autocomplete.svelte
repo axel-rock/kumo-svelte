@@ -7,6 +7,7 @@
     setAutocompleteContext,
     type AutocompleteItem,
     type AutocompleteSize,
+    type AutocompleteValue,
     type NormalizedAutocompleteItem
   } from './context';
 
@@ -16,16 +17,17 @@
     children?: Snippet;
     class?: string;
     items?: AutocompleteItem[];
-    value?: string;
-    defaultValue?: string;
+    value?: AutocompleteValue;
+    defaultValue?: AutocompleteValue;
     open?: boolean;
     size?: AutocompleteSize;
     label?: string | Snippet;
+    labelTooltip?: string | Snippet;
     description?: string | Snippet;
     error?: FieldError;
     required?: boolean;
     filter?: ((item: AutocompleteItem, query: string) => boolean) | null;
-    onValueChange?: (value: string) => void;
+    onValueChange?: (value: AutocompleteValue) => void;
     onOpenChange?: (open: boolean) => void;
     [key: string]: unknown;
   }
@@ -39,6 +41,7 @@
     open = $bindable(false),
     size = 'base',
     label,
+    labelTooltip,
     description,
     error,
     required,
@@ -48,7 +51,7 @@
     ...rest
   }: Props = $props();
 
-  let query = $state(value);
+  let query = $state(Array.isArray(value) ? value.join(', ') : String(value ?? ''));
 
   const normalizedItems = $derived(items.map(normalizeAutocompleteItem));
   const errorMessage = $derived(
@@ -61,9 +64,18 @@
 
     return normalizedItems.filter((item) => {
       if (filter) return filter(item.raw, query);
-      return item.label.toLowerCase().includes(term) || item.value.toLowerCase().includes(term);
+      return item.label.toLowerCase().includes(term) || String(item.value).toLowerCase().includes(term);
     });
   });
+
+  function valuesEqual(itemValue: string | number, selectedValue: AutocompleteValue) {
+    if (Array.isArray(selectedValue)) return selectedValue.some((selected) => itemValue === selected);
+    return itemValue === selectedValue;
+  }
+
+  function isSelected(item: NormalizedAutocompleteItem) {
+    return valuesEqual(item.value, value);
+  }
 
   function select(item: NormalizedAutocompleteItem) {
     if (item.disabled) return;
@@ -92,7 +104,7 @@
     get value() {
       return value;
     },
-    set value(nextValue: string) {
+    set value(nextValue: AutocompleteValue) {
       value = nextValue;
       onValueChange?.(nextValue);
     },
@@ -109,6 +121,7 @@
     get invalid() {
       return Boolean(errorMessage);
     },
+    isSelected,
     select
   });
 </script>
@@ -120,7 +133,7 @@
 {/snippet}
 
 {#if label || description || errorMessage}
-  <Field {label} {description} error={errorMessage} {required}>
+  <Field {label} {labelTooltip} {description} error={errorMessage} {required}>
     {@render control()}
   </Field>
 {:else}

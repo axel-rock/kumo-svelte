@@ -12,9 +12,9 @@
   let { title, description, href, demo, children }: Props = $props();
 </script>
 
-<div class="rounded-lg border border-kumo-hairline bg-kumo-elevated">
+<div class="overflow-hidden rounded-lg border border-kumo-hairline bg-kumo-elevated">
   <div class="p-4">
-    <div class="text-kumo-default">{title}</div>
+    <div class="font-medium text-kumo-strong">{title}</div>
     <div class="mt-1 text-sm text-kumo-secondary">{description}</div>
 
     <div class="mt-4">

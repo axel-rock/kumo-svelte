@@ -6,6 +6,15 @@ const TOAST_CONTEXT = 'kumo-toast-manager';
 
 export type KumoToastVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
 
+function nextFrame(callback: () => void) {
+  if (typeof requestAnimationFrame === 'function') {
+    requestAnimationFrame(callback);
+    return;
+  }
+
+  setTimeout(callback, 0);
+}
+
 export interface KumoToastAction {
   children: string;
   variant?: 'primary' | 'secondary' | 'ghost' | 'destructive' | 'secondary-destructive' | 'outline';
@@ -27,12 +36,13 @@ export interface KumoToastOptions<Data extends object = Record<string, unknown>>
 export interface KumoToastObject<Data extends object = Record<string, unknown>>
   extends KumoToastOptions<Data> {
   id: string;
-  transitionStatus?: 'starting' | 'ending';
+  transitionStatus?: 'starting' | 'active' | 'ending';
 }
 
 export class KumoToastManager {
   toasts = $state<KumoToastObject[]>([]);
   #timeouts = new Map<string, ReturnType<typeof setTimeout>>();
+  #removalTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
   add(options: KumoToastOptions = {}) {
     const id = options.id ?? this.#createId();
@@ -40,7 +50,16 @@ export class KumoToastManager {
     if (options.id) {
       const existingToast = this.toasts.find((toast) => toast.id === options.id);
       if (existingToast) {
-        this.update(id, { ...options, bump: true });
+        if (existingToast.transitionStatus === 'ending') return id;
+
+        this.update(id, { bump: false });
+        nextFrame(() => {
+          this.update(id, {
+            ...options,
+            bump: true,
+            transitionStatus: 'active'
+          });
+        });
         return id;
       }
     }
@@ -49,23 +68,40 @@ export class KumoToastManager {
       variant: 'default',
       timeout: 5000,
       ...options,
+      transitionStatus: 'starting',
       id
     };
 
     this.toasts = [toast, ...this.toasts].slice(0, 6);
     this.#scheduleRemoval(toast);
+    nextFrame(() => {
+      this.update(id, { transitionStatus: 'active' });
+    });
     return id;
   }
 
   update(id: string, options: Partial<KumoToastOptions & Pick<KumoToastObject, 'transitionStatus'>>) {
     this.toasts = this.toasts.map((toast) => (toast.id === id ? { ...toast, ...options } : toast));
     const toast = this.toasts.find((item) => item.id === id);
-    if (toast) this.#scheduleRemoval(toast);
+    if (toast && ('timeout' in options || 'title' in options || 'description' in options || 'content' in options)) {
+      this.#scheduleRemoval(toast);
+    }
   }
 
   remove(id: string) {
     this.#clearRemoval(id);
-    this.#deleteLocal(id);
+    const toast = this.toasts.find((item) => item.id === id);
+    if (!toast) return;
+
+    if (toast.transitionStatus !== 'ending') {
+      this.update(id, { transitionStatus: 'ending' });
+    }
+
+    this.#clearLocalRemoval(id);
+    this.#removalTimeouts.set(
+      id,
+      setTimeout(() => this.#deleteLocal(id), 500)
+    );
   }
 
   promise<T>(
@@ -108,7 +144,14 @@ export class KumoToastManager {
     this.#timeouts.delete(id);
   }
 
+  #clearLocalRemoval(id: string) {
+    const timeout = this.#removalTimeouts.get(id);
+    if (timeout) clearTimeout(timeout);
+    this.#removalTimeouts.delete(id);
+  }
+
   #deleteLocal(id: string) {
+    this.#clearLocalRemoval(id);
     this.toasts = this.toasts.filter((toast) => toast.id !== id);
   }
 
@@ -134,7 +177,7 @@ const TOAST_VARIANT_CLASSES: Record<KumoToastVariant, string> = {
 
 export function toastRootClass(variant: KumoToastVariant = 'default') {
   return cn(
-    'relative !w-[calc(100vw-2rem)] overflow-hidden rounded-xl border bg-clip-padding p-4 text-kumo-default shadow-[0_2px_8px_rgb(0_0_0_/_0.12)] sm:!w-[340px]',
+    'overflow-hidden rounded-xl border bg-clip-padding p-4 text-kumo-default shadow-[0_2px_8px_rgb(0_0_0_/_0.12)]',
     TOAST_VARIANT_CLASSES[variant]
   );
 }

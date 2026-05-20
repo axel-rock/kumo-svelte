@@ -74,7 +74,19 @@
     ...rest
   }: Props = $props();
 
+  function getInitialTab() {
+    return activeTab ?? defaultTab ?? tabs[0]?.value ?? '';
+  }
+
+  let currentTab = $state(getInitialTab());
+
+  $effect(() => {
+    currentTab = getInitialTab();
+  });
+
   function handleTabChange(value: string) {
+    currentTab = value;
+    activeTab = value;
     onTabChange?.(value);
     onValueChange?.(value);
   }
@@ -102,7 +114,7 @@
 
   {#if tabs.length > 0}
     <div class="flex w-full items-center justify-between border-b border-kumo-line pt-1 pb-3 pl-3">
-      <Tabs bind:value={activeTab} selectedValue={defaultTab} items={tabs} onValueChange={handleTabChange} />
+      <Tabs bind:value={currentTab} selectedValue={defaultTab} items={tabs} onValueChange={handleTabChange} />
 
       <div class="flex items-center gap-2">
         {#if actions}

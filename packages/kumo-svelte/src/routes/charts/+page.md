@@ -122,4 +122,4 @@ echarts.use([
 
 </ComponentSection>
 
-<ComponentExample demo="ChartExampleDemo" />
+<ComponentExample demo="ChartExampleDemo" code="" />

@@ -28,13 +28,13 @@
 
   interface Props {
     class?: string;
-    isActive?: number | boolean | string;
-    options?: MenuOptionProps[];
+    isActive: number | boolean | string | undefined;
+    options: MenuOptionProps[];
     optionIds?: boolean;
     [key: string]: unknown;
   }
 
-  let { class: className, isActive, options = [], optionIds = false, ...rest }: Props = $props();
+  let { class: className, isActive, options, optionIds = false, ...rest }: Props = $props();
 
   let menuRef: HTMLElement | undefined;
   let activeElement: HTMLElement | null = null;

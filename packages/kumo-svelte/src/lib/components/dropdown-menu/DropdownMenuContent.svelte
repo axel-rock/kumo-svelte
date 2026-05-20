@@ -9,13 +9,14 @@
     sideOffset?: number;
     side?: 'top' | 'right' | 'bottom' | 'left';
     align?: 'start' | 'center' | 'end';
+    container?: HTMLElement | string;
     [key: string]: unknown;
   }
 
-  let { children, class: className, sideOffset = 8, side, align, ...rest }: Props = $props();
+  let { children, class: className, sideOffset = 8, side, align, container, ...rest }: Props = $props();
 </script>
 
-<DropdownMenuPrimitive.Portal>
+<DropdownMenuPrimitive.Portal to={container}>
   <DropdownMenuPrimitive.Content
     class={cn(
       'z-50 overflow-hidden bg-kumo-control text-kumo-default',

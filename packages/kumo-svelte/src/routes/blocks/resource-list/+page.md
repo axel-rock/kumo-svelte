@@ -114,37 +114,37 @@ Include a sidebar with usage examples or quick start guides.
     <tr class="border-b border-kumo-hairline">
       <td class="px-4 py-3 font-mono text-xs">title</td>
       <td class="px-4 py-3 font-mono text-xs">string</td>
-      <td class="px-4 py-3">Page title displayed at the top</td>
+      <td class="px-4 py-3">Page title displayed at the top of the resource list layout.</td>
     </tr>
     <tr class="border-b border-kumo-hairline">
       <td class="px-4 py-3 font-mono text-xs">description</td>
       <td class="px-4 py-3 font-mono text-xs">string</td>
-      <td class="px-4 py-3">Page description below the title</td>
+      <td class="px-4 py-3">Page description displayed below the title.</td>
     </tr>
     <tr class="border-b border-kumo-hairline">
       <td class="px-4 py-3 font-mono text-xs">icon</td>
       <td class="px-4 py-3 font-mono text-xs">Component</td>
-      <td class="px-4 py-3">Icon displayed next to the title</td>
+      <td class="px-4 py-3">Icon component displayed next to the title.</td>
     </tr>
     <tr class="border-b border-kumo-hairline">
       <td class="px-4 py-3 font-mono text-xs">usage</td>
       <td class="px-4 py-3 font-mono text-xs">Snippet</td>
-      <td class="px-4 py-3">Sidebar content for usage examples or quick start guides</td>
+      <td class="px-4 py-3">Sidebar content for usage examples or quick-start guidance.</td>
     </tr>
     <tr class="border-b border-kumo-hairline">
       <td class="px-4 py-3 font-mono text-xs">additionalContent</td>
       <td class="px-4 py-3 font-mono text-xs">Snippet</td>
-      <td class="px-4 py-3">Additional sidebar content (e.g., resources, links)</td>
+      <td class="px-4 py-3">Additional sidebar content, such as resources or links.</td>
     </tr>
     <tr class="border-b border-kumo-hairline">
-      <td class="px-4 py-3 font-mono text-xs">children</td>
+      <td class="px-4 py-3 font-mono text-xs">children<span class="ml-0.5 text-kumo-danger">*</span></td>
       <td class="px-4 py-3 font-mono text-xs">Snippet</td>
-      <td class="px-4 py-3">Main content area for the resource list</td>
+      <td class="px-4 py-3">Main content area for the resource list.</td>
     </tr>
     <tr class="border-b border-kumo-hairline">
       <td class="px-4 py-3 font-mono text-xs">class</td>
       <td class="px-4 py-3 font-mono text-xs">string</td>
-      <td class="px-4 py-3">Additional CSS classes</td>
+      <td class="px-4 py-3">Additional classes merged onto the root element.</td>
     </tr>
   </tbody>
 </table>

@@ -38,6 +38,7 @@
     required?: boolean;
     children?: Snippet;
     renderValue?: (value: Value) => unknown;
+    container?: HTMLElement | string;
     [key: string]: unknown;
   }
 
@@ -61,6 +62,7 @@
     required = false,
     children,
     renderValue,
+    container,
     ...rest
   }: Props = $props();
 
@@ -147,7 +149,7 @@
       <CaretUpDown class={cn('shrink-0 text-kumo-subtle', iconSizes[size])} aria-hidden="true" />
     </SelectPrimitive.Trigger>
 
-    <SelectPrimitive.Portal>
+    <SelectPrimitive.Portal to={container}>
       <SelectPrimitive.Content
         class={cn(
           'z-50 flex max-h-[var(--bits-select-content-available-height)] min-w-[calc(var(--bits-select-anchor-width)+3px)] flex-col overflow-hidden rounded-lg bg-kumo-base py-1.5 text-base text-kumo-default shadow-lg ring ring-kumo-line outline-none'

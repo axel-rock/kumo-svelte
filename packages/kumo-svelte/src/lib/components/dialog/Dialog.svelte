@@ -112,6 +112,7 @@
     role?: DialogRole;
     disablePointerDismissal?: boolean;
     style?: string;
+    container?: HTMLElement | string;
     [key: string]: unknown;
   }
 
@@ -126,6 +127,7 @@
     role = KUMO_DIALOG_DEFAULT_VARIANTS.role,
     disablePointerDismissal = false,
     style,
+    container,
     ...rest
   }: Props = $props();
 
@@ -158,7 +160,7 @@
     {#if trigger}
       <AlertDialog.Trigger child={triggerChild} />
     {/if}
-    <AlertDialog.Portal>
+    <AlertDialog.Portal to={container}>
       <AlertDialog.Overlay class={backdropClasses} />
       <AlertDialog.Content class={contentClasses} style={contentStyle}>
         {#if title}<AlertDialog.Title class="text-lg font-semibold">{title}</AlertDialog.Title>{/if}
@@ -172,7 +174,7 @@
     {#if trigger}
       <DialogPrimitive.Trigger child={triggerChild} />
     {/if}
-    <DialogPrimitive.Portal>
+    <DialogPrimitive.Portal to={container}>
       <DialogPrimitive.Overlay class={backdropClasses} />
       <DialogPrimitive.Content class={contentClasses} style={contentStyle} onInteractOutside={handleInteractOutside}>
         {#if title}<DialogPrimitive.Title class="text-lg font-semibold">{title}</DialogPrimitive.Title>{/if}
