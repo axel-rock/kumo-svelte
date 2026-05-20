@@ -23,7 +23,7 @@
     const url = new URL(window.location.href);
     let path = url.pathname.replace(/\/+$/, '');
     path = path.replace(/^\/changelog\/.*/, '/changelog');
-    return `${url.origin}${path}.md`;
+    return `${url.origin}${path}/page.md`;
   }
 
   function onCopySuccess() {
