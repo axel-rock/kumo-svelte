@@ -8,6 +8,10 @@ const config = {
   extensions: ['.svelte', '.md'],
   preprocess: [mdsx(mdsxConfig), vitePreprocess()],
   kit: {
+    alias: {
+      'kumo-svelte': './src/lib/index.ts',
+      'kumo-svelte/*': './src/lib/*'
+    },
     adapter: adapter(),
     prerender: {
       entries: ['*']
