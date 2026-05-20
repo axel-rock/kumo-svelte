@@ -1,5 +1,11 @@
 # kumo-svelte
 
+## 0.1.4
+
+### Patch Changes
+
+- Align the Svelte CLI command behavior and block installer output with upstream Kumo.
+
 ## 0.1.3
 
 ### Patch Changes

@@ -38,15 +38,14 @@ async function confirm(message: string): Promise<boolean> {
 export async function add(blockName?: string): Promise<void> {
   if (!blockName) {
     console.error('Error: Block name is required.');
-    console.log('');
-    console.log('Usage: kumo-svelte add <block-name>');
-    console.log('Run "kumo-svelte blocks" to see available blocks.');
+    console.log('\nUsage: kumo-svelte add <block-name>');
+    console.log('\nRun "kumo-svelte blocks" to see available blocks.');
     process.exit(1);
   }
 
   const config = readConfig();
   if (!config) {
-    console.error('Error: kumo.json not found. Run "kumo-svelte init" first.');
+    console.error('Error: kumo.json not found. Run "kumo-svelte init" first to initialize the configuration.');
     process.exit(1);
   }
 
@@ -57,7 +56,7 @@ export async function add(blockName?: string): Promise<void> {
 
   if (!block) {
     console.error(`Error: Block '${blockName}' not found.`);
-    console.log('Run "kumo-svelte blocks" to see available blocks.');
+    console.log('\nRun "kumo-svelte blocks" to see available blocks.');
     process.exit(1);
   }
 
@@ -101,12 +100,23 @@ export async function add(blockName?: string): Promise<void> {
     mkdirSync(dirname(targetPath), { recursive: true });
     const content = transformImports(readFileSync(sourcePath, 'utf-8'));
     writeFileSync(targetPath, content, 'utf-8');
-    console.log(`  ${join(config.blocksDir, file)}`);
+    console.log(`  ${file}`);
   }
 
-  console.log('');
-  console.log(`Installed ${block.name}.`);
   if (block.dependencies?.length) {
-    console.log(`Uses: ${block.dependencies.join(', ')}`);
+    console.log('\nThis block depends on the following Kumo Svelte components:\n');
+    for (const dependency of block.dependencies) {
+      console.log(`  - ${dependency} (from kumo-svelte)`);
+    }
+    console.log('\nMake sure kumo-svelte is installed in your project:');
+    console.log('  pnpm add kumo-svelte');
   }
+
+  console.log(`\nSuccessfully installed ${block.name}!`);
+  console.log('\nYou can now import it in your project:\n');
+
+  const blockFile = block.files[0].replace(/\.(?:svelte|tsx?)$/, '');
+  const importPath = join(config.blocksDir, blockFile).replace(/\\/g, '/');
+
+  console.log(`  import { ${block.name} } from "${importPath}";`);
 }

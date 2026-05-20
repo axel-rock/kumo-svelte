@@ -22,11 +22,11 @@ COMPONENT REGISTRY:
 
 MIGRATION:
   kumo-svelte migrate         Export token rename map for codebase migration
-  kumo-svelte migrate --classes  Show class-level mappings
+  kumo-svelte migrate --classes  Show class-level mappings (bg-kumo-base -> bg-kumo-base)
   kumo-svelte migrate --help     Show migration help
 
 AI:
-  kumo-svelte ai              Print the AI usage guide
+  kumo-svelte ai              Print the AI usage guide (component API reference)
 
 GENERAL:
   kumo-svelte help            Show this help message
@@ -38,6 +38,7 @@ Examples:
   kumo-svelte ls
   kumo-svelte doc Button
   kumo-svelte docs
+  kumo-svelte migrate --json > rename-map.json
 `;
 
 async function main() {

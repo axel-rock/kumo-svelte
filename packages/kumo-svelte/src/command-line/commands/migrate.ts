@@ -1,42 +1,130 @@
-const PENDING_MIGRATIONS: Record<string, string> = {};
+const PENDING_MIGRATIONS = {
+  text: {} as Record<string, string>,
+  color: {} as Record<string, string>
+} as const;
 
-const MIGRATE_HELP = `
-Kumo Svelte token migration helper
+const COLOR_PREFIXES = [
+  'bg',
+  'border',
+  'border-t',
+  'border-r',
+  'border-b',
+  'border-l',
+  'border-x',
+  'border-y',
+  'ring',
+  'ring-offset',
+  'outline',
+  'divide',
+  'shadow',
+  'accent',
+  'caret',
+  'fill',
+  'stroke',
+  'decoration',
+  'from',
+  'via',
+  'to'
+];
+const TEXT_PREFIXES = ['text'];
 
-Usage:
-  kumo-svelte migrate             Output token rename map as JSON
-  kumo-svelte migrate --classes   Output class-level mappings
-  kumo-svelte migrate --to-old    Reverse migration direction
-  kumo-svelte migrate --help      Show this help
-`;
+type Direction = 'to-new' | 'to-old';
 
-function generateClassMap(): Record<string, string> {
-  const classes: Record<string, string> = {};
-  for (const [oldToken, newToken] of Object.entries(PENDING_MIGRATIONS)) {
-    for (const prefix of ['bg', 'text', 'border', 'ring', 'from', 'via', 'to', 'fill', 'stroke']) {
-      classes[`${prefix}-${oldToken}`] = `${prefix}-${newToken}`;
-    }
-  }
-  return classes;
+function hasPendingMigrations(): boolean {
+  return (
+    Object.values(PENDING_MIGRATIONS.text).some((value) => value !== '') ||
+    Object.values(PENDING_MIGRATIONS.color).some((value) => value !== '')
+  );
 }
 
+function generateClassMap(direction: Direction): Record<string, string> {
+  const classMap: Record<string, string> = {};
+
+  for (const [oldName, newName] of Object.entries(PENDING_MIGRATIONS.text)) {
+    if (!newName) continue;
+    const [from, to] = direction === 'to-new' ? [oldName, newName] : [newName, oldName];
+    for (const prefix of TEXT_PREFIXES) {
+      classMap[`${prefix}-${from}`] = `${prefix}-${to}`;
+    }
+  }
+
+  for (const [oldName, newName] of Object.entries(PENDING_MIGRATIONS.color)) {
+    if (!newName) continue;
+    const [from, to] = direction === 'to-new' ? [oldName, newName] : [newName, oldName];
+    for (const prefix of COLOR_PREFIXES) {
+      classMap[`${prefix}-${from}`] = `${prefix}-${to}`;
+    }
+  }
+
+  return classMap;
+}
+
+const MIGRATE_HELP = `
+Kumo Svelte Token Migration Tool (for consumers)
+
+When Kumo Svelte releases breaking changes to token names, use this command
+to get the rename map for updating your codebase.
+
+USAGE:
+  npx kumo-svelte migrate [options]
+
+OPTIONS:
+  --json         Output machine-readable JSON (default)
+  --classes      Output as class-level mapping (bg-kumo-base -> bg-kumo-base)
+  --to-old       Reverse mapping (new names -> old names)
+  --help         Show this help message
+
+EXAMPLES:
+  # Check if there are pending migrations
+  npx kumo-svelte migrate
+
+  # Get class-level mapping for sed/find-replace
+  npx kumo-svelte migrate --classes
+
+  # Get JSON for custom codemod
+  npx kumo-svelte migrate --json > rename-map.json
+
+USING WITH sed:
+  npx kumo-svelte migrate --classes | grep "^bg-\\|^text-" | \\
+    while IFS= read -r line; do
+      old=$(echo "$line" | awk '{print $1}')
+      new=$(echo "$line" | awk '{print $3}')
+      find src -name '*.svelte' -exec sed -i '' "s/\\b$old\\b/$new/g" {} +
+    done
+
+NOTE:
+  If no migrations are pending, you're up to date with the current version.
+  Migrations are only needed when upgrading to a new major/minor version
+  that includes breaking token name changes.
+`;
+
 export function migrate(args: string[]): void {
-  if (args.includes('--help') || args.includes('-h')) {
+  const showHelp = args.includes('--help') || args.includes('-h');
+  const outputClasses = args.includes('--classes');
+  const toOld = args.includes('--to-old');
+
+  if (showHelp) {
     console.log(MIGRATE_HELP.trim());
     return;
   }
 
-  if (Object.keys(PENDING_MIGRATIONS).length === 0) {
+  if (!hasPendingMigrations()) {
     console.log('No pending token migrations.');
-    console.log('');
-    console.log('Your codebase is up to date with the current Kumo Svelte version.');
+    console.log('\nYour codebase is up to date with the current Kumo Svelte version.');
+    console.log('Token migrations are only needed when upgrading to versions');
+    console.log('that include breaking changes to token names.');
     return;
   }
 
-  const classes = generateClassMap();
-  if (args.includes('--classes')) {
-    for (const [from, to] of Object.entries(classes)) {
-      console.log(`${from} -> ${to}`);
+  const direction: Direction = toOld ? 'to-old' : 'to-new';
+  const classMap = generateClassMap(direction);
+
+  if (outputClasses) {
+    const maxKeyLen = Math.max(...Object.keys(classMap).map((key) => key.length));
+    console.log(`# Kumo Svelte Token Migration (${direction})`);
+    console.log(`# ${Object.keys(classMap).length} class mappings\n`);
+    for (const [from, to] of Object.entries(classMap)) {
+      console.log(`${from.padEnd(maxKeyLen)} -> ${to}`);
     }
     return;
   }
@@ -46,11 +134,11 @@ export function migrate(args: string[]): void {
       {
         meta: {
           description: 'Kumo Svelte token class name migration map',
-          direction: args.includes('--to-old') ? 'to-old' : 'to-new',
+          direction,
           generatedAt: new Date().toISOString()
         },
         tokens: PENDING_MIGRATIONS,
-        classes
+        classes: classMap
       },
       null,
       2

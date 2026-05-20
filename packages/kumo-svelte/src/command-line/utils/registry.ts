@@ -4,12 +4,17 @@ import { findPackageFile } from './paths.js';
 export type RegistryProp = {
   name: string;
   type: string;
+  optional?: boolean;
   required?: boolean;
+  values?: string[];
+  descriptions?: Record<string, string>;
+  default?: string;
   description?: string;
 };
 
 export type RegistryExample = {
   title: string;
+  code?: string;
 };
 
 export type RegistryComponent = {

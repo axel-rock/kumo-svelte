@@ -5,30 +5,34 @@ export function blocks(): void {
   const entries = Object.values(registry.blocks ?? {});
 
   if (entries.length === 0) {
-    console.log('No blocks available in this version.');
+    console.log('No blocks available.');
     return;
   }
 
-  console.log(`Kumo Svelte Blocks (${entries.length} total)`);
-  console.log('');
-
-  const categories = new Map();
+  const categories = new Map<string, typeof entries>();
   for (const block of entries) {
-    const list = categories.get(block.category) ?? [];
-    list.push(block);
-    categories.set(block.category, list);
+    const category = block.category || 'Other';
+    if (!categories.has(category)) {
+      categories.set(category, []);
+    }
+    categories.get(category)!.push(block);
   }
 
-  for (const [category, categoryBlocks] of categories) {
-    console.log(category);
-    for (const block of categoryBlocks) {
-      console.log(`  ${block.name.padEnd(18)} ${block.description}`);
-      if (block.dependencies?.length) {
-        console.log(`  ${''.padEnd(18)} depends on: ${block.dependencies.join(', ')}`);
-      }
+  const sortedCategories = [...categories.keys()].sort();
+
+  console.log(`Kumo Svelte Blocks (${entries.length} total)\n`);
+
+  for (const category of sortedCategories) {
+    const blocks = [...categories.get(category)!].sort((a, b) => a.name.localeCompare(b.name));
+    console.log(`${category}:`);
+    for (const block of blocks) {
+      console.log(`  ${block.name} - ${block.description}`);
     }
     console.log('');
   }
 
-  console.log('Install with: kumo-svelte add <BlockName>');
+  console.log('To install a block, run:');
+  console.log('  kumo-svelte add <block-name>\n');
+  console.log('Example:');
+  console.log('  kumo-svelte add PageHeader');
 }
