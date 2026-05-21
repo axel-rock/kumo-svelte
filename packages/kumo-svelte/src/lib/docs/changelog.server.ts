@@ -1,5 +1,4 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import rawChangelog from '../../../CHANGELOG.md?raw';
 import {
   CHANGELOG_PER_PAGE,
   type ChangelogBump,
@@ -9,11 +8,7 @@ import {
 
 const bumpPriority: ChangelogBump[] = ['major', 'minor', 'patch'];
 
-function changelogPath() {
-  return resolve(process.cwd(), 'CHANGELOG.md');
-}
-
-export function parseChangelog(raw = readFileSync(changelogPath(), 'utf-8')) {
+export function parseChangelog(raw = rawChangelog) {
   const versions: ChangelogVersion[] = [];
   let curVer: { version: string; sections: ChangelogSection[] } | null = null;
   let curSec: ChangelogSection | null = null;
