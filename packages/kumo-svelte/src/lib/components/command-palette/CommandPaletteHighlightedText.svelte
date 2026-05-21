@@ -22,7 +22,7 @@
     text,
     highlights = [],
     class: className,
-    markClass = 'rounded bg-kumo-tint text-kumo-default'
+    markClass = 'rounded-sm bg-kumo-warning/50 text-kumo-default'
   }: Props = $props();
 
   const segments = $derived.by<Segment[]>(() => {

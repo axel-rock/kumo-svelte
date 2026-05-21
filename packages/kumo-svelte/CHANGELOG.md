@@ -1,5 +1,11 @@
 # kumo-svelte
 
+## 0.1.6
+
+### Patch Changes
+
+- Expand generated component registry coverage, changelog pagination, and Svelte docs demos for command palette, popover, sidebar, and table surfaces.
+
 ## 0.1.5
 
 ### Patch Changes

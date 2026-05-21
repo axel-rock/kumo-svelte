@@ -29,8 +29,59 @@ baseUIComponent: "command"
 <script lang="ts">
   import { CommandPalette } from 'kumo-svelte';
 </script>
+```
 
-<CommandPalette />
+### Granular
+
+```svelte
+<script lang="ts">
+  import { CommandPalette } from 'kumo-svelte/components/command-palette';
+</script>
+```
+
+</ComponentSection>
+
+<!-- Usage -->
+
+<ComponentSection>
+
+## Usage
+
+CommandPalette is a compound component built on Bits UI's Command primitive. It provides accessible keyboard navigation and customizable styling for command palette interfaces.
+
+```svelte
+<script lang="ts">
+  import { CommandPalette } from 'kumo-svelte';
+
+  interface Item {
+    id: string;
+    title: string;
+  }
+
+  const items: Item[] = [
+    { id: '1', title: 'Create Project' },
+    { id: '2', title: 'Open Settings' }
+  ];
+
+  let open = $state(false);
+  let search = $state('');
+  const filteredItems = $derived(
+    items.filter((item) => item.title.toLowerCase().includes(search.toLowerCase()))
+  );
+</script>
+
+<button onclick={() => (open = true)}>Open</button>
+<CommandPalette.Root bind:open shouldFilter={false}>
+  <CommandPalette.Input bind:value={search} placeholder="Search..." />
+  <CommandPalette.List>
+    {#each filteredItems as item (item.id)}
+      <CommandPalette.Item value={item.title} onSelect={() => (open = false)}>
+        {item.title}
+      </CommandPalette.Item>
+    {/each}
+    <CommandPalette.Empty>No results</CommandPalette.Empty>
+  </CommandPalette.List>
+</CommandPalette.Root>
 ```
 
 </ComponentSection>
@@ -205,7 +256,13 @@ Footer for keyboard hints or other content.
 
 ```svelte
 interface CommandPaletteRootProps<TGroup, TItem> {
-  // Simple list API
+  // Dialog state
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  onBackdropClick?: (event: MouseEvent) => void;
+  container?: HTMLElement | string;
+
+  // Simple shortcut API
   commands?: CommandPaletteCommand[];
   placeholder?: string;
   value?: string;
@@ -218,7 +275,7 @@ interface CommandPaletteRootProps<TGroup, TItem> {
   loop?: boolean;
   shouldFilter?: boolean;
 
-  // Composable API
+  // Compound API
   children?: Snippet;
 }
 ```
@@ -234,7 +291,8 @@ interface CommandPaletteResultItemProps<T> {
   breadcrumbHighlights?: [number, number][][];
   description?: string;
   icon?: Snippet;
-  onclick: (e: MouseEvent) => void;
+  onclick?: (event?: MouseEvent) => void;
+  onSelect?: (value: T) => void;
   showArrow?: boolean; // default: true
   external?: boolean; // shows external link icon
   nonInteractive?: boolean;

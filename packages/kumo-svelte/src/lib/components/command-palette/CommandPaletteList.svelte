@@ -12,6 +12,9 @@
   let { children, class: className, ...rest }: Props = $props();
 </script>
 
-<CommandPrimitive.List class={cn('max-h-72 overflow-auto p-1', className)} {...rest}>
+<CommandPrimitive.List
+  class={cn('relative min-h-0 flex-1 overflow-y-auto rounded-b-lg bg-kumo-base px-2 py-2 scroll-py-2 ring-1 ring-kumo-hairline', className)}
+  {...rest}
+>
   {@render children?.()}
 </CommandPrimitive.List>

@@ -4,7 +4,6 @@ description: "Understanding how Kumo delivers different types of building blocks
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
   import CodeBlock from '$lib/docs/CodeBlock.svelte';
@@ -126,13 +125,10 @@ Asking "is this a component or a block?" really means asking about ownership and
 - You want full control over implementation
 - You prefer copy-paste over package dependency
 
-<Callout type="info">
-  **Default to thinking "component first."** Even when building something
-  specific, ask yourself: "Can I build this from existing components?" The
-  answer is usually yes. Components compose into blocks, and blocks can always
-  be broken apart again.
-
-</Callout>
+> **Default to thinking "component first."** Even when building something
+> specific, ask yourself: "Can I build this from existing components?" The
+> answer is usually yes. Components compose into blocks, and blocks can always
+> be broken apart again.
 
 ## Movement Between Levels
 

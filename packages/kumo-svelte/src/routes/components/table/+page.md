@@ -34,7 +34,7 @@ sourceFile: "components/table"
 
 ```svelte
 <script lang="ts">
-  import { Table } from 'kumo-svelte';
+  import { Table } from 'kumo-svelte/components/table';
 </script>
 ```
 
@@ -82,7 +82,8 @@ sourceFile: "components/table"
 ### With Checkboxes
 
 Add row selection with `Table.CheckHead` and `Table.CheckCell`. Both accept
-`onCheckedChange`, which matches the underlying Svelte `Checkbox` callback.
+`onCheckedChange`, which matches the underlying `Checkbox` component's
+signature.
 
 The older `onValueChange` prop still works but is deprecated and will be
 removed in a future major version. Migrate by renaming the prop:

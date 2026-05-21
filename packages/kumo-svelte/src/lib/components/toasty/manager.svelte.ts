@@ -164,20 +164,20 @@ export class KumoToastManager {
 }
 
 const TOAST_VARIANT_CLASSES: Record<KumoToastVariant, string> = {
-  default: 'border-kumo-hairline bg-kumo-base',
+  default: 'border-kumo-fill bg-kumo-base',
   success:
-    'border-kumo-success bg-kumo-base [&_[data-toast-icon]]:text-kumo-success [&_[data-toast-title]]:text-kumo-success',
+    'ring-[0.3px] ring-kumo-success bg-kumo-base [&_[data-toast-icon]]:text-kumo-success [&_[data-toast-title]]:text-kumo-success',
   error:
-    'border-kumo-danger bg-kumo-base [&_[data-toast-icon]]:text-kumo-danger [&_[data-toast-title]]:text-kumo-danger',
+    'ring-[0.3px] ring-kumo-danger bg-kumo-base [&_[data-toast-icon]]:text-kumo-danger [&_[data-toast-title]]:text-kumo-danger',
   warning:
-    'border-kumo-warning bg-kumo-base [&_[data-toast-icon]]:text-kumo-warning [&_[data-toast-title]]:text-kumo-warning',
+    'ring-[0.3px] ring-kumo-warning bg-kumo-base [&_[data-toast-icon]]:text-kumo-warning [&_[data-toast-title]]:text-kumo-warning',
   info:
-    'border-kumo-info bg-kumo-control [&_[data-toast-icon]]:text-kumo-info [&_[data-toast-title]]:text-kumo-info'
+    'ring-[0.3px] ring-kumo-info bg-kumo-control [&_[data-toast-icon]]:text-kumo-info [&_[data-toast-title]]:text-kumo-info'
 };
 
 export function toastRootClass(variant: KumoToastVariant = 'default') {
   return cn(
-    'overflow-hidden rounded-xl border bg-clip-padding p-4 text-kumo-default shadow-[0_2px_8px_rgb(0_0_0_/_0.12)]',
+    'overflow-hidden rounded-xl ring ring-kumo-line bg-clip-padding p-4 text-kumo-default shadow-lg',
     TOAST_VARIANT_CLASSES[variant]
   );
 }

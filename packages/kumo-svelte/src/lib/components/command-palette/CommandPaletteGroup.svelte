@@ -14,6 +14,6 @@
   let { children, class: className, value, forceMount, ...rest }: Props = $props();
 </script>
 
-<CommandPrimitive.Group {value} {forceMount} class={cn('py-1', className)} {...rest}>
+<CommandPrimitive.Group {value} {forceMount} class={cn('space-y-0.5', className)} {...rest}>
   {@render children?.()}
 </CommandPrimitive.Group>

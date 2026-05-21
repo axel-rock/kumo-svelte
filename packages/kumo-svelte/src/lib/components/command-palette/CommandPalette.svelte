@@ -2,6 +2,7 @@
   import { Command as CommandPrimitive } from 'bits-ui';
   import type { Snippet } from 'svelte';
   import { cn } from '$lib/utils/cn';
+  import CommandPaletteDialog from './CommandPaletteDialog.svelte';
 
   export interface CommandPaletteCommand {
     label: string;
@@ -21,6 +22,10 @@
   interface Props {
     children?: Snippet;
     class?: string;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    onBackdropClick?: (event: MouseEvent) => void;
+    container?: HTMLElement | string;
     commands?: CommandPaletteCommand[];
     placeholder?: string;
     value?: string;
@@ -42,6 +47,10 @@
   let {
     children,
     class: className,
+    open = $bindable(undefined),
+    onOpenChange,
+    onBackdropClick,
+    container,
     commands = [],
     placeholder = 'Type a command...',
     value = $bindable(''),
@@ -106,66 +115,76 @@
   }
 </script>
 
-<CommandPrimitive.Root
-  class={cn('overflow-hidden rounded-xl bg-kumo-base shadow-lg ring ring-kumo-hairline', className)}
-  {label}
-  {loop}
-  {shouldFilter}
-  {value}
-  onValueChange={handleValueChange}
-  onkeydown={handleKeydown}
-  {...rest}
->
-  {#if children}
-    {@render children()}
-  {:else}
-    <CommandPrimitive.Input
-      bind:value={search}
-      {placeholder}
-      {...inputProps}
-      class={cn(
-        'h-11 w-full border-b border-kumo-line bg-transparent px-3 text-base text-kumo-default outline-none placeholder:text-kumo-muted',
-        inputClass
-      )}
-    />
-    <CommandPrimitive.List class={cn('max-h-72 overflow-auto p-1', listClass)}>
-      {#if loading}
-        <CommandPrimitive.Loading class="px-2 py-6 text-center text-sm text-kumo-subtle">
-          {loadingText}
-        </CommandPrimitive.Loading>
-      {:else}
-        {#each groupedCommands as group (group.label ?? '__ungrouped')}
-          <CommandPrimitive.Group value={group.label} class="py-1">
-            {#if group.label}
-              <CommandPrimitive.GroupHeading class="px-2 py-1.5 text-xs font-medium text-kumo-subtle">
-                {group.label}
-              </CommandPrimitive.GroupHeading>
-            {/if}
-            <CommandPrimitive.GroupItems>
-              {#each group.items as command (commandValue(command))}
-                <CommandPrimitive.Item
-                  value={commandValue(command)}
-                  keywords={command.keywords}
-                  disabled={command.disabled}
-                  onSelect={() => handleSelect(command)}
-                  class={cn(
-                    'flex min-h-8 cursor-default select-none flex-col rounded-md px-2 py-1.5 text-left text-sm text-kumo-default outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[selected]:bg-kumo-tint',
-                    itemClass
-                  )}
-                >
-                  <span>{command.label}</span>
-                  {#if command.description}
-                    <span class="text-xs text-kumo-subtle">{command.description}</span>
-                  {/if}
-                </CommandPrimitive.Item>
-              {/each}
-            </CommandPrimitive.GroupItems>
-          </CommandPrimitive.Group>
-        {/each}
-        <CommandPrimitive.Empty class="px-2 py-6 text-center text-sm text-kumo-subtle">
-          {emptyText}
-        </CommandPrimitive.Empty>
-      {/if}
-    </CommandPrimitive.List>
-  {/if}
-</CommandPrimitive.Root>
+{#snippet commandRoot()}
+  <CommandPrimitive.Root
+    class={cn('flex max-h-[60vh] flex-col overflow-hidden rounded-lg bg-kumo-elevated', className)}
+    {label}
+    {loop}
+    {shouldFilter}
+    {value}
+    onValueChange={handleValueChange}
+    onkeydown={handleKeydown}
+    {...rest}
+  >
+    {#if children}
+      {@render children()}
+    {:else}
+      <CommandPrimitive.Input
+        bind:value={search}
+        {placeholder}
+        {...inputProps}
+        class={cn(
+          'h-11 w-full border-b border-kumo-line bg-transparent px-3 text-base text-kumo-default outline-none placeholder:text-kumo-placeholder',
+          inputClass
+        )}
+      />
+      <CommandPrimitive.List class={cn('relative min-h-0 flex-1 overflow-y-auto rounded-b-lg bg-kumo-base px-2 py-2 scroll-py-2 ring-1 ring-kumo-hairline', listClass)}>
+        {#if loading}
+          <CommandPrimitive.Loading class="flex items-center justify-center p-8 text-kumo-subtle">
+            {loadingText}
+          </CommandPrimitive.Loading>
+        {:else}
+          {#each groupedCommands as group (group.label ?? '__ungrouped')}
+            <CommandPrimitive.Group value={group.label} class="space-y-0.5">
+              {#if group.label}
+                <CommandPrimitive.GroupHeading class="mb-2 px-2 pt-1 text-xs font-semibold text-kumo-subtle">
+                  {group.label}
+                </CommandPrimitive.GroupHeading>
+              {/if}
+              <CommandPrimitive.GroupItems>
+                {#each group.items as command (commandValue(command))}
+                  <CommandPrimitive.Item
+                    value={commandValue(command)}
+                    keywords={command.keywords}
+                    disabled={command.disabled}
+                    onSelect={() => handleSelect(command)}
+                    class={cn(
+                      'group flex w-full cursor-pointer items-center gap-3 rounded-lg px-2 py-1.5 text-left text-base text-kumo-default transition-colors data-[disabled]:cursor-default data-[disabled]:opacity-50 data-[selected]:bg-kumo-overlay',
+                      itemClass
+                    )}
+                  >
+                    <span>{command.label}</span>
+                    {#if command.description}
+                      <span class="truncate text-sm text-kumo-subtle">{command.description}</span>
+                    {/if}
+                  </CommandPrimitive.Item>
+                {/each}
+              </CommandPrimitive.GroupItems>
+            </CommandPrimitive.Group>
+          {/each}
+          <CommandPrimitive.Empty class="p-8 text-center text-kumo-subtle">
+            {emptyText}
+          </CommandPrimitive.Empty>
+        {/if}
+      </CommandPrimitive.List>
+    {/if}
+  </CommandPrimitive.Root>
+{/snippet}
+
+{#if typeof open === 'boolean'}
+  <CommandPaletteDialog bind:open {onOpenChange} {onBackdropClick} {container}>
+    {@render commandRoot()}
+  </CommandPaletteDialog>
+{:else}
+  {@render commandRoot()}
+{/if}

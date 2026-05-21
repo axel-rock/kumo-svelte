@@ -12,6 +12,6 @@
   let { children, class: className, ...rest }: Props = $props();
 </script>
 
-<CommandPrimitive.GroupHeading class={cn('px-2 py-1.5 text-xs font-medium text-kumo-subtle', className)} {...rest}>
+<CommandPrimitive.GroupHeading class={cn('mb-2 px-2 pt-1 text-xs font-semibold text-kumo-subtle', className)} {...rest}>
   {@render children?.()}
 </CommandPrimitive.GroupHeading>

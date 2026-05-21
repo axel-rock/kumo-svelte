@@ -7,6 +7,7 @@ description: "AI-readable component metadata for LLMs and code generation tools.
   import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
+  import ComponentRegistryView from '$lib/docs/ComponentRegistryView.svelte';
   import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
@@ -56,4 +57,4 @@ jq '.search.byCategory' packages/kumo/ai/component-registry.json
 
 </Callout>
 
-<p class="not-prose my-4 rounded-lg border border-kumo-hairline bg-kumo-canvas p-4 text-sm text-kumo-subtle">ComponentRegistryView</p>
+<ComponentRegistryView />

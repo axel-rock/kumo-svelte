@@ -79,7 +79,6 @@
  * Then run: pnpm codegen:themes
  */
 
-
 @theme {
   --text-color-kumo-default: light-dark(
     var(--color-neutral-900, oklch(21% 0.006 285.885)),
@@ -111,10 +110,7 @@
     var(--color-neutral-500, oklch(55.6% 0 0))
   );
 
-  --text-color-kumo-brand: light-dark(
-    #f6821f,
-    #f6821f
-  );
+  --text-color-kumo-brand: light-dark(#f6821f, #f6821f);
 
   --text-color-kumo-link: light-dark(
     var(--color-blue-800, oklch(42.4% 0.199 265.638)),
@@ -160,7 +156,6 @@
     var(--color-white, #fff),
     var(--color-black, #000)
   );
-
 }
 
 @theme {
@@ -353,7 +348,6 @@
     var(--color-neutral-950, oklch(14.5% 0 0)),
     var(--color-white, #fff)
   );
-
 }
 
 @theme {
@@ -369,8 +363,12 @@
 }
 
 @layer base {
-  :root, [data-theme="kumo"] {
-    --text-color-kumo-default: var(--color-neutral-900, oklch(21% 0.006 285.885));
+  :root,
+  [data-theme="kumo"] {
+    --text-color-kumo-default: var(
+      --color-neutral-900,
+      oklch(21% 0.006 285.885)
+    );
     --text-color-kumo-inverse: var(--color-neutral-100, oklch(97% 0 0));
     --text-color-kumo-strong: var(--color-neutral-950, oklch(14.5% 0 0));
     --text-color-kumo-subtle: var(--color-neutral-500, oklch(55.6% 0 0));
@@ -379,12 +377,27 @@
     --text-color-kumo-brand: #f6821f;
     --text-color-kumo-link: var(--color-blue-800, oklch(42.4% 0.199 265.638));
     --text-color-kumo-info: var(--color-blue-800, oklch(42.4% 0.199 265.638));
-    --text-color-kumo-success: var(--color-emerald-800, oklch(43.2% 0.095 166.913));
+    --text-color-kumo-success: var(
+      --color-emerald-800,
+      oklch(43.2% 0.095 166.913)
+    );
     --text-color-kumo-danger: var(--color-red-700, oklch(50.5% 0.213 27.518));
-    --text-color-kumo-warning: var(--color-yellow-800, oklch(47.6% 0.114 61.907));
-    --text-color-kumo-badge-orange-subtle: var(--color-orange-800, oklch(47% 0.157 37.304));
-    --text-color-kumo-badge-teal-subtle: var(--color-teal-800, oklch(43.7% 0.078 188.216));
-    --text-color-kumo-badge-neutral-subtle: var(--color-neutral-800, oklch(26.9% 0 0));
+    --text-color-kumo-warning: var(
+      --color-yellow-800,
+      oklch(47.6% 0.114 61.907)
+    );
+    --text-color-kumo-badge-orange-subtle: var(
+      --color-orange-800,
+      oklch(47% 0.157 37.304)
+    );
+    --text-color-kumo-badge-teal-subtle: var(
+      --color-teal-800,
+      oklch(43.7% 0.078 188.216)
+    );
+    --text-color-kumo-badge-neutral-subtle: var(
+      --color-neutral-800,
+      oklch(26.9% 0 0)
+    );
     --text-color-kumo-badge-inverted: var(--color-white, #fff);
     --color-kumo-canvas: var(--color-kumo-neutral-25, oklch(98.75% 0 0));
     --color-kumo-elevated: var(--color-kumo-neutral-75, oklch(98% 0 0));
@@ -408,25 +421,47 @@
     --color-kumo-tip-stroke: transparent;
     --color-kumo-info-tint: var(--color-blue-100, oklch(93.2% 0.032 255.585));
     --color-kumo-info: var(--color-blue-300, oklch(80.9% 0.105 251.813));
-    --color-kumo-warning-tint: var(--color-yellow-100, oklch(97.3% 0.071 103.193));
+    --color-kumo-warning-tint: var(
+      --color-yellow-100,
+      oklch(97.3% 0.071 103.193)
+    );
     --color-kumo-warning: var(--color-yellow-300, oklch(90.5% 0.182 98.111));
     --color-kumo-danger-tint: var(--color-red-100, oklch(93.6% 0.032 17.717));
     --color-kumo-danger: var(--color-red-500, oklch(63.7% 0.237 25.331));
-    --color-kumo-success-tint: var(--color-emerald-100, oklch(95% 0.052 163.051));
+    --color-kumo-success-tint: var(
+      --color-emerald-100,
+      oklch(95% 0.052 163.051)
+    );
     --color-kumo-success: var(--color-green-300, oklch(87.1% 0.15 154.449));
     --color-kumo-badge-red: var(--color-red-600, oklch(57.7% 0.245 27.325));
     --color-kumo-badge-orange: var(--color-orange-650, oklch(81.5% 0.197 76));
-    --color-kumo-badge-orange-subtle: var(--color-orange-100, oklch(95.4% 0.038 75.164));
-    --color-kumo-badge-purple: var(--color-purple-600, oklch(60% 0.118 184.704));
-    --color-kumo-badge-green: var(--color-emerald-700, oklch(50.8% 0.118 165.612));
+    --color-kumo-badge-orange-subtle: var(
+      --color-orange-100,
+      oklch(95.4% 0.038 75.164)
+    );
+    --color-kumo-badge-purple: var(
+      --color-purple-600,
+      oklch(60% 0.118 184.704)
+    );
+    --color-kumo-badge-green: var(
+      --color-emerald-700,
+      oklch(50.8% 0.118 165.612)
+    );
     --color-kumo-badge-teal: var(--color-teal-650, oklch(54.9% 0.096 184.565));
-    --color-kumo-badge-teal-subtle: var(--color-teal-100, oklch(95.3% 0.051 180.801));
+    --color-kumo-badge-teal-subtle: var(
+      --color-teal-100,
+      oklch(95.3% 0.051 180.801)
+    );
     --color-kumo-badge-blue: var(--color-blue-600, oklch(54.6% 0.245 262.881));
     --color-kumo-badge-neutral: var(--color-neutral-600, oklch(43.9% 0 0));
     --color-kumo-badge-inverted: var(--color-neutral-950, oklch(14.5% 0 0));
   }
-  
-  :root[data-mode="dark"], [data-mode="dark"]:not([data-theme]), [data-mode="dark"] [data-theme="kumo"], [data-theme="kumo"][data-mode="dark"], [data-theme="kumo"] [data-mode="dark"] {
+
+  :root[data-mode="dark"],
+  [data-mode="dark"]:not([data-theme]),
+  [data-mode="dark"] [data-theme="kumo"],
+  [data-theme="kumo"][data-mode="dark"],
+  [data-theme="kumo"] [data-mode="dark"] {
     --text-color-kumo-default: var(--color-neutral-100, oklch(97% 0 0));
     --text-color-kumo-inverse: var(--color-neutral-900, oklch(20.5% 0 0));
     --text-color-kumo-strong: var(--color-neutral-50, oklch(98.5% 0 0));
@@ -436,12 +471,27 @@
     --text-color-kumo-brand: #f6821f;
     --text-color-kumo-link: var(--color-blue-400, oklch(70.7% 0.165 254.624));
     --text-color-kumo-info: var(--color-blue-400, oklch(70.7% 0.165 254.624));
-    --text-color-kumo-success: var(--color-emerald-200, oklch(90.5% 0.093 164.15));
+    --text-color-kumo-success: var(
+      --color-emerald-200,
+      oklch(90.5% 0.093 164.15)
+    );
     --text-color-kumo-danger: var(--color-red-400, oklch(70.4% 0.191 22.216));
-    --text-color-kumo-warning: var(--color-yellow-400, oklch(85.2% 0.199 91.936));
-    --text-color-kumo-badge-orange-subtle: var(--color-orange-200, oklch(90.1% 0.076 70.697));
-    --text-color-kumo-badge-teal-subtle: var(--color-teal-200, oklch(91% 0.096 180.426));
-    --text-color-kumo-badge-neutral-subtle: var(--color-neutral-200, oklch(92.2% 0 0));
+    --text-color-kumo-warning: var(
+      --color-yellow-400,
+      oklch(85.2% 0.199 91.936)
+    );
+    --text-color-kumo-badge-orange-subtle: var(
+      --color-orange-200,
+      oklch(90.1% 0.076 70.697)
+    );
+    --text-color-kumo-badge-teal-subtle: var(
+      --color-teal-200,
+      oklch(91% 0.096 180.426)
+    );
+    --text-color-kumo-badge-neutral-subtle: var(
+      --color-neutral-200,
+      oklch(92.2% 0 0)
+    );
     --text-color-kumo-badge-inverted: var(--color-black, #000);
     --color-kumo-canvas: var(--color-kumo-neutral-1000, oklch(10% 0 0));
     --color-kumo-elevated: var(--color-kumo-neutral-975, oklch(12% 0 0));
@@ -465,19 +515,37 @@
     --color-kumo-tip-stroke: var(--color-neutral-800, oklch(26.9% 0 0));
     --color-kumo-info-tint: var(--color-blue-900, oklch(37.9% 0.146 265.522));
     --color-kumo-info: var(--color-blue-900, oklch(37.9% 0.146 265.522));
-    --color-kumo-warning-tint: var(--color-yellow-700, oklch(55.4% 0.135 66.442));
+    --color-kumo-warning-tint: var(
+      --color-yellow-700,
+      oklch(55.4% 0.135 66.442)
+    );
     --color-kumo-warning: var(--color-yellow-900, oklch(42.1% 0.095 57.708));
     --color-kumo-danger-tint: var(--color-red-900, oklch(39.6% 0.141 25.723));
     --color-kumo-danger: var(--color-red-900, oklch(39.6% 0.141 25.723));
-    --color-kumo-success-tint: var(--color-emerald-900, oklch(37.8% 0.077 168.94));
+    --color-kumo-success-tint: var(
+      --color-emerald-900,
+      oklch(37.8% 0.077 168.94)
+    );
     --color-kumo-success: var(--color-green-900, oklch(39.3% 0.095 152.535));
     --color-kumo-badge-red: var(--color-red-700, oklch(50.5% 0.213 27.518));
     --color-kumo-badge-orange: var(--color-orange-650, oklch(81.5% 0.197 76));
-    --color-kumo-badge-orange-subtle: var(--color-orange-900, oklch(40.8% 0.123 38.172));
-    --color-kumo-badge-purple: var(--color-purple-700, oklch(50.8% 0.118 165.612));
-    --color-kumo-badge-green: var(--color-emerald-700, oklch(50.8% 0.118 165.612));
+    --color-kumo-badge-orange-subtle: var(
+      --color-orange-900,
+      oklch(40.8% 0.123 38.172)
+    );
+    --color-kumo-badge-purple: var(
+      --color-purple-700,
+      oklch(50.8% 0.118 165.612)
+    );
+    --color-kumo-badge-green: var(
+      --color-emerald-700,
+      oklch(50.8% 0.118 165.612)
+    );
     --color-kumo-badge-teal: var(--color-teal-700, oklch(51.1% 0.096 186.391));
-    --color-kumo-badge-teal-subtle: var(--color-teal-900, oklch(38.6% 0.063 188.416));
+    --color-kumo-badge-teal-subtle: var(
+      --color-teal-900,
+      oklch(38.6% 0.063 188.416)
+    );
     --color-kumo-badge-blue: var(--color-blue-700, oklch(48.8% 0.243 264.376));
     --color-kumo-badge-neutral: var(--color-neutral-600, oklch(43.9% 0 0));
     --color-kumo-badge-inverted: var(--color-white, #fff);
@@ -587,7 +655,7 @@ kbd,
 }
 
 /* Inline code styling — match existing site style */
-.kumo-prose :where(code):not(:where(pre code)) {
+.kumo-prose :where(code, .kumo-inline-code):not(:where(pre code)) {
   font-weight: 500;
   font-size: 0.875em;
   background-color: var(--color-kumo-base);
@@ -601,13 +669,15 @@ kbd,
 }
 
 /* Remove backtick decoration from inline code */
-.kumo-prose :where(code):not(:where(pre code))::before,
-.kumo-prose :where(code):not(:where(pre code))::after {
+.kumo-prose :where(code, .kumo-inline-code):not(:where(pre code))::before,
+.kumo-prose :where(code, .kumo-inline-code):not(:where(pre code))::after {
   content: none;
 }
 
 /* Links — underline on hover only (skip .not-prose where components control their own styles) */
 .kumo-prose :where(a):not(:where(.not-prose, .not-prose *)) {
+  color: var(--tw-prose-links);
+  font-weight: 500;
   text-decoration: none;
 }
 
@@ -647,7 +717,8 @@ kbd,
   margin-bottom: 0.75rem;
 }
 
-.kumo-prose :where(h2, h3, h4):first-child:not(:where(.not-prose, .not-prose *)) {
+.kumo-prose
+  :where(h2, h3, h4):first-child:not(:where(.not-prose, .not-prose *)) {
   margin-top: 0;
 }
 
@@ -660,6 +731,10 @@ kbd,
 .kumo-prose :where(p):not(:where(.not-prose, .not-prose *)) {
   @apply text-base leading-normal;
   margin-bottom: 1rem;
+}
+
+.kumo-prose :where(p):not(:where(.not-prose, .not-prose *)):last-child {
+  margin-bottom: 0;
 }
 
 /* Adjacent sibling spacing between paragraphs */
@@ -722,13 +797,44 @@ kbd,
 }
 
 /* Blockquote */
-.kumo-prose :where(blockquote) {
-  border-left-color: var(--color-kumo-brand);
-  color: var(--text-color-kumo-default);
+.kumo-prose :where(blockquote):not(:where(.not-prose, .not-prose *)) {
+  border-left-color: var(--color-kumo-hairline);
+  border-left-width: 1px;
+  color: var(--text-color-kumo-subtle);
   font-style: normal;
+  font-weight: 400;
+  margin: 2rem 0;
+  padding-left: 1.5rem;
+  quotes: none;
 }
 
-/* Non-prose sections inside prose (ComponentExample, Callout, etc.)
+.kumo-prose :where(blockquote p):not(:where(.not-prose, .not-prose *)) {
+  color: inherit;
+  font-weight: inherit;
+}
+
+.kumo-prose :where(blockquote p:first-of-type)::before,
+.kumo-prose :where(blockquote p:last-of-type)::after {
+  content: none;
+}
+
+.kumo-prose .kumo-callout[data-type="info"] {
+  border-left-width: 0;
+  color: var(--text-color-kumo-info);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  margin-top: 0;
+}
+
+.kumo-callout[data-type="info"] :where(p) {
+  margin: 0;
+}
+
+.kumo-prose :where(.kumo-callout + h2) {
+  margin-top: 0;
+}
+
+/* Non-prose sections inside prose (ComponentExample, demos, etc.)
    These opt out of prose styling via not-prose */
 .kumo-prose :where(.not-prose) {
   /* Reset any inherited typography transforms */
@@ -1280,7 +1386,8 @@ pre.shiki {
 
 .rdp-day.rdp-range_start:not(.rdp-range_end) {
   background-color: var(--rdp-range_start-date-background-color);
-  border-radius: var(--rdp-day_button-border-radius) 0 0 var(--rdp-day_button-border-radius);
+  border-radius: var(--rdp-day_button-border-radius) 0 0
+    var(--rdp-day_button-border-radius);
 }
 
 .rdp-day.rdp-range_start .rdp-day_button {
@@ -1308,7 +1415,8 @@ pre.shiki {
 
 .rdp-day.rdp-range_end:not(.rdp-range_start) {
   background-color: var(--rdp-range_end-date-background-color);
-  border-radius: 0 var(--rdp-day_button-border-radius) var(--rdp-day_button-border-radius) 0;
+  border-radius: 0 var(--rdp-day_button-border-radius)
+    var(--rdp-day_button-border-radius) 0;
 }
 
 .rdp-day.rdp-range_end .rdp-day_button {

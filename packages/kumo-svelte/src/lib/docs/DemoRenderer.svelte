@@ -7,7 +7,7 @@
 
   let { demo }: Props = $props();
 
-  const demoModules = import.meta.glob('./demo-snippets/*.svelte', {
+  const demoModules = import.meta.glob('./demo-snippets/**/*.svelte', {
     eager: true,
     import: 'default'
   }) as Record<string, Component>;

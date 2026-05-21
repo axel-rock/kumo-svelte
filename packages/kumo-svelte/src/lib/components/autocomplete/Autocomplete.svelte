@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import { onMount } from 'svelte';
   import Field from '$lib/components/field/Field.svelte';
   import { cn } from '$lib/utils/cn';
   import {
@@ -52,6 +53,8 @@
   }: Props = $props();
 
   let query = $state(Array.isArray(value) ? value.join(', ') : String(value ?? ''));
+  let hasTypedSinceFocus = $state(false);
+  let rootElement: HTMLDivElement;
 
   const normalizedItems = $derived(items.map(normalizeAutocompleteItem));
   const errorMessage = $derived(
@@ -86,6 +89,19 @@
     onOpenChange?.(false);
   }
 
+  onMount(() => {
+    function handlePointerDown(event: PointerEvent) {
+      if (!rootElement?.contains(event.target as Node)) {
+        hasTypedSinceFocus = false;
+        open = false;
+        onOpenChange?.(false);
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  });
+
   setAutocompleteContext({
     get items() {
       return normalizedItems;
@@ -115,11 +131,22 @@
       open = nextOpen;
       onOpenChange?.(nextOpen);
     },
+    get hasTypedSinceFocus() {
+      return hasTypedSinceFocus;
+    },
     get size() {
       return size;
     },
     get invalid() {
       return Boolean(errorMessage);
+    },
+    markInputTyped() {
+      hasTypedSinceFocus = true;
+    },
+    resetInputInteraction() {
+      hasTypedSinceFocus = false;
+      open = false;
+      onOpenChange?.(false);
     },
     isSelected,
     select
@@ -127,7 +154,7 @@
 </script>
 
 {#snippet control()}
-  <div class={cn('relative w-full', className)} {...rest}>
+  <div bind:this={rootElement} class={cn('relative w-full', className)} {...rest}>
     {@render children?.()}
   </div>
 {/snippet}

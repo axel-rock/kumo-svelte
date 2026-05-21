@@ -6,7 +6,7 @@
 <Empty
   title="No packages found"
   description="Get started by installing your first package."
-  commandLine="npm install @cloudflare/kumo"
+  commandLine="npm install kumo-svelte"
 >
   {#snippet icon()}<Package class="size-12" />{/snippet}
   <div class="flex items-center gap-2">

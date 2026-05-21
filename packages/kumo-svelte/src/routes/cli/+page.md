@@ -7,6 +7,7 @@ description: "Access component documentation and install blocks from your termin
   import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
+  import CLITerminal from '$lib/docs/CLITerminal.svelte';
   import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
@@ -71,4 +72,4 @@ npx kumo-svelte ai
 
 Type commands in the interactive terminal below to explore the CLI.
 
-<p class="not-prose my-4 rounded-lg border border-kumo-hairline bg-kumo-canvas p-4 text-sm text-kumo-subtle">CLITerminal</p>
+<CLITerminal />

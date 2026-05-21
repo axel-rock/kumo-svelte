@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte';
   import type { Snippet } from 'svelte';
   import { Portal } from 'bits-ui';
   import { cn } from '$lib/utils/cn';
@@ -75,6 +76,7 @@
 
   let expanded = $state(false);
   let toastHeights = $state<Record<string, number>>({});
+  let viewportNode = $state<HTMLDivElement>();
 
   const toastItems = $derived(toastManager.toasts);
 
@@ -104,7 +106,7 @@
 
   function toastOffset(index: number) {
     return toastItems.slice(0, index).reduce((offset, toast) => {
-      return offset + (toastHeights[toast.id] ?? toastHeights[toastItems[0]?.id] ?? 80) + 12;
+      return offset + (toastHeights[toast.id] ?? toastHeights[toastItems[0]?.id] ?? 80);
     }, 0);
   }
 
@@ -139,6 +141,47 @@
     ].join(';');
   }
 
+  function isInsideExpandedStack(event: Pick<PointerEvent, 'clientX' | 'clientY'>) {
+    if (!viewportNode) return false;
+
+    const rect = viewportNode.getBoundingClientRect();
+    const top = rect.bottom - stackHeight;
+
+    return (
+      event.clientX >= rect.left &&
+      event.clientX <= rect.right &&
+      event.clientY >= top &&
+      event.clientY <= rect.bottom
+    );
+  }
+
+  function stopTrackingPointer() {
+    if (typeof window === 'undefined') return;
+    window.removeEventListener('pointermove', trackPointer);
+  }
+
+  function trackPointer(event: PointerEvent) {
+    if (isInsideExpandedStack(event)) return;
+    expanded = false;
+    stopTrackingPointer();
+  }
+
+  function expandStack() {
+    expanded = true;
+
+    if (typeof window === 'undefined') return;
+    window.removeEventListener('pointermove', trackPointer);
+    window.addEventListener('pointermove', trackPointer);
+  }
+
+  function collapseStack(event: MouseEvent) {
+    if (isInsideExpandedStack(event)) return;
+    expanded = false;
+    stopTrackingPointer();
+  }
+
+  onDestroy(stopTrackingPointer);
+
   setKumoToastManager(() => toastManager);
 </script>
 
@@ -147,6 +190,7 @@
 {#if toastItems.length}
   <Portal to={container}>
     <div
+      bind:this={viewportNode}
       class={cn(
         'fixed top-auto right-4 bottom-4 z-[1000] mx-auto flex h-[var(--toast-frontmost-height,var(--toast-height,80px))] w-[calc(100%-2rem)] overflow-visible data-[expanded]:h-[var(--toast-stack-height)] sm:right-8 sm:bottom-8 sm:w-[340px]',
         className
@@ -157,8 +201,9 @@
       aria-relevant="additions text"
       aria-atomic="false"
       role="status"
-      onmouseenter={() => (expanded = true)}
-      onmouseleave={() => (expanded = false)}
+      data-expanded={expanded ? '' : undefined}
+      onmouseenter={expandStack}
+      onmouseleave={collapseStack}
     >
       {#each toastItems as toast, toastIndex (toast.id)}
         <div
@@ -166,8 +211,8 @@
           class={cn(
             'absolute right-0 bottom-0 left-auto z-[calc(1000-var(--toast-index))] mr-0 h-[var(--height)] w-full origin-bottom select-none',
             toastRootClass(toast.variant),
-            '[--gap:0.75rem] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)*-1+calc(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] [--peek:0.75rem] [--scale-y:calc(max(0,1-(var(--toast-index)*0.05)))] [--shrink:calc(1-var(--scale-y))]',
-            '[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scaleX(1)_scaleY(var(--scale-y))] [transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.5s,height_0.15s]',
+            '[--gap:0.75rem] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)*-1+calc(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] [--peek:0.75rem] [--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [--shrink:calc(1-var(--scale))]',
+            '[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))] [transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.5s,height_0.15s]',
             "after:absolute after:top-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-['']",
             'data-[ending-style]:opacity-0 data-[expanded]:h-[var(--toast-height)] data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--offset-y)))] data-[limited]:opacity-0 data-[starting-style]:[transform:translateY(150%)]',
             'data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))]',

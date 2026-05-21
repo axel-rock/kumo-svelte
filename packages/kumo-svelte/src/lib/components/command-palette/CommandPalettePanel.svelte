@@ -11,6 +11,6 @@
   let { children, class: className, ...rest }: Props = $props();
 </script>
 
-<div class={cn('overflow-hidden rounded-xl bg-kumo-base shadow-lg ring ring-kumo-hairline', className)} {...rest}>
+<div class={cn('flex max-h-[60vh] flex-col overflow-hidden rounded-lg bg-kumo-elevated', className)} {...rest}>
   {@render children?.()}
 </div>

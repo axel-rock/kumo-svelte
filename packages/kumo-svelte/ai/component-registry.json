@@ -1,47 +1,5229 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.6",
   "components": {
-    "Autocomplete": { "name": "Autocomplete", "type": "component", "category": "Forms", "description": "Autocomplete input for choosing from suggested options.", "sourceFile": "components/autocomplete" },
-    "Badge": { "name": "Badge", "type": "component", "category": "Display", "description": "Small status and metadata labels.", "sourceFile": "components/badge" },
-    "Banner": { "name": "Banner", "type": "component", "category": "Feedback", "description": "Inline informational, warning, and error messages.", "sourceFile": "components/banner" },
-    "Breadcrumbs": { "name": "Breadcrumbs", "type": "component", "category": "Navigation", "description": "Responsive breadcrumb navigation.", "sourceFile": "components/breadcrumbs" },
-    "Button": { "name": "Button", "type": "component", "category": "Actions", "description": "Primary, secondary, ghost, and destructive buttons.", "sourceFile": "components/button" },
-    "Checkbox": { "name": "Checkbox", "type": "component", "category": "Forms", "description": "Checkbox controls and grouped checkbox sets.", "sourceFile": "components/checkbox" },
-    "ClipboardText": { "name": "ClipboardText", "type": "component", "category": "Data Display", "description": "Copyable text display for tokens, IDs, and commands.", "sourceFile": "components/clipboard-text" },
-    "CloudflareLogo": { "name": "CloudflareLogo", "type": "component", "category": "Brand", "description": "Cloudflare logo and powered-by lockups.", "sourceFile": "components/cloudflare-logo" },
-    "Code": { "name": "Code", "type": "component", "category": "Display", "description": "Inline and block code presentation.", "sourceFile": "components/code-highlighted" },
-    "Collapsible": { "name": "Collapsible", "type": "component", "category": "Disclosure", "description": "Expandable and collapsible content regions.", "sourceFile": "components/collapsible" },
-    "Combobox": { "name": "Combobox", "type": "component", "category": "Forms", "description": "Searchable combobox selection control.", "sourceFile": "components/combobox" },
-    "CommandPalette": { "name": "CommandPalette", "type": "component", "category": "Navigation", "description": "Dialog-style command and search palette.", "sourceFile": "components/command-palette" },
-    "DatePicker": { "name": "DatePicker", "type": "component", "category": "Forms", "description": "Date selection input.", "sourceFile": "components/date-picker" },
-    "Dialog": { "name": "Dialog", "type": "component", "category": "Overlay", "description": "Modal dialog and alert dialog primitive.", "sourceFile": "components/dialog" },
-    "DropdownMenu": { "name": "DropdownMenu", "type": "component", "category": "Overlay", "description": "Composable dropdown menu actions.", "sourceFile": "components/dropdown" },
-    "Empty": { "name": "Empty", "type": "component", "category": "Feedback", "description": "Empty-state messaging and actions.", "sourceFile": "components/empty" },
-    "Flow": { "name": "Flow", "type": "component", "category": "Visualization", "description": "Flow diagrams for sequential and parallel workflows.", "sourceFile": "components/flow" },
-    "Grid": { "name": "Grid", "type": "component", "category": "Layout", "description": "Responsive layout grid utilities.", "sourceFile": "components/grid" },
-    "Input": { "name": "Input", "type": "component", "category": "Forms", "description": "Text input and textarea controls.", "sourceFile": "components/input" },
-    "InputArea": { "name": "InputArea", "type": "component", "category": "Forms", "description": "Multi-line text area input.", "sourceFile": "components/input-area" },
-    "InputGroup": { "name": "InputGroup", "type": "component", "category": "Forms", "description": "Input groups with addons, suffixes, and buttons.", "sourceFile": "components/input-group" },
-    "Label": { "name": "Label", "type": "component", "category": "Forms", "description": "Accessible form label text.", "sourceFile": "components/label" },
-    "LayerCard": { "name": "LayerCard", "type": "component", "category": "Layout", "description": "Layered surface card container.", "sourceFile": "components/layer-card" },
-    "Link": { "name": "Link", "type": "component", "category": "Navigation", "description": "Styled link and external-link affordance.", "sourceFile": "components/link" },
-    "Loader": { "name": "Loader", "type": "component", "category": "Feedback", "description": "Loading indicators and skeleton lines.", "sourceFile": "components/loader" },
-    "MenuBar": { "name": "MenuBar", "type": "component", "category": "Navigation", "description": "Compact segmented menu bar.", "sourceFile": "components/menu-bar" },
-    "Meter": { "name": "Meter", "type": "component", "category": "Data Display", "description": "Progress and usage meter.", "sourceFile": "components/meter" },
-    "Pagination": { "name": "Pagination", "type": "component", "category": "Navigation", "description": "Pagination controls and page-size selector.", "sourceFile": "components/pagination" },
-    "Popover": { "name": "Popover", "type": "component", "category": "Overlay", "description": "Anchored floating popover content.", "sourceFile": "components/popover" },
-    "Radio": { "name": "Radio", "type": "component", "category": "Forms", "description": "Radio groups and radio options.", "sourceFile": "components/radio" },
-    "Select": { "name": "Select", "type": "component", "category": "Forms", "description": "Single and multi-value select control.", "sourceFile": "components/select" },
-    "SensitiveInput": { "name": "SensitiveInput", "type": "component", "category": "Forms", "description": "Password and secret input with reveal controls.", "sourceFile": "components/sensitive-input" },
-    "Sidebar": { "name": "Sidebar", "type": "component", "category": "Navigation", "description": "Application sidebar shell.", "sourceFile": "components/sidebar" },
-    "SkeletonLine": { "name": "SkeletonLine", "type": "component", "category": "Feedback", "description": "Skeleton loading line.", "sourceFile": "components/skeleton-line" },
-    "Switch": { "name": "Switch", "type": "component", "category": "Forms", "description": "Toggle switch controls and groups.", "sourceFile": "components/switch" },
-    "Table": { "name": "Table", "type": "component", "category": "Data Display", "description": "Structured table primitives.", "sourceFile": "components/table" },
-    "TableOfContents": { "name": "TableOfContents", "type": "component", "category": "Navigation", "description": "In-page table of contents.", "sourceFile": "components/table-of-contents" },
-    "Tabs": { "name": "Tabs", "type": "component", "category": "Navigation", "description": "Segmented and underline tab navigation.", "sourceFile": "components/tabs" },
-    "Text": { "name": "Text", "type": "component", "category": "Typography", "description": "Semantic text component.", "sourceFile": "components/text" },
-    "Toast": { "name": "Toast", "type": "component", "category": "Feedback", "description": "Toast notifications and manager.", "sourceFile": "components/toast" },
-    "Tooltip": { "name": "Tooltip", "type": "component", "category": "Overlay", "description": "Accessible hover and focus tooltips.", "sourceFile": "components/tooltip" }
+    "Autocomplete": {
+      "name": "Autocomplete",
+      "type": "component",
+      "category": "Input",
+      "description": "A free-form text input with an optional filtered suggestion list. Unlike Combobox, the value is not constrained to the items list.",
+      "importPath": "kumo-svelte/components/autocomplete",
+      "sourceFile": "components/autocomplete",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "items": {
+          "type": "unknown[]",
+          "optional": false,
+          "required": true,
+          "description": "Array of items to display in the dropdown."
+        },
+        "value": {
+          "type": "string | number | string[]",
+          "optional": true,
+          "description": "Controlled input value."
+        },
+        "defaultValue": {
+          "type": "string | number | string[]",
+          "optional": true,
+          "description": "Uncontrolled default input value."
+        },
+        "open": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Controlled open state."
+        },
+        "label": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Visible label content."
+        },
+        "labelTooltip": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Optional help content for the label."
+        },
+        "description": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Supporting description text."
+        },
+        "error": {
+          "type": "FieldError",
+          "optional": true,
+          "description": "Validation error message or matcher."
+        },
+        "required": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Marks the field as required."
+        },
+        "onValueChange": {
+          "type": "(value: string | number | string[]) => void",
+          "optional": true,
+          "description": "Called when the value changes."
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "optional": true,
+          "description": "Called when open state changes."
+        }
+      },
+      "colors": [
+        "bg-kumo-control",
+        "bg-kumo-line",
+        "bg-kumo-overlay",
+        "border-kumo-line",
+        "ring-kumo-brand",
+        "ring-kumo-danger",
+        "ring-kumo-focus",
+        "ring-kumo-line",
+        "text-kumo-default",
+        "text-kumo-disabled",
+        "text-kumo-placeholder",
+        "text-kumo-strong"
+      ],
+      "subComponents": {
+        "Collection": {
+          "description": "Autocomplete.Collection",
+          "props": {
+            "children": {
+              "type": "ItemSnippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Content": {
+          "description": "Autocomplete.Content",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "align": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "start",
+                "center",
+                "end"
+              ],
+              "default": "start",
+              "description": "Alignment of the popup relative to the input."
+            },
+            "alignOffset": {
+              "type": "number | string",
+              "optional": true,
+              "description": "Offset along the alignment axis."
+            },
+            "side": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "top",
+                "right",
+                "bottom",
+                "left"
+              ],
+              "default": "bottom",
+              "description": "Side of the input where the popup is placed."
+            },
+            "sideOffset": {
+              "type": "number | string",
+              "optional": true,
+              "default": "4",
+              "description": "Offset between the popup and the input."
+            }
+          }
+        },
+        "Group": {
+          "description": "Autocomplete.Group",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "items": {
+              "type": "AutocompleteItem[]",
+              "optional": true,
+              "default": "[]",
+              "description": "Items rendered by the component."
+            }
+          }
+        },
+        "GroupLabel": {
+          "description": "Autocomplete.GroupLabel",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "InputGroup": {
+          "description": "Autocomplete.InputGroup",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "placeholder": {
+              "type": "string",
+              "optional": true,
+              "description": "Placeholder text."
+            },
+            "size": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "xs",
+                "sm",
+                "base",
+                "lg"
+              ],
+              "default": "base",
+              "description": "Size of the autocomplete input. Matches Input component sizes."
+            }
+          }
+        },
+        "Item": {
+          "description": "Autocomplete.Item",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "value": {
+              "type": "unknown",
+              "optional": false,
+              "required": true,
+              "description": "Value associated with this item."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Disables the component."
+            }
+          }
+        },
+        "List": {
+          "description": "Autocomplete.List",
+          "props": {
+            "children": {
+              "type": "ItemSnippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Separator": {
+          "description": "Autocomplete.Separator",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        }
+      }
+    },
+    "Badge": {
+      "name": "Badge",
+      "type": "component",
+      "category": "Display",
+      "description": "Displays a small label for status, categorization, or metadata.",
+      "importPath": "kumo-svelte/components/badge",
+      "sourceFile": "components/badge",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "primary",
+            "secondary",
+            "error",
+            "warning",
+            "success",
+            "destructive",
+            "info",
+            "beta",
+            "outline",
+            "red",
+            "green",
+            "neutral",
+            "orange",
+            "purple",
+            "teal",
+            "teal-subtle",
+            "blue"
+          ],
+          "default": "primary",
+          "description": "Visual variant."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": false,
+          "required": true,
+          "description": "Content rendered inside the badge."
+        }
+      },
+      "colors": [
+        "bg-kumo-badge-blue",
+        "bg-kumo-badge-green",
+        "bg-kumo-badge-inverted",
+        "bg-kumo-badge-neutral",
+        "bg-kumo-badge-orange",
+        "bg-kumo-badge-purple",
+        "bg-kumo-badge-red",
+        "bg-kumo-badge-teal",
+        "bg-kumo-badge-teal-subtle",
+        "bg-kumo-danger-tint",
+        "bg-kumo-fill",
+        "bg-kumo-info-tint",
+        "bg-kumo-success-tint",
+        "bg-kumo-warning-tint",
+        "border-kumo-brand",
+        "border-kumo-fill",
+        "text-kumo-badge-inverted",
+        "text-kumo-badge-neutral-subtle",
+        "text-kumo-badge-teal-subtle",
+        "text-kumo-danger",
+        "text-kumo-default",
+        "text-kumo-info",
+        "text-kumo-link",
+        "text-kumo-success",
+        "text-kumo-warning"
+      ]
+    },
+    "Banner": {
+      "name": "Banner",
+      "type": "component",
+      "category": "Feedback",
+      "description": "Displays contextual inline messages for informational, alert, or error states.",
+      "importPath": "kumo-svelte/components/banner",
+      "sourceFile": "components/banner",
+      "props": {
+        "icon": {
+          "type": "Component",
+          "optional": true,
+          "description": "Icon rendered before the banner content."
+        },
+        "title": {
+          "type": "string",
+          "optional": true,
+          "description": "Primary heading text for the banner."
+        },
+        "description": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Secondary description content displayed below the title."
+        },
+        "action": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Action snippet rendered at the trailing end in structured mode."
+        },
+        "text": {
+          "type": "string",
+          "optional": true,
+          "description": "Deprecated simple banner text. Prefer title and description."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Deprecated simple banner content. Prefer title and description."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "default",
+            "alert",
+            "error"
+          ],
+          "default": "default",
+          "description": "Visual style of the banner."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        }
+      },
+      "colors": [
+        "bg-kumo-danger-tint",
+        "bg-kumo-info-tint",
+        "bg-kumo-warning-tint",
+        "border-kumo-danger",
+        "border-kumo-info",
+        "border-kumo-warning",
+        "text-kumo-danger",
+        "text-kumo-info",
+        "text-kumo-warning"
+      ]
+    },
+    "Breadcrumbs": {
+      "name": "Breadcrumbs",
+      "type": "component",
+      "category": "Navigation",
+      "description": "A navigation component that shows the current page's location within a navigational hierarchy.",
+      "importPath": "kumo-svelte/components/breadcrumbs",
+      "sourceFile": "components/breadcrumbs",
+      "props": {
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "sm",
+            "base"
+          ],
+          "default": "base",
+          "description": "Size of the breadcrumbs."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Breadcrumbs.Link, Breadcrumbs.Separator, Breadcrumbs.Current, and Breadcrumbs.Clipboard children."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the nav element."
+        }
+      },
+      "colors": [
+        "text-kumo-inactive",
+        "text-kumo-subtle",
+        "text-kumo-success"
+      ],
+      "subComponents": {
+        "Clipboard": {
+          "description": "Breadcrumbs.Clipboard",
+          "props": {
+            "text": {
+              "type": "string",
+              "optional": false,
+              "required": true,
+              "description": "Text copied to the clipboard."
+            }
+          }
+        },
+        "Current": {
+          "description": "Breadcrumbs.Current",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Current page label content."
+            },
+            "icon": {
+              "type": "Component",
+              "optional": true,
+              "description": "Icon component rendered before the label."
+            },
+            "loading": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Shows a skeleton placeholder instead of the label."
+            }
+          }
+        },
+        "Link": {
+          "description": "Breadcrumbs.Link",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Link label content."
+            },
+            "href": {
+              "type": "string",
+              "optional": false,
+              "required": true,
+              "description": "Destination URL."
+            },
+            "icon": {
+              "type": "Component",
+              "optional": true,
+              "description": "Icon component rendered before the label."
+            }
+          }
+        },
+        "Separator": {
+          "description": "Breadcrumbs.Separator",
+          "props": {}
+        }
+      }
+    },
+    "Button": {
+      "name": "Button",
+      "type": "component",
+      "category": "Action",
+      "description": "Displays a button or a component that looks like a button.",
+      "importPath": "kumo-svelte/components/button",
+      "sourceFile": "components/button",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "icon": {
+          "type": "Component",
+          "optional": true,
+          "description": "Icon rendered by the component."
+        },
+        "loading": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Loading state."
+        },
+        "title": {
+          "type": "string",
+          "optional": true,
+          "description": "Tooltip content shown when hovering the button."
+        },
+        "shape": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "base",
+            "square",
+            "circle"
+          ],
+          "default": "base",
+          "description": "Shape preset."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "xs",
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Size preset."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "primary",
+            "secondary",
+            "ghost",
+            "destructive",
+            "secondary-destructive",
+            "outline"
+          ],
+          "default": "secondary",
+          "description": "Visual variant."
+        },
+        "disabled": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Disables the component."
+        },
+        "type": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "button",
+            "submit",
+            "reset"
+          ],
+          "default": "button",
+          "description": "Native button type."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "bg-kumo-brand",
+        "bg-kumo-brand-hover",
+        "bg-kumo-danger",
+        "bg-kumo-tint",
+        "ring-kumo-brand",
+        "ring-kumo-focus",
+        "ring-kumo-hairline",
+        "text-kumo-danger",
+        "text-kumo-default",
+        "text-kumo-subtle"
+      ],
+      "subComponents": {
+        "LinkButton": {
+          "description": "Button.LinkButton",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "href": {
+              "type": "string",
+              "optional": true,
+              "description": "Destination URL."
+            },
+            "shape": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "base",
+                "square",
+                "circle"
+              ],
+              "default": "base",
+              "description": "Shape preset."
+            },
+            "size": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "xs",
+                "sm",
+                "base",
+                "lg"
+              ],
+              "default": "base",
+              "description": "Size preset."
+            },
+            "variant": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "primary",
+                "secondary",
+                "ghost",
+                "destructive",
+                "secondary-destructive",
+                "outline"
+              ],
+              "default": "ghost",
+              "description": "Visual variant."
+            },
+            "icon": {
+              "type": "Component",
+              "optional": true,
+              "description": "Icon rendered by the component."
+            },
+            "external": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Opens links in a new tab with safe rel attributes."
+            },
+            "linksExternal": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Treats links as external."
+            }
+          }
+        }
+      }
+    },
+    "Checkbox": {
+      "name": "Checkbox",
+      "type": "component",
+      "category": "Input",
+      "description": "A control that allows the user to toggle between checked and not checked. Features built-in label support with automatic horizontal layout.",
+      "importPath": "kumo-svelte/components/checkbox",
+      "sourceFile": "components/checkbox",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "checked": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Checked state."
+        },
+        "indeterminate": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Indeterminate checked state."
+        },
+        "disabled": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Disables the component."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "default",
+            "error"
+          ],
+          "default": "default",
+          "description": "Visual variant."
+        },
+        "label": {
+          "type": "string",
+          "optional": true,
+          "description": "Visible label content."
+        },
+        "labelTooltip": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Optional help content for the label."
+        },
+        "controlFirst": {
+          "type": "boolean",
+          "optional": true,
+          "default": "true",
+          "description": "Renders the control before label content."
+        },
+        "required": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Marks the field as required."
+        },
+        "name": {
+          "type": "string",
+          "optional": true,
+          "description": "Form field name."
+        },
+        "value": {
+          "type": "string",
+          "optional": true,
+          "description": "Controlled value."
+        },
+        "id": {
+          "type": "string",
+          "optional": true,
+          "description": "Element id."
+        },
+        "aria-label": {
+          "type": "string",
+          "optional": true,
+          "description": "Accessible label."
+        },
+        "aria-labelledby": {
+          "type": "string",
+          "optional": true,
+          "description": "Accessible labelled-by reference."
+        },
+        "onCheckedChange": {
+          "type": "(checked: boolean) => void",
+          "optional": true,
+          "description": "Called when checked changes."
+        },
+        "onIndeterminateChange": {
+          "type": "(indeterminate: boolean) => void",
+          "optional": true,
+          "description": "Called when indeterminate changes."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "bg-kumo-contrast",
+        "ring-kumo-brand",
+        "ring-kumo-contrast",
+        "ring-kumo-danger",
+        "ring-kumo-focus",
+        "ring-kumo-hairline",
+        "text-kumo-danger",
+        "text-kumo-default",
+        "text-kumo-inverse",
+        "text-kumo-subtle"
+      ],
+      "subComponents": {
+        "Group": {
+          "description": "Checkbox.Group",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "legend": {
+              "type": "string",
+              "optional": true,
+              "description": "legend prop."
+            },
+            "description": {
+              "type": "string | Snippet",
+              "optional": true,
+              "description": "Supporting description text."
+            },
+            "error": {
+              "type": "string",
+              "optional": true,
+              "description": "Validation error message or matcher."
+            },
+            "value": {
+              "type": "string[]",
+              "optional": true,
+              "default": "[]",
+              "description": "Controlled value."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Disables the component."
+            },
+            "required": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Marks the field as required."
+            },
+            "name": {
+              "type": "string",
+              "optional": true,
+              "description": "Form field name."
+            },
+            "controlFirst": {
+              "type": "boolean",
+              "optional": true,
+              "default": "true",
+              "description": "Renders the control before label content."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "onValueChange": {
+              "type": "(value: string[]) => void",
+              "optional": true,
+              "description": "Called when the value changes."
+            }
+          }
+        },
+        "Item": {
+          "description": "Checkbox.Item",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "checked": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Checked state."
+            },
+            "indeterminate": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Indeterminate checked state."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Disables the component."
+            },
+            "variant": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "default",
+                "error"
+              ],
+              "default": "default",
+              "description": "Visual variant."
+            },
+            "label": {
+              "type": "string",
+              "optional": false,
+              "required": true,
+              "description": "Visible label content."
+            },
+            "value": {
+              "type": "string",
+              "optional": true,
+              "description": "Controlled value."
+            },
+            "name": {
+              "type": "string",
+              "optional": true,
+              "description": "Form field name."
+            },
+            "onCheckedChange": {
+              "type": "(checked: boolean) => void",
+              "optional": true,
+              "description": "Called when checked changes."
+            },
+            "onIndeterminateChange": {
+              "type": "(indeterminate: boolean) => void",
+              "optional": true,
+              "description": "Called when indeterminate changes."
+            }
+          }
+        },
+        "Legend": {
+          "description": "Checkbox.Legend",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        }
+      }
+    },
+    "ClipboardText": {
+      "name": "ClipboardText",
+      "type": "component",
+      "category": "Display",
+      "description": "A text component with a copy-to-clipboard button.",
+      "importPath": "kumo-svelte/components/clipboard-text",
+      "sourceFile": "components/clipboard-text",
+      "props": {
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "text": {
+          "type": "string",
+          "optional": false,
+          "required": true,
+          "description": "Text to display and copy to the clipboard."
+        },
+        "textToCopy": {
+          "type": "string",
+          "optional": true,
+          "description": "Alternate text copied to the clipboard."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "lg",
+          "description": "Size preset."
+        },
+        "onCopy": {
+          "type": "() => void",
+          "optional": true,
+          "description": "Called after copying succeeds."
+        },
+        "tooltip": {
+          "type": "{ text?: string; copiedText?: string; side?: TooltipSide; }",
+          "optional": true,
+          "description": "Tooltip content."
+        },
+        "labels": {
+          "type": "{ copyAction?: string; }",
+          "optional": true,
+          "description": "Accessible labels for internationalization."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "border-kumo-line",
+        "ring-kumo-brand",
+        "ring-kumo-focus",
+        "ring-kumo-line",
+        "text-kumo-default"
+      ]
+    },
+    "CloudflareLogo": {
+      "name": "CloudflareLogo",
+      "type": "component",
+      "category": "Other",
+      "description": "Official Cloudflare logo component with glyph and full logo variants.",
+      "importPath": "kumo-svelte/components/cloudflare-logo",
+      "sourceFile": "components/cloudflare-logo",
+      "props": {
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "glyph",
+            "full"
+          ],
+          "default": "full",
+          "description": "Visual variant."
+        },
+        "color": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "color",
+            "black",
+            "white"
+          ],
+          "default": "color",
+          "description": "Color scheme."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "ring-kumo-hairline",
+        "text-kumo-default"
+      ],
+      "subComponents": {
+        "PoweredByCloudflare": {
+          "description": "CloudflareLogo.PoweredByCloudflare",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "color": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "color",
+                "black",
+                "white"
+              ],
+              "default": "color",
+              "description": "Color scheme for the logo and text."
+            },
+            "href": {
+              "type": "string",
+              "optional": true,
+              "default": "https://www.cloudflare.com",
+              "description": "Destination URL."
+            }
+          }
+        }
+      }
+    },
+    "Code": {
+      "name": "Code",
+      "type": "component",
+      "category": "Display",
+      "description": "Syntax-highlighted code blocks powered by Shiki and styled with Kumo colors.",
+      "importPath": "kumo-svelte/components/code-highlighted",
+      "sourceFile": "components/code-highlighted",
+      "props": {
+        "code": {
+          "type": "string",
+          "optional": false,
+          "required": true,
+          "description": "Code string to display."
+        },
+        "lang": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "ts",
+            "tsx",
+            "jsonc",
+            "bash",
+            "css"
+          ],
+          "default": "ts",
+          "description": "Language hint for the code content."
+        },
+        "values": {
+          "type": "Record<string, { value: string; highlight?: boolean; }>",
+          "optional": true,
+          "description": "Template values for interpolation."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "style": {
+          "type": "string",
+          "optional": true,
+          "description": "Inline styles."
+        }
+      },
+      "colors": [],
+      "subComponents": {
+        "Block": {
+          "description": "Code.Block",
+          "props": {
+            "code": {
+              "type": "string",
+              "optional": false,
+              "required": true,
+              "description": "Code string to display."
+            },
+            "lang": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "ts",
+                "tsx",
+                "jsonc",
+                "bash",
+                "css"
+              ],
+              "default": "ts",
+              "description": "Language hint for the code content."
+            }
+          }
+        }
+      }
+    },
+    "Collapsible": {
+      "name": "Collapsible",
+      "type": "component",
+      "category": "Other",
+      "description": "A composable disclosure component for showing and hiding content.",
+      "importPath": "kumo-svelte/components/collapsible",
+      "sourceFile": "components/collapsible",
+      "props": {
+        "trigger": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "trigger prop."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "open": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Controlled open state."
+        },
+        "defaultOpen": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Initial uncontrolled open state."
+        },
+        "title": {
+          "type": "string",
+          "optional": true,
+          "description": "Title content."
+        },
+        "disabled": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Disables the component."
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "optional": true,
+          "description": "Called when open state changes."
+        },
+        "onOpenChangeComplete": {
+          "type": "(open: boolean) => void",
+          "optional": true,
+          "description": "Called after the open-state transition completes."
+        }
+      },
+      "colors": [
+        "border-kumo-fill",
+        "text-kumo-link"
+      ],
+      "subComponents": {
+        "DefaultPanel": {
+          "description": "Collapsible.DefaultPanel",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "keepMounted": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "keepMounted prop."
+            },
+            "forceMount": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "forceMount prop."
+            },
+            "hiddenUntilFound": {
+              "type": "boolean",
+              "optional": true,
+              "default": "true",
+              "description": "hiddenUntilFound prop."
+            }
+          }
+        },
+        "DefaultTrigger": {
+          "description": "Collapsible.DefaultTrigger",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Disables the component."
+            }
+          }
+        },
+        "Panel": {
+          "description": "Collapsible.Panel",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "keepMounted": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "keepMounted prop."
+            },
+            "forceMount": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "forceMount prop."
+            },
+            "hiddenUntilFound": {
+              "type": "boolean",
+              "optional": true,
+              "default": "true",
+              "description": "hiddenUntilFound prop."
+            }
+          }
+        },
+        "Root": {
+          "description": "Collapsible.Root",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "open": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Controlled open state."
+            },
+            "defaultOpen": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Initial uncontrolled open state."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Disables the component."
+            },
+            "onOpenChange": {
+              "type": "(open: boolean) => void",
+              "optional": true,
+              "description": "Called when open state changes."
+            },
+            "onOpenChangeComplete": {
+              "type": "(open: boolean) => void",
+              "optional": true,
+              "description": "Called after the open-state transition completes."
+            }
+          }
+        },
+        "Trigger": {
+          "description": "Collapsible.Trigger",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Disables the component."
+            },
+            "type": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "button",
+                "submit",
+                "reset"
+              ],
+              "default": "button",
+              "description": "Element or semantic type."
+            }
+          }
+        }
+      }
+    },
+    "Combobox": {
+      "name": "Combobox",
+      "type": "component",
+      "category": "Input",
+      "description": "A searchable select component that allows users to filter and select from a list of options.",
+      "importPath": "kumo-svelte/components/combobox",
+      "sourceFile": "components/combobox",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "items": {
+          "type": "unknown[]",
+          "optional": false,
+          "required": true,
+          "description": "Array of items to display in the dropdown."
+        },
+        "value": {
+          "type": "unknown",
+          "optional": true,
+          "description": "Controlled value."
+        },
+        "multiple": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Enables multiple selection."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "xs",
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Size preset."
+        },
+        "label": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Visible label content."
+        },
+        "labelTooltip": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Optional help content for the label."
+        },
+        "description": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Supporting description text."
+        },
+        "error": {
+          "type": "FieldError",
+          "optional": true,
+          "description": "Validation error message or matcher."
+        },
+        "required": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Marks the field as required."
+        },
+        "onValueChange": {
+          "type": "(value: unknown) => void",
+          "optional": true,
+          "description": "Called when the value changes."
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "optional": true,
+          "description": "Called when open state changes."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "bg-kumo-control",
+        "bg-kumo-fill-hover",
+        "bg-kumo-overlay",
+        "bg-kumo-tint",
+        "border-kumo-hairline",
+        "ring-kumo-brand",
+        "ring-kumo-danger",
+        "ring-kumo-focus",
+        "ring-kumo-hairline",
+        "ring-kumo-line",
+        "text-kumo-default",
+        "text-kumo-disabled",
+        "text-kumo-placeholder",
+        "text-kumo-subtle"
+      ],
+      "subComponents": {
+        "Content": {
+          "description": "Combobox.Content",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "align": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "start",
+                "center",
+                "end"
+              ],
+              "default": "start",
+              "description": "Alignment of the popup relative to the trigger."
+            },
+            "alignOffset": {
+              "type": "number | string",
+              "optional": true,
+              "description": "Offset along the alignment axis."
+            },
+            "side": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "top",
+                "right",
+                "bottom",
+                "left"
+              ],
+              "default": "bottom",
+              "description": "Side of the trigger where the popup is placed."
+            },
+            "sideOffset": {
+              "type": "number | string",
+              "optional": true,
+              "default": "4",
+              "description": "Offset between the popup and the trigger."
+            }
+          }
+        },
+        "Input": {
+          "description": "Combobox.Input",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "placeholder": {
+              "type": "string",
+              "optional": true,
+              "description": "Placeholder text."
+            }
+          }
+        },
+        "Item": {
+          "description": "Combobox.Item",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "value": {
+              "type": "ComboboxItem",
+              "optional": false,
+              "required": true,
+              "description": "Controlled value."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Disables the component."
+            }
+          }
+        },
+        "Trigger": {
+          "description": "Combobox.Trigger",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Value": {
+          "description": "Combobox.Value",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            }
+          }
+        }
+      }
+    },
+    "CommandPalette": {
+      "name": "CommandPalette",
+      "type": "component",
+      "category": "Navigation",
+      "description": "A composable command palette component for search and command dialogs.",
+      "importPath": "kumo-svelte/components/command-palette",
+      "sourceFile": "components/command-palette",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": false,
+          "required": true,
+          "description": "Child components such as Input, List, groups, items, and Footer."
+        },
+        "value": {
+          "type": "string",
+          "optional": true,
+          "description": "Controlled input value for the search."
+        },
+        "onValueChange": {
+          "type": "(value: string) => void",
+          "optional": true,
+          "description": "Called when the search value changes."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the command palette container."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "bg-kumo-elevated",
+        "bg-kumo-overlay",
+        "bg-kumo-warning",
+        "border-kumo-line",
+        "ring-kumo-brand",
+        "ring-kumo-hairline",
+        "text-kumo-default",
+        "text-kumo-placeholder",
+        "text-kumo-subtle"
+      ],
+      "subComponents": {
+        "Dialog": {
+          "description": "CommandPalette.Dialog",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "trigger": {
+              "type": "Snippet<[Record<string, unknown>]>",
+              "optional": true,
+              "description": "trigger prop."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "open": {
+              "type": "boolean",
+              "optional": false,
+              "required": true,
+              "default": "false",
+              "description": "Controlled open state."
+            },
+            "onOpenChange": {
+              "type": "(open: boolean) => void",
+              "optional": true,
+              "description": "Called when open state changes."
+            },
+            "onBackdropClick": {
+              "type": "(event: MouseEvent) => void",
+              "optional": true,
+              "description": "Called when the backdrop is clicked."
+            },
+            "container": {
+              "type": "HTMLElement | string",
+              "optional": true,
+              "default": "document.body",
+              "description": "Portal container for custom roots or Shadow DOM."
+            }
+          }
+        },
+        "Empty": {
+          "description": "CommandPalette.Empty",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "forceMount": {
+              "type": "boolean",
+              "optional": true,
+              "description": "forceMount prop."
+            }
+          }
+        },
+        "Footer": {
+          "description": "CommandPalette.Footer",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Group": {
+          "description": "CommandPalette.Group",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "GroupLabel": {
+          "description": "CommandPalette.GroupLabel",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Input": {
+          "description": "CommandPalette.Input",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "value": {
+              "type": "string",
+              "optional": true,
+              "default": "",
+              "description": "Controlled value."
+            },
+            "placeholder": {
+              "type": "string",
+              "optional": true,
+              "default": "Type a command...",
+              "description": "Placeholder text."
+            },
+            "leading": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Optional leading content such as a back button."
+            },
+            "trailing": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Optional trailing content such as an Escape key hint."
+            }
+          }
+        },
+        "Item": {
+          "description": "CommandPalette.Item",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "value": {
+              "type": "unknown",
+              "optional": false,
+              "required": true,
+              "description": "The value associated with this item."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Disables the component."
+            },
+            "onclick": {
+              "type": "(event: MouseEvent) => void",
+              "optional": true,
+              "description": "Click handler for selection."
+            }
+          }
+        },
+        "List": {
+          "description": "CommandPalette.List",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Loading": {
+          "description": "CommandPalette.Loading",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "progress": {
+              "type": "number",
+              "optional": true,
+              "description": "progress prop."
+            }
+          }
+        },
+        "ResultItem": {
+          "description": "CommandPalette.ResultItem",
+          "props": {
+            "title": {
+              "type": "string",
+              "optional": false,
+              "required": true,
+              "description": "Item title text."
+            },
+            "breadcrumbs": {
+              "type": "string[]",
+              "optional": true,
+              "description": "Optional breadcrumb path parts displayed before the title."
+            },
+            "titleHighlights": {
+              "type": "[number, number][]",
+              "optional": true,
+              "description": "Inclusive highlight ranges for the title."
+            },
+            "breadcrumbHighlights": {
+              "type": "[number, number][][]",
+              "optional": true,
+              "description": "Inclusive highlight ranges for each breadcrumb."
+            },
+            "description": {
+              "type": "string",
+              "optional": true,
+              "description": "Optional description displayed after the title."
+            },
+            "icon": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Optional icon displayed before the title."
+            },
+            "value": {
+              "type": "unknown",
+              "optional": false,
+              "required": true,
+              "description": "The value associated with this item."
+            },
+            "onclick": {
+              "type": "(event?: MouseEvent) => void",
+              "optional": true,
+              "description": "Selection handler for the item."
+            },
+            "showArrow": {
+              "type": "boolean",
+              "optional": true,
+              "default": "true",
+              "description": "Whether to show the arrow indicator."
+            },
+            "external": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Whether this links to an external URL."
+            },
+            "nonInteractive": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Renders the item without interactive selection behavior."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the item."
+            }
+          }
+        }
+      }
+    },
+    "DatePicker": {
+      "name": "DatePicker",
+      "type": "component",
+      "category": "Input",
+      "description": "A date selection calendar supporting single, multiple, and range selection modes.",
+      "importPath": "kumo-svelte/components/date-picker",
+      "sourceFile": "components/date-picker",
+      "props": {
+        "mode": {
+          "type": "DatePickerMode",
+          "optional": true,
+          "default": "single",
+          "description": "mode prop."
+        },
+        "selected": {
+          "type": "DatePickerSelection",
+          "optional": true,
+          "description": "selected prop."
+        },
+        "onChange": {
+          "type": "(selection: DatePickerSelection) => void",
+          "optional": true,
+          "description": "onChange prop."
+        },
+        "month": {
+          "type": "Date",
+          "optional": true,
+          "description": "month prop."
+        },
+        "onMonthChange": {
+          "type": "(month: Date) => void",
+          "optional": true,
+          "description": "onMonthChange prop."
+        },
+        "numberOfMonths": {
+          "type": "number",
+          "optional": true,
+          "default": "1",
+          "description": "numberOfMonths prop."
+        },
+        "min": {
+          "type": "number",
+          "optional": true,
+          "description": "Minimum value."
+        },
+        "max": {
+          "type": "number",
+          "optional": true,
+          "description": "Maximum value."
+        },
+        "disabled": {
+          "type": "boolean | DisabledMatcher",
+          "optional": true,
+          "default": "false",
+          "description": "Disables the component."
+        },
+        "footer": {
+          "type": "Snippet | string",
+          "optional": true,
+          "description": "footer prop."
+        },
+        "fixedWeeks": {
+          "type": "boolean",
+          "optional": true,
+          "default": "true",
+          "description": "fixedWeeks prop."
+        },
+        "locale": {
+          "type": "string",
+          "optional": true,
+          "default": "en-US",
+          "description": "locale prop."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "className": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "classNames": {
+          "type": "Record<string, string | undefined>",
+          "optional": true,
+          "description": "classNames prop."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "text-kumo-subtle"
+      ]
+    },
+    "Dialog": {
+      "name": "Dialog",
+      "type": "component",
+      "category": "Overlay",
+      "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
+      "importPath": "kumo-svelte/components/dialog",
+      "sourceFile": "components/dialog",
+      "props": {
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "sm",
+            "base",
+            "lg",
+            "xl"
+          ],
+          "default": "base",
+          "description": "Dialog width preset."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the dialog content."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": false,
+          "required": true,
+          "description": "Dialog content, typically title, description, close, and action buttons."
+        },
+        "style": {
+          "type": "string",
+          "optional": true,
+          "description": "Inline styles for the dialog content."
+        },
+        "container": {
+          "type": "HTMLElement | string",
+          "optional": true,
+          "default": "document.body",
+          "description": "Portal container for custom roots or Shadow DOM."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "bg-kumo-recessed",
+        "ring-kumo-line",
+        "text-kumo-default",
+        "text-kumo-subtle"
+      ],
+      "subComponents": {
+        "Close": {
+          "description": "Dialog.Close",
+          "props": {
+            "render": {
+              "type": "Snippet | Component",
+              "optional": true,
+              "description": "Custom close render target."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Disables the close control."
+            }
+          }
+        },
+        "Description": {
+          "description": "Dialog.Description",
+          "props": {
+            "render": {
+              "type": "Snippet | Component",
+              "optional": true,
+              "description": "Custom description render target."
+            }
+          }
+        },
+        "Root": {
+          "description": "Dialog.Root",
+          "props": {
+            "role": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "dialog",
+                "alertdialog"
+              ],
+              "default": "dialog",
+              "description": "ARIA role for the dialog."
+            },
+            "open": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Controlled open state."
+            },
+            "defaultOpen": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Initial open state for uncontrolled usage."
+            },
+            "onOpenChange": {
+              "type": "(open: boolean) => void",
+              "optional": true,
+              "description": "Called when the open state changes."
+            },
+            "modal": {
+              "type": "boolean",
+              "optional": true,
+              "default": "true",
+              "description": "Whether the dialog is modal."
+            },
+            "dismissible": {
+              "type": "boolean",
+              "optional": true,
+              "default": "true",
+              "description": "Whether the dialog can be dismissed."
+            }
+          }
+        },
+        "Title": {
+          "description": "Dialog.Title",
+          "props": {
+            "render": {
+              "type": "Snippet | Component",
+              "optional": true,
+              "description": "Custom title render target."
+            }
+          }
+        },
+        "Trigger": {
+          "description": "Dialog.Trigger",
+          "props": {
+            "render": {
+              "type": "Snippet | Component",
+              "optional": true,
+              "description": "Custom trigger render target."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Disables the trigger."
+            }
+          }
+        }
+      }
+    },
+    "DropdownMenu": {
+      "name": "DropdownMenu",
+      "type": "component",
+      "category": "Overlay",
+      "description": "Displays a menu to the user—such as a set of actions or functions—triggered by a button.",
+      "importPath": "kumo-svelte/components/dropdown",
+      "sourceFile": "components/dropdown",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "open": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Controlled open state."
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "optional": true,
+          "description": "Called when open state changes."
+        }
+      },
+      "colors": [],
+      "subComponents": {
+        "CheckboxItem": {
+          "description": "DropdownMenu.CheckboxItem",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "checked": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Checked state."
+            },
+            "onCheckedChange": {
+              "type": "(checked: boolean) => void",
+              "optional": true,
+              "description": "Called when checked changes."
+            }
+          }
+        },
+        "Content": {
+          "description": "DropdownMenu.Content",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "sideOffset": {
+              "type": "number",
+              "optional": true,
+              "default": "8",
+              "description": "Distance from the anchor."
+            },
+            "side": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "top",
+                "right",
+                "bottom",
+                "left"
+              ],
+              "description": "Preferred floating side."
+            },
+            "align": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "start",
+                "center",
+                "end"
+              ],
+              "description": "Floating alignment."
+            },
+            "container": {
+              "type": "HTMLElement | string",
+              "optional": true,
+              "default": "document.body",
+              "description": "Portal container for custom roots or Shadow DOM."
+            }
+          }
+        },
+        "Item": {
+          "description": "DropdownMenu.Item",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "inset": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Indents the item content."
+            },
+            "icon": {
+              "type": "Component",
+              "optional": true,
+              "description": "Icon rendered by the component."
+            },
+            "selected": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Shows a trailing selected check indicator."
+            },
+            "variant": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "default",
+                "danger"
+              ],
+              "default": "default",
+              "description": "Visual variant."
+            },
+            "href": {
+              "type": "string",
+              "optional": true,
+              "description": "Deprecated destination URL for legacy link items."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Disables the component."
+            }
+          }
+        },
+        "RadioItem": {
+          "description": "DropdownMenu.RadioItem",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "inset": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Indents the item content."
+            },
+            "icon": {
+              "type": "Component",
+              "optional": true,
+              "description": "Icon rendered by the component."
+            },
+            "value": {
+              "type": "string",
+              "optional": false,
+              "required": true,
+              "description": "Controlled value."
+            }
+          }
+        },
+        "RadioItemIndicator": {
+          "description": "DropdownMenu.RadioItemIndicator",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Separator": {
+          "description": "DropdownMenu.Separator",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "SubContent": {
+          "description": "DropdownMenu.SubContent",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "sideOffset": {
+              "type": "number",
+              "optional": true,
+              "default": "8",
+              "description": "Distance from the anchor."
+            },
+            "side": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "top",
+                "right",
+                "bottom",
+                "left"
+              ],
+              "description": "Preferred floating side."
+            },
+            "align": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "start",
+                "center",
+                "end"
+              ],
+              "description": "Floating alignment."
+            },
+            "container": {
+              "type": "HTMLElement | string",
+              "optional": true,
+              "default": "document.body",
+              "description": "Portal container for custom roots or Shadow DOM."
+            }
+          }
+        },
+        "SubTrigger": {
+          "description": "DropdownMenu.SubTrigger",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "inset": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Indents the item content."
+            },
+            "icon": {
+              "type": "Component",
+              "optional": true,
+              "description": "Icon rendered by the component."
+            }
+          }
+        },
+        "Trigger": {
+          "description": "DropdownMenu.Trigger",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "child": {
+              "type": "Snippet<[{ props: Record<string, unknown> }]>",
+              "optional": true,
+              "description": "child prop."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "type": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "button",
+                "submit",
+                "reset"
+              ],
+              "default": "button",
+              "description": "Element or semantic type."
+            }
+          }
+        }
+      }
+    },
+    "Empty": {
+      "name": "Empty",
+      "type": "component",
+      "category": "Feedback",
+      "description": "A component to display when there's no content or data to show, with optional command line and actions.",
+      "importPath": "kumo-svelte/components/empty",
+      "sourceFile": "components/empty",
+      "props": {
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Size preset."
+        },
+        "contents": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Custom empty-state content."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "icon": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Decorative icon displayed above the title."
+        },
+        "title": {
+          "type": "string",
+          "optional": false,
+          "required": true,
+          "description": "Title content."
+        },
+        "description": {
+          "type": "string",
+          "optional": true,
+          "description": "Supporting description text."
+        },
+        "commandLine": {
+          "type": "string",
+          "optional": true,
+          "description": "Shell command displayed in a copyable code block."
+        }
+      },
+      "colors": [
+        "bg-kumo-control",
+        "bg-kumo-overlay",
+        "border-kumo-fill",
+        "border-kumo-interact",
+        "text-kumo-brand",
+        "text-kumo-default",
+        "text-kumo-inactive",
+        "text-kumo-subtle",
+        "text-kumo-success"
+      ]
+    },
+    "Flow": {
+      "name": "Flow",
+      "type": "component",
+      "category": "Display",
+      "description": "A group of components for building directed flow diagrams with nodes and connectors.",
+      "importPath": "kumo-svelte/components/flow",
+      "sourceFile": "components/flow",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Flow nodes and parallel groups rendered inside the diagram."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "orientation": {
+          "type": "FlowOrientation",
+          "optional": true,
+          "default": "horizontal",
+          "description": "Diagram orientation. Vertical orientation is currently a no-op."
+        },
+        "align": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "start",
+            "center"
+          ],
+          "default": "start",
+          "description": "Controls vertical alignment of nodes in horizontal orientation."
+        },
+        "canvas": {
+          "type": "boolean",
+          "optional": true,
+          "default": "true",
+          "description": "Whether to render the scrollable canvas wrapper."
+        },
+        "padding": {
+          "type": "{ x?: number; y?: number }",
+          "optional": true,
+          "description": "Padding around the diagram content within the canvas."
+        },
+        "onOverflowChange": {
+          "type": "(overflow: { x: boolean; y: boolean }) => void",
+          "optional": true,
+          "description": "Callback fired when canvas overflow changes on either axis."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "ring-kumo-line",
+        "text-kumo-inactive"
+      ],
+      "subComponents": {
+        "Anchor": {
+          "description": "Flow.Anchor",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Anchor content rendered inside the default div."
+            },
+            "type": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "start",
+                "end"
+              ],
+              "description": "Whether the anchor serves as the start point for the next connector or the end point for the previous connector."
+            }
+          }
+        },
+        "List": {
+          "description": "Flow.List",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Flow nodes rendered as a node list."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Node": {
+          "description": "Flow.Node",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Node content rendered inside the default styled node."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "id": {
+              "type": "string",
+              "optional": true,
+              "description": "Optional identifier used as the data-node-id attribute."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "When true, connectors linking to this node are greyed out."
+            }
+          }
+        },
+        "Parallel": {
+          "description": "Flow.Parallel",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Branch nodes rendered inside the parallel group."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "align": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "start",
+                "end"
+              ],
+              "default": "start",
+              "description": "Controls alignment of nodes within the parallel group."
+            }
+          }
+        }
+      }
+    },
+    "Grid": {
+      "name": "Grid",
+      "type": "component",
+      "category": "Layout",
+      "description": "A responsive grid layout component for organizing content into columns.",
+      "importPath": "kumo-svelte/components/grid",
+      "sourceFile": "components/grid",
+      "props": {
+        "gap": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "none",
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Gap size between grid items."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "2up",
+            "side-by-side",
+            "2-1",
+            "1-2",
+            "1-3up",
+            "3up",
+            "4up",
+            "6up",
+            "1-2-4up"
+          ],
+          "description": "Responsive column layout variant."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Grid items to render."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "mobileDivider": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Show dividers between grid items on mobile. Only applies with the 4up variant."
+        }
+      },
+      "colors": [
+        "border-kumo-hairline"
+      ],
+      "subComponents": {
+        "Item": {
+          "description": "Grid.Item",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Content for this grid cell."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        }
+      }
+    },
+    "Input": {
+      "name": "Input",
+      "type": "component",
+      "category": "Input",
+      "description": "A text input field for user input with built-in label, description, and error support.",
+      "importPath": "kumo-svelte/components/input",
+      "sourceFile": "components/input",
+      "props": {
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "xs",
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Size preset."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "default",
+            "error"
+          ],
+          "default": "default",
+          "description": "Visual variant."
+        },
+        "label": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Visible label content."
+        },
+        "labelTooltip": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Optional help content for the label."
+        },
+        "description": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Supporting description text."
+        },
+        "error": {
+          "type": "FieldError",
+          "optional": true,
+          "description": "Validation error message or matcher."
+        },
+        "passwordManagerIgnore": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Adds password-manager ignore attributes."
+        },
+        "required": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Marks the field as required."
+        }
+      },
+      "colors": [
+        "bg-kumo-control",
+        "ring-kumo-danger",
+        "ring-kumo-focus",
+        "ring-kumo-line",
+        "text-kumo-danger",
+        "text-kumo-default",
+        "text-kumo-disabled",
+        "text-kumo-muted",
+        "text-kumo-subtle"
+      ]
+    },
+    "InputArea": {
+      "name": "InputArea",
+      "type": "component",
+      "category": "Input",
+      "description": "A multi-line text input for longer content with built-in label, description, and error support.",
+      "importPath": "kumo-svelte/components/input",
+      "sourceFile": "components/input",
+      "props": {
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "xs",
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Size preset."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "default",
+            "error"
+          ],
+          "default": "default",
+          "description": "Visual variant."
+        },
+        "label": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Visible label content."
+        },
+        "labelTooltip": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Optional help content for the label."
+        },
+        "description": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Supporting description text."
+        },
+        "error": {
+          "type": "FieldError",
+          "optional": true,
+          "description": "Validation error message or matcher."
+        },
+        "onValueChange": {
+          "type": "(value: string) => void",
+          "optional": true,
+          "description": "Called when the value changes."
+        },
+        "required": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Marks the field as required."
+        }
+      },
+      "colors": [
+        "bg-kumo-control",
+        "ring-kumo-danger",
+        "ring-kumo-focus",
+        "ring-kumo-line",
+        "text-kumo-danger",
+        "text-kumo-default",
+        "text-kumo-disabled",
+        "text-kumo-muted",
+        "text-kumo-subtle"
+      ]
+    },
+    "InputGroup": {
+      "name": "InputGroup",
+      "type": "component",
+      "category": "Input",
+      "description": "Compose inputs with addons, icons, buttons, and text for rich form fields.",
+      "importPath": "kumo-svelte/components/input-group",
+      "sourceFile": "components/input-group",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "xs",
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Size preset."
+        },
+        "focusMode": {
+          "type": "InputGroupFocusMode",
+          "optional": true,
+          "default": "container",
+          "description": "focusMode prop."
+        },
+        "disabled": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Disables the component."
+        },
+        "label": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Visible label content."
+        },
+        "labelTooltip": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Optional help content for the label."
+        },
+        "description": {
+          "type": "string",
+          "optional": true,
+          "description": "Supporting description text."
+        },
+        "error": {
+          "type": "FieldError",
+          "optional": true,
+          "description": "Validation error message or matcher."
+        },
+        "required": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Marks the field as required."
+        },
+        "id": {
+          "type": "string",
+          "optional": true,
+          "description": "Element id."
+        }
+      },
+      "colors": [
+        "bg-kumo-control",
+        "bg-kumo-overlay",
+        "border-kumo-line",
+        "ring-kumo-danger",
+        "ring-kumo-focus",
+        "ring-kumo-line",
+        "text-kumo-danger",
+        "text-kumo-default",
+        "text-kumo-disabled",
+        "text-kumo-inactive",
+        "text-kumo-muted",
+        "text-kumo-subtle"
+      ]
+    },
+    "Label": {
+      "name": "Label",
+      "type": "component",
+      "category": "Input",
+      "description": "A label component for form fields with support for required/optional indicators and tooltips.",
+      "importPath": "kumo-svelte/components/label",
+      "sourceFile": "components/label",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": false,
+          "required": true,
+          "description": "The label content."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "htmlFor": {
+          "type": "string",
+          "optional": true,
+          "description": "The id of the form element this label is associated with."
+        },
+        "showOptional": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Shows gray optional text after the label."
+        },
+        "tooltip": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Tooltip content displayed next to the label."
+        },
+        "asContent": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Renders only the inline label content without the outer label element."
+        }
+      },
+      "colors": [
+        "text-kumo-default",
+        "text-kumo-subtle"
+      ]
+    },
+    "LayerCard": {
+      "name": "LayerCard",
+      "type": "component",
+      "category": "Layout",
+      "description": "A card component with a layered visual effect, perfect for navigation or feature highlights.",
+      "importPath": "kumo-svelte/components/layer-card",
+      "sourceFile": "components/layer-card",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "as": {
+          "type": "string",
+          "optional": true,
+          "default": "div",
+          "description": "as prop."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "bg-kumo-elevated",
+        "ring-kumo-fill",
+        "ring-kumo-hairline",
+        "ring-kumo-line",
+        "text-kumo-subtle"
+      ]
+    },
+    "Link": {
+      "name": "Link",
+      "type": "component",
+      "category": "Action",
+      "description": "A styled anchor component for inline text links with multiple variants and composition support.",
+      "importPath": "kumo-svelte/components/link",
+      "sourceFile": "components/link",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "inline",
+            "current",
+            "plain"
+          ],
+          "default": "inline",
+          "description": "Visual style of the link."
+        },
+        "href": {
+          "type": "string",
+          "optional": true,
+          "description": "Link destination."
+        },
+        "to": {
+          "type": "string",
+          "optional": true,
+          "description": "Deprecated routing destination. Use href instead."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Content rendered inside the link."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        }
+      },
+      "colors": [
+        "text-kumo-link"
+      ]
+    },
+    "Loader": {
+      "name": "Loader",
+      "type": "component",
+      "category": "Feedback",
+      "description": "A loading spinner to indicate loading state.",
+      "importPath": "kumo-svelte/components/loader",
+      "sourceFile": "components/loader",
+      "props": {
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Size preset."
+        },
+        "aria-label": {
+          "type": "string",
+          "optional": true,
+          "default": "Loading",
+          "description": "Accessible label."
+        }
+      },
+      "colors": []
+    },
+    "MenuBar": {
+      "name": "MenuBar",
+      "type": "component",
+      "category": "Navigation",
+      "description": "A horizontal menu bar with icon buttons, commonly used for text editors or toolbars.",
+      "importPath": "kumo-svelte/components/menubar",
+      "sourceFile": "components/menubar",
+      "props": {
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the nav element."
+        },
+        "isActive": {
+          "type": "number | boolean | string",
+          "optional": false,
+          "required": true,
+          "description": "Currently active option value, matched against the option index or id."
+        },
+        "options": {
+          "type": "MenuOptionProps[]",
+          "optional": false,
+          "required": true,
+          "description": "Array of menu option configurations."
+        },
+        "optionIds": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "When true, each option's id is used for active matching instead of its array index."
+        }
+      },
+      "colors": []
+    },
+    "Meter": {
+      "name": "Meter",
+      "type": "component",
+      "category": "Display",
+      "description": "A progress/percentage meter component for displaying numeric values within a known range.",
+      "importPath": "kumo-svelte/components/meter",
+      "sourceFile": "components/meter",
+      "props": {
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "value": {
+          "type": "number",
+          "optional": true,
+          "default": "0",
+          "description": "Controlled value."
+        },
+        "min": {
+          "type": "number",
+          "optional": true,
+          "default": "0",
+          "description": "Minimum value."
+        },
+        "max": {
+          "type": "number",
+          "optional": true,
+          "default": "100",
+          "description": "Maximum value."
+        },
+        "customValue": {
+          "type": "string",
+          "optional": true,
+          "description": "Custom value label."
+        },
+        "label": {
+          "type": "string",
+          "optional": false,
+          "required": true,
+          "description": "Visible label content."
+        },
+        "showValue": {
+          "type": "boolean",
+          "optional": true,
+          "default": "true",
+          "description": "Shows the current value."
+        },
+        "trackClassName": {
+          "type": "string",
+          "optional": true,
+          "description": "Class for the meter track."
+        },
+        "indicatorClassName": {
+          "type": "string",
+          "optional": true,
+          "description": "Class for the meter indicator."
+        }
+      },
+      "colors": [
+        "bg-kumo-fill",
+        "text-kumo-default",
+        "text-kumo-subtle"
+      ]
+    },
+    "Pagination": {
+      "name": "Pagination",
+      "type": "component",
+      "category": "Navigation",
+      "description": "A page navigation component for navigating through paginated content.",
+      "importPath": "kumo-svelte/components/pagination",
+      "sourceFile": "components/pagination",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Compound component children for custom layouts."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "page": {
+          "type": "number",
+          "optional": true,
+          "default": "1",
+          "description": "Current page number (1-indexed)."
+        },
+        "setPage": {
+          "type": "(page: number) => void",
+          "optional": true,
+          "description": "Callback fired when the current page changes. In Svelte, bind:page can be used instead."
+        },
+        "perPage": {
+          "type": "number",
+          "optional": true,
+          "description": "Number of items displayed per page."
+        },
+        "totalCount": {
+          "type": "number",
+          "optional": true,
+          "description": "Total number of items across all pages."
+        },
+        "controls": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "full",
+            "simple"
+          ],
+          "default": "full",
+          "description": "Legacy API control density."
+        },
+        "text": {
+          "type": "(props: { page?: number; perPage?: number; totalCount?: number; pageShowingRange: string }) => unknown",
+          "optional": true,
+          "description": "Deprecated legacy render function for the info text. Prefer Pagination.Info children."
+        },
+        "labels": {
+          "type": "PaginationLabels",
+          "optional": true,
+          "description": "Labels for internationalization of aria-labels."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "border-kumo-hairline",
+        "ring-kumo-focus",
+        "ring-kumo-hairline",
+        "ring-kumo-line",
+        "text-kumo-default",
+        "text-kumo-subtle"
+      ],
+      "subComponents": {
+        "Controls": {
+          "description": "Pagination.Controls",
+          "props": {
+            "controls": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "full",
+                "simple"
+              ],
+              "default": "full",
+              "description": "Control density."
+            },
+            "pageSelector": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "input",
+                "dropdown"
+              ],
+              "default": "input",
+              "description": "How the page number selector is rendered in full controls mode."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Info": {
+          "description": "Pagination.Info",
+          "props": {
+            "children": {
+              "type": "Snippet<[{ page: number; perPage?: number; totalCount?: number; pageShowingRange: string }]>",
+              "optional": true,
+              "description": "Custom render snippet for the info text."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "PageSize": {
+          "description": "Pagination.PageSize",
+          "props": {
+            "value": {
+              "type": "number",
+              "optional": false,
+              "required": true,
+              "description": "Current page size value."
+            },
+            "onChange": {
+              "type": "(size: number) => void",
+              "optional": false,
+              "required": true,
+              "description": "Callback when page size changes."
+            },
+            "options": {
+              "type": "number[]",
+              "optional": true,
+              "description": "Available page size options."
+            },
+            "label": {
+              "type": "string | Snippet",
+              "optional": true,
+              "default": "Per page:",
+              "description": "Label shown before the selector."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Separator": {
+          "description": "Pagination.Separator",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        }
+      }
+    },
+    "Popover": {
+      "name": "Popover",
+      "type": "component",
+      "category": "Overlay",
+      "description": "An accessible popup anchored to a trigger element, used for displaying rich content like menus, forms, or additional information.",
+      "importPath": "kumo-svelte/components/popover",
+      "sourceFile": "components/popover",
+      "props": {
+        "open": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Controlled open state."
+        },
+        "defaultOpen": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Initial open state for uncontrolled usage."
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "optional": true,
+          "description": "Called when the open state changes."
+        },
+        "modal": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Whether the popover is modal."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "fill-kumo-base",
+        "fill-kumo-tip-shadow",
+        "fill-kumo-tip-stroke",
+        "text-kumo-default",
+        "text-kumo-subtle"
+      ]
+    },
+    "Radio": {
+      "name": "Radio",
+      "type": "component",
+      "category": "Input",
+      "description": "A control that allows the user to select one option from a set. Always used within a Radio.Group.",
+      "importPath": "kumo-svelte/components/radio",
+      "sourceFile": "components/radio",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "options": {
+          "type": "Option[]",
+          "optional": true,
+          "default": "[]",
+          "description": "Options rendered by the component."
+        },
+        "value": {
+          "type": "string",
+          "optional": true,
+          "description": "Controlled value."
+        },
+        "defaultValue": {
+          "type": "string",
+          "optional": true,
+          "description": "Initial uncontrolled value."
+        },
+        "name": {
+          "type": "string",
+          "optional": true,
+          "description": "Form field name."
+        },
+        "disabled": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Disables the component."
+        },
+        "required": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Marks the field as required."
+        },
+        "orientation": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "vertical",
+            "horizontal"
+          ],
+          "default": "vertical",
+          "description": "Layout orientation."
+        },
+        "appearance": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "default",
+            "card"
+          ],
+          "default": "default",
+          "description": "Visual appearance preset."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "default",
+            "error"
+          ],
+          "default": "default",
+          "description": "Visual variant."
+        },
+        "controlPosition": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "start",
+            "end"
+          ],
+          "description": "Control position relative to label."
+        },
+        "legend": {
+          "type": "string",
+          "optional": true,
+          "description": "legend prop."
+        },
+        "description": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Supporting description text."
+        },
+        "error": {
+          "type": "string",
+          "optional": true,
+          "description": "Validation error message or matcher."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "onValueChange": {
+          "type": "(value: string) => void",
+          "optional": true,
+          "description": "Called when the value changes."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "bg-kumo-contrast",
+        "bg-kumo-tint",
+        "border-kumo-danger",
+        "border-kumo-hairline",
+        "border-kumo-interact",
+        "ring-kumo-brand",
+        "ring-kumo-danger",
+        "ring-kumo-focus",
+        "ring-kumo-hairline",
+        "ring-kumo-line",
+        "text-kumo-danger",
+        "text-kumo-default",
+        "text-kumo-subtle"
+      ],
+      "subComponents": {
+        "Group": {
+          "description": "Radio.Group",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "legend": {
+              "type": "string",
+              "optional": true,
+              "description": "legend prop."
+            },
+            "orientation": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "vertical",
+                "horizontal"
+              ],
+              "default": "vertical",
+              "description": "Layout orientation."
+            },
+            "appearance": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "default",
+                "card"
+              ],
+              "default": "default",
+              "description": "Visual appearance preset."
+            },
+            "error": {
+              "type": "string",
+              "optional": true,
+              "description": "Validation error message or matcher."
+            },
+            "description": {
+              "type": "string | Snippet",
+              "optional": true,
+              "description": "Supporting description text."
+            },
+            "value": {
+              "type": "string",
+              "optional": true,
+              "description": "Controlled value."
+            },
+            "defaultValue": {
+              "type": "string",
+              "optional": true,
+              "description": "Initial uncontrolled value."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Disables the component."
+            },
+            "required": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Marks the field as required."
+            },
+            "controlPosition": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "start",
+                "end"
+              ],
+              "description": "Control position relative to label."
+            },
+            "name": {
+              "type": "string",
+              "optional": true,
+              "description": "Form field name."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "onValueChange": {
+              "type": "(value: string) => void",
+              "optional": true,
+              "description": "Called when the value changes."
+            }
+          }
+        },
+        "Item": {
+          "description": "Radio.Item",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Disables the component."
+            },
+            "variant": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "default",
+                "error"
+              ],
+              "default": "default",
+              "description": "Visual variant."
+            },
+            "appearance": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "default",
+                "card"
+              ],
+              "description": "Visual appearance preset."
+            },
+            "label": {
+              "type": "string | Snippet",
+              "optional": false,
+              "required": true,
+              "description": "Visible label content."
+            },
+            "description": {
+              "type": "string | Snippet",
+              "optional": true,
+              "description": "Supporting description text."
+            },
+            "value": {
+              "type": "string",
+              "optional": false,
+              "required": true,
+              "description": "Controlled value."
+            }
+          }
+        },
+        "Legend": {
+          "description": "Radio.Legend",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        }
+      }
+    },
+    "Select": {
+      "name": "Select",
+      "type": "component",
+      "category": "Input",
+      "description": "Displays a list of options for the user to pick from—triggered by a button.",
+      "importPath": "kumo-svelte/components/select",
+      "sourceFile": "components/select",
+      "props": {
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "options": {
+          "type": "Option[]",
+          "optional": true,
+          "default": "[]",
+          "description": "Options rendered by the component."
+        },
+        "items": {
+          "type": "Record<string, SelectItemValue> | { label: Snippet | string; value: Value }[]",
+          "optional": true,
+          "description": "Items rendered by the component."
+        },
+        "value": {
+          "type": "Value",
+          "optional": true,
+          "description": "Controlled value."
+        },
+        "defaultValue": {
+          "type": "Value",
+          "optional": true,
+          "description": "Initial uncontrolled value."
+        },
+        "placeholder": {
+          "type": "string",
+          "optional": true,
+          "default": "Select...",
+          "description": "Placeholder text."
+        },
+        "disabled": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Disables the component."
+        },
+        "loading": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Loading state."
+        },
+        "multiple": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Enables multiple selection."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "xs",
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Size preset."
+        },
+        "label": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Visible label content."
+        },
+        "hideLabel": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "hideLabel prop."
+        },
+        "labelTooltip": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Optional help content for the label."
+        },
+        "description": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Supporting description text."
+        },
+        "error": {
+          "type": "FieldError",
+          "optional": true,
+          "description": "Validation error message or matcher."
+        },
+        "name": {
+          "type": "string",
+          "optional": true,
+          "description": "Form field name."
+        },
+        "required": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Marks the field as required."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "renderValue": {
+          "type": "(value: Value) => unknown",
+          "optional": true,
+          "description": "Custom selected-value renderer."
+        },
+        "container": {
+          "type": "HTMLElement | string",
+          "optional": true,
+          "description": "Container element for the portal."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "bg-kumo-tint",
+        "ring-kumo-brand",
+        "ring-kumo-focus",
+        "ring-kumo-line",
+        "text-kumo-default",
+        "text-kumo-placeholder",
+        "text-kumo-subtle"
+      ]
+    },
+    "SensitiveInput": {
+      "name": "SensitiveInput",
+      "type": "component",
+      "category": "Input",
+      "description": "A masked input for sensitive values like API keys and passwords. Click to reveal.",
+      "importPath": "kumo-svelte/components/sensitive-input",
+      "sourceFile": "components/sensitive-input",
+      "props": {
+        "value": {
+          "type": "string",
+          "optional": true,
+          "description": "Controlled value."
+        },
+        "defaultValue": {
+          "type": "string",
+          "optional": true,
+          "default": "",
+          "description": "Initial uncontrolled value."
+        },
+        "onValueChange": {
+          "type": "(value: string) => void",
+          "optional": true,
+          "description": "Called when the value changes."
+        },
+        "onCopy": {
+          "type": "() => void",
+          "optional": true,
+          "description": "Called after copying succeeds."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "xs",
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Size preset."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "default",
+            "error"
+          ],
+          "default": "default",
+          "description": "Visual variant."
+        },
+        "label": {
+          "type": "FieldText",
+          "optional": true,
+          "description": "Visible label content."
+        },
+        "labelTooltip": {
+          "type": "FieldText",
+          "optional": true,
+          "description": "Optional help content for the label."
+        },
+        "description": {
+          "type": "FieldText",
+          "optional": true,
+          "description": "Supporting description text."
+        },
+        "error": {
+          "type": "FieldError",
+          "optional": true,
+          "description": "Validation error message or matcher."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "id": {
+          "type": "string",
+          "optional": true,
+          "description": "Element id."
+        },
+        "disabled": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Disables the component."
+        },
+        "readOnly": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Makes the input read-only."
+        },
+        "readonly": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Makes the input read-only."
+        },
+        "required": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Marks the field as required."
+        },
+        "autocomplete": {
+          "type": "string",
+          "optional": true,
+          "description": "Autocomplete attribute."
+        },
+        "autoComplete": {
+          "type": "string",
+          "optional": true,
+          "default": "off",
+          "description": "Autocomplete attribute."
+        },
+        "oninput": {
+          "type": "(event: Event) => void",
+          "optional": true,
+          "description": "Input event handler."
+        },
+        "onchange": {
+          "type": "(event: Event) => void",
+          "optional": true,
+          "description": "Change event handler."
+        },
+        "onblur": {
+          "type": "(event: FocusEvent) => void",
+          "optional": true,
+          "description": "Blur event handler."
+        },
+        "onkeydown": {
+          "type": "(event: KeyboardEvent) => void",
+          "optional": true,
+          "description": "Keydown event handler."
+        }
+      },
+      "colors": [
+        "bg-kumo-brand",
+        "bg-kumo-control",
+        "ring-kumo-brand",
+        "ring-kumo-danger",
+        "ring-kumo-focus",
+        "ring-kumo-line",
+        "text-kumo-default",
+        "text-kumo-subtle"
+      ]
+    },
+    "Sidebar": {
+      "name": "Sidebar",
+      "type": "component",
+      "category": "Navigation",
+      "description": "A composable sidebar navigation component with collapsible groups, icon-only mode, and responsive mobile support.",
+      "importPath": "kumo-svelte/components/sidebar",
+      "sourceFile": "components/sidebar",
+      "props": {
+        "children": {
+          "type": "Snippet",
+          "optional": false,
+          "required": true,
+          "description": "Sidebar content — Header, Content, Footer, groups, menus, and related slots."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes for the sidebar element."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "sidebar",
+            "floating",
+            "inset"
+          ],
+          "default": "sidebar",
+          "description": "Sidebar layout variant inherited from Provider."
+        },
+        "side": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "left",
+            "right"
+          ],
+          "default": "left",
+          "description": "Side of the viewport or layout where the sidebar renders."
+        },
+        "collapsible": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "icon",
+            "offcanvas",
+            "none"
+          ],
+          "default": "icon",
+          "description": "Collapse behavior inherited from Provider."
+        }
+      },
+      "colors": [
+        "bg-kumo-fill",
+        "bg-kumo-surface",
+        "bg-kumo-tint",
+        "border-kumo-line",
+        "text-kumo-default"
+      ],
+      "subComponents": {
+        "Input": {
+          "description": "Sidebar.Input",
+          "props": {
+            "placeholder": {
+              "type": "string",
+              "optional": true,
+              "default": "Search...",
+              "description": "Placeholder text displayed inside the search trigger."
+            },
+            "shortcut": {
+              "type": "string",
+              "optional": true,
+              "description": "Keyboard shortcut hint, such as \"⌘K\"."
+            },
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Custom visible label. Falls back to placeholder."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes."
+            }
+          }
+        },
+        "MenuButton": {
+          "description": "Sidebar.MenuButton",
+          "props": {
+            "icon": {
+              "type": "Component | Snippet",
+              "optional": true,
+              "description": "Icon rendered before the label."
+            },
+            "active": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Marks this item as currently active."
+            },
+            "size": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "base",
+                "sm"
+              ],
+              "default": "base",
+              "description": "Button size."
+            },
+            "href": {
+              "type": "string",
+              "optional": true,
+              "description": "Navigation URL. When set, renders as a link."
+            },
+            "tooltip": {
+              "type": "string",
+              "optional": true,
+              "description": "Tooltip label shown when the sidebar is collapsed."
+            },
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Menu button label and inline content."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes."
+            }
+          }
+        },
+        "MenuSubButton": {
+          "description": "Sidebar.MenuSubButton",
+          "props": {
+            "active": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Marks this sub-item as currently active."
+            },
+            "href": {
+              "type": "string",
+              "optional": true,
+              "description": "Navigation URL. When set, renders as a link."
+            },
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Sub-menu button label and inline content."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes."
+            }
+          }
+        },
+        "Provider": {
+          "description": "Sidebar.Provider",
+          "props": {
+            "defaultOpen": {
+              "type": "boolean",
+              "optional": true,
+              "default": "true",
+              "description": "Initial open state when uncontrolled."
+            },
+            "open": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Controlled open state."
+            },
+            "onOpenChange": {
+              "type": "(open: boolean) => void",
+              "optional": true,
+              "description": "Callback when open state changes."
+            },
+            "variant": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "sidebar",
+                "floating",
+                "inset"
+              ],
+              "default": "sidebar",
+              "description": "Sidebar layout variant."
+            },
+            "side": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "left",
+                "right"
+              ],
+              "default": "left",
+              "description": "Which side the sidebar is on."
+            },
+            "collapsible": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "icon",
+                "offcanvas",
+                "none"
+              ],
+              "default": "icon",
+              "description": "Collapse behavior for the sidebar."
+            },
+            "resizable": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Enable drag-to-resize on the sidebar edge."
+            },
+            "defaultWidth": {
+              "type": "number",
+              "optional": true,
+              "default": "256",
+              "description": "Initial width in pixels when resizable."
+            },
+            "minWidth": {
+              "type": "number",
+              "optional": true,
+              "default": "200",
+              "description": "Minimum width in pixels when resizing."
+            },
+            "maxWidth": {
+              "type": "number",
+              "optional": true,
+              "default": "480",
+              "description": "Maximum width in pixels when resizing."
+            },
+            "onWidthChange": {
+              "type": "(width: number) => void",
+              "optional": true,
+              "description": "Callback when width changes during resize."
+            },
+            "children": {
+              "type": "Snippet",
+              "optional": false,
+              "required": true,
+              "description": "Content, typically Sidebar plus main content."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes for the wrapper div."
+            }
+          }
+        }
+      }
+    },
+    "SkeletonLine": {
+      "name": "SkeletonLine",
+      "type": "component",
+      "category": "Feedback",
+      "description": "A skeleton loading placeholder for text content.",
+      "importPath": "kumo-svelte/primitives/skeleton-line",
+      "sourceFile": "primitives/skeleton-line",
+      "props": {
+        "minWidth": {
+          "type": "number",
+          "optional": true,
+          "default": "30",
+          "description": "minWidth prop."
+        },
+        "maxWidth": {
+          "type": "number",
+          "optional": true,
+          "default": "100",
+          "description": "maxWidth prop."
+        },
+        "minDuration": {
+          "type": "number",
+          "optional": true,
+          "default": "1.3",
+          "description": "minDuration prop."
+        },
+        "maxDuration": {
+          "type": "number",
+          "optional": true,
+          "default": "1.7",
+          "description": "maxDuration prop."
+        },
+        "minDelay": {
+          "type": "number",
+          "optional": true,
+          "default": "0",
+          "description": "minDelay prop."
+        },
+        "maxDelay": {
+          "type": "number",
+          "optional": true,
+          "default": "0.5",
+          "description": "maxDelay prop."
+        },
+        "blockHeight": {
+          "type": "string | number",
+          "optional": true,
+          "description": "blockHeight prop."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        }
+      },
+      "colors": []
+    },
+    "Switch": {
+      "name": "Switch",
+      "type": "component",
+      "category": "Other",
+      "description": "A two-state button that can be either on or off.",
+      "importPath": "kumo-svelte/components/switch",
+      "sourceFile": "components/switch",
+      "props": {
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "checked": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Checked state."
+        },
+        "disabled": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Disables the component."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Size preset."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "default",
+            "neutral"
+          ],
+          "default": "default",
+          "description": "Visual variant."
+        },
+        "label": {
+          "type": "string",
+          "optional": true,
+          "description": "Visible label content."
+        },
+        "labelTooltip": {
+          "type": "string | Snippet",
+          "optional": true,
+          "description": "Optional help content for the label."
+        },
+        "required": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Marks the field as required."
+        },
+        "controlFirst": {
+          "type": "boolean",
+          "optional": true,
+          "default": "true",
+          "description": "Renders the control before label content."
+        },
+        "transitioning": {
+          "type": "boolean",
+          "optional": true,
+          "description": "transitioning prop."
+        },
+        "id": {
+          "type": "string",
+          "optional": true,
+          "description": "Element id."
+        },
+        "aria-label": {
+          "type": "string",
+          "optional": true,
+          "description": "Accessible label."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "onchange": {
+          "type": "(checked: boolean) => void",
+          "optional": true,
+          "description": "Change event handler."
+        },
+        "onCheckedChange": {
+          "type": "(checked: boolean) => void",
+          "optional": true,
+          "description": "Called when checked changes."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "ring-kumo-brand",
+        "ring-kumo-focus",
+        "ring-kumo-hairline",
+        "text-kumo-danger",
+        "text-kumo-default",
+        "text-kumo-muted",
+        "text-kumo-subtle"
+      ],
+      "subComponents": {
+        "Group": {
+          "description": "Switch.Group",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "legend": {
+              "type": "string",
+              "optional": true,
+              "description": "legend prop."
+            },
+            "description": {
+              "type": "string",
+              "optional": true,
+              "description": "Supporting description text."
+            },
+            "error": {
+              "type": "string",
+              "optional": true,
+              "description": "Validation error message or matcher."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Disables the component."
+            },
+            "controlFirst": {
+              "type": "boolean",
+              "optional": true,
+              "default": "true",
+              "description": "Renders the control before label content."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Item": {
+          "description": "Switch.Item",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "checked": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Checked state."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Disables the component."
+            },
+            "size": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "sm",
+                "base",
+                "lg"
+              ],
+              "default": "base",
+              "description": "Size preset."
+            },
+            "variant": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "default",
+                "neutral"
+              ],
+              "default": "default",
+              "description": "Visual variant."
+            },
+            "label": {
+              "type": "string",
+              "optional": false,
+              "required": true,
+              "description": "Visible label content."
+            },
+            "transitioning": {
+              "type": "boolean",
+              "optional": true,
+              "description": "transitioning prop."
+            },
+            "onchange": {
+              "type": "(checked: boolean) => void",
+              "optional": true,
+              "description": "Change event handler."
+            },
+            "onCheckedChange": {
+              "type": "(checked: boolean) => void",
+              "optional": true,
+              "description": "Called when checked changes."
+            }
+          }
+        },
+        "Legend": {
+          "description": "Switch.Legend",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        }
+      }
+    },
+    "Table": {
+      "name": "Table",
+      "type": "component",
+      "category": "Other",
+      "description": "A table component for displaying tabular data with support for selection, row variants, and column sizing.",
+      "importPath": "kumo-svelte/components/table",
+      "sourceFile": "components/table",
+      "props": {
+        "layout": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "auto",
+            "fixed"
+          ],
+          "default": "auto",
+          "description": "Table layout algorithm."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Table section and row children."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "bg-kumo-elevated",
+        "bg-kumo-hairline",
+        "bg-kumo-tint",
+        "border-kumo-fill",
+        "ring-kumo-brand",
+        "text-kumo-default",
+        "text-kumo-strong"
+      ],
+      "subComponents": {
+        "Body": {
+          "description": "Table.Body",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Body row children."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the tbody element."
+            }
+          }
+        },
+        "Cell": {
+          "description": "Table.Cell",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Body cell content."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "sticky": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "left",
+                "right"
+              ],
+              "description": "Pin this cell to the left or right edge of the scroll container."
+            }
+          }
+        },
+        "CheckCell": {
+          "description": "Table.CheckCell",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "checked": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Checked state for the row checkbox."
+            },
+            "indeterminate": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Indeterminate state for the row checkbox."
+            },
+            "onCheckedChange": {
+              "type": "(checked: boolean) => void",
+              "optional": true,
+              "description": "Called when the checkbox's checked state changes."
+            },
+            "onValueChange": {
+              "type": "(checked: boolean) => void",
+              "optional": true,
+              "description": "Deprecated. Use onCheckedChange instead."
+            },
+            "label": {
+              "type": "string",
+              "optional": true,
+              "description": "Accessible label for the checkbox."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Disables the component."
+            }
+          }
+        },
+        "CheckHead": {
+          "description": "Table.CheckHead",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "checked": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Checked state for the select-all checkbox."
+            },
+            "indeterminate": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Indeterminate state for the select-all checkbox."
+            },
+            "onCheckedChange": {
+              "type": "(checked: boolean) => void",
+              "optional": true,
+              "description": "Called when the checkbox's checked state changes."
+            },
+            "onValueChange": {
+              "type": "(checked: boolean) => void",
+              "optional": true,
+              "description": "Deprecated. Use onCheckedChange instead."
+            },
+            "label": {
+              "type": "string",
+              "optional": true,
+              "description": "Accessible label for the checkbox."
+            },
+            "disabled": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Disables the component."
+            }
+          }
+        },
+        "Footer": {
+          "description": "Table.Footer",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Footer row children."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the tfoot element."
+            }
+          }
+        },
+        "Head": {
+          "description": "Table.Head",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Header cell content."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "sticky": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "left",
+                "right"
+              ],
+              "description": "Pin this header cell to the left or right edge of the scroll container."
+            }
+          }
+        },
+        "Header": {
+          "description": "Table.Header",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Header row children."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "variant": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "default",
+                "compact"
+              ],
+              "default": "default",
+              "description": "Header density variant."
+            },
+            "sticky": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Make the header row stick to the top of the scroll container."
+            }
+          }
+        },
+        "ResizeHandle": {
+          "description": "Table.ResizeHandle",
+          "props": {
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the resize button."
+            }
+          }
+        },
+        "Row": {
+          "description": "Table.Row",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Cell children."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            },
+            "variant": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "default",
+                "selected"
+              ],
+              "default": "default",
+              "description": "Row visual state."
+            }
+          }
+        }
+      }
+    },
+    "TableOfContents": {
+      "name": "TableOfContents",
+      "type": "component",
+      "category": "Navigation",
+      "description": "Presentational compound component for section navigation with an active indicator bar.",
+      "importPath": "kumo-svelte/components/table-of-contents",
+      "sourceFile": "components/table-of-contents",
+      "props": {
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the nav element."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "TableOfContents.Title and TableOfContents.List children."
+        },
+        "aria-label": {
+          "type": "string",
+          "optional": true,
+          "default": "Table of contents",
+          "description": "Accessible label for the nav landmark."
+        }
+      },
+      "colors": [
+        "border-kumo-brand",
+        "border-kumo-hairline",
+        "border-kumo-line",
+        "text-kumo-default",
+        "text-kumo-subtle"
+      ],
+      "subComponents": {
+        "Group": {
+          "description": "TableOfContents.Group",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Nested TableOfContents.Item children."
+            },
+            "label": {
+              "type": "string",
+              "optional": false,
+              "required": true,
+              "description": "Label displayed above the group's items."
+            },
+            "href": {
+              "type": "string",
+              "optional": true,
+              "description": "URL the group label links to. When provided, the label renders as a clickable link."
+            },
+            "active": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Whether this group's label represents the currently active section. Only applies when href is provided."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Item": {
+          "description": "TableOfContents.Item",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Item label content."
+            },
+            "active": {
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Whether this item represents the currently active section."
+            },
+            "href": {
+              "type": "string",
+              "optional": true,
+              "description": "Destination URL."
+            },
+            "as": {
+              "type": "enum",
+              "optional": true,
+              "values": [
+                "a",
+                "button"
+              ],
+              "default": "a",
+              "description": "Svelte replacement for React's render prop when rendering a button item."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "List": {
+          "description": "TableOfContents.List",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        },
+        "Title": {
+          "description": "TableOfContents.Title",
+          "props": {
+            "children": {
+              "type": "Snippet",
+              "optional": true,
+              "description": "Child snippet rendered by the component."
+            },
+            "class": {
+              "type": "string",
+              "optional": true,
+              "description": "Additional classes merged onto the root element."
+            }
+          }
+        }
+      }
+    },
+    "Tabs": {
+      "name": "Tabs",
+      "type": "component",
+      "category": "Navigation",
+      "description": "A set of layered sections of content, known as tab panels, displayed one at a time.",
+      "importPath": "kumo-svelte/components/tabs",
+      "sourceFile": "components/tabs",
+      "props": {
+        "tabs": {
+          "type": "TabsItem[]",
+          "optional": true,
+          "description": "Array of tab items to render."
+        },
+        "value": {
+          "type": "string",
+          "optional": true,
+          "description": "Controlled value."
+        },
+        "selectedValue": {
+          "type": "string",
+          "optional": true,
+          "description": "Default selected value for uncontrolled mode. Ignored when value is set."
+        },
+        "onValueChange": {
+          "type": "(value: string) => void",
+          "optional": true,
+          "description": "Called when the value changes."
+        },
+        "activateOnFocus": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "When true, tabs are activated immediately upon receiving focus via arrow keys."
+        },
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "segmented",
+            "underline"
+          ],
+          "default": "segmented",
+          "description": "Tab style."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "base",
+            "sm"
+          ],
+          "default": "base",
+          "description": "Tab size."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the root element."
+        },
+        "listClassName": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes for the tab list element."
+        },
+        "indicatorClassName": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes for the indicator element."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "bg-kumo-brand",
+        "bg-kumo-recessed",
+        "bg-kumo-tint",
+        "border-kumo-hairline",
+        "ring-kumo-brand",
+        "ring-kumo-focus",
+        "ring-kumo-hairline",
+        "ring-kumo-line",
+        "text-kumo-default",
+        "text-kumo-subtle"
+      ]
+    },
+    "Text": {
+      "name": "Text",
+      "type": "component",
+      "category": "Other",
+      "description": "A typography component for various heading and copy styles.",
+      "importPath": "kumo-svelte/components/text",
+      "sourceFile": "components/text",
+      "props": {
+        "variant": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "heading1",
+            "heading2",
+            "heading3",
+            "body",
+            "secondary",
+            "mono",
+            "mono-secondary",
+            "success",
+            "error"
+          ],
+          "default": "body",
+          "description": "Visual variant."
+        },
+        "size": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "xs",
+            "sm",
+            "base",
+            "lg"
+          ],
+          "default": "base",
+          "description": "Size preset."
+        },
+        "bold": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Whether to use medium font weight for copy variants."
+        },
+        "truncate": {
+          "type": "boolean",
+          "optional": true,
+          "default": "false",
+          "description": "Truncates overflowing text with an ellipsis."
+        },
+        "as": {
+          "type": "TextElement",
+          "optional": true,
+          "description": "HTML element to render."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Text content."
+        },
+        "DANGEROUS_className": {
+          "type": "string",
+          "optional": true,
+          "description": "Escape hatch for additional classes."
+        },
+        "DANGEROUS_style": {
+          "type": "string",
+          "optional": true,
+          "description": "Escape hatch for inline styles."
+        }
+      },
+      "colors": [
+        "text-kumo-danger",
+        "text-kumo-default",
+        "text-kumo-link",
+        "text-kumo-subtle"
+      ]
+    },
+    "Toast": {
+      "name": "Toast",
+      "type": "component",
+      "category": "Feedback",
+      "description": "A notification system for displaying brief, non-intrusive messages to users.",
+      "importPath": "kumo-svelte/components/toast",
+      "sourceFile": "components/toast",
+      "props": {},
+      "colors": []
+    },
+    "Tooltip": {
+      "name": "Tooltip",
+      "type": "component",
+      "category": "Overlay",
+      "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+      "importPath": "kumo-svelte/components/tooltip",
+      "sourceFile": "components/tooltip",
+      "props": {
+        "trigger": {
+          "type": "Snippet<[Record<string, unknown>]>",
+          "optional": true,
+          "description": "trigger prop."
+        },
+        "children": {
+          "type": "Snippet",
+          "optional": true,
+          "description": "Child snippet rendered by the component."
+        },
+        "content": {
+          "type": "string | Snippet",
+          "optional": false,
+          "required": true,
+          "description": "Content to display inside the tooltip popup."
+        },
+        "class": {
+          "type": "string",
+          "optional": true,
+          "description": "Additional classes merged onto the tooltip popup."
+        },
+        "open": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Controlled open state."
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "optional": true,
+          "description": "Called when open state changes."
+        },
+        "side": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+          ],
+          "default": "top",
+          "description": "Preferred floating side."
+        },
+        "align": {
+          "type": "enum",
+          "optional": true,
+          "values": [
+            "start",
+            "center",
+            "end"
+          ],
+          "description": "Floating alignment."
+        },
+        "delay": {
+          "type": "number",
+          "optional": true,
+          "default": "600",
+          "description": "How long to wait before opening the tooltip, in milliseconds."
+        },
+        "container": {
+          "type": "HTMLElement | string",
+          "optional": true,
+          "default": "document.body",
+          "description": "Portal container for custom roots or Shadow DOM."
+        },
+        "disabled": {
+          "type": "boolean",
+          "optional": true,
+          "description": "Disables the component."
+        }
+      },
+      "colors": [
+        "bg-kumo-base",
+        "fill-kumo-base",
+        "fill-kumo-tip-shadow",
+        "fill-kumo-tip-stroke",
+        "text-kumo-default"
+      ]
+    }
   },
   "blocks": {
     "PageHeader": {
@@ -49,15 +5231,24 @@
       "type": "block",
       "category": "Layout",
       "description": "Composite page header with breadcrumbs, title, actions, and tabs.",
-      "files": ["page-header/page-header.svelte", "page-header/index.ts"],
-      "dependencies": ["Breadcrumbs", "Tabs"]
+      "files": [
+        "page-header/page-header.svelte",
+        "page-header/index.ts"
+      ],
+      "dependencies": [
+        "Breadcrumbs",
+        "Tabs"
+      ]
     },
     "ResourceListPage": {
       "name": "ResourceListPage",
       "type": "block",
       "category": "Layout",
       "description": "Resource list page layout with optional sidebar content.",
-      "files": ["resource-list/resource-list.svelte", "resource-list/index.ts"],
+      "files": [
+        "resource-list/resource-list.svelte",
+        "resource-list/index.ts"
+      ],
       "dependencies": []
     },
     "DeleteResource": {
@@ -65,14 +5256,170 @@
       "type": "block",
       "category": "Feedback",
       "description": "Confirmation dialog for deleting named resources.",
-      "files": ["delete-resource/delete-resource.svelte", "delete-resource/index.ts"],
-      "dependencies": ["Banner", "Button", "Dialog", "Input"]
+      "files": [
+        "delete-resource/delete-resource.svelte",
+        "delete-resource/index.ts"
+      ],
+      "dependencies": [
+        "Banner",
+        "Button",
+        "Dialog",
+        "Input"
+      ]
     }
   },
   "search": {
+    "byName": [
+      "Autocomplete",
+      "Badge",
+      "Banner",
+      "Breadcrumbs",
+      "Button",
+      "Checkbox",
+      "ClipboardText",
+      "CloudflareLogo",
+      "Code",
+      "Collapsible",
+      "Combobox",
+      "CommandPalette",
+      "DatePicker",
+      "Dialog",
+      "DropdownMenu",
+      "Empty",
+      "Flow",
+      "Grid",
+      "Input",
+      "InputArea",
+      "InputGroup",
+      "Label",
+      "LayerCard",
+      "Link",
+      "Loader",
+      "MenuBar",
+      "Meter",
+      "Pagination",
+      "Popover",
+      "Radio",
+      "Select",
+      "SensitiveInput",
+      "Sidebar",
+      "SkeletonLine",
+      "Switch",
+      "Table",
+      "TableOfContents",
+      "Tabs",
+      "Text",
+      "Toast",
+      "Tooltip"
+    ],
+    "byCategory": {
+      "Action": [
+        "Button",
+        "Link"
+      ],
+      "Display": [
+        "Badge",
+        "ClipboardText",
+        "Code",
+        "Flow",
+        "Meter"
+      ],
+      "Feedback": [
+        "Banner",
+        "Empty",
+        "Loader",
+        "SkeletonLine",
+        "Toast"
+      ],
+      "Input": [
+        "Autocomplete",
+        "Checkbox",
+        "Combobox",
+        "DatePicker",
+        "Input",
+        "InputArea",
+        "InputGroup",
+        "Label",
+        "Radio",
+        "Select",
+        "SensitiveInput"
+      ],
+      "Layout": [
+        "Grid",
+        "LayerCard"
+      ],
+      "Navigation": [
+        "Breadcrumbs",
+        "CommandPalette",
+        "MenuBar",
+        "Pagination",
+        "Sidebar",
+        "TableOfContents",
+        "Tabs"
+      ],
+      "Other": [
+        "CloudflareLogo",
+        "Collapsible",
+        "Switch",
+        "Table",
+        "Text"
+      ],
+      "Overlay": [
+        "Dialog",
+        "DropdownMenu",
+        "Popover",
+        "Tooltip"
+      ]
+    },
     "byType": {
-      "component": ["Autocomplete", "Badge", "Banner", "Breadcrumbs", "Button", "Checkbox", "ClipboardText", "CloudflareLogo", "Code", "Collapsible", "Combobox", "CommandPalette", "DatePicker", "Dialog", "DropdownMenu", "Empty", "Flow", "Grid", "Input", "InputArea", "InputGroup", "Label", "LayerCard", "Link", "Loader", "MenuBar", "Meter", "Pagination", "Popover", "Radio", "Select", "SensitiveInput", "Sidebar", "SkeletonLine", "Switch", "Table", "TableOfContents", "Tabs", "Text", "Toast", "Tooltip"],
-      "block": ["PageHeader", "ResourceListPage", "DeleteResource"]
+      "component": [
+        "Autocomplete",
+        "Badge",
+        "Banner",
+        "Breadcrumbs",
+        "Button",
+        "Checkbox",
+        "ClipboardText",
+        "CloudflareLogo",
+        "Code",
+        "Collapsible",
+        "Combobox",
+        "CommandPalette",
+        "DatePicker",
+        "Dialog",
+        "DropdownMenu",
+        "Empty",
+        "Flow",
+        "Grid",
+        "Input",
+        "InputArea",
+        "InputGroup",
+        "Label",
+        "LayerCard",
+        "Link",
+        "Loader",
+        "MenuBar",
+        "Meter",
+        "Pagination",
+        "Popover",
+        "Radio",
+        "Select",
+        "SensitiveInput",
+        "Sidebar",
+        "SkeletonLine",
+        "Switch",
+        "Table",
+        "TableOfContents",
+        "Tabs",
+        "Text",
+        "Toast",
+        "Tooltip"
+      ],
+      "block": [
+        "DeleteResource",
+        "PageHeader",
+        "ResourceListPage"
+      ]
     }
   }
 }

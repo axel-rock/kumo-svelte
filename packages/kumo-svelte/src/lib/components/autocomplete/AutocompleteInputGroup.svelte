@@ -18,6 +18,14 @@
     base: 'h-9 rounded-lg px-3 text-base',
     lg: 'h-10 rounded-lg px-4 text-base'
   };
+
+  function isUserTextEdit(event: InputEvent) {
+    return (
+      (event.inputType === 'insertText' && event.data) ||
+      event.inputType === 'deleteContentBackward' ||
+      event.inputType === 'deleteContentForward'
+    );
+  }
 </script>
 
 <input
@@ -33,12 +41,24 @@
   value={context.query}
   {placeholder}
   aria-invalid={context.invalid || undefined}
-  oninput={(event) => {
-    context.query = (event.currentTarget as HTMLInputElement).value;
-    context.open = true;
+  onbeforeinput={(event) => {
+    if (isUserTextEdit(event)) {
+      context.markInputTyped();
+    }
   }}
-  onfocus={() => (context.open = true)}
+  oninput={(event) => {
+    const inputEvent = event as unknown as InputEvent;
+    if (isUserTextEdit(inputEvent)) {
+      context.markInputTyped();
+    }
+    context.query = (event.currentTarget as HTMLInputElement).value;
+    if (context.hasTypedSinceFocus) context.open = true;
+  }}
+  onfocus={() => context.resetInputInteraction()}
   onkeydown={(event) => {
+    if (event.key.length === 1 && !event.metaKey && !event.ctrlKey && !event.altKey) {
+      context.markInputTyped();
+    }
     if (event.key === 'Escape') context.open = false;
   }}
   {...rest}

@@ -23,8 +23,11 @@ export type AutocompleteContext = {
   set value(value: AutocompleteValue);
   get open(): boolean;
   set open(value: boolean);
+  get hasTypedSinceFocus(): boolean;
   get size(): AutocompleteSize;
   get invalid(): boolean;
+  markInputTyped(): void;
+  resetInputInteraction(): void;
   isSelected(item: NormalizedAutocompleteItem): boolean;
   select(item: NormalizedAutocompleteItem): void;
 };

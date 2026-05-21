@@ -11,6 +11,6 @@
   let { children, class: className, ...rest }: Props = $props();
 </script>
 
-<div class={cn('border-t border-kumo-line px-3 py-2 text-xs text-kumo-subtle', className)} {...rest}>
+<div class={cn('flex items-center justify-between rounded-b-lg bg-kumo-elevated px-4 py-3 text-xs text-kumo-subtle', className)} {...rest}>
   {@render children?.()}
 </div>

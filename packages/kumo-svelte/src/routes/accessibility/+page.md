@@ -12,7 +12,7 @@ description: "Learn how to make the most of Kumo's accessibility features and gu
 </script>
 
 
-Accessibility is a top priority for Kumo. Built on [Base UI](https://base-ui.com/react/overview/accessibility), Kumo components handle many complex accessibility details including ARIA attributes, role attributes, pointer interactions, keyboard navigation, and focus management. The goal is to provide an accessible user experience out of the box, with intuitive APIs for configuration.
+Accessibility is a top priority for Kumo. Built on [Bits UI](https://bits-ui.com/docs), Kumo components handle many complex accessibility details including ARIA attributes, role attributes, pointer interactions, keyboard navigation, and focus management. The goal is to provide an accessible user experience out of the box, with intuitive APIs for configuration.
 
 This page highlights some of the key accessibility features of Kumo, as well as some ways you will need to augment the library, in order to ensure that your application is accessible to everyone.
 
@@ -40,8 +40,8 @@ Most applications will present custom controls that require accessible names pro
 
 ## Testing
 
-Kumo components, built on Base UI, are tested on a broad spectrum of browsers, devices, platforms, screen readers, and environments to ensure accessibility across different user contexts.
+Kumo components, built on Bits UI, are tested on a broad spectrum of browsers, devices, platforms, screen readers, and environments to ensure accessibility across different user contexts.
 
 ---
 
-For more detailed information about the accessibility features provided by Base UI, visit the [official accessibility documentation](https://base-ui.com/react/overview/accessibility).
+For more detailed information about the accessibility features provided by Bits UI, visit the [official Bits UI documentation](https://bits-ui.com/docs).

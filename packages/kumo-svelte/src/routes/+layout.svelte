@@ -7,6 +7,9 @@
 <svelte:head>
   <title>Kumo Svelte</title>
   <meta name="description" content="Kumo - a modern component library" />
+  <meta name="kumo-version" content={__KUMO_VERSION__} />
+  <meta name="docs-version" content={__DOCS_VERSION__} />
+  <meta name="build-date" content={__BUILD_DATE__} />
   <meta name="color-scheme" content="light dark" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />

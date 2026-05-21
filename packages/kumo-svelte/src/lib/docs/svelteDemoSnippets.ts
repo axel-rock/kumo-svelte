@@ -1,4 +1,4 @@
-const demoSources = import.meta.glob('./demo-snippets/*.svelte', {
+const demoSources = import.meta.glob('./demo-snippets/**/*.svelte', {
   eager: true,
   query: '?raw',
   import: 'default'
@@ -7,7 +7,13 @@ const demoSources = import.meta.glob('./demo-snippets/*.svelte', {
 const snippets = new Map(
   Object.entries(demoSources).map(([path, source]) => {
     const demo = path.split('/').pop()?.replace(/\.svelte$/, '') ?? '';
-    return [demo, source.replace(/^\n+|\n+$/g, '')] as const;
+    let snippet = source.replace(/^\n+|\n+$/g, '');
+    if (demo.startsWith('Table')) {
+      snippet = snippet
+        .replace(/\n\s*import \{ emailRows \} from '\.\/table-demo-data';/, '')
+        .replaceAll('emailRows', 'emailData');
+    }
+    return [demo, snippet] as const;
   })
 );
 

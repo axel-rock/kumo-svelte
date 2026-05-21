@@ -13,6 +13,6 @@
   let { children, class: className, forceMount, ...rest }: Props = $props();
 </script>
 
-<CommandPrimitive.Empty {forceMount} class={cn('px-2 py-6 text-center text-sm text-kumo-subtle', className)} {...rest}>
-  {@render children?.()}
+<CommandPrimitive.Empty {forceMount} class={cn('p-8 text-center text-kumo-subtle', className)} {...rest}>
+  <p>{@render children?.()}</p>
 </CommandPrimitive.Empty>

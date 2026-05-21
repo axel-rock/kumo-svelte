@@ -5,11 +5,17 @@ description: "Get started with Kumo Svelte by installing the package and importi
 
 <script>
   import Callout from '$lib/docs/Callout.svelte';
+
+  const kumoVersion = typeof __KUMO_VERSION__ !== 'undefined' ? __KUMO_VERSION__ : 'latest';
 </script>
+
+## NPM Registry
+
+The `kumo-svelte` package is published to the public npm registry. No special configuration is required for installation.
 
 ## Install Package
 
-Install Kumo Svelte with your preferred package manager.
+Install Kumo Svelte with your preferred package manager. The current version is <code>v{kumoVersion}</code>.
 
 #### npm
 

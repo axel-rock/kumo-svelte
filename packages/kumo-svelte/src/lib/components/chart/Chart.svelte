@@ -71,9 +71,10 @@
     return { ...restOfTooltip, formatter: dangerousHtmlFormatter };
   };
 
-  const prepareChartOptions = (rawOptions: KumoChartOption): EChartsOption => {
+  const prepareChartOptions = (rawOptions: KumoChartOption, suppressAnimation = false): EChartsOption => {
     const optionsWithTheme = {
       ...rawOptions,
+      ...(suppressAnimation ? { animation: false } : {}),
       textStyle: {
         color: ChartPalette.text('primary', effectiveDarkMode),
         ...(rawOptions.textStyle ?? {})
@@ -107,9 +108,14 @@
     boundEvents = nextBound;
   };
 
-  const updateOptions = () => {
+  const updateOptions = (forceInitialAnimation = false) => {
     if (!chart) return;
-    chart.setOption(prepareChartOptions(options), { notMerge: false, lazyUpdate: true, ...optionUpdateBehavior });
+    const shouldSuppressAnimation = !hasBeenVisible && !forceInitialAnimation;
+    chart.setOption(prepareChartOptions(options, shouldSuppressAnimation), {
+      lazyUpdate: true,
+      ...optionUpdateBehavior,
+      notMerge: forceInitialAnimation
+    });
     chartRef = chart;
     bindEvents();
   };
@@ -147,7 +153,8 @@
         ([entry]) => {
           if (!entry?.isIntersecting) return;
           hasBeenVisible = true;
-          updateOptions();
+          chart?.clear();
+          updateOptions(true);
           intersectionObserver?.disconnect();
           intersectionObserver = null;
         },

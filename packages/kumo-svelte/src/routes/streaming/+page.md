@@ -4,7 +4,6 @@ description: "Render AI-generated UI from JSON using Kumo's auto-generated schem
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
   import CodeBlock from '$lib/docs/CodeBlock.svelte';
@@ -20,12 +19,9 @@ The Kumo catalog module enables rendering UI from JSON structures, designed spec
 
 Unlike approaches that require maintaining separate schema definitions, Kumo automatically derives validation schemas from your actual component TypeScript types. When you update a component's props, the validation schemas update automatically via the component registry codegen process. No manual synchronization required — your schemas are always in sync with your components.
 
-<Callout type="info">
-  Schemas are auto-generated in `kumo-svelte/ai/schemas` from component
-  TypeScript types. Run `pnpm codegen:registry` after modifying component props
-  to regenerate.
-
-</Callout>
+> Schemas are auto-generated in `kumo-svelte/ai/schemas` from component
+> TypeScript types. Run `pnpm codegen:registry` after modifying component props
+> to regenerate.
 
 ## How It Works
 

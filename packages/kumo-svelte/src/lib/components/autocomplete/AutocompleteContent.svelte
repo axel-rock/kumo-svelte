@@ -63,7 +63,7 @@
   );
 </script>
 
-{#if context.open && context.filteredItems.length}
+{#if context.open && context.hasTypedSinceFocus && context.filteredItems.length}
   <div
     class={cn(
       'absolute z-50 flex max-h-[min(24rem,calc(100vh-8rem))] min-w-full flex-col overflow-hidden rounded-lg bg-kumo-control py-1.5 text-kumo-default shadow-lg ring ring-kumo-line',

@@ -1,10 +1,9 @@
 ---
-title: "Figma Resources"
-description: "Generate Figma components from Kumo definitions using the Figma plugin."
+title: 'Figma Resources'
+description: 'Generate Figma components from Kumo definitions using the Figma plugin.'
 ---
 
 <script>
-  import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
   import CodeBlock from '$lib/docs/CodeBlock.svelte';
@@ -14,7 +13,7 @@ description: "Generate Figma components from Kumo definitions using the Figma pl
 
 ## Kumo Figma Plugin
 
-The Kumo Figma plugin generates production-quality Figma components directly from Kumo component definitions. This keeps design and code in sync — components in Figma are generated from the same source of truth as the Svelte components you use in code.
+The Kumo Figma plugin generates production-quality Figma components directly from Kumo component definitions. This keeps design and code in sync — components in Figma are generated from the same source of truth as the React components you use in code.
 
 The plugin reads from `component-registry.json` and creates Figma ComponentSets with proper auto-layout, semantic color variable bindings, and all variant combinations.
 
@@ -27,7 +26,7 @@ Follow these steps to build and test the Figma plugin locally on any Figma file.
 From the repository root, run:
 
 ```bash
-pnpm --filter kumo-svelte-figma build
+pnpm --filter @cloudflare/kumo-figma build
 ```
 
 This generates theme data, loader data, and icons, then bundles the plugin code into `src/code.js`.
@@ -51,12 +50,9 @@ Once imported, the plugin appears in your development plugins list.
 
 The plugin opens a panel where you can select which components to generate. Click the component buttons to generate their Figma equivalents.
 
-<Callout type="info">
-  **Note:** For components to bind to semantic color variables correctly, the
-  target Figma file must have the `kumo-colors` variable collection. Run the
-  token sync script first if you're setting up a new file.
-
-</Callout>
+> **Note:** For components to bind to semantic color variables correctly, the
+> target Figma file must have the `kumo-colors` variable collection. Run the
+> token sync script first if you're setting up a new file.
 
 ## Environment Variables
 
@@ -90,10 +86,7 @@ FIGMA_FILE_KEY=sKKZc6pC6W1TtzWBLxDGSU
 FIGMA_COLLECTION_NAME=kumo-colors
 ```
 
-<Callout type="warning">
-  **Security:** Never commit your Figma token. The `.env` file is gitignored.
-
-</Callout>
+> **Security:** Never commit your Figma token. The `.env` file is gitignored.
 
 ## Token Sync
 
@@ -102,7 +95,7 @@ Before generating components, sync Kumo's semantic color tokens to Figma. This c
 ### Run Token Sync
 
 ```bash
-pnpm --filter kumo-svelte-figma figma:sync
+pnpm --filter @cloudflare/kumo-figma figma:sync
 ```
 
 This parses tokens from `theme-kumo.css`, resolves `light-dark()` values for both modes, and pushes them to Figma via the Variables API.
@@ -150,15 +143,15 @@ The typical workflow when updating components:
 
 # 2. Regenerate component registry
 
-pnpm --filter kumo-svelte codegen:registry
+pnpm --filter @cloudflare/kumo codegen:registry
 
 # 3. Sync tokens to Figma (if colors changed)
 
-pnpm --filter kumo-svelte-figma figma:sync
+pnpm --filter @cloudflare/kumo-figma figma:sync
 
 # 4. Build the plugin
 
-pnpm --filter kumo-svelte-figma build
+pnpm --filter @cloudflare/kumo-figma build
 
 # 5. Run in Figma: Plugins > Development > Kumo UI Kit Generator
 
@@ -192,7 +185,7 @@ If a component doesn't need Figma representation (utility or layout-only), add i
 The target Figma file needs the variable collection. Run the token sync script first:
 
 ```bash
-pnpm --filter kumo-svelte-figma figma:sync
+pnpm --filter @cloudflare/kumo-figma figma:sync
 ```
 
 ### "Variable not found: color-primary"

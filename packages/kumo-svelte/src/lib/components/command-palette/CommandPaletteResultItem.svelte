@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { ArrowRight, ArrowSquareOut as ExternalLink } from 'phosphor-svelte';
+  import { ArrowRight, ArrowSquareOut as ExternalLink, CaretRight } from 'phosphor-svelte';
   import CommandPaletteItem from './CommandPaletteItem.svelte';
   import CommandPaletteHighlightedText from './CommandPaletteHighlightedText.svelte';
   import { cn } from '$lib/utils/cn';
@@ -50,37 +50,41 @@
   value={String(value)}
   disabled={nonInteractive}
   onSelect={handleSelect}
-  class={cn('min-h-12 items-start px-3 py-2', className)}
+  class={cn(
+    'group flex w-full items-center gap-3 rounded-lg px-2 py-1.5 text-left transition-colors',
+    nonInteractive ? 'cursor-default' : 'cursor-pointer data-[selected]:bg-kumo-overlay',
+    className
+  )}
   {...rest}
 >
   {#if icon}
-    <span class="mt-0.5 flex size-4 shrink-0 items-center justify-center text-kumo-subtle">
+    <span class="flex shrink-0 items-center text-kumo-subtle">
       {@render icon()}
     </span>
   {/if}
   <span class="min-w-0 flex-1">
-    {#if breadcrumbs.length}
-      <span class="mb-0.5 flex min-w-0 flex-wrap items-center gap-1 text-xs text-kumo-subtle">
-        {#each breadcrumbs as breadcrumb, index (`${index}-${breadcrumb}`)}
-          {#if index > 0}<span>/</span>{/if}
-          <span class="truncate">
-            <CommandPaletteHighlightedText text={breadcrumb} highlights={breadcrumbHighlights[index] ?? []} />
-          </span>
-        {/each}
-      </span>
-    {/if}
-    <span class="block truncate font-medium">
-      <CommandPaletteHighlightedText text={title} highlights={titleHighlights} />
+    <span class="flex items-center gap-2 truncate">
+      {#each breadcrumbs as breadcrumb, index (`${index}-${breadcrumb}`)}
+        <span class="flex items-center gap-2">
+          <CommandPaletteHighlightedText
+            text={breadcrumb}
+            highlights={breadcrumbHighlights[index] ?? []}
+            class="text-base text-kumo-default"
+          />
+          <CaretRight class="h-3 w-3 shrink-0 text-kumo-subtle" weight="bold" />
+        </span>
+      {/each}
+      <CommandPaletteHighlightedText text={title} highlights={titleHighlights} class="text-base text-kumo-default" />
+      {#if external}
+        <ExternalLink class="h-3.5 w-3.5 shrink-0 text-kumo-subtle" />
+      {/if}
+      {#if description}
+        <span class="text-kumo-subtle">-</span>
+        <span class="truncate text-sm text-kumo-subtle">{description}</span>
+      {/if}
     </span>
-    {#if description}
-      <span class="block truncate text-xs text-kumo-subtle">{description}</span>
-    {/if}
   </span>
-  {#if showArrow}
-    {#if external}
-      <ExternalLink class="mt-0.5 size-4 shrink-0 text-kumo-muted" />
-    {:else}
-      <ArrowRight class="mt-0.5 size-4 shrink-0 text-kumo-muted" />
-    {/if}
+  {#if showArrow && !external && !nonInteractive}
+    <ArrowRight class="h-4 w-4 shrink-0 text-kumo-subtle opacity-0 transition-opacity group-data-[selected]:opacity-100" />
   {/if}
 </CommandPaletteItem>

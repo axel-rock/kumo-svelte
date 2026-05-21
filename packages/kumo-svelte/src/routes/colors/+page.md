@@ -9,6 +9,7 @@ description: "Kumo uses semantic color tokens that automatically adapt to light 
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
   import CodeBlock from '$lib/docs/CodeBlock.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
+  import TailwindColorTokens from '$lib/docs/TailwindColorTokens.svelte';
 </script>
 
 
@@ -79,15 +80,15 @@ Themes are defined in a centralized config and generated as CSS files. The theme
 
 # List all tokens and their theme overrides
 
-pnpm --filter kumo-svelte codegen:themes --list
+pnpm --filter @cloudflare/kumo codegen:themes --list
 
 # Generate theme CSS files
 
-pnpm --filter kumo-svelte codegen:themes
+pnpm --filter @cloudflare/kumo codegen:themes
 
 # Preview changes without writing files
 
-pnpm --filter kumo-svelte codegen:themes --dry-run
+pnpm --filter @cloudflare/kumo codegen:themes --dry-run
 ```
 
 Theme config: `packages/kumo/scripts/theme-generator/config.ts`
@@ -98,8 +99,27 @@ Add theme overrides in the config file. Only override tokens that need to change
 
 ```ts
 // In scripts/theme-generator/config.ts
-
+export const THEME_CONFIG: ThemeConfig = {
+  color: {
+    "kumo-base": {
+      newName: "",
+      theme: {
+        kumo: {
+          light: "var(--color-white, #fff)",
+          dark: "var(--color-black, #000)",
+        },
+        // Add your theme override
+        myTheme: {
+          light: "#f0f4f8",
+          dark: "#1a1f2e",
+        },
+      },
+    },
+    // ... other tokens
+  },
+};
 // Add to available themes
+export const AVAILABLE_THEMES = ["kumo", "fedramp", "myTheme"] as const;
 ```
 
 Then run `pnpm codegen:themes` to generate the CSS.
@@ -313,4 +333,4 @@ Use the solid token on icons, status dots, borders and rings. Banners and badges
 
 Toggle the theme in the header to see how tokens adapt. Tokens marked as "global" are explicit opt-in classes available regardless of theme.
 
-<p class="not-prose my-4 rounded-lg border border-kumo-hairline bg-kumo-canvas p-4 text-sm text-kumo-subtle">TailwindColorTokens</p>
+<TailwindColorTokens />

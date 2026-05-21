@@ -1,5 +1,7 @@
 <script lang="ts">
   import ThemeToggle from './ThemeToggle.svelte';
+
+  const kumoVersion = typeof __KUMO_VERSION__ !== 'undefined' ? __KUMO_VERSION__ : 'dev';
 </script>
 
 <header class="sticky top-0 z-10 hidden h-12 border-b border-kumo-hairline bg-kumo-canvas md:flex">
@@ -11,7 +13,7 @@
       class="font-mono text-sm text-kumo-subtle transition-colors hover:text-kumo-default"
     >
       kumo-svelte
-
+      <span class="ml-1 rounded bg-kumo-control px-1.5 py-0.5 text-xs">v{kumoVersion}</span>
     </a>
   </div>
 

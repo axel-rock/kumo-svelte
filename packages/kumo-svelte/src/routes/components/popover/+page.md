@@ -32,7 +32,7 @@ import { Popover } from "kumo-svelte";
 ### Granular
 
 ```svelte
-import { Popover } from "kumo-svelte";
+import { Popover } from "kumo-svelte/components/popover";
 ```
 
 </ComponentSection>
@@ -170,14 +170,14 @@ Popovers can contain any content, including custom layouts with avatars,
 
 
   Use `openOnHover` on the trigger to open the popover when the user hovers over
-  it. You can also specify `openDelay` and `closeDelay` in milliseconds.
+  it. You can also specify a `delay` in milliseconds before the popover appears.
 
 <ComponentExample demo="PopoverOpenOnHoverDemo" />
 
 ### Virtual Anchor
 
 
-Use the `customAnchor` prop on `Popover.Content` to position the popover against an
+Use the `anchor` prop on `Popover.Content` to position the popover against an
   element other than the trigger, or against a virtual point (e.g., a `DOMRect`
   from `getBoundingClientRect()`). This is useful when the trigger and the
   desired anchor are in different component trees.

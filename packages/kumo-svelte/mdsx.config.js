@@ -6,6 +6,7 @@ import { codeToHtml } from 'shiki';
  * @property {string=} type
  * @property {string=} tagName
  * @property {string=} value
+ * @property {string=} url
  * @property {{ className?: unknown, id?: string }=} properties
  * @property {MdsxNode[]=} children
  */
@@ -35,6 +36,20 @@ function textContent(node) {
 }
 
 /**
+ * @param {MdsxNode | undefined} node
+ * @returns {string}
+ */
+function markdownContent(node) {
+  if (!node) return '';
+  if (node.type === 'text') return node.value ?? '';
+  if (node.type === 'inlineCode') return `\`${node.value ?? ''}\``;
+  if (node.type === 'strong') return `**${node.children?.map(markdownContent).join('') ?? ''}**`;
+  if (node.type === 'link') return `[${node.children?.map(markdownContent).join('') ?? ''}](${node.url ?? ''})`;
+  if (!Array.isArray(node.children)) return '';
+  return node.children.map(markdownContent).join('');
+}
+
+/**
  * @param {string} html
  * @returns {string}
  */
@@ -55,6 +70,81 @@ function normalizeCode(code) {
     .replace(/^\n+|\n+$/g, '')
     .replace(/(<script\b[^>]*>)\n{2,}/g, '$1\n')
     .replace(/\n{2,}(<\/script>)/g, '\n$1');
+}
+
+/**
+ * @param {string} value
+ * @returns {string}
+ */
+function escapeHtml(value) {
+  return value.replace(/[<>"]/g, (character) => {
+    if (character === '<') return '&lt;';
+    if (character === '>') return '&gt;';
+    return '&quot;';
+  });
+}
+
+/**
+ * @param {string} value
+ * @returns {string}
+ */
+function renderInlineMarkdown(value) {
+  return escapeHtml(value.trim())
+    .replace(/`([^`]+)`/g, '<span class="kumo-inline-code">$1</span>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+}
+
+/**
+ * @param {string} line
+ * @returns {string[]}
+ */
+function tableCells(line) {
+  return line
+    .trim()
+    .replace(/^\|/, '')
+    .replace(/\|$/, '')
+    .split('|')
+    .map((cell) => cell.trim());
+}
+
+/**
+ * @param {string} line
+ * @returns {boolean}
+ */
+function isTableDivider(line) {
+  return tableCells(line).every((cell) => /^:?-{3,}:?$/.test(cell));
+}
+
+function remarkPipeTables() {
+  /** @param {MdsxNode} tree */
+  return (tree) => {
+    walk(tree, (node) => {
+      if (node.type !== 'paragraph') return;
+      const value = markdownContent(node);
+      const lines = value
+        .split('\n')
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      if (lines.length < 3 || !lines.every((line) => line.includes('|')) || !isTableDivider(lines[1])) {
+        return;
+      }
+
+      const headers = tableCells(lines[0]);
+      const rows = lines.slice(2).map(tableCells).filter((row) => row.length === headers.length);
+      if (!headers.length || !rows.length) return;
+
+      const headerHtml = headers.map((cell) => `<th>${renderInlineMarkdown(cell)}</th>`).join('');
+      const bodyHtml = rows
+        .map((row) => `<tr>${row.map((cell) => `<td>${renderInlineMarkdown(cell)}</td>`).join('')}</tr>`)
+        .join('');
+
+      node.type = 'html';
+      node.value = escapeSvelte(`<table><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`);
+      delete node.children;
+    });
+  };
 }
 
 /**
@@ -175,6 +265,7 @@ export const mdsxConfig = defineConfig({
   blueprints: {
     default: {
       path: 'src/lib/docs/MdxPage.svelte',
+      remarkPlugins: [remarkPipeTables],
       rehypePlugins: [rehypeDocHeadings, rehypeShikiCodeBlocks]
     }
   }
