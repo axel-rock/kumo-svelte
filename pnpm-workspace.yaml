@@ -3,6 +3,7 @@ packages:
 
 overrides:
   '@sveltejs/kit>cookie': 0.7.2
+  ws: 8.20.1
 
 allowBuilds:
   esbuild: true
