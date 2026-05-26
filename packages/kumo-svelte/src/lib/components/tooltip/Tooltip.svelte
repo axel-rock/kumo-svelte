@@ -40,6 +40,7 @@
     onOpenChange?: (open: boolean) => void;
     side?: TooltipSide;
     align?: TooltipAlign;
+    sideOffset?: number;
     delay?: number;
     closeDelay?: number;
     disabled?: boolean;
@@ -56,6 +57,7 @@
     onOpenChange,
     side = KUMO_TOOLTIP_DEFAULT_VARIANTS.side,
     align,
+    sideOffset = 1,
     delay = 600,
     closeDelay,
     disabled,
@@ -64,10 +66,11 @@
   }: Props = $props();
 
   let internalOpen = $state(false);
+
   function tooltipVariants({ side = KUMO_TOOLTIP_DEFAULT_VARIANTS.side }: { side?: TooltipSide } = {}) {
     return cn(
       'flex origin-(--bits-floating-transform-origin) flex-col rounded-md bg-kumo-base px-2.5 py-1.5 text-sm text-kumo-default',
-      'shadow-lg shadow-kumo-tip-shadow outline outline-1 outline-kumo-fill',
+      'shadow-lg shadow-kumo-tip-shadow outline outline-kumo-fill',
       'transition-[transform,scale,opacity] duration-150',
       'data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
       'data-[ending-style]:scale-90 data-[ending-style]:opacity-0',
@@ -108,7 +111,12 @@
   {/if}
 
   <TooltipPrimitive.Portal to={container}>
-    <TooltipPrimitive.Content class={popupClass} {side} {align} sideOffset={10}>
+    <TooltipPrimitive.Content
+      class={cn('max-w-[var(--bits-floating-available-width)]', popupClass)}
+      {side}
+      {align}
+      {sideOffset}
+    >
       <TooltipPrimitive.Arrow
         width={20}
         height={10}
@@ -158,34 +166,26 @@
 
 <style>
   :global(.kumo-tooltip-arrow[data-side='top']) {
-    top: calc(100% - 1px) !important;
-    right: auto !important;
-    bottom: auto !important;
-    left: calc(50% - 10px) !important;
-    transform: rotate(180deg) !important;
+    top: auto !important;
+    bottom: -8px !important;
+    transform: none !important;
   }
 
   :global(.kumo-tooltip-arrow[data-side='bottom']) {
-    top: auto !important;
-    right: auto !important;
-    bottom: calc(100% - 1px) !important;
-    left: calc(50% - 10px) !important;
+    top: -8px !important;
+    bottom: auto !important;
     transform: none !important;
   }
 
   :global(.kumo-tooltip-arrow[data-side='left']) {
-    top: calc(50% - 5px) !important;
     right: -13px !important;
-    bottom: auto !important;
     left: auto !important;
-    transform: rotate(90deg) !important;
+    transform: none !important;
   }
 
   :global(.kumo-tooltip-arrow[data-side='right']) {
-    top: calc(50% - 5px) !important;
     right: auto !important;
-    bottom: auto !important;
     left: -13px !important;
-    transform: rotate(-90deg) !important;
+    transform: none !important;
   }
 </style>
