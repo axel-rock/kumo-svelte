@@ -1,5 +1,13 @@
 # kumo-svelte
 
+## 0.1.8
+
+### Patch Changes
+
+- f15ae02: Port recent upstream Kumo banner, filtering, token, workflow, and peer dependency parity updates.
+- f15ae02: Port recent upstream parity updates for TimeseriesChart tooltips, Sidebar modernization, status color docs, and scoped clickable cursor affordances.
+- f15ae02: Add Svelte Vitest infrastructure and close Sidebar parity gaps for collapsed tooltips and mobile dialog behavior.
+
 ## 0.1.7
 
 ### Patch Changes
