@@ -7,11 +7,12 @@
   import { cn } from '$lib/utils/cn';
 
   type Size = 'xs' | 'sm' | 'base' | 'lg';
-  type Value = string | string[];
+  type SelectValue = unknown;
+  type Value = SelectValue | SelectValue[];
 
   interface Option {
     label: string;
-    value: string;
+    value: SelectValue;
     disabled?: boolean;
   }
 
@@ -20,6 +21,8 @@
 
   interface Props {
     class?: string;
+    contentClass?: string;
+    viewportClass?: string;
     options?: Option[];
     items?: Items;
     value?: Value;
@@ -38,12 +41,15 @@
     required?: boolean;
     children?: Snippet;
     renderValue?: (value: Value) => unknown;
+    onValueChange?: (value: Value) => void;
     container?: HTMLElement | string;
     [key: string]: unknown;
   }
 
   let {
     class: className,
+    contentClass,
+    viewportClass,
     options = [],
     items,
     defaultValue,
@@ -62,6 +68,7 @@
     required = false,
     children,
     renderValue,
+    onValueChange,
     container,
     ...rest
   }: Props = $props();
@@ -98,22 +105,75 @@
     return options;
   });
 
-  const selectItems = $derived(normalizedOptions.map(({ value, label, disabled }) => ({ value, label, disabled })));
+  const serializedOptions = $derived(
+    normalizedOptions.map((option, index) => ({
+      ...option,
+      serializedValue: serializeOptionValue(index)
+    }))
+  );
+  const selectItems = $derived(
+    serializedOptions.map(({ serializedValue, label, disabled }) => ({ value: serializedValue, label, disabled }))
+  );
   const errorMessage = $derived(typeof error === 'string' ? error : error?.message);
   const isDisabled = $derived(disabled || loading);
+  const primitiveValue = $derived(toPrimitiveValue(value, multiple));
   const selectedLabels = $derived.by(() => {
     if (Array.isArray(value)) {
       return value
-        .map((selectedValue) => normalizedOptions.find((option) => option.value === selectedValue)?.label ?? selectedValue)
+        .map((selectedValue) => normalizedOptions.find((option) => Object.is(option.value, selectedValue))?.label ?? stringifyValue(selectedValue))
         .join(', ');
     }
 
-    return normalizedOptions.find((option) => option.value === value)?.label ?? value;
+    return normalizedOptions.find((option) => Object.is(option.value, value))?.label ?? stringifyValue(value);
   });
 
   function displayValue(selectionValue: Value) {
+    if (!selectionValue || (Array.isArray(selectionValue) && selectionValue.length === 0)) return placeholder;
     if (renderValue) return renderValue(selectionValue);
     return selectedLabels || placeholder;
+  }
+
+  function serializeOptionValue(index: number) {
+    return `kumo-select:${index}`;
+  }
+
+  function stringifyValue(selectionValue: SelectValue) {
+    if (selectionValue === null || selectionValue === undefined) return '';
+    return typeof selectionValue === 'string' ? selectionValue : String(selectionValue);
+  }
+
+  function toPrimitiveValue(selectionValue: Value, isMultiple: boolean) {
+    if (isMultiple) {
+      const values = Array.isArray(selectionValue) ? selectionValue : [];
+      return values.map((entry) => serializeSelectedValue(entry)).filter((entry) => entry !== undefined);
+    }
+
+    if (Array.isArray(selectionValue)) return serializeSelectedValue(selectionValue[0]) ?? '';
+    return serializeSelectedValue(selectionValue) ?? '';
+  }
+
+  function serializeSelectedValue(selectionValue: SelectValue) {
+    const option = serializedOptions.find((entry) => Object.is(entry.value, selectionValue));
+    if (option) return option.serializedValue;
+    return typeof selectionValue === 'string' ? selectionValue : undefined;
+  }
+
+  function deserializePrimitiveValue(primitiveValue: string) {
+    const option = serializedOptions.find((entry) => entry.serializedValue === primitiveValue);
+    return option ? option.value : primitiveValue;
+  }
+
+  function setValue(nextValue: Value) {
+    value = nextValue;
+    onValueChange?.(nextValue);
+  }
+
+  function handleSingleValueChange(nextValue: string) {
+    setValue(deserializePrimitiveValue(nextValue));
+  }
+
+  function handleMultipleValueChange(nextValue: string[]) {
+    setValue(nextValue.map((entry) => deserializePrimitiveValue(entry)));
   }
 </script>
 
@@ -128,6 +188,8 @@
       )}
       aria-label={rest['aria-label'] as string | undefined}
       aria-invalid={Boolean(errorMessage) || undefined}
+      data-kumo-component="Select"
+      data-kumo-part="trigger"
     >
       {#if loading}
         <span class="inline-flex min-w-0 flex-1 items-center">
@@ -138,9 +200,9 @@
           {#snippet children({ selection, placeholder })}
             <span class={cn('block truncate', !selectedLabels && 'text-kumo-placeholder')}>
               {#if selection.type === 'multiple'}
-                {displayValue(selection.selected.map((item) => item.value))}
+                {displayValue(selection.selected.map((item) => deserializePrimitiveValue(item.value)))}
               {:else if selection.selected}
-                {displayValue(selection.selected.value)}
+                {displayValue(deserializePrimitiveValue(selection.selected.value))}
               {:else}
                 {placeholder}
               {/if}
@@ -154,20 +216,23 @@
     <SelectPrimitive.Portal to={container}>
       <SelectPrimitive.Content
         class={cn(
-          'z-50 flex max-h-[var(--bits-select-content-available-height)] min-w-[calc(var(--bits-select-anchor-width)+3px)] flex-col overflow-hidden rounded-lg bg-kumo-base py-1.5 text-base text-kumo-default shadow-lg ring ring-kumo-line outline-none'
+          'z-50 flex max-h-[var(--bits-select-content-available-height)] min-w-[calc(var(--bits-select-anchor-width)+3px)] flex-col overflow-hidden rounded-lg bg-kumo-base py-1.5 text-base text-kumo-default shadow-lg ring ring-kumo-line outline-none',
+          contentClass
         )}
         preventScroll
         sideOffset={4}
       >
-        <SelectPrimitive.Viewport class="min-h-0 flex-1 overflow-y-auto overscroll-none scroll-pb-2 scroll-pt-2">
+        <SelectPrimitive.Viewport class={cn('min-h-0 flex-1 overflow-y-auto overscroll-none scroll-pb-2 scroll-pt-2', viewportClass)}>
           {#if children}
             {@render children()}
           {:else}
-            {#each normalizedOptions as option (option.value)}
+            {#each serializedOptions as option (option.serializedValue)}
               <SelectPrimitive.Item
-                value={option.value}
+                value={option.serializedValue}
                 label={option.label}
                 disabled={option.disabled}
+                data-kumo-component="Select"
+                data-kumo-part="option"
                 class={cn(
                   'group mx-1.5 flex cursor-pointer items-center justify-between gap-2 rounded px-2 py-1.5 text-base outline-none',
                   'focus-visible:z-50 focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-inset',
@@ -207,8 +272,8 @@
   {#if multiple}
     <SelectPrimitive.Root
       type="multiple"
-      value={Array.isArray(value) ? value : []}
-      onValueChange={(nextValue) => (value = nextValue)}
+      value={Array.isArray(primitiveValue) ? primitiveValue : []}
+      onValueChange={handleMultipleValueChange}
       items={selectItems}
       disabled={isDisabled}
       {name}
@@ -220,8 +285,8 @@
   {:else}
     <SelectPrimitive.Root
       type="single"
-      value={Array.isArray(value) ? (value[0] ?? '') : value}
-      onValueChange={(nextValue) => (value = nextValue)}
+      value={Array.isArray(primitiveValue) ? (primitiveValue[0] ?? '') : primitiveValue}
+      onValueChange={handleSingleValueChange}
       items={selectItems}
       disabled={isDisabled}
       {name}

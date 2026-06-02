@@ -4,6 +4,7 @@ description: "Kumo uses semantic color tokens that automatically adapt to light 
 ---
 
 <script>
+  import { Badge } from 'kumo-svelte';
   import Callout from '$lib/docs/Callout.svelte';
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
@@ -200,7 +201,7 @@ Surfaces establish depth and layering in the UI. Use them in order from the oute
 
 ### Semantic Status Colors
 
-Each status color comes in two variants: a solid color for icons and indicators, and a `-tint` variant for background fills behind content (i.e. `Badge` or `Banner`).
+Each status color comes in two variants: a solid color for icons and indicators, and a `-tint` variant for background fills behind content such as `Badge` or `Banner`. Pair status text with the same semantic family so contrast stays consistent in light and dark mode.
 
   <table>
     <colgroup>
@@ -234,6 +235,8 @@ Each status color comes in two variants: a solid color for icons and indicators,
   </table>
 
 Use the solid token on icons, status dots, borders and rings. Banners and badges use the `-tint` variant with varying opacity values for the different instances.
+
+<ComponentExample demo="StatusBannerDemo" />
 
 ```svelte
 // Banner with tinted background and solid icon
@@ -319,7 +322,7 @@ Use the solid token on icons, status dots, borders and rings. Banners and badges
     </thead>
     <tbody>
       <tr>
-        <td><code>kumo-hairline</code><div class="not-prose my-4 rounded-lg border border-kumo-hairline bg-kumo-canvas p-4 text-sm text-kumo-subtle">New</div></td>
+        <td><code>kumo-hairline</code><span class="not-prose ml-2 inline-flex align-middle"><Badge variant="blue">New</Badge></span></td>
         <td>A border/ring color to distinguish between flat surfaces where no shadow is present (i.e. <code>LayerCard</code>).</td>
       </tr>
       <tr>

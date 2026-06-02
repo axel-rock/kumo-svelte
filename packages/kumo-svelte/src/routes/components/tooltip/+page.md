@@ -25,14 +25,14 @@ baseUIComponent: "tooltip"
 
 ### Barrel
 
-```svelte
-import { Tooltip, TooltipProvider } from "kumo-svelte";
+```typescript
+import { Tooltip, TooltipProvider } from 'kumo-svelte';
 ```
 
 ### Granular
 
-```svelte
-import { Tooltip, TooltipProvider } from "kumo-svelte";
+```typescript
+import { Tooltip, TooltipProvider } from 'kumo-svelte/components/tooltip';
 ```
 
 </ComponentSection>
@@ -44,7 +44,9 @@ import { Tooltip, TooltipProvider } from "kumo-svelte";
 ## Usage
 
 ```svelte
+<script lang="ts">
 import { Tooltip, Button } from "kumo-svelte";
+</script>
 
 <Tooltip content="Tooltip text">
   <Button>Hover me</Button>
@@ -68,6 +70,15 @@ For delay grouping across multiple tooltips, see [TooltipProvider](#tooltipprovi
 ### Multiple Tooltips
 
 <ComponentExample demo="TooltipMultipleDemo" />
+
+### Long Content / Overflow
+
+Tooltips with long content automatically constrain their width to the available
+viewport space using `--available-width` from Bits UI's floating positioning.
+Hover over the edge buttons to see the tooltip wrap instead of overflowing the
+viewport.
+
+<ComponentExample demo="TooltipOverflowDemo" />
 
 ### Delay Control
 

@@ -17,4 +17,10 @@
     title="Save failed"
     description="We couldn't save your changes. Please try again."
   />
+  <Banner
+    icon={Info}
+    variant="secondary"
+    title="Maintenance scheduled"
+    description="This service will be unavailable for 10 minutes."
+  />
 </div>

@@ -22,8 +22,16 @@ sourceFile: "components/empty"
 
 ## Installation
 
-```svelte
-import { Empty } from "kumo-svelte";
+### Barrel
+
+```typescript
+import { Empty } from 'kumo-svelte';
+```
+
+### Granular
+
+```typescript
+import { Empty } from 'kumo-svelte/components/empty';
 ```
 
 </ComponentSection>
@@ -35,8 +43,10 @@ import { Empty } from "kumo-svelte";
 ## Usage
 
 ```svelte
+<script lang="ts">
 import { Empty } from "kumo-svelte";
 import { Package } from "phosphor-svelte";
+</script>
 
 <Empty
   title="No packages found"

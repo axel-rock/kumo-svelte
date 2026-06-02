@@ -1,6 +1,7 @@
 ---
 title: "Contributing"
 description: "Learn how to contribute to Kumo, from setup and workflows to PR and release guidelines. Everything you need for setup, development, quality checks, and PR process is documented here."
+contentLayout: "wide"
 ---
 
 <script>
@@ -11,16 +12,19 @@ description: "Learn how to contribute to Kumo, from setup and workflows to PR an
   import PropsTable from '$lib/docs/PropsTable.svelte';
 </script>
 
-
-## Before You Start
-
-For non-trivial changes, start with alignment before coding:
-
-- Comment on an existing issue or open one first.
-- Confirm scope, API direction, and migration impact.
-- For small fixes/docs tweaks, you can go straight to a PR.
-
----
+<section class="not-prose border-b border-kumo-hairline pb-8 md:pb-9">
+  <h2 id="before-you-start" class="mb-6 text-3xl leading-tight font-semibold tracking-normal text-kumo-default md:mb-8 md:text-[40px]">
+    <a href="#before-you-start">Before You Start</a>
+  </h2>
+  <p class="mb-5 text-lg leading-normal text-kumo-default md:mb-6 md:text-2xl">
+    For non-trivial changes, start with alignment before coding:
+  </p>
+  <ul class="m-0 flex list-disc flex-col gap-3 pl-8 text-lg leading-normal text-kumo-default md:gap-4 md:pl-12 md:text-2xl">
+    <li class="pl-2">Comment on an existing issue or open one first.</li>
+    <li class="pl-2">Confirm scope, API direction, and migration impact.</li>
+    <li class="pl-2">For small fixes/docs tweaks, you can go straight to a PR.</li>
+  </ul>
+</section>
 
 ## 1. Get Set Up Once
 
@@ -60,9 +64,9 @@ If you do not have write access, contact your manager or Kumo maintainers.
 
 Use this to decide where your change belongs:
 
-- **Component**: reusable UI primitive in `packages/kumo/src/components/`
-- **Block**: installable composition pattern in `packages/kumo/src/blocks/`
-- **Docs only**: docs/demo/navigation updates in `packages/kumo-docs-astro/`
+- **Component**: reusable UI primitive in `packages/kumo-svelte/src/lib/components/`
+- **Block**: documented composition pattern in `packages/kumo-svelte/src/routes/blocks/` with any supporting code kept near the local docs/component surface
+- **Docs only**: docs pages, demo snippets, and navigation updates in `packages/kumo-svelte/src/routes/` or `packages/kumo-svelte/src/lib/docs/`
 
 When adding a new **component**, scaffold it (do not create files manually):
 
@@ -92,15 +96,15 @@ This gives you a fast loop while verifying your change in the actual docs enviro
 
 Typical internal change flow:
 
-1. Build the feature in `packages/kumo/src/...`.
-2. Add or update demos in `packages/kumo-docs-astro/src/components/demos/`.
-3. Add/update tests in `packages/kumo`.
-4. Add or update docs pages in `packages/kumo-docs-astro/src/pages/`.
+1. Build the feature in `packages/kumo-svelte/src/lib/...`.
+2. Add or update demos in `packages/kumo-svelte/src/lib/docs/demo-snippets/`.
+3. Add/update tests in `packages/kumo-svelte`.
+4. Add or update docs pages in `packages/kumo-svelte/src/routes/`.
 
 If your demos should appear in registry metadata, keep demo naming exact:
 
 - File: `&#123;Component&#125;Demo.svelte`
-- Export names must end with `Demo`
+- Demo component names should end with `Demo`
 
 Implementation expectations:
 
@@ -139,7 +143,7 @@ Windsurf and hooks catch additional issues, but you should still run checks loca
 
 ## 6. Handle Changesets Correctly
 
-If your change touches `packages/kumo/` and should ship, add a changeset:
+If your change touches `packages/kumo-svelte/` and should ship, add a changeset:
 
 ```bash
 pnpm changeset
@@ -177,7 +181,7 @@ PR review is required before merge.
 
 - PRs publish prerelease artifacts via `pkg.pr.new` links in CI comments.
 - Every PR should include tests for behavior changes.
-- Most Kumo tests are Vitest-based and live under `packages/kumo`.
+- Most Kumo Svelte tests are Vitest-based and live under `packages/kumo-svelte`.
 
 ---
 
@@ -200,10 +204,10 @@ Common pitfalls to avoid:
 
 - Do not scaffold components manually; use `new:component`.
 - Do not rely on raw Tailwind color classes (`bg-blue-500`, etc.).
-- Do not skip changesets for releasable `packages/kumo` changes.
+- Do not skip changesets for releasable `packages/kumo-svelte` changes.
 
 ---
 
 ## Related Docs
 
-Follow the [changeset guide](https://github.com/cloudflare/kumo/blob/main/.changeset/README.md) to document releasable library changes and see the [AGENTS.md](https://github.com/cloudflare/kumo/blob/main/packages/kumo/AGENTS.md) for conventions and patterns.
+Follow the local `.changeset/README.md` to document releasable library changes and see this repo's `AGENTS.md` files for conventions and patterns.

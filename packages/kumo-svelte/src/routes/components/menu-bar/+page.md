@@ -24,14 +24,14 @@ sourceFile: "components/menubar"
 
 ### Barrel
 
-```svelte
-import { MenuBar } from "kumo-svelte";
+```typescript
+import { MenuBar } from 'kumo-svelte';
 ```
 
 ### Granular
 
-```svelte
-import { MenuBar } from "kumo-svelte";
+```typescript
+import { MenuBar } from 'kumo-svelte/components/menu-bar';
 ```
 
 </ComponentSection>
@@ -43,8 +43,10 @@ import { MenuBar } from "kumo-svelte";
 ## Usage
 
 ```svelte
+<script lang="ts">
 import { MenuBar } from "kumo-svelte";
 import { TextB } from "phosphor-svelte";
+</script>
 
 <MenuBar
   options={[

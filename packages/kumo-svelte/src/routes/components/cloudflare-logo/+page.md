@@ -24,24 +24,14 @@ sourceFile: "components/cloudflare-logo"
 
 ### Barrel
 
-```svelte
-<script lang="ts">
-  import { CloudflareLogo } from 'kumo-svelte';
-</script>
-
-<CloudflareLogo />
+```typescript
+import { CloudflareLogo, PoweredByCloudflare } from 'kumo-svelte';
 ```
 
 ### Granular
 
-```svelte
-<script lang="ts">
-  import {
-    CloudflareLogo,
-    PoweredByCloudflare,
-    generateCloudflareLogoSvg
-  } from 'kumo-svelte';
-</script>
+```typescript
+import { CloudflareLogo, PoweredByCloudflare } from 'kumo-svelte/components/cloudflare-logo';
 ```
 
 </ComponentSection>
@@ -137,7 +127,7 @@ A pre-built "Powered by Cloudflare" badge component for footers and attribution.
 Use <code>generateCloudflareLogoSvg()</code> to get copy-paste ready SVG markup for non-React contexts.
 
 
-```svelte
+```ts
 import { generateCloudflareLogoSvg } from "kumo-svelte";
 
 // Generate glyph SVG (cloud only)

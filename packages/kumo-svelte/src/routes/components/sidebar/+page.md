@@ -1,6 +1,6 @@
 ---
 title: "Sidebar"
-description: "A composable sidebar navigation component with collapsible groups, icon-only mode, and responsive mobile support."
+description: "A composable sidebar navigation component with contained layouts, peeking, sliding views, resizing, icon-only mode, and responsive mobile support."
 sourceFile: "components/sidebar"
 ---
 
@@ -28,11 +28,6 @@ sourceFile: "components/sidebar"
     </Sidebar.Content>
   </Sidebar>
 </Sidebar.Provider>`;
-
-  const installBarrel = `import { Sidebar } from "kumo-svelte";`;
-
-  const installGranular = `import { Sidebar } from "kumo-svelte/components/sidebar";`;
-
   const usageCode = `<script lang="ts">
   import { Sidebar } from 'kumo-svelte';
   import { Code, Gear, House } from 'phosphor-svelte';
@@ -85,15 +80,6 @@ sourceFile: "components/sidebar"
   </Sidebar>
 </Sidebar.Provider>`;
 
-  const collapsibleCode = `<Sidebar.Group collapsible defaultOpen>
-  <Sidebar.GroupLabel>Overview</Sidebar.GroupLabel>
-  <Sidebar.GroupContent>
-    <Sidebar.Menu>
-      <Sidebar.MenuButton icon={House} active>Home</Sidebar.MenuButton>
-    </Sidebar.Menu>
-  </Sidebar.GroupContent>
-</Sidebar.Group>`;
-
   const toggleCode = `<Sidebar.MenuButton icon={House} tooltip="Home" active>
   Home
 </Sidebar.MenuButton>
@@ -107,7 +93,6 @@ sourceFile: "components/sidebar"
     <AccountSwitcher />
   </Sidebar.Header>
   <Sidebar.Content>
-    <Sidebar.Input placeholder="Quick search..." shortcut="⌘K" />
     <Sidebar.Group>
       <Sidebar.Menu>
         <Sidebar.MenuButton icon={Lock}>
@@ -126,6 +111,23 @@ sourceFile: "components/sidebar"
   <Sidebar>
     <Sidebar.Content>...</Sidebar.Content>
     <Sidebar.ResizeHandle />
+  </Sidebar>
+</Sidebar.Provider>`;
+
+  const peekingCode = `<Sidebar.Provider defaultOpen={false} peekable contained>
+  <Sidebar>
+    <Sidebar.Content>
+      <Sidebar.MenuButton icon={House} active>Home</Sidebar.MenuButton>
+    </Sidebar.Content>
+  </Sidebar>
+</Sidebar.Provider>`;
+
+  const slidingCode = `<Sidebar.Provider contained>
+  <Sidebar>
+    <Sidebar.SlidingViews activeKey={view}>
+      <Sidebar.SlidingView value="overview">...</Sidebar.SlidingView>
+      <Sidebar.SlidingView value="settings">...</Sidebar.SlidingView>
+    </Sidebar.SlidingViews>
   </Sidebar>
 </Sidebar.Provider>`;
 
@@ -159,11 +161,15 @@ sourceFile: "components/sidebar"
 
 ### Barrel
 
-<CodeBlock code={installBarrel} lang="ts" />
+```typescript
+import { Sidebar } from 'kumo-svelte';
+```
 
 ### Granular
 
-<CodeBlock code={installGranular} lang="ts" />
+```typescript
+import { Sidebar } from 'kumo-svelte/components/sidebar';
+```
 
 </ComponentSection>
 
@@ -204,14 +210,6 @@ sourceFile: "components/sidebar"
 
 <ComponentExample demo="SidebarBasicDemo" code={basicCode} vrSection="basic" vrTitle="Basic" />
 
-### Collapsible Groups
-
-<p class="mb-3 text-sm text-kumo-strong">
-  Add <code class="rounded bg-kumo-control px-1 py-0.5 text-xs">collapsible</code> to a <code class="rounded bg-kumo-control px-1 py-0.5 text-xs">Group</code> and wrap the <code class="rounded bg-kumo-control px-1 py-0.5 text-xs">Menu</code> in <code class="rounded bg-kumo-control px-1 py-0.5 text-xs">GroupContent</code> to enable animated expand/collapse via the group label.
-</p>
-
-<ComponentExample demo="SidebarCollapsibleGroupDemo" code={collapsibleCode} vrSection="collapsible-groups" vrTitle="Collapsible Groups" />
-
 ### Toggle & Collapsed State
 
 <p class="mb-3 text-sm text-kumo-strong">
@@ -219,14 +217,6 @@ sourceFile: "components/sidebar"
 </p>
 
 <ComponentExample demo="SidebarToggleDemo" code={toggleCode} vrSection="toggle" vrTitle="Toggle & Collapsed State" />
-
-### Full Example
-
-<p class="mb-3 text-sm text-kumo-strong">
-  Kitchen sink: header with account switcher, search input, badges, collapsible sub-menus, and a footer action.
-</p>
-
-<ComponentExample demo="SidebarFullDemo" code={fullCode} vrSection="full-example" vrTitle="Full Example" />
 
 ### Resizable
 
@@ -244,6 +234,31 @@ sourceFile: "components/sidebar"
 
 <ComponentExample demo="SidebarRightDemo" code={rightCode} vrSection="right-side" vrTitle="Right Side" />
 
+### Peeking
+
+<p class="mb-3 text-sm text-kumo-strong">
+  Set <code class="rounded bg-kumo-control px-1 py-0.5 text-xs">peekable</code> on the provider so a collapsed icon sidebar can temporarily reveal its full width on hover or focus.
+</p>
+
+<ComponentExample demo="SidebarPeekingDemo" code={peekingCode} vrSection="peeking" vrTitle="Peeking" />
+
+### Sliding Views
+
+<p class="mb-3 text-sm text-kumo-strong">
+  Use <code class="rounded bg-kumo-control px-1 py-0.5 text-xs">SlidingViews</code> and
+  <code class="rounded bg-kumo-control px-1 py-0.5 text-xs">SlidingView</code> to switch between nested sidebar panels without replacing the provider.
+</p>
+
+<ComponentExample demo="SidebarSlidingViewsDemo" code={slidingCode} vrSection="sliding-views" vrTitle="Sliding Views" />
+
+### Full Example
+
+<p class="mb-3 text-sm text-kumo-strong">
+  Kitchen sink: header with account switcher, search input, badges, collapsible sub-menus, and a footer action.
+</p>
+
+<ComponentExample demo="SidebarFullDemo" code={fullCode} vrSection="full-example" vrTitle="Full Example" />
+
 </ComponentSection>
 
 <!-- API Reference -->
@@ -252,42 +267,48 @@ sourceFile: "components/sidebar"
 
 ## API Reference
 
-### `Sidebar`
+### Sidebar
 
 The main sidebar container. Renders as `<aside>` on desktop and as a dialog sheet on mobile.
 
 <PropsTable component="Sidebar" />
 
-### `Sidebar.Provider`
+### Sidebar.Provider
 
 Context provider managing expand/collapse state and mobile detection.
 
 <PropsTable component="Sidebar.Provider" />
 
-### `Sidebar.Content`
+### Sidebar.Content
 
 Scrollable middle section (`flex-1 overflow-y-auto`). Use `Header` / `Footer` to pin content above or below this scroll area.
 
-### `Sidebar.MenuButton`
+### Sidebar.MenuButton
 
 Primary interactive element. Supports icons, active state, links, and auto-tooltip when collapsed.
 
 <PropsTable component="Sidebar.MenuButton" />
 
-### `Sidebar.MenuSubButton`
+### Sidebar.MenuSubButton
 
 Button inside a sub-menu for nested navigation.
 
 <PropsTable component="Sidebar.MenuSubButton" />
 
-### `Sidebar.GroupContent`
+### Sidebar.Trigger
 
-Animation wrapper only needed for `collapsible` groups. For non-collapsible groups, place `Menu` directly inside `Group`.
+Button that toggles provider open state.
 
-### `Sidebar.Input`
+### Sidebar.ResizeHandle
 
-Search trigger button styled as an input. Typically opens a command palette.
+Keyboard and pointer resize control for resizable sidebars.
 
-<PropsTable component="Sidebar.Input" />
+### Sidebar.SlidingViews
+
+Container for keyed sliding sidebar panels.
+
+### Sidebar.SlidingView
+
+Panel rendered when its `value` matches the parent `activeKey`.
 
 </ComponentSection>

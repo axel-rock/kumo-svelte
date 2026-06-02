@@ -9,9 +9,6 @@ sourceFile: "components/autocomplete"
   import ComponentExample from '$lib/docs/ComponentExample.svelte';
   import ComponentSection from '$lib/docs/ComponentSection.svelte';
   import PropsTable from '$lib/docs/PropsTable.svelte';
-
-  const barrelImport = `import { Autocomplete } from "kumo-svelte";`;
-  const granularImport = `import { Autocomplete } from "kumo-svelte";`;
 </script>
 
 <!-- Hero Demo -->
@@ -28,11 +25,15 @@ sourceFile: "components/autocomplete"
 
 ### Barrel
 
-<CodeBlock code={barrelImport} lang="svelte" />
+```typescript
+import { Autocomplete } from 'kumo-svelte';
+```
 
 ### Granular
 
-<CodeBlock code={granularImport} lang="svelte" />
+```typescript
+import { Autocomplete } from 'kumo-svelte/components/autocomplete';
+```
 
 </ComponentSection>
 
@@ -108,6 +109,48 @@ The `size` prop on `Autocomplete.InputGroup` supports four variants matching the
   Input component: `xs`, `sm`, `base` (default), and `lg`.
 
 <ComponentExample demo="AutocompleteSizesDemo" />
+</ComponentSection>
+
+<!-- API Reference -->
+
+<ComponentSection>
+
+## Filtering
+
+Filtering is case- and accent-insensitive by default, powered by
+`Intl.Collator` under the hood. For string items, no custom `filter` is needed.
+
+When filtering on a property of object items, use `Autocomplete.useFilter()` to
+preserve the built-in accent-insensitive matching:
+
+```svelte
+<script lang="ts">
+  import { Autocomplete } from "kumo-svelte";
+
+  const { contains } = Autocomplete.useFilter();
+
+  const languages = [
+    { value: "pt", label: "Portuguese", emoji: "🇵🇹" },
+    { value: "es", label: "Spanish", emoji: "🇪🇸" }
+  ];
+
+  const filter = (item, query) => contains(item.label, query);
+</script>
+
+<Autocomplete items={languages} {filter}>
+  <!-- ... -->
+</Autocomplete>
+```
+
+To disable filtering entirely (for example, when results come from a server),
+pass `filter={null}`:
+
+```svelte
+<Autocomplete items={results} filter={null}>
+  <!-- ... -->
+</Autocomplete>
+```
+
 </ComponentSection>
 
 <!-- API Reference -->

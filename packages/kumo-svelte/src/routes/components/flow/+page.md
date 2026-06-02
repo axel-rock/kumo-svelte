@@ -24,14 +24,14 @@ sourceFile: "components/flow"
 
 ### Barrel
 
-```svelte
-import { Flow } from "kumo-svelte";
+```typescript
+import { Flow, FlowAnchor, FlowList, FlowNode, FlowParallel, FlowRoot } from 'kumo-svelte';
 ```
 
 ### Granular
 
-```svelte
-import { Flow } from "kumo-svelte";
+```typescript
+import { Flow, FlowAnchor, FlowList, FlowNode, FlowParallel, FlowRoot } from 'kumo-svelte/components/flow';
 ```
 
 </ComponentSection>
@@ -52,7 +52,9 @@ The Flow components work together to create directed flow diagrams. Use
 
 
 ```svelte
+<script lang="ts">
 import { Flow } from "kumo-svelte";
+</script>
 
     <Flow>
       <Flow.Node>Step 1</Flow.Node>

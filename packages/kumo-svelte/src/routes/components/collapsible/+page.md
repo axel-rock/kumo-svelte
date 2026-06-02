@@ -25,29 +25,14 @@ baseUIComponent: "collapsible"
 
 ### Barrel
 
-```svelte
-<script lang="ts">
-  import {
-    Collapsible
-  } from 'kumo-svelte';
-</script>
-
-<Collapsible.Root open>
-  <Collapsible.DefaultTrigger>Show details</Collapsible.DefaultTrigger>
-  <Collapsible.DefaultPanel>
-    Content with border-left accent styling.
-  </Collapsible.DefaultPanel>
-</Collapsible.Root>
+```typescript
+import { Collapsible } from 'kumo-svelte';
 ```
 
 ### Granular
 
-```svelte
-<script lang="ts">
-  import {
-    Collapsible
-  } from 'kumo-svelte';
-</script>
+```typescript
+import { Collapsible } from 'kumo-svelte/components/collapsible';
 ```
 
 </ComponentSection>
@@ -124,12 +109,6 @@ Use `Collapsible.Trigger` for full control:
 
 <ComponentExample demo="CollapsibleCustomTriggerDemo" />
 
-### Keep Mounted
-
-Use `keepMounted` on `DefaultPanel` (or `Panel`) to preserve internal state — such as form inputs — when the panel is collapsed:
-
-<ComponentExample demo="CollapsibleKeepMountedDemo" />
-
 ### Accordion Pattern
 
 Control which item is open to create an accordion where only one item can be expanded at a time:
@@ -146,7 +125,7 @@ Control which item is open to create an accordion where only one item can be exp
 
 | Component | Description |
 |-----------|-------------|
-| `Collapsible.Root` | Manages open state. Pass `open` and `onOpenChange` for controlled mode, or use `bind:open`. |
+| `Collapsible.Root` | Manages open state. Pass `open` and `onOpenChange` for controlled mode. |
 | `Collapsible.Trigger` | Button that toggles visibility. |
 | `Collapsible.Panel` | Container for collapsible content. |
 | `Collapsible.DefaultTrigger` | Pre-styled trigger with text label and animated caret icon. |

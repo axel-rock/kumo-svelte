@@ -24,17 +24,14 @@ sourceFile: "components/banner"
 
 ### Barrel
 
-
-```svelte
-import { Banner } from "kumo-svelte";
+```typescript
+import { Banner } from 'kumo-svelte';
 ```
-
 
 ### Granular
 
-
-```svelte
-import { Banner } from "kumo-svelte";
+```typescript
+import { Banner } from 'kumo-svelte/components/banner';
 ```
 
 </ComponentSection>
@@ -46,8 +43,10 @@ import { Banner } from "kumo-svelte";
 ## Usage
 
 ```svelte
+<script lang="ts">
 import { Banner } from "kumo-svelte";
 import { Info } from "phosphor-svelte";
+</script>
 
 <Banner
   icon={Info}
@@ -77,6 +76,10 @@ import { Info } from "phosphor-svelte";
 #### Error
 
 <ComponentExample demo="BannerErrorDemo" />
+
+#### Secondary
+
+<ComponentExample demo="BannerSecondaryDemo" />
 
 ### With icon
 
