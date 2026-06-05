@@ -1,5 +1,11 @@
 # kumo-svelte
 
+## 0.2.0
+
+### Minor Changes
+
+- bf75ecf: Port upstream Kumo 2.5.0 parity updates for sidebar mobile drawers, collapsible auto-scroll, proportional tab fades, transparent chart backgrounds, Flow connector rendering, and the docs LLM index.
+
 ## 0.1.8
 
 ### Patch Changes
