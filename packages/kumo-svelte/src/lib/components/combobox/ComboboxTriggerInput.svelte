@@ -1,7 +1,8 @@
 <script lang="ts">
   import { CaretDown, X } from 'phosphor-svelte';
   import { cn } from '$lib/utils/cn';
-  import { embeddedInputStyles, getComboboxContext, iconSizes, inputStyles, type ComboboxSize } from './context';
+  import { KUMO_COMBOBOX_CLEAR_CLASSES } from './combobox-variants';
+  import { getComboboxContext, iconSizes, inputStyles, type ComboboxSize } from './context';
 
   export interface Props {
     class?: string;
@@ -25,6 +26,7 @@
   const resolvedSize = $derived(size ?? context.size);
   const displayValue = $derived(context.open || context.multiple ? context.query : context.labelFor(context.value));
   const hasValue = $derived(context.multiple ? Array.isArray(context.value) && context.value.length > 0 : Boolean(context.value));
+  const clearDisabled = $derived(context.disabled || !hasValue);
 
   const iconPadding: Record<ComboboxSize, string> = {
     xs: 'pr-7',
@@ -51,11 +53,13 @@
 <div
   class={cn(
     'relative inline-block w-full max-w-xs',
-    'has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50',
+    'has-[:disabled]:opacity-50 has-[:disabled]:cursor-not-allowed',
     className
   )}
 >
   <input
+    role="combobox"
+    aria-expanded={context.open}
     class={cn(
       inputStyles[resolvedSize],
       'w-full border-0 bg-kumo-control text-kumo-default shadow-xs ring ring-kumo-line outline-none',
@@ -80,14 +84,11 @@
   <button
     type="button"
     aria-label={clearLabel}
+    data-disabled={clearDisabled || undefined}
     data-kumo-component="Combobox"
     data-kumo-part="clear"
-    class={cn(
-      'absolute top-1/2 flex -translate-y-1/2 cursor-pointer bg-transparent p-0 text-kumo-default',
-      'disabled:pointer-events-none disabled:opacity-0',
-      clearRight[resolvedSize]
-    )}
-    disabled={context.disabled || !hasValue}
+    class={cn(KUMO_COMBOBOX_CLEAR_CLASSES, clearRight[resolvedSize])}
+    disabled={clearDisabled}
     onclick={() => (context.value = context.multiple ? [] : null)}
   >
     <X size={iconSizes[resolvedSize]} />

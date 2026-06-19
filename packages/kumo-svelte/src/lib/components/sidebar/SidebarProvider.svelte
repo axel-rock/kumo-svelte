@@ -187,12 +187,10 @@
   style:--sidebar-width-icon="57px"
   style:--sidebar-animation-duration={`${animationDuration}ms`}
   style:--sidebar-easing="cubic-bezier(0.77, 0, 0.175, 1)"
-  style:--sidebar-bg="var(--color-kumo-base)"
-  style:--sidebar-active-bg="var(--color-kumo-tint)"
   class={cn(
-    'group/sidebar-wrapper relative isolate flex w-full',
+    'group/sidebar-wrapper relative isolate flex w-full [--sidebar-bg:var(--color-kumo-base)] [--sidebar-active-bg:var(--color-kumo-tint)]',
     !contained && !isMobile && 'min-h-svh',
-    variant === 'inset' && 'bg-kumo-recessed',
+    'has-data-[variant=inset]:bg-kumo-recessed',
     isResizing && 'select-none',
     className
   )}

@@ -348,7 +348,7 @@
     <TooltipPrimitive.Root open={true} delayDuration={0} disableHoverableContent>
       <TooltipPrimitive.Portal>
         <TooltipPrimitive.Content
-          class="pointer-events-none z-50 min-w-[150px] max-w-[280px] rounded-lg bg-kumo-base p-2 text-kumo-default shadow-lg shadow-kumo-tip-shadow outline outline-1 outline-kumo-fill"
+          class="pointer-events-none z-50 min-w-[150px] max-w-xs rounded-lg bg-kumo-base p-2 text-kumo-default shadow-lg shadow-kumo-tip-shadow outline outline-1 outline-kumo-fill"
           customAnchor={tooltipAnchor}
           side="right"
           align="start"
@@ -365,7 +365,7 @@
           {#each tooltipState.rows as row (row.name)}
             <div class="flex items-center justify-between gap-4 py-0.5">
               <div class="flex min-w-0 items-center gap-2">
-                <span class="size-3 shrink-0 rounded-full" style:background-color={row.color}></span>
+                <span class="h-3 w-3 shrink-0 rounded-full" style:background-color={row.color}></span>
                 <span class="truncate text-xs font-medium text-kumo-default" title={row.name}>{row.name}</span>
               </div>
               <span class="shrink-0 text-xs font-semibold text-kumo-default">

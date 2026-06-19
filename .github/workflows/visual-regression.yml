@@ -1,0 +1,42 @@
+name: Visual Regression
+
+# Playwright screenshot baselines are OS-specific. The committed baselines under
+# ci/visual-regression/baseline/chromium-darwin are generated on macOS, so this
+# job runs on macOS to match. It gates pixel fidelity of the Svelte gallery
+# against the committed baselines (regenerate locally with `pnpm vrt:update`).
+on:
+  pull_request:
+    paths:
+      - "packages/kumo-svelte/src/lib/**"
+      - "ci/visual-regression/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vrt-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  vrt:
+    timeout-minutes: 25
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - uses: ./.github/actions/install-dependencies
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Run visual regression
+        run: pnpm vrt
+      - name: Upload VRT report on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7

@@ -21,12 +21,12 @@ echo "Building kumo-svelte..."
 pnpm build
 
 echo "Uploading version to kumo-svelte worker..."
-echo "  Using wrangler version: $(pnpm --filter kumo-svelte exec wrangler --version)"
+echo "  Using wrangler version: $(pnpm --filter @axel-rock/kumo-svelte exec wrangler --version)"
 
 # Upload version - capture output regardless of exit code
 COMMIT_SHORT="${GITHUB_SHA:0:7}"
 COMMIT_SHORT="${COMMIT_SHORT:-local}"
-VERSION_OUTPUT=$(pnpm --filter kumo-svelte exec wrangler versions upload --message "Preview for ${COMMIT_SHORT}" 2>&1) || true
+VERSION_OUTPUT=$(pnpm --filter @axel-rock/kumo-svelte exec wrangler versions upload --message "Preview for ${COMMIT_SHORT}" 2>&1) || true
 
 echo "$VERSION_OUTPUT"
 

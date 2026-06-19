@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.1.0",
   "components": {
     "Autocomplete": {
       "name": "Autocomplete",
@@ -82,7 +82,6 @@
         "bg-kumo-line",
         "bg-kumo-overlay",
         "border-kumo-line",
-        "ring-kumo-brand",
         "ring-kumo-danger",
         "ring-kumo-focus",
         "ring-kumo-line",
@@ -613,10 +612,13 @@
         "bg-kumo-danger",
         "bg-kumo-tint",
         "ring-kumo-brand",
+        "ring-kumo-danger",
         "ring-kumo-focus",
         "ring-kumo-hairline",
+        "ring-kumo-line",
         "text-kumo-danger",
         "text-kumo-default",
+        "text-kumo-strong",
         "text-kumo-subtle"
       ],
       "subComponents": {
@@ -1008,11 +1010,13 @@
       },
       "colors": [
         "bg-kumo-base",
+        "bg-kumo-control",
         "border-kumo-line",
         "ring-kumo-brand",
         "ring-kumo-focus",
         "ring-kumo-line",
-        "text-kumo-default"
+        "text-kumo-default",
+        "text-kumo-disabled"
       ]
     },
     "CloudflareLogo": {
@@ -1476,7 +1480,6 @@
         "bg-kumo-overlay",
         "bg-kumo-tint",
         "border-kumo-hairline",
-        "ring-kumo-brand",
         "ring-kumo-danger",
         "ring-kumo-focus",
         "ring-kumo-hairline",
@@ -1640,11 +1643,9 @@
         "bg-kumo-elevated",
         "bg-kumo-overlay",
         "bg-kumo-warning",
-        "border-kumo-line",
         "ring-kumo-brand",
         "ring-kumo-hairline",
         "text-kumo-default",
-        "text-kumo-placeholder",
         "text-kumo-subtle"
       ],
       "subComponents": {
@@ -2837,11 +2838,9 @@
         "ring-kumo-danger",
         "ring-kumo-focus",
         "ring-kumo-line",
-        "text-kumo-danger",
         "text-kumo-default",
         "text-kumo-disabled",
-        "text-kumo-muted",
-        "text-kumo-subtle"
+        "text-kumo-muted"
       ]
     },
     "InputArea": {
@@ -2915,11 +2914,9 @@
         "ring-kumo-danger",
         "ring-kumo-focus",
         "ring-kumo-line",
-        "text-kumo-danger",
         "text-kumo-default",
         "text-kumo-disabled",
-        "text-kumo-muted",
-        "text-kumo-subtle"
+        "text-kumo-muted"
       ]
     },
     "InputGroup": {
@@ -2996,18 +2993,14 @@
         }
       },
       "colors": [
-        "bg-kumo-control",
         "bg-kumo-overlay",
         "border-kumo-focus",
         "border-kumo-line",
         "ring-kumo-danger",
         "ring-kumo-focus",
-        "ring-kumo-line",
-        "text-kumo-danger",
         "text-kumo-default",
         "text-kumo-disabled",
         "text-kumo-inactive",
-        "text-kumo-muted",
         "text-kumo-subtle"
       ]
     },
@@ -3460,6 +3453,7 @@
         "fill-kumo-base",
         "fill-kumo-tip-shadow",
         "fill-kumo-tip-stroke",
+        "ring-kumo-line",
         "text-kumo-default",
         "text-kumo-subtle"
       ]
@@ -3880,11 +3874,16 @@
       },
       "colors": [
         "bg-kumo-base",
+        "bg-kumo-elevated",
+        "bg-kumo-hairline",
         "bg-kumo-tint",
+        "border-kumo-line",
         "ring-kumo-brand",
         "ring-kumo-danger",
         "ring-kumo-focus",
+        "ring-kumo-hairline",
         "ring-kumo-line",
+        "text-kumo-danger",
         "text-kumo-default",
         "text-kumo-placeholder",
         "text-kumo-subtle"
@@ -4099,7 +4098,6 @@
         "bg-kumo-hairline",
         "bg-kumo-line",
         "bg-kumo-recessed",
-        "bg-kumo-tint",
         "border-kumo-line",
         "ring-kumo-brand",
         "text-kumo-default",

@@ -1,24 +1,20 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { Info } from 'phosphor-svelte';
+  import { Field, normalizeFieldError } from '$lib/components/field';
   import { cn } from '$lib/utils/cn';
+  import {
+    inputVariants,
+    type KumoInputSize,
+    type KumoInputVariant
+  } from '../input/input-variants';
 
-  type Size = 'xs' | 'sm' | 'base' | 'lg';
-  type Variant = 'default' | 'error';
   type ErrorMatch = keyof ValidityState | true;
   type FieldError = string | { message: string; match: ErrorMatch };
 
-  const sizes: Record<Size, string> = {
-    xs: 'gap-1 rounded-sm px-1.5 text-xs',
-    sm: 'gap-1 rounded-md px-2 text-xs',
-    base: 'gap-1.5 rounded-lg px-3 text-base',
-    lg: 'gap-2 rounded-lg px-4 text-base'
-  };
-
   interface Props {
     class?: string;
-    size?: Size;
-    variant?: Variant;
+    size?: KumoInputSize;
+    variant?: KumoInputVariant;
     invalid?: boolean;
     label?: string | Snippet;
     labelTooltip?: string | Snippet;
@@ -51,18 +47,16 @@
 
   const generatedId = `kumo-input-area-${Math.random().toString(36).slice(2)}`;
   const textareaId = $derived(id ?? generatedId);
-  const descriptionId = $derived(description ? `${textareaId}-description` : undefined);
-  const errorId = $derived(error ? `${textareaId}-error` : undefined);
 
   let validity = $state<ValidityState | undefined>();
 
   const hasField = $derived(Boolean(label || error || description));
   const normalizedVariant = $derived(variant ?? (error || invalid ? 'error' : 'default'));
+  const normalizedError = $derived(normalizeFieldError(error));
   const showError = $derived.by(() => {
-    if (!error) return undefined;
-    if (typeof error === 'string') return error;
-    if (error.match === true) return error.message;
-    if (validity?.[error.match]) return error.message;
+    if (!normalizedError) return undefined;
+    if (normalizedError.match === true) return normalizedError.message;
+    if (validity?.[normalizedError.match as keyof ValidityState]) return normalizedError.message;
     return undefined;
   });
 
@@ -79,16 +73,11 @@
     bind:value
     id={textareaId}
     class={cn(
-      'h-auto w-full border-0 bg-kumo-control py-2 text-kumo-default ring ring-kumo-line outline-none focus:outline-none',
-      'placeholder:text-kumo-muted disabled:text-kumo-disabled',
-      sizes[size],
-      normalizedVariant === 'error'
-        ? '!ring-kumo-danger focus:ring-kumo-danger/50 focus:ring-[1.5px]'
-        : 'focus:ring-kumo-focus/50 focus:ring-[1.5px]',
+      inputVariants({ size, variant: normalizedVariant, focusIndicator: true }),
+      'h-auto py-2',
       className
     )}
     aria-invalid={Boolean(showError || invalid) || undefined}
-    aria-describedby={[descriptionId, errorId].filter(Boolean).join(' ') || undefined}
     {required}
     oninput={handleInput}
     {...rest}
@@ -96,27 +85,9 @@
 {/snippet}
 
 {#if hasField}
-  <div class="grid gap-2">
-    {#if label}
-      <label class="inline-flex items-center gap-1 text-base font-medium text-kumo-default" for={textareaId}>
-        {#if typeof label === 'function'}{@render label()}{:else}{label}{/if}
-        {#if required}<span class="text-kumo-danger">*</span>{/if}
-        {#if required === false}<span class="font-normal text-kumo-subtle">(optional)</span>{/if}
-        {#if labelTooltip}
-          <span class="inline-flex text-kumo-muted" title={typeof labelTooltip === 'string' ? labelTooltip : undefined}>
-            <Info class="size-3.5" aria-hidden="true" />
-            {#if typeof labelTooltip === 'function'}<span class="sr-only">{@render labelTooltip()}</span>{/if}
-          </span>
-        {/if}
-      </label>
-    {/if}
+  <Field {label} {labelTooltip} {description} error={showError ? String(showError) : undefined} {required}>
     {@render control()}
-    {#if showError}
-      <div id={errorId} class="text-sm leading-snug text-kumo-danger">{showError}</div>
-    {:else if description}
-      <div id={descriptionId} class="text-sm leading-snug text-kumo-subtle">{description}</div>
-    {/if}
-  </div>
+  </Field>
 {:else}
   {@render control()}
 {/if}

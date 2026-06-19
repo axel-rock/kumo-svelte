@@ -3,9 +3,10 @@
   import { Check, Minus } from 'phosphor-svelte';
   import { getContext } from 'svelte';
   import {
-    checkboxControlClasses,
-    checkboxInteractiveClasses,
-    checkboxVariantClasses,
+    checkboxIndicatorClasses,
+    checkboxItemInteractiveClasses,
+    checkboxRingClasses,
+    checkboxStateClasses,
     type CheckboxVariant
   } from './Checkbox.svelte';
   import { cn } from '$lib/utils/cn';
@@ -47,7 +48,7 @@
   data-kumo-component="Checkbox"
   data-kumo-part="item-label"
   class={cn(
-    'm-0 relative inline-flex items-center gap-2',
+    'group m-0 relative inline-flex items-start gap-2',
     !(group?.controlFirst ?? true) && 'flex-row-reverse justify-end',
     disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
     className
@@ -64,17 +65,22 @@
     {onCheckedChange}
     {onIndeterminateChange}
     class={cn(
-      'peer',
-      checkboxControlClasses,
-      checkboxVariantClasses(variant),
-      !disabled && checkboxInteractiveClasses
+      'peer relative mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border-0 bg-kumo-base ring after:absolute after:-inset-x-3 after:-inset-y-2',
+      checkboxStateClasses,
+      checkboxRingClasses(variant),
+      !disabled && checkboxItemInteractiveClasses
     )}
   >
-    {#if indeterminate}
-      <Minus class="h-3 w-3 text-kumo-inverse" weight="bold" aria-hidden="true" />
-    {:else if checked}
-      <Check class="h-3 w-3 text-kumo-inverse" weight="bold" aria-hidden="true" />
-    {/if}
+    <span
+      class={checkboxIndicatorClasses}
+      data-unchecked={!checked && !indeterminate ? '' : undefined}
+    >
+      {#if indeterminate}
+        <Minus size={12} weight="bold" aria-hidden="true" />
+      {:else}
+        <Check size={12} weight="bold" aria-hidden="true" />
+      {/if}
+    </span>
   </CheckboxPrimitive.Root>
   <span class="text-base text-kumo-default">{label}</span>
 </label>

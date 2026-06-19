@@ -1,0 +1,30 @@
+{
+  "name": "kumo-svelte-vrt-reference",
+  "private": true,
+  "type": "module",
+  "description": "React reference app rendering upstream @cloudflare/kumo for cross-framework visual parity checks. Not part of the pnpm workspace.",
+  "scripts": {
+    "dev": "vite --port 4174 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --port 4174 --strictPort"
+  },
+  "dependencies": {
+    "@cloudflare/kumo": "2.5.2",
+    "@phosphor-icons/react": "^2.1.10",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.1.4",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^5.9.0",
+    "vite": "^6.0.0",
+    "@fontsource-variable/inter": "^5.2.5"
+  }
+}

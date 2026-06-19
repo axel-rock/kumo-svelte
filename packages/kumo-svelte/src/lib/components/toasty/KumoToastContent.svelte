@@ -14,10 +14,10 @@
   const { toast, behind = false, expanded = false, onClose }: Props = $props();
 
   const backgroundClasses: Partial<Record<KumoToastVariant, string>> = {
-    success: 'bg-kumo-success/5',
-    error: 'bg-kumo-danger/5',
-    warning: 'bg-kumo-warning/5',
-    info: 'bg-kumo-info/5'
+    success: 'bg-kumo-success-tint/20',
+    error: 'bg-kumo-danger-tint/30',
+    warning: 'bg-kumo-warning-tint/20',
+    info: 'bg-kumo-info-tint/30'
   };
 
   function iconForVariant(variant: KumoToastVariant = 'default') {
@@ -51,7 +51,7 @@
           </div>
         {/if}
         {#if toast.description}
-          <div class="text-[0.925rem] leading-5 text-kumo-subtle">{toast.description}</div>
+          <div class="text-[0.925rem] leading-5 text-kumo-default/70">{toast.description}</div>
         {/if}
         {#if toast.actions}
           <div class="mt-2 flex min-w-0 flex-nowrap gap-2 overflow-x-auto p-px">
@@ -68,7 +68,7 @@
   <button
     data-kumo-component="Toast"
     data-kumo-part="close"
-    class="absolute top-2 right-2 flex h-4 w-4 items-center justify-center rounded border-none bg-transparent text-current/50 hover:bg-kumo-contrast/10 hover:text-current"
+    class="absolute top-2 right-2 flex h-4 w-4 items-center justify-center rounded border-none bg-transparent text-current hover:bg-kumo-contrast/10 hover:text-current"
     aria-label="Close"
     type="button"
     onclick={onClose}

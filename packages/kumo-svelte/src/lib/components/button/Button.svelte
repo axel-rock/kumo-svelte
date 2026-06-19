@@ -1,8 +1,5 @@
-<script lang="ts">
-  import type { Component, Snippet } from 'svelte';
+<script lang="ts" module>
   import { cn } from '$lib/utils/cn';
-  import { Loader } from '$lib/components/loader';
-  import { Tooltip } from '$lib/components/tooltip';
 
   export const KUMO_BUTTON_VARIANTS = {
     shape: {
@@ -50,7 +47,7 @@
       },
       secondary: {
         classes:
-          'bg-kumo-base !text-kumo-default ring not-disabled:hover:bg-kumo-tint disabled:bg-kumo-base/50 disabled:!text-kumo-default/70 ring-kumo-hairline data-[state=open]:bg-kumo-base',
+          'bg-kumo-base !text-kumo-default ring not-disabled:hover:bg-kumo-tint disabled:bg-kumo-base/50 disabled:!text-kumo-default/70 ring-kumo-line data-[state=open]:bg-kumo-base',
         description: 'Default button style for most actions'
       },
       ghost: {
@@ -63,11 +60,12 @@
       },
       'secondary-destructive': {
         classes:
-          'bg-kumo-base !text-kumo-danger ring not-disabled:hover:bg-kumo-base disabled:bg-kumo-base/50 disabled:!text-kumo-danger/70 ring-kumo-hairline data-[state=open]:bg-kumo-base',
+          'bg-kumo-base !text-kumo-danger ring not-disabled:hover:!text-kumo-danger not-disabled:hover:ring-kumo-danger/30 disabled:bg-kumo-base/50 disabled:!text-kumo-danger/70 ring-kumo-line data-[state=open]:bg-kumo-base',
         description: 'Secondary button with destructive text for less prominent dangerous actions'
       },
       outline: {
-        classes: 'bg-transparent text-kumo-default ring ring-kumo-hairline',
+        classes:
+          'bg-transparent text-kumo-default ring ring-kumo-line transition-colors not-disabled:hover:text-kumo-strong not-disabled:hover:ring-kumo-focus/25',
         description: 'Bordered button with transparent background'
       }
     }
@@ -106,6 +104,12 @@
       isCompactShape && KUMO_BUTTON_VARIANTS.compactSize[size].classes
     );
   }
+</script>
+
+<script lang="ts">
+  import type { Component, Snippet } from 'svelte';
+  import { Loader } from '$lib/components/loader';
+  import { Tooltip } from '$lib/components/tooltip';
 
   interface Props {
     children?: Snippet;

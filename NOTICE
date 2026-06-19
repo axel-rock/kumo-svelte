@@ -1,0 +1,30 @@
+@axel-rock/kumo-svelte
+======================
+
+A high-fidelity Svelte port of Cloudflare's Kumo UI library, built on Bits UI.
+
+This product is an independent community project and is not affiliated with,
+sponsored by, or endorsed by Cloudflare, Inc.
+
+------------------------------------------------------------------------------
+Attribution
+------------------------------------------------------------------------------
+
+1. Cloudflare Kumo (https://github.com/cloudflare/kumo)
+   Licensed under the MIT License.
+   Copyright (c) Cloudflare, Inc.
+
+   Component structure, public API shape, Tailwind class strings, semantic
+   color tokens, and theme CSS are derived from the upstream Kumo React
+   library to achieve visual and behavioral parity.
+
+2. maxffarrell/kumo-svelte (https://github.com/maxffarrell/kumo-svelte)
+   Licensed under the MIT License.
+   Copyright (c) 2026 maxffarrell
+
+   This repository was hard-forked from maxffarrell/kumo-svelte, which provided
+   the initial Svelte scaffold, monorepo layout, and visual-regression harness.
+
+------------------------------------------------------------------------------
+Third-party runtime dependencies retain their own licenses; see node_modules
+and the respective project repositories for details.

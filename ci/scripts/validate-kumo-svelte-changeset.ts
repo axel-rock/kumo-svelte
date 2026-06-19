@@ -14,7 +14,7 @@ import {
  * files are modified in a pull request.
  */
 
-const KUMO_PACKAGE_NAME = "kumo-svelte";
+const KUMO_PACKAGE_NAME = "@axel-rock/kumo-svelte";
 const KUMO_PATHS = ["packages/kumo-svelte", "pnpm-lock.yaml"];
 const CHANGESET_DIR = ".changeset";
 

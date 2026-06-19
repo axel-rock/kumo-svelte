@@ -2,6 +2,7 @@
 import { fireEvent, render, screen } from "@testing-library/svelte";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createRoundedPath } from "./connectors";
+import { Flow } from "./index";
 import FlowPanningTestHost from "./FlowPanningTestHost.svelte";
 
 const resizeObservers: TestResizeObserver[] = [];
@@ -47,6 +48,60 @@ beforeEach(() => {
   vi.stubGlobal("ResizeObserver", TestResizeObserver);
   document.body.style.cursor = "";
   document.body.style.userSelect = "";
+});
+
+describe("Flow wrapper fidelity", () => {
+  it("mounts without throwing", () => {
+    expect(() => render(FlowPanningTestHost)).not.toThrow();
+  });
+
+  it("exposes compound sub-components", () => {
+    expect(Flow.Node).toBeDefined();
+    expect(Flow.Parallel).toBeDefined();
+    expect(Flow.List).toBeDefined();
+    expect(Flow.Anchor).toBeDefined();
+  });
+
+  it("renders canvas container with Kumo wrapper classes", () => {
+    render(FlowPanningTestHost);
+
+    const wrapper = screen.getByTestId("flow-wrapper");
+    expect(wrapper.className).toContain("relative");
+    expect(wrapper.className).toContain("overflow-hidden");
+    expect(wrapper.className).toContain("grow");
+    expect(wrapper.className).toContain("isolate");
+    expect(wrapper.className).toContain("group");
+  });
+
+  it("renders flow contents with layout classes", () => {
+    render(FlowPanningTestHost);
+
+    const contents = screen.getByTestId("flow-contents");
+    expect(contents.className).toContain("w-max");
+    expect(contents.className).toContain("mx-auto");
+  });
+
+  it("renders default node card classes", () => {
+    render(FlowPanningTestHost);
+
+    const node = screen.getByTestId("start");
+    expect(node.className).toContain("py-2");
+    expect(node.className).toContain("px-3");
+    expect(node.className).toContain("rounded-md");
+    expect(node.className).toContain("shadow");
+    expect(node.className).toContain("bg-kumo-base");
+    expect(node.className).toContain("ring-kumo-line");
+  });
+
+  it("renders connector SVG with inactive stroke classes", () => {
+    render(FlowPanningTestHost);
+
+    const svg = document.querySelector('svg[aria-hidden="true"]');
+    expect(svg).toBeTruthy();
+    const svgClass = svg?.getAttribute("class") ?? "";
+    expect(svgClass).toContain("text-kumo-inactive");
+    expect(svgClass).toContain("overflow-visible");
+  });
 });
 
 describe("Flow canvas panning", () => {

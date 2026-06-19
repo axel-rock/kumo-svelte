@@ -13,9 +13,7 @@ export interface InputGroupSizeTokens {
   addonButtonOuterEnd: string;
   suffixPad: string;
   fontSize: string;
-  addonIconSize: string;
-  addonLoaderSize: string;
-  iconSize: string;
+  iconSize: number;
 }
 
 export const INPUT_GROUP_SIZE: Record<InputGroupSize, InputGroupSizeTokens> = {
@@ -27,9 +25,7 @@ export const INPUT_GROUP_SIZE: Record<InputGroupSize, InputGroupSizeTokens> = {
     addonButtonOuterEnd: 'pr-1',
     suffixPad: 'pr-1.5',
     fontSize: 'text-xs',
-    addonIconSize: '[&>svg]:size-2.5',
-    addonLoaderSize: '[&>svg[role=status]]:size-2.5!',
-    iconSize: 'size-2.5'
+    iconSize: 10
   },
   sm: {
     inputOuter: 'px-2',
@@ -39,9 +35,7 @@ export const INPUT_GROUP_SIZE: Record<InputGroupSize, InputGroupSizeTokens> = {
     addonButtonOuterEnd: 'pr-1',
     suffixPad: 'pr-2',
     fontSize: 'text-xs',
-    addonIconSize: '[&>svg]:size-3.5',
-    addonLoaderSize: '[&>svg[role=status]]:size-3.5!',
-    iconSize: 'size-3.5'
+    iconSize: 13
   },
   base: {
     inputOuter: 'px-3',
@@ -51,9 +45,7 @@ export const INPUT_GROUP_SIZE: Record<InputGroupSize, InputGroupSizeTokens> = {
     addonButtonOuterEnd: 'pr-1',
     suffixPad: 'pr-3',
     fontSize: 'text-base',
-    addonIconSize: '[&>svg]:size-4.5',
-    addonLoaderSize: '[&>svg[role=status]]:size-4.5!',
-    iconSize: 'size-4.5'
+    iconSize: 18
   },
   lg: {
     inputOuter: 'px-4',
@@ -63,29 +55,27 @@ export const INPUT_GROUP_SIZE: Record<InputGroupSize, InputGroupSizeTokens> = {
     addonButtonOuterEnd: 'pr-1.5',
     suffixPad: 'pr-4',
     fontSize: 'text-base',
-    addonIconSize: '[&>svg]:size-5',
-    addonLoaderSize: '[&>svg[role=status]]:size-5!',
-    iconSize: 'size-5'
+    iconSize: 20
   }
 };
 
 export const INPUT_GROUP_HAS_CLASSES: Record<InputGroupSize, string> = {
   xs: [
-    'has-[[data-slot=input-group-addon-start]]:[&_input]:pl-0.5',
+    'has-[[data-slot=input-group-addon-start]]:[&_input]:pl-1',
     'has-[[data-slot=input-group-addon-end]]:[&_input]:pr-1'
   ].join(' '),
   sm: [
-    'has-[[data-slot=input-group-addon-start]]:[&_input]:pl-1',
+    'has-[[data-slot=input-group-addon-start]]:[&_input]:pl-1.5',
     'has-[[data-slot=input-group-addon-end]]:[&_input]:pr-1.5'
   ].join(' '),
   base: [
-    'has-[[data-slot=input-group-addon-start]]:[&_input]:pl-1.5',
+    'has-[[data-slot=input-group-addon-start]]:[&_input]:pl-2',
     'has-[[data-slot=input-group-addon-end]]:[&_input]:pr-2'
   ].join(' '),
   lg: [
-    'has-[[data-slot=input-group-addon-start]]:[&_input]:pl-2',
+    'has-[[data-slot=input-group-addon-start]]:[&_input]:pl-2.5',
     'has-[[data-slot=input-group-addon-end]]:[&_input]:pr-2.5'
-  ].join(' ')
+  ].join(' '),
 };
 
 export interface InputGroupContextValue {

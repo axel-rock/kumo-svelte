@@ -54,9 +54,12 @@
     if (DEV && to !== undefined) {
       console.warn(
         '[kumo] Link: The `to` prop is deprecated. Use `href` instead.\n\n' +
+          'If your app uses a client-side router, configure a LinkProvider that\n' +
+          "maps `href` to your router's navigation prop. See:\n" +
+          'https://kumo.cfops.it/utilities/link-provider\n\n' +
           'Migration example:\n' +
-          '  Before: <Link to="/page">...</Link>\n' +
-          '  After:  <Link href="/page">...</Link>'
+          '  Before: <Link to="/page">…</Link>\n' +
+          '  After:  <Link href="/page">…</Link>'
       );
     }
   });

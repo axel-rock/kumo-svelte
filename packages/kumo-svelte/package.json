@@ -1,13 +1,13 @@
 {
-  "name": "kumo-svelte",
-  "version": "0.2.0",
-  "description": "Svelte port of Cloudflare's Kumo UI library using bits-ui primitives.",
+  "name": "@axel-rock/kumo-svelte",
+  "version": "0.1.0",
+  "description": "High-fidelity Svelte port of Cloudflare's Kumo UI library, built on Bits UI.",
   "type": "module",
   "packageManager": "pnpm@11.3.0",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/maxffarrell/kumo-svelte"
+    "url": "https://github.com/axel-rock/kumo-svelte"
   },
   "publishConfig": {
     "access": "public",
@@ -33,6 +33,13 @@
     "./styles.css": {
       "types": "./dist/styles.css.d.ts",
       "default": "./dist/styles.css"
+    },
+    "./styles": {
+      "types": "./dist/styles.css.d.ts",
+      "default": "./dist/styles.css"
+    },
+    "./theme-svelte.css": {
+      "default": "./dist/theme-svelte.css"
     },
     "./ai/component-registry.json": {
       "default": "./ai/component-registry.json"
@@ -89,6 +96,7 @@
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
+    "@fontsource-variable/inter": "^5.2.5",
     "@sveltejs/adapter-cloudflare": "^7.2.8",
     "@sveltejs/kit": "^2.60.1",
     "@sveltejs/package": "^2.5.7",
@@ -97,6 +105,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/svelte": "^5.3.1",
     "@testing-library/user-event": "^14.6.1",
+    "axe-core": "^4.10.2",
     "@types/node": "^24.12.4",
     "happy-dom": "^20.0.10",
     "jsdom": "^29.1.1",

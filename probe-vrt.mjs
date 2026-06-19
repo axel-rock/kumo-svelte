@@ -1,0 +1,13 @@
+import { chromium } from '@playwright/test';
+const b = await chromium.launch();
+const p = await b.newPage();
+const errs = [];
+p.on('console', m => { if (m.type()==='error') errs.push(m.text()); });
+p.on('pageerror', e => errs.push('PAGEERR: '+e.message));
+await p.goto('http://localhost:4173/vrt/button?mode=light', { waitUntil: 'domcontentloaded', timeout: 60000 });
+await new Promise(r=>setTimeout(r,4000));
+const ready = await p.getAttribute('[data-vr-page="button"]','data-vr-ready').catch(()=>'NO main');
+const scn = await p.locator('[data-vr-scenario]').count();
+console.log('data-vr-ready =', ready, '| scenarios =', scn);
+console.log('console errors:', errs.slice(0,8));
+await b.close();

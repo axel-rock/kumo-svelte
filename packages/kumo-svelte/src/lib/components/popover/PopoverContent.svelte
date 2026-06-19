@@ -38,7 +38,7 @@
 
   let contentClass = $derived(
     cn(
-      'kumo-popover-popup flex origin-(--bits-floating-transform-origin) flex-col rounded-lg bg-kumo-base px-4 py-3 text-sm text-kumo-default',
+      'kumo-popover-popup flex origin-(--transform-origin) flex-col rounded-lg bg-kumo-base px-4 py-3 text-sm text-kumo-default',
       'z-50',
       'shadow-lg shadow-kumo-tip-shadow outline outline-kumo-fill',
       'transition-[transform,scale,opacity] duration-150',

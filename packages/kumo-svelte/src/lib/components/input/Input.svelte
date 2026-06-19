@@ -1,24 +1,21 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { Info } from 'phosphor-svelte';
+  import { Field, normalizeFieldError } from '$lib/components/field';
   import { cn } from '$lib/utils/cn';
+  import {
+    inputVariants,
+    KUMO_INPUT_PASSWORD_MANAGER_ATTRS,
+    type KumoInputSize,
+    type KumoInputVariant
+  } from './input-variants';
 
-  type Size = 'xs' | 'sm' | 'base' | 'lg';
-  type Variant = 'default' | 'error';
   type ErrorMatch = keyof ValidityState | true;
   type FieldError = string | { message: string; match: ErrorMatch };
 
-  const sizes: Record<Size, string> = {
-    xs: 'h-5 gap-1 rounded-sm px-1.5 text-xs',
-    sm: 'h-6.5 gap-1 rounded-md px-2 text-xs',
-    base: 'h-9 gap-1.5 rounded-lg px-3 text-base',
-    lg: 'h-10 gap-2 rounded-lg px-4 text-base'
-  };
-
   interface Props {
     class?: string;
-    size?: Size;
-    variant?: Variant;
+    size?: KumoInputSize;
+    variant?: KumoInputVariant;
     invalid?: boolean;
     label?: string | Snippet;
     labelTooltip?: string | Snippet;
@@ -53,20 +50,22 @@
 
   const generatedId = `kumo-input-${Math.random().toString(36).slice(2)}`;
   const inputId = $derived(id ?? generatedId);
-  const descriptionId = $derived(description ? `${inputId}-description` : undefined);
-  const errorId = $derived(error ? `${inputId}-error` : undefined);
 
   let validity = $state<ValidityState | undefined>();
 
   const hasField = $derived(Boolean(label || error || description));
   const normalizedVariant = $derived(variant ?? (error || invalid ? 'error' : 'default'));
+  const normalizedError = $derived(normalizeFieldError(error));
   const showError = $derived.by(() => {
-    if (!error) return undefined;
-    if (typeof error === 'string') return error;
-    if (error.match === true) return error.message;
-    if (validity?.[error.match]) return error.message;
+    if (!normalizedError) return undefined;
+    if (normalizedError.match === true) return normalizedError.message;
+    if (validity?.[normalizedError.match as keyof ValidityState]) return normalizedError.message;
     return undefined;
   });
+
+  const passwordManagerAttrs = $derived(
+    passwordManagerIgnore ? KUMO_INPUT_PASSWORD_MANAGER_ATTRS : {}
+  );
 
   function handleInput(event: Event) {
     value = (event.currentTarget as HTMLInputElement).value;
@@ -81,49 +80,22 @@
     bind:value
     id={inputId}
     class={cn(
-      'block w-full border-0 bg-kumo-control text-kumo-default ring ring-kumo-line outline-none focus:outline-none',
-      'placeholder:text-kumo-muted disabled:text-kumo-disabled',
-      sizes[size],
-      normalizedVariant === 'error'
-        ? '!ring-kumo-danger focus:ring-kumo-danger/50 focus:ring-[1.5px]'
-        : 'focus:ring-kumo-focus/50 focus:ring-[1.5px]',
+      inputVariants({ size, variant: normalizedVariant, focusIndicator: true }),
       passwordManagerIgnore && 'keeper-ignore',
       className
     )}
     aria-invalid={Boolean(showError || invalid) || undefined}
-    aria-describedby={[descriptionId, errorId].filter(Boolean).join(' ') || undefined}
-    data-1p-ignore={passwordManagerIgnore ? 'true' : undefined}
-    data-bwignore={passwordManagerIgnore ? 'true' : undefined}
-    data-form-type={passwordManagerIgnore ? 'other' : undefined}
-    data-lpignore={passwordManagerIgnore ? 'true' : undefined}
     {required}
     oninput={handleInput}
+    {...passwordManagerAttrs}
     {...rest}
   />
 {/snippet}
 
 {#if hasField}
-  <div class="grid gap-2">
-    {#if label}
-      <label class="inline-flex items-center gap-1 text-base font-medium text-kumo-default" for={inputId}>
-        {#if typeof label === 'function'}{@render label()}{:else}{label}{/if}
-        {#if required}<span class="text-kumo-danger">*</span>{/if}
-        {#if required === false}<span class="font-normal text-kumo-subtle">(optional)</span>{/if}
-        {#if labelTooltip}
-          <span class="inline-flex text-kumo-muted" title={typeof labelTooltip === 'string' ? labelTooltip : undefined}>
-            <Info class="size-3.5" aria-hidden="true" />
-            {#if typeof labelTooltip === 'function'}<span class="sr-only">{@render labelTooltip()}</span>{/if}
-          </span>
-        {/if}
-      </label>
-    {/if}
+  <Field {label} {labelTooltip} {description} error={showError ? String(showError) : undefined} {required}>
     {@render control()}
-    {#if showError}
-      <div id={errorId} class="text-sm leading-snug text-kumo-danger">{showError}</div>
-    {:else if description}
-      <div id={descriptionId} class="text-sm leading-snug text-kumo-subtle">{description}</div>
-    {/if}
-  </div>
+  </Field>
 {:else}
   {@render control()}
 {/if}

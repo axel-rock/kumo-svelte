@@ -60,6 +60,7 @@
       context.markInputTyped();
     }
     if (event.key === 'Escape') context.open = false;
+    context.handleListKeydown(event);
   }}
   {...rest}
 />

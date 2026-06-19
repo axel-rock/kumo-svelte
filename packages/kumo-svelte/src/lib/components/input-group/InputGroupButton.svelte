@@ -50,25 +50,27 @@
   const groupSize = $derived(context?.size ?? 'base');
   const isIndividual = $derived(context?.focusMode === 'individual' || context?.focusMode === 'hybrid');
   const effectiveSize = $derived(size ?? (isIndividual ? groupSize : compactButtonSize[groupSize]));
-  const iconClass = $derived(INPUT_GROUP_SIZE[groupSize].iconSize);
-  const childIconClass = $derived(INPUT_GROUP_SIZE[groupSize].addonIconSize);
+  const iconSize = $derived(INPUT_GROUP_SIZE[groupSize].iconSize);
 </script>
 
 <Button
   type="button"
   disabled={disabled ?? context?.disabled}
-  variant={variant}
+  {variant}
   size={effectiveSize}
-  shape={shape}
+  {shape}
   title={tooltip}
   class={cn(
     'pointer-events-auto',
+    'focus:ring-0',
+    !isIndividual && 'focus-visible:ring-[1.5px] focus-visible:ring-kumo-focus/50',
     isIndividual && [
-      'relative h-full! rounded-none ring-0 border border-kumo-line',
+      'relative h-full! rounded-none ring-0 focus-visible:ring-0 border border-kumo-line',
       'first:rounded-l-[inherit] last:rounded-r-[inherit]',
       'not-first:-ml-px',
       'hover:z-1',
-      'focus:z-2 focus-visible:border-kumo-focus/50',
+      'focus:z-2',
+      'focus-visible:border-kumo-focus/50',
       'disabled:bg-kumo-overlay disabled:text-kumo-inactive!'
     ],
     className
@@ -76,10 +78,10 @@
   {...rest}
 >
   {#if IconComponent}
-    <IconComponent class={iconClass} />
+    <IconComponent size={iconSize} />
   {/if}
   {#if children}
-    <span class={cn('contents', childIconClass, '[&>svg]:shrink-0')}>
+    <span class="contents [&>svg]:shrink-0">
       {@render children()}
     </span>
   {/if}

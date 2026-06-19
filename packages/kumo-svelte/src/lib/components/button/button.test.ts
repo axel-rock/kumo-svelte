@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/svelte';
-import { describe, expect, it } from 'vitest';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+import { expectNoA11yViolations } from '../../../../tests/a11y';
 import Button from './Button.svelte';
 
 describe('Button', () => {
@@ -35,5 +37,89 @@ describe('Button', () => {
     expect(button).toBeInstanceOf(HTMLButtonElement);
     expect((button as HTMLButtonElement).disabled).toBe(true);
     expect(button.getAttribute('aria-busy')).toBe('true');
+  });
+
+  describe('variant fidelity', () => {
+    it('applies primary brand classes', () => {
+      render(Button, { variant: 'primary', 'aria-label': 'Primary' });
+      const cls = screen.getByRole('button', { name: 'Primary' }).className;
+      expect(cls).toContain('bg-kumo-brand');
+      expect(cls).toContain('hover:bg-kumo-brand-hover');
+    });
+
+    it('uses ring-kumo-line (not the drifted hairline) for secondary', () => {
+      render(Button, { variant: 'secondary', 'aria-label': 'Secondary' });
+      const cls = screen.getByRole('button', { name: 'Secondary' }).className;
+      expect(cls).toContain('ring-kumo-line');
+      expect(cls).not.toContain('ring-kumo-hairline');
+    });
+
+    it('restores outline hover affordances', () => {
+      render(Button, { variant: 'outline', 'aria-label': 'Outline' });
+      const cls = screen.getByRole('button', { name: 'Outline' }).className;
+      expect(cls).toContain('transition-colors');
+      expect(cls).toContain('not-disabled:hover:text-kumo-strong');
+      expect(cls).toContain('not-disabled:hover:ring-kumo-focus/25');
+    });
+
+    it('restores secondary-destructive hover affordances', () => {
+      render(Button, { variant: 'secondary-destructive', 'aria-label': 'Danger' });
+      const cls = screen.getByRole('button', { name: 'Danger' }).className;
+      expect(cls).toContain('not-disabled:hover:!text-kumo-danger');
+      expect(cls).toContain('not-disabled:hover:ring-kumo-danger/30');
+    });
+  });
+
+  describe('size and shape', () => {
+    it('applies size classes', () => {
+      render(Button, { size: 'lg', 'aria-label': 'Large' });
+      expect(screen.getByRole('button', { name: 'Large' }).className).toContain('h-10');
+    });
+
+    it('applies compact sizing for square shape', () => {
+      render(Button, { shape: 'square', 'aria-label': 'Square' });
+      const cls = screen.getByRole('button', { name: 'Square' }).className;
+      expect(cls).toContain('justify-center');
+      expect(cls).toContain('size-9');
+    });
+  });
+
+  describe('interaction', () => {
+    it('fires click handlers', async () => {
+      const onclick = vi.fn();
+      render(Button, { onclick, 'aria-label': 'Click' });
+      await userEvent.click(screen.getByRole('button', { name: 'Click' }));
+      expect(onclick).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not fire click when disabled', async () => {
+      const onclick = vi.fn();
+      render(Button, { onclick, disabled: true, 'aria-label': 'Nope' });
+      await userEvent.click(screen.getByRole('button', { name: 'Nope' }));
+      expect(onclick).not.toHaveBeenCalled();
+    });
+
+    it('activates via keyboard (Enter and Space)', async () => {
+      const onclick = vi.fn();
+      render(Button, { onclick, 'aria-label': 'Key' });
+      const button = screen.getByRole('button', { name: 'Key' });
+      button.focus();
+      expect(document.activeElement).toBe(button);
+      await userEvent.keyboard('{Enter}');
+      await userEvent.keyboard(' ');
+      expect(onclick).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('accessibility', () => {
+    it('has no axe violations (default)', async () => {
+      const { container } = render(Button, { 'aria-label': 'Accessible' });
+      await expectNoA11yViolations(container);
+    });
+
+    it('has no axe violations as a link', async () => {
+      const { container } = render(Button, { href: '/x', 'aria-label': 'Link' });
+      await expectNoA11yViolations(container);
+    });
   });
 });

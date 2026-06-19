@@ -29,7 +29,9 @@ export type AutocompleteContext = {
   markInputTyped(): void;
   resetInputInteraction(): void;
   isSelected(item: NormalizedAutocompleteItem): boolean;
+  isHighlighted(item: NormalizedAutocompleteItem): boolean;
   select(item: NormalizedAutocompleteItem): void;
+  handleListKeydown(event: KeyboardEvent): void;
 };
 
 export type AutocompleteGroupContext = {

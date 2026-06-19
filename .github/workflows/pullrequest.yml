@@ -81,3 +81,21 @@ jobs:
           fetch-depth: 1
       - uses: ./.github/actions/install-dependencies
       - run: pnpm test
+
+  fidelity:
+    needs: build
+    timeout-minutes: 5
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - uses: ./.github/actions/install-dependencies
+      # Class-vocabulary parity vs upstream Cloudflare Kumo (deterministic,
+      # OS-independent). Pinned to the version the port mirrors.
+      - name: Clone upstream Kumo reference
+        run: git clone --depth 1 https://github.com/cloudflare/kumo.git ../kumo-upstream-ref
+      - name: Fidelity gate
+        env:
+          KUMO_UPSTREAM: ${{ github.workspace }}/../kumo-upstream-ref
+        run: pnpm fidelity:gate

@@ -55,6 +55,7 @@
 
   let query = $state(Array.isArray(value) ? value.join(', ') : String(value ?? ''));
   let hasTypedSinceFocus = $state(false);
+  let highlightedIndex = $state(-1);
   let rootElement: HTMLDivElement;
   const { contains } = createKumoFilter();
 
@@ -87,8 +88,50 @@
     value = item.value;
     query = item.label;
     open = false;
+    highlightedIndex = -1;
     onValueChange?.(item.value);
     onOpenChange?.(false);
+  }
+
+  const selectableItems = $derived(filteredItems.filter((item) => !item.disabled));
+
+  function isHighlighted(item: NormalizedAutocompleteItem) {
+    const index = selectableItems.findIndex((candidate) => candidate.value === item.value);
+    return index >= 0 && index === highlightedIndex;
+  }
+
+  function handleListKeydown(event: KeyboardEvent) {
+    if (!hasTypedSinceFocus && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+      return;
+    }
+
+    if (!open && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+      event.preventDefault();
+      open = true;
+      onOpenChange?.(true);
+      highlightedIndex = event.key === 'ArrowUp' ? Math.max(selectableItems.length - 1, 0) : 0;
+      return;
+    }
+
+    if (!open || selectableItems.length === 0) return;
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      highlightedIndex = highlightedIndex < selectableItems.length - 1 ? highlightedIndex + 1 : 0;
+      return;
+    }
+
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      highlightedIndex = highlightedIndex > 0 ? highlightedIndex - 1 : selectableItems.length - 1;
+      return;
+    }
+
+    if (event.key === 'Enter' && highlightedIndex >= 0) {
+      event.preventDefault();
+      const item = selectableItems[highlightedIndex];
+      if (item) select(item);
+    }
   }
 
   onMount(() => {
@@ -151,12 +194,14 @@
       onOpenChange?.(false);
     },
     isSelected,
-    select
+    isHighlighted,
+    select,
+    handleListKeydown
   });
 </script>
 
 {#snippet control()}
-  <div bind:this={rootElement} class={cn('relative w-full', className)} {...rest}>
+  <div bind:this={rootElement} class={cn('relative w-full', className)} onkeydown={handleListKeydown} {...rest}>
     {@render children?.()}
   </div>
 {/snippet}

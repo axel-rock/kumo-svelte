@@ -1,4 +1,5 @@
 declare module '*.css';
+declare module '@fontsource-variable/inter';
 declare module '*?raw' {
   const content: string;
   export default content;

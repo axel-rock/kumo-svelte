@@ -1,0 +1,33 @@
+@import 'tailwindcss';
+
+/* Generate Kumo's Tailwind utilities by scanning the upstream dist. */
+@source '../node_modules/@cloudflare/kumo/dist';
+
+/* Kumo theme tokens + base styles (same source the Svelte port mirrors).
+   The package exports `./styles/*` -> dist/styles/*.css, so omit the extension. */
+@import '@cloudflare/kumo/styles/theme-kumo';
+@import '@cloudflare/kumo/styles/kumo';
+
+@theme {
+  --font-sans:
+    'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Freeze animations for deterministic capture (mirrors the Svelte VRT layout). */
+*,
+*::before,
+*::after {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  caret-color: transparent !important;
+}
+
+body {
+  margin: 0;
+  background: var(--color-kumo-canvas);
+  color: var(--text-color-kumo-default);
+  font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+}

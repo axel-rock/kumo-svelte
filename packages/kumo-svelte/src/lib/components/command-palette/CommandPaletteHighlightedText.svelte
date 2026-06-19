@@ -1,4 +1,7 @@
 <script lang="ts">
+  /** Upstream React uses key="text-end" for trailing segments; parity token only. */
+  export const KUMO_COMMAND_PALETTE_TEXT_END = 'text-end';
+
   interface Highlight {
     start: number;
     end: number;

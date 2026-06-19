@@ -1,7 +1,6 @@
 <script lang="ts">
   import { Command as CommandPrimitive } from 'bits-ui';
   import type { Snippet } from 'svelte';
-  import { cn } from '$lib/utils/cn';
 
   interface Props {
     children?: Snippet;
@@ -13,6 +12,8 @@
   let { children, class: className, forceMount, ...rest }: Props = $props();
 </script>
 
-<CommandPrimitive.Empty {forceMount} class={cn('p-8 text-center text-kumo-subtle', className)} {...rest}>
-  <p>{@render children?.()}</p>
+<CommandPrimitive.Empty {forceMount} class={className} {...rest}>
+  <div class="p-8 text-center">
+    <p class="text-kumo-subtle">{@render children?.()}</p>
+  </div>
 </CommandPrimitive.Empty>

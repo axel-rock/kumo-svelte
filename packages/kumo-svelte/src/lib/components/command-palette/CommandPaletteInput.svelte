@@ -30,11 +30,11 @@
       <path d="M229.66 218.34l-50.07-50.06a88.11 88.11 0 1 0-11.31 11.31l50.06 50.07a8 8 0 0 0 11.32-11.32ZM40 112a72 72 0 1 1 72 72 72.08 72.08 0 0 1-72-72Z" />
     </svg>
   {/if}
-    <CommandPrimitive.Input
-      bind:value
-      {placeholder}
-    class={cn('h-7 min-w-0 flex-1 bg-transparent text-base text-kumo-default outline-none placeholder:text-kumo-placeholder', className)}
-      {...rest}
-    />
-    {@render trailing?.()}
+  <CommandPrimitive.Input
+    bind:value
+    {placeholder}
+    class={cn('flex-1 border-none bg-transparent text-base kumo-input-placeholder outline-none', className)}
+    {...rest}
+  />
+  {@render trailing?.()}
 </div>

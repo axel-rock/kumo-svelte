@@ -29,8 +29,6 @@
 
   let { class: className, checked = $bindable(false), disabled = false, size = 'base', variant = 'default', label, transitioning, onchange, onCheckedChange }: Props = $props();
   const group = getContext<SwitchGroupContext | undefined>('kumo-switch-group');
-  const generatedId = $props.id();
-  const controlId = `${generatedId}-control`;
   let controlFirst = $derived(group?.controlFirst ?? true);
   let s = $derived(switchSizeStyles[size] ?? switchSizeStyles.base);
 
@@ -40,19 +38,18 @@
   }
 </script>
 
-<span
+<label
   data-kumo-component="Switch"
   data-kumo-part="item-label"
   class={cn(
     'm-0 relative inline-flex items-center gap-2',
     !controlFirst && 'flex-row-reverse justify-end',
-    disabled && 'opacity-50',
+    disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
     className
   )}
 >
   <SwitchPrimitive.Root
     bind:checked
-    id={controlId}
     {disabled}
     aria-busy={transitioning || undefined}
     aria-label={label}
@@ -80,5 +77,5 @@
       )}
     />
   </SwitchPrimitive.Root>
-  <label for={controlId} class={cn('text-base font-medium text-kumo-default', disabled ? 'cursor-not-allowed' : 'cursor-pointer')}>{label}</label>
-</span>
+  <span class="text-base font-medium text-kumo-default">{label}</span>
+</label>

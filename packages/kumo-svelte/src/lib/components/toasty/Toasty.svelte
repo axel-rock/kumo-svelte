@@ -13,6 +13,24 @@
   } from './manager.svelte';
 
   export const KUMO_TOAST_VARIANTS = {
+    root: {
+      classes:
+        'rounded-lg border border-kumo-fill bg-kumo-control p-4 shadow-lg text-kumo-default',
+      description: 'Toast container with background, border, and shadow'
+    },
+    title: {
+      classes: 'text-[0.975rem] leading-5 font-medium text-kumo-default',
+      description: 'Toast title with primary text color'
+    },
+    description: {
+      classes: 'text-[0.925rem] leading-5 text-kumo-subtle',
+      description: 'Toast description with muted text color'
+    },
+    close: {
+      classes:
+        'absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded bg-transparent text-kumo-subtle hover:bg-kumo-fill-hover hover:text-kumo-default',
+      description: 'Close button with X icon'
+    },
     variant: {
       default: {
         classes: 'border-kumo-fill bg-kumo-base',
@@ -43,6 +61,37 @@
 
   export const KUMO_TOAST_DEFAULT_VARIANTS = {
     variant: 'default'
+  } as const;
+
+  export const KUMO_TOAST_STYLING = {
+    container: {
+      width: 300,
+      padding: 16,
+      borderRadius: 8,
+      background: 'bg-kumo-base',
+      border: 'ring-[0.3px] ring-kumo-hairline',
+      shadow: 'shadow-lg',
+      gap: 4
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: 500,
+      color: 'text-color-surface'
+    },
+    description: {
+      fontSize: 15,
+      fontWeight: 400,
+      color: 'text-color-muted'
+    },
+    closeButton: {
+      size: 20,
+      iconSize: 16,
+      iconName: 'ph-x',
+      iconColor: 'text-color-muted',
+      hoverBackground: 'color-color-2',
+      hoverColor: 'text-color-label',
+      borderRadius: 4
+    }
   } as const;
 
   export function toastVariants({
@@ -192,7 +241,7 @@
     <div
       bind:this={viewportNode}
       class={cn(
-        'fixed top-auto right-4 bottom-4 z-[1000] mx-auto flex h-[var(--toast-frontmost-height,var(--toast-height,80px))] w-[calc(100%-2rem)] overflow-visible data-[expanded]:h-[var(--toast-stack-height)] sm:right-8 sm:bottom-8 sm:w-[340px]',
+        'fixed top-auto right-4 bottom-4 z-1 mx-auto flex h-[var(--toast-frontmost-height,var(--toast-height,80px))] w-[calc(100%-2rem)] overflow-visible data-[expanded]:h-[var(--toast-stack-height)] sm:right-8 sm:bottom-8 sm:w-[340px]',
         className
       )}
       style={viewportStyle}

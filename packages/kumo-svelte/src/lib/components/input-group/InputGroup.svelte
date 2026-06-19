@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import { Field } from '$lib/components/field';
+  import { inputVariants } from '$lib/components/input/input-variants';
   import { cn } from '$lib/utils/cn';
   import {
     INPUT_GROUP_HAS_CLASSES,
@@ -9,12 +11,30 @@
     type InputGroupSize
   } from './context';
 
-  const sizes: Record<InputGroupSize, string> = {
-    xs: 'h-6 text-xs rounded-sm',
-    sm: 'h-7 text-xs rounded-md',
-    base: 'h-9 text-base rounded-lg',
-    lg: 'h-11 text-base rounded-lg'
-  };
+  export const KUMO_INPUT_GROUP_VARIANTS = {
+    size: {
+      xs: {
+        classes: 'h-6 text-xs',
+        description: 'Extra small size.'
+      },
+      sm: {
+        classes: 'h-7 text-xs',
+        description: 'Small size.'
+      },
+      base: {
+        classes: 'h-9 text-base',
+        description: 'Default size.'
+      },
+      lg: {
+        classes: 'h-11 text-base',
+        description: 'Large size.'
+      }
+    }
+  } as const;
+
+  export const KUMO_INPUT_GROUP_DEFAULT_VARIANTS = {
+    size: 'base'
+  } as const;
 
   interface Props {
     children?: Snippet;
@@ -48,10 +68,9 @@
 
   const generatedId = `kumo-input-group-${Math.random().toString(36).slice(2)}`;
   const inputId = $derived(id ?? generatedId);
-  const descriptionId = $derived(description ? `${inputId}-description` : undefined);
-  const errorId = $derived(error ? `${inputId}-error` : undefined);
   const showError = $derived(typeof error === 'string' ? error : error?.message);
   const hasField = $derived(Boolean(label || description || showError));
+  const useLabelContainer = $derived(!label && focusMode === 'container');
 
   setInputGroupContext({
     get size() {
@@ -70,28 +89,19 @@
       return inputId;
     },
     get describedBy() {
-      return [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
+      return undefined;
     }
   });
-</script>
 
-{#snippet control()}
-  <div
-    data-slot="input-group"
-    data-focus-mode={focusMode}
-    data-disabled={disabled ? '' : undefined}
-    role="group"
-    class={cn(
-      'relative w-full cursor-text text-kumo-default',
-      sizes[size],
+  const containerClassName = $derived(
+    cn(
+      'relative w-full cursor-text',
+      inputVariants({ size }),
       'shadow-xs',
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       focusMode === 'container'
-        ? [
-            'overflow-hidden bg-kumo-control ring ring-kumo-line',
-            'focus-within:ring-kumo-focus/50 focus-within:ring-[1.5px]'
-          ]
-        : 'isolate overflow-visible bg-kumo-control ring-0 shadow-none',
+        ? ['overflow-hidden', 'focus-within:ring-kumo-focus/50 focus-within:ring-[1.5px]']
+        : 'isolate overflow-visible ring-0 shadow-none',
       'has-[input[aria-invalid=true]]:ring-kumo-danger',
       'px-0',
       'flex items-center gap-0',
@@ -102,43 +112,79 @@
       INPUT_GROUP_HAS_CLASSES[size],
       '!mb-0',
       className
-    )}
-    {...rest}
-  >
-    {#if label}
-      <label for={inputId} class="absolute inset-0 z-0 !mb-0 cursor-text" aria-hidden="true"></label>
-    {/if}
+    )
+  );
+
+  const hybridContainerZoneClassName = $derived(
+    cn(
+      inputVariants({ size }),
+      'overflow-hidden',
+      'has-[input[aria-invalid=true]]:ring-kumo-danger',
+      'px-0',
+      'flex min-w-0 flex-1 items-center gap-0',
+      'ring-0 shadow-none',
+      'border border-kumo-line',
+      'focus-within:border-kumo-focus/50',
+      'focus-within:z-2',
+      'not-first:-ml-px',
+      'first:rounded-l-[inherit] last:rounded-r-[inherit] rounded-none',
+      INPUT_GROUP_HAS_CLASSES[size],
+      'has-data-[slot=input-group-suffix]:[&_input]:field-sizing-content',
+      'has-data-[slot=input-group-suffix]:[&_input]:max-w-full',
+      'has-data-[slot=input-group-suffix]:[&_input]:grow-0',
+      'has-data-[slot=input-group-suffix]:[&_input]:pr-0'
+    )
+  );
+</script>
+
+{#snippet groupContent()}
+  {#if focusMode === 'hybrid'}
+    <div
+      data-slot="input-group-container-zone"
+      class={hybridContainerZoneClassName}
+    >
+      {#if label}
+        <label for={inputId} class="absolute inset-0 z-0 cursor-text mb-0!" aria-hidden="true"></label>
+      {/if}
+      {@render children?.()}
+    </div>
+  {:else if label}
+    <label for={inputId} class="absolute inset-0 z-0 mb-0!" aria-hidden="true"></label>
     {@render children?.()}
-  </div>
+  {:else}
+    {@render children?.()}
+  {/if}
+{/snippet}
+
+{#snippet container()}
+  {#if useLabelContainer}
+    <label
+      data-slot="input-group"
+      data-focus-mode={focusMode}
+      data-disabled={disabled ? '' : undefined}
+      class={cn(containerClassName, 'mb-0!')}
+      {...rest}
+    >
+      {@render groupContent()}
+    </label>
+  {:else}
+    <div
+      data-slot="input-group"
+      data-focus-mode={focusMode}
+      data-disabled={disabled ? '' : undefined}
+      role="group"
+      class={containerClassName}
+      {...rest}
+    >
+      {@render groupContent()}
+    </div>
+  {/if}
 {/snippet}
 
 {#if hasField}
-  <div class="grid gap-2">
-    {#if label}
-      <label class="inline-flex items-center gap-1 text-base font-medium text-kumo-default" for={inputId}>
-        {#if typeof label === 'function'}{@render label()}{:else}{label}{/if}
-        {#if required}<span class="text-kumo-danger">*</span>{/if}
-        {#if required === false}<span class="font-normal text-kumo-subtle">(optional)</span>{/if}
-        {#if labelTooltip}
-          <span class="inline-flex text-kumo-muted" title={typeof labelTooltip === 'string' ? labelTooltip : undefined}>
-            {#if typeof labelTooltip === 'function'}<span class="sr-only">{@render labelTooltip()}</span>{/if}
-          </span>
-        {/if}
-      </label>
-    {/if}
-    {@render control()}
-    {#if showError}
-      <div id={errorId} class="text-sm leading-snug text-kumo-danger">{showError}</div>
-    {:else if description}
-      <div id={descriptionId} class="text-sm leading-snug text-kumo-subtle">{description}</div>
-    {/if}
-  </div>
+  <Field {label} {labelTooltip} {description} error={showError} {required}>
+    {@render container()}
+  </Field>
 {:else}
-  {#if focusMode === 'container'}
-    <label class="!mb-0 block w-full">
-      {@render control()}
-    </label>
-  {:else}
-    {@render control()}
-  {/if}
+  {@render container()}
 {/if}

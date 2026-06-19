@@ -1,12 +1,21 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { CaretUpDown, Check } from 'phosphor-svelte';
+  import { CaretUpDown } from 'phosphor-svelte';
   import { Select as SelectPrimitive } from 'bits-ui';
   import Field from '$lib/components/field/Field.svelte';
-  import Loader from '$lib/components/loader/Loader.svelte';
+  import Label from '$lib/components/label/Label.svelte';
+  import { SkeletonLine } from '$lib/components/loader';
   import { cn } from '$lib/utils/cn';
+  import SelectOption from './SelectOption.svelte';
+  import {
+    KUMO_SELECT_CONTENT_CLASSES,
+    KUMO_SELECT_LABEL_CLASSES,
+    KUMO_SELECT_VIEWPORT_CLASSES,
+    selectVariants,
+    triggerIconStyles,
+    type KumoSelectSize
+  } from './select-variants';
 
-  type Size = 'xs' | 'sm' | 'base' | 'lg';
   type SelectValue = unknown;
   type Value = SelectValue | SelectValue[];
 
@@ -31,7 +40,7 @@
     disabled?: boolean;
     loading?: boolean;
     multiple?: boolean;
-    size?: Size;
+    size?: KumoSelectSize;
     label?: string;
     hideLabel?: boolean;
     labelTooltip?: string;
@@ -73,19 +82,7 @@
     ...rest
   }: Props = $props();
 
-  const sizes: Record<Size, string> = {
-    xs: 'h-5 rounded-sm px-1.5 text-xs',
-    sm: 'h-6.5 rounded-md px-2 text-xs',
-    base: 'h-9 rounded-lg px-3 text-base',
-    lg: 'h-10 rounded-lg px-4 text-base'
-  };
-
-  const iconSizes: Record<Size, string> = {
-    xs: 'size-3',
-    sm: 'size-3.5',
-    base: 'size-4',
-    lg: 'size-[18px]'
-  };
+  const labelId = `kumo-select-label-${Math.random().toString(36).slice(2)}`;
 
   const normalizedOptions = $derived.by<Option[]>(() => {
     if (items) {
@@ -93,12 +90,12 @@
 
       return Object.entries(items)
         .filter(([, item]) => item !== null && item !== undefined)
-        .map(([value, item]) => {
+        .map(([optionValue, item]) => {
           if (typeof item === 'object') {
-            return { value, label: item.label, disabled: item.disabled };
+            return { value: optionValue, label: item.label, disabled: item.disabled };
           }
 
-          return { value, label: item };
+          return { value: optionValue, label: item };
         });
     }
 
@@ -112,23 +109,45 @@
     }))
   );
   const selectItems = $derived(
-    serializedOptions.map(({ serializedValue, label, disabled }) => ({ value: serializedValue, label, disabled }))
+    serializedOptions.map(({ serializedValue, label: optionLabel, disabled: optionDisabled }) => ({
+      value: serializedValue,
+      label: optionLabel,
+      disabled: optionDisabled
+    }))
   );
   const errorMessage = $derived(typeof error === 'string' ? error : error?.message);
   const isDisabled = $derived(disabled || loading);
   const primitiveValue = $derived(toPrimitiveValue(value, multiple));
+  const useFieldWrapper = $derived(Boolean(label && !hideLabel));
+  const showOptional = $derived(required === false);
+  const fallbackLabel = $derived(typeof label === 'string' ? label : placeholder);
+  const triggerLabelledBy = $derived(
+    useFieldWrapper ? undefined : ((rest['aria-labelledby'] as string | undefined) ?? (label ? labelId : undefined))
+  );
+  const triggerAriaLabel = $derived(
+    (rest['aria-label'] as string | undefined) ?? (!triggerLabelledBy ? fallbackLabel : undefined)
+  );
+
   const selectedLabels = $derived.by(() => {
     if (Array.isArray(value)) {
       return value
-        .map((selectedValue) => normalizedOptions.find((option) => Object.is(option.value, selectedValue))?.label ?? stringifyValue(selectedValue))
+        .map(
+          (selectedValue) =>
+            normalizedOptions.find((option) => Object.is(option.value, selectedValue))?.label ??
+            stringifyValue(selectedValue)
+        )
         .join(', ');
     }
 
-    return normalizedOptions.find((option) => Object.is(option.value, value))?.label ?? stringifyValue(value);
+    return (
+      normalizedOptions.find((option) => Object.is(option.value, value))?.label ?? stringifyValue(value)
+    );
   });
 
   function displayValue(selectionValue: Value) {
-    if (!selectionValue || (Array.isArray(selectionValue) && selectionValue.length === 0)) return placeholder;
+    if (!selectionValue || (Array.isArray(selectionValue) && selectionValue.length === 0)) {
+      return placeholder;
+    }
     if (renderValue) return renderValue(selectionValue);
     return selectedLabels || placeholder;
   }
@@ -158,9 +177,9 @@
     return typeof selectionValue === 'string' ? selectionValue : undefined;
   }
 
-  function deserializePrimitiveValue(primitiveValue: string) {
-    const option = serializedOptions.find((entry) => entry.serializedValue === primitiveValue);
-    return option ? option.value : primitiveValue;
+  function deserializePrimitiveValue(primitive: string) {
+    const option = serializedOptions.find((entry) => entry.serializedValue === primitive);
+    return option ? option.value : primitive;
   }
 
   function setValue(nextValue: Value) {
@@ -175,100 +194,26 @@
   function handleMultipleValueChange(nextValue: string[]) {
     setValue(nextValue.map((entry) => deserializePrimitiveValue(entry)));
   }
+
+  function resolveDisplayedValue(selectionValue: Value | undefined) {
+    if (selectionValue === undefined || selectionValue === null || selectionValue === '') {
+      return placeholder;
+    }
+    return displayValue(selectionValue);
+  }
 </script>
 
-{#snippet selectContent()}
-  <SelectPrimitive.Trigger
-      class={cn(
-        'inline-flex w-full items-center justify-between gap-2 bg-kumo-base text-left font-normal text-kumo-default shadow-xs outline-none ring ring-kumo-line transition focus:opacity-100 focus:ring-2 focus:ring-kumo-focus/50 focus-visible:ring-inset disabled:cursor-not-allowed disabled:opacity-50 *:in-focus:opacity-100',
-        sizes[size],
-        !value || (Array.isArray(value) && value.length === 0) ? 'text-kumo-placeholder' : undefined,
-        errorMessage ? 'ring-kumo-danger! focus:ring-kumo-danger/50!' : undefined,
-        className
-      )}
-      aria-label={rest['aria-label'] as string | undefined}
-      aria-invalid={Boolean(errorMessage) || undefined}
-      data-kumo-component="Select"
-      data-kumo-part="trigger"
-    >
-      {#if loading}
-        <span class="inline-flex min-w-0 flex-1 items-center">
-          <Loader size="sm" class="w-32" />
-        </span>
-      {:else}
-        <SelectPrimitive.Value class="min-w-0 flex-1 truncate data-[placeholder]:text-kumo-placeholder" {placeholder}>
-          {#snippet children({ selection, placeholder })}
-            <span class={cn('block truncate', !selectedLabels && 'text-kumo-placeholder')}>
-              {#if selection.type === 'multiple'}
-                {displayValue(selection.selected.map((item) => deserializePrimitiveValue(item.value)))}
-              {:else if selection.selected}
-                {displayValue(deserializePrimitiveValue(selection.selected.value))}
-              {:else}
-                {placeholder}
-              {/if}
-            </span>
-          {/snippet}
-        </SelectPrimitive.Value>
-      {/if}
-      <CaretUpDown class={cn('shrink-0 text-kumo-subtle', iconSizes[size])} aria-hidden="true" />
-    </SelectPrimitive.Trigger>
-
-    <SelectPrimitive.Portal to={container}>
-      <SelectPrimitive.Content
-        class={cn(
-          'z-50 flex max-h-[var(--bits-select-content-available-height)] min-w-[calc(var(--bits-select-anchor-width)+3px)] flex-col overflow-hidden rounded-lg bg-kumo-base py-1.5 text-base text-kumo-default shadow-lg ring ring-kumo-line outline-none',
-          contentClass
-        )}
-        preventScroll
-        sideOffset={4}
-      >
-        <SelectPrimitive.Viewport class={cn('min-h-0 flex-1 overflow-y-auto overscroll-none scroll-pb-2 scroll-pt-2', viewportClass)}>
-          {#if children}
-            {@render children()}
-          {:else}
-            {#each serializedOptions as option (option.serializedValue)}
-              <SelectPrimitive.Item
-                value={option.serializedValue}
-                label={option.label}
-                disabled={option.disabled}
-                data-kumo-component="Select"
-                data-kumo-part="option"
-                class={cn(
-                  'group mx-1.5 flex cursor-pointer items-center justify-between gap-2 rounded px-2 py-1.5 text-base outline-none',
-                  'focus-visible:z-50 focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-inset',
-                  'data-[highlighted]:bg-kumo-tint',
-                  'data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50'
-                )}
-              >
-                {#snippet children({ selected })}
-                  <span class="min-w-0 truncate">{option.label}</span>
-                  {#if selected}
-                    <Check class="size-4 shrink-0 text-kumo-default" aria-hidden="true" />
-                  {/if}
-                {/snippet}
-              </SelectPrimitive.Item>
-            {/each}
-          {/if}
-        </SelectPrimitive.Viewport>
-      </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
+{#snippet selectLabel()}
+  {#if label && useFieldWrapper}
+    <span class={KUMO_SELECT_LABEL_CLASSES} data-kumo-component="Select" data-kumo-part="label">
+      <Label showOptional={showOptional} tooltip={labelTooltip} asContent>
+        {label}
+      </Label>
+    </span>
+  {/if}
 {/snippet}
 
-<Field
-  class={cn(!label || hideLabel ? 'contents' : undefined)}
-  label={!hideLabel ? label : undefined}
-  {description}
-  error={errorMessage}
-  {required}
->
-  {#if label && hideLabel}
-    <span class="sr-only">{label}</span>
-  {/if}
-
-  {#if labelTooltip && !hideLabel}
-    <span class="sr-only">{labelTooltip}</span>
-  {/if}
-
+{#snippet selectControl()}
   {#if multiple}
     <SelectPrimitive.Root
       type="multiple"
@@ -280,7 +225,8 @@
       {required}
       {...rest}
     >
-      {@render (selectContent as Snippet)()}
+      {@render selectLabel()}
+      {@render selectTriggerAndContent()}
     </SelectPrimitive.Root>
   {:else}
     <SelectPrimitive.Root
@@ -293,7 +239,85 @@
       {required}
       {...rest}
     >
-      {@render (selectContent as Snippet)()}
+      {@render selectLabel()}
+      {@render selectTriggerAndContent()}
     </SelectPrimitive.Root>
   {/if}
-</Field>
+{/snippet}
+
+{#snippet selectTriggerAndContent()}
+  <SelectPrimitive.Trigger
+    class={cn(
+      selectVariants({ size }),
+      disabled && 'cursor-not-allowed opacity-50',
+      errorMessage && '!ring-kumo-danger focus:ring-kumo-danger/50 focus:ring-[1.5px]',
+      className
+    )}
+    aria-label={triggerAriaLabel}
+    aria-labelledby={triggerLabelledBy}
+    data-kumo-component="Select"
+    data-kumo-part="trigger"
+  >
+    {#if loading}
+      <SkeletonLine class="w-32" />
+    {:else}
+      <SelectPrimitive.Value
+        class="min-w-0 truncate data-[placeholder]:text-kumo-placeholder"
+        {placeholder}
+      >
+        {#snippet children({ selection, placeholder: placeholderText })}
+          <span class={cn(!selectedLabels && 'text-kumo-placeholder')}>
+            {#if selection.type === 'multiple'}
+              {resolveDisplayedValue(
+                selection.selected.map((item) => deserializePrimitiveValue(item.value))
+              )}
+            {:else if selection.selected}
+              {resolveDisplayedValue(deserializePrimitiveValue(selection.selected.value))}
+            {:else}
+              {placeholderText}
+            {/if}
+          </span>
+        {/snippet}
+      </SelectPrimitive.Value>
+    {/if}
+    <span class={cn('flex shrink-0 items-center', triggerIconStyles[size].className)}>
+      <CaretUpDown size={triggerIconStyles[size].iconSize} class="fill-current" aria-hidden="true" />
+    </span>
+  </SelectPrimitive.Trigger>
+
+  <SelectPrimitive.Portal to={container}>
+    <SelectPrimitive.Content class={cn(KUMO_SELECT_CONTENT_CLASSES, contentClass)} preventScroll sideOffset={4}>
+      <SelectPrimitive.Viewport class={cn(KUMO_SELECT_VIEWPORT_CLASSES, viewportClass)}>
+        {#if children}
+          {@render children()}
+        {:else}
+          {#each serializedOptions as option (option.serializedValue)}
+            <SelectOption
+              value={option.serializedValue}
+              label={option.label}
+              disabled={option.disabled}
+            />
+          {/each}
+        {/if}
+      </SelectPrimitive.Viewport>
+    </SelectPrimitive.Content>
+  </SelectPrimitive.Portal>
+{/snippet}
+
+{#if useFieldWrapper}
+  <Field hideLabel {description} error={errorMessage} {required}>
+    {@render selectControl()}
+  </Field>
+{:else}
+  <div class="grid gap-2">
+    {#if label && hideLabel}
+      <span id={labelId} class="sr-only">{label}</span>
+    {/if}
+    {@render selectControl()}
+    {#if errorMessage}
+      <span class="text-sm text-kumo-danger">{errorMessage}</span>
+    {:else if description}
+      <span class="text-sm leading-snug text-kumo-subtle">{description}</span>
+    {/if}
+  </div>
+{/if}

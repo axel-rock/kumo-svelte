@@ -26,7 +26,10 @@
   {onSelect}
   {onclick}
   class={cn(
-    'group flex w-full cursor-pointer select-none items-center gap-3 rounded-lg px-2 py-1.5 text-left text-base text-kumo-default outline-none transition-colors data-[disabled]:cursor-default data-[disabled]:opacity-50 data-[selected]:bg-kumo-overlay',
+    'group flex w-full items-center gap-3 px-2 py-1.5 text-left text-base transition-colors',
+    'cursor-pointer data-[highlighted]:bg-kumo-overlay data-[selected]:bg-kumo-overlay',
+    'rounded-lg',
+    disabled && 'cursor-default opacity-50',
     className
   )}
   {...rest}

@@ -1,6 +1,52 @@
 <script module lang="ts">
-  export type SwitchSize = 'sm' | 'base' | 'lg';
-  export type SwitchVariant = 'default' | 'neutral';
+  import { cn } from '$lib/utils/cn';
+
+  export const KUMO_SWITCH_VARIANTS = {
+    size: {
+      sm: {
+        classes: 'h-5.5 w-8.5',
+        description: 'Small switch for compact UIs'
+      },
+      base: {
+        classes: 'h-6.5 w-10.5',
+        description: 'Default switch size'
+      },
+      lg: {
+        classes: 'h-7.5 w-12.5',
+        description: 'Large switch for prominent toggles'
+      }
+    },
+    variant: {
+      default: {
+        classes: '',
+        description: 'Default switch with squircle shape and brand blue color'
+      },
+      neutral: {
+        classes: '',
+        description: 'Monochrome switch with squircle shape for subtle toggles'
+      }
+    }
+  } as const;
+
+  export const KUMO_SWITCH_DEFAULT_VARIANTS = {
+    size: 'base',
+    variant: 'default'
+  } as const;
+
+  export type SwitchSize = keyof typeof KUMO_SWITCH_VARIANTS.size;
+  export type SwitchVariant = keyof typeof KUMO_SWITCH_VARIANTS.variant;
+  export type KumoSwitchSize = SwitchSize;
+  export type KumoSwitchVariant = SwitchVariant;
+
+  export function switchVariants({
+    size = KUMO_SWITCH_DEFAULT_VARIANTS.size,
+    variant = KUMO_SWITCH_DEFAULT_VARIANTS.variant
+  }: { size?: SwitchSize; variant?: SwitchVariant } = {}) {
+    return cn(
+      KUMO_SWITCH_VARIANTS.size[size].classes,
+      KUMO_SWITCH_VARIANTS.variant[variant].classes
+    );
+  }
 
   export const switchSizeStyles: Record<SwitchSize, { track: string; thumb: string; slide: string }> = {
     sm: { track: 'h-4 w-8', thumb: 'w-4', slide: 'left-4' },
@@ -35,7 +81,6 @@
   import { Switch as SwitchPrimitive } from 'bits-ui';
   import type { Snippet } from 'svelte';
   import { Info } from 'phosphor-svelte';
-  import { cn } from '$lib/utils/cn';
 
   interface Props {
     class?: string;

@@ -13,6 +13,11 @@ import CommandPaletteHighlightedText from './CommandPaletteHighlightedText.svelt
 import CommandPaletteEmpty from './CommandPaletteEmpty.svelte';
 import CommandPaletteLoading from './CommandPaletteLoading.svelte';
 import CommandPaletteFooter from './CommandPaletteFooter.svelte';
+import CommandPaletteResults from './CommandPaletteResults.svelte';
+
+export const KUMO_COMMAND_PALETTE_VARIANTS = {} as const;
+
+export const KUMO_COMMAND_PALETTE_DEFAULT_VARIANTS = {} as const;
 
 export { default as CommandPaletteRoot } from './CommandPalette.svelte';
 export { default as CommandPaletteDialog } from './CommandPaletteDialog.svelte';
@@ -28,6 +33,7 @@ export { default as CommandPaletteHighlightedText } from './CommandPaletteHighli
 export { default as CommandPaletteEmpty } from './CommandPaletteEmpty.svelte';
 export { default as CommandPaletteLoading } from './CommandPaletteLoading.svelte';
 export { default as CommandPaletteFooter } from './CommandPaletteFooter.svelte';
+export { default as CommandPaletteResults } from './CommandPaletteResults.svelte';
 export type { CommandPaletteCommand } from './CommandPalette.svelte';
 
 export const CommandPalette = Object.assign(CommandPaletteRoot, {
@@ -37,7 +43,7 @@ export const CommandPalette = Object.assign(CommandPaletteRoot, {
   Input: CommandPaletteInput,
   List: CommandPaletteList,
   Viewport: CommandPrimitive.Viewport,
-  Results: CommandPaletteList,
+  Results: CommandPaletteResults,
   Group: CommandPaletteGroup,
   GroupLabel: CommandPaletteGroupLabel,
   GroupHeading: CommandPaletteGroupLabel,
@@ -57,7 +63,7 @@ export const CommandPalette = Object.assign(CommandPaletteRoot, {
   Input: typeof CommandPaletteInput;
   List: typeof CommandPaletteList;
   Viewport: typeof CommandPrimitive.Viewport;
-  Results: typeof CommandPaletteList;
+  Results: typeof CommandPaletteResults;
   Group: typeof CommandPaletteGroup;
   GroupLabel: typeof CommandPaletteGroupLabel;
   GroupHeading: typeof CommandPaletteGroupLabel;

@@ -1,15 +1,17 @@
 <script lang="ts">
   import type { Component, Snippet } from 'svelte';
+  import { cn } from '$lib/utils/cn';
   import { SkeletonLine } from '../loader';
 
   interface Props {
     children?: Snippet;
+    class?: string;
     icon?: Component;
     loading?: boolean;
     [key: string]: unknown;
   }
 
-  let { children, icon: Icon, loading = false, ...rest }: Props = $props();
+  let { children, class: className, icon: Icon, loading = false, ...rest }: Props = $props();
 </script>
 
 {#if loading}
@@ -22,7 +24,11 @@
     <SkeletonLine />
   </div>
 {:else}
-  <div class="flex min-w-0 max-w-full items-center gap-1 font-medium" aria-current="page" {...rest}>
+  <div
+    class={cn('flex min-w-0 max-w-full items-center gap-1 font-medium', className)}
+    aria-current="page"
+    {...rest}
+  >
     {#if Icon}
       <span class="flex shrink-0 items-center">
         <Icon size={16} />

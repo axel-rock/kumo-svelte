@@ -17,23 +17,44 @@
   let mobileTrigger: HTMLElement | null = null;
   let shouldRestoreFocus = false;
   const isAlwaysExpanded = $derived(sidebar.collapsible === 'none');
-  const isVisible = $derived(sidebar.open || sidebar.isPeeking || isAlwaysExpanded);
-  const railWidth = $derived(isAlwaysExpanded || sidebar.open ? 'var(--sidebar-width)' : sidebar.collapsible === 'icon' ? 'var(--sidebar-width-icon)' : '0px');
-  const contentWidth = $derived(isVisible ? 'var(--sidebar-width)' : sidebar.collapsible === 'icon' ? 'var(--sidebar-width-icon)' : '0px');
+  const expandedWidth = $derived(sidebar.resizable ? `${sidebar.width}px` : 'var(--sidebar-width)');
+  const collapsedWidth = $derived(sidebar.collapsible === 'icon' ? 'var(--sidebar-width-icon)' : '0px');
+  const railWidth = $derived(isAlwaysExpanded || sidebar.open ? expandedWidth : collapsedWidth);
+  const contentWidth = $derived(
+    isAlwaysExpanded || sidebar.open || sidebar.isPeeking ? expandedWidth : collapsedWidth
+  );
+  const borderClasses = $derived(
+    sidebar.variant === 'sidebar'
+      ? sidebar.side === 'left'
+        ? 'border-r border-kumo-line'
+        : 'border-l border-kumo-line'
+      : sidebar.variant === 'floating'
+        ? 'border border-kumo-line'
+        : ''
+  );
   const contentClasses = $derived(
     cn(
-      'flex h-full min-w-0 flex-col overflow-hidden whitespace-nowrap bg-(--sidebar-bg) text-kumo-default transition-[width] duration-(--sidebar-animation-duration) ease-(--sidebar-easing) motion-reduce:transition-none',
-      sidebar.variant === 'sidebar' && (sidebar.side === 'left' ? 'border-r border-kumo-line' : 'border-l border-kumo-line'),
-      sidebar.variant === 'floating' && 'rounded-lg border border-kumo-line',
+      'flex h-full min-w-0 flex-col overflow-hidden whitespace-nowrap bg-(--sidebar-bg) text-kumo-default',
+      borderClasses,
+      'transition-[width] duration-(--sidebar-animation-duration) ease-(--sidebar-easing) motion-reduce:transition-none',
       sidebar.isResizing && 'transition-none!',
-      !sidebar.open && (sidebar.contained ? 'absolute' : 'fixed'),
-      !sidebar.open && 'inset-y-0 z-40',
-      !sidebar.open && sidebar.side === 'left' && 'left-0',
-      !sidebar.open && sidebar.side === 'right' && 'right-0',
+      !sidebar.open &&
+        cn(
+          sidebar.contained ? 'absolute' : 'fixed',
+          'inset-y-0 z-40',
+          sidebar.side === 'left' && 'left-0',
+          sidebar.side === 'right' && 'right-0'
+        ),
       sidebar.open && 'relative',
       contentClass
     )
   );
+
+  function handlePeekBlur(event: FocusEvent) {
+    if (!(event.currentTarget as HTMLElement).contains(event.relatedTarget as Node | null)) {
+      sidebar.stopPeek();
+    }
+  }
 
   function closeMobile(restoreFocus: boolean) {
     shouldRestoreFocus = restoreFocus;
@@ -121,6 +142,26 @@
   >
     {@render sidebarContent()}
   </nav>
+{:else if isAlwaysExpanded}
+  <aside
+    data-state="expanded"
+    data-side={sidebar.side}
+    data-variant={sidebar.variant}
+    data-sidebar="sidebar"
+    style:width="var(--sidebar-width)"
+    style:min-width="var(--sidebar-width)"
+    style:max-width="var(--sidebar-width)"
+    class={cn(
+      'relative flex h-full shrink-0 grow-0 flex-col overflow-hidden bg-(--sidebar-bg) text-kumo-default',
+      sidebar.variant === 'sidebar' &&
+        (sidebar.side === 'left' ? 'border-r border-kumo-line' : 'border-l border-kumo-line'),
+      sidebar.variant === 'floating' && 'm-2 rounded-lg border border-kumo-line shadow-lg',
+      className
+    )}
+    {...rest}
+  >
+    {@render sidebarContent()}
+  </aside>
 {:else}
   <aside
     data-state={sidebar.state}
@@ -131,6 +172,7 @@
     style:width={railWidth}
     class={cn(
       'group/sidebar relative h-full shrink-0 grow-0 overflow-visible transition-[width] duration-(--sidebar-animation-duration) ease-(--sidebar-easing) motion-reduce:transition-none',
+      sidebar.isResizing && 'transition-none!',
       sidebar.variant === 'floating' && 'm-2 rounded-lg shadow-lg',
       className
     )}
@@ -138,15 +180,19 @@
   >
     <div
       data-sidebar="content-container"
-      role="presentation"
       style:width={contentWidth}
       class={contentClasses}
-      onmouseenter={sidebar.startPeek}
-      onmouseleave={sidebar.stopPeek}
-      onfocus={sidebar.startPeek}
-      onblur={sidebar.stopPeek}
     >
-      {@render sidebarContent()}
+      <div
+        data-sidebar="peek-zone"
+        class="flex min-h-0 flex-1 flex-col"
+        onmouseenter={sidebar.startPeek}
+        onmouseleave={sidebar.stopPeek}
+        onfocus={sidebar.startPeek}
+        onblur={handlePeekBlur}
+      >
+        {@render sidebarContent()}
+      </div>
     </div>
   </aside>
 {/if}
