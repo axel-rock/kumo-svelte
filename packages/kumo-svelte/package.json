@@ -1,5 +1,5 @@
 {
-  "name": "@axel-rock/kumo-svelte",
+  "name": "@axelrock/kumo-svelte",
   "version": "0.1.0",
   "description": "High-fidelity Svelte port of Cloudflare's Kumo UI library, built on Bits UI.",
   "type": "module",

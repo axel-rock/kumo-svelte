@@ -69,7 +69,7 @@ async function waitForServer(url: string, timeoutMs = 120_000): Promise<void> {
 function startSvelteServer(): ChildProcess {
   return spawn(
     'pnpm',
-    ['--filter', '@axel-rock/kumo-svelte', 'exec', 'vite', 'dev', '--port', '4173', '--strictPort'],
+    ['--filter', '@axelrock/kumo-svelte', 'exec', 'vite', 'dev', '--port', '4173', '--strictPort'],
     { cwd: repoRoot, stdio: 'ignore', detached: true },
   );
 }

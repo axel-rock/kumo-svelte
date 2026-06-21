@@ -1,4 +1,4 @@
-@axel-rock/kumo-svelte
+@axelrock/kumo-svelte
 ======================
 
 A high-fidelity Svelte port of Cloudflare's Kumo UI library, built on Bits UI.

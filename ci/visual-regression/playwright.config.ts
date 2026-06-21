@@ -47,7 +47,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `pnpm --filter @axel-rock/kumo-svelte exec vite dev --port ${PORT} --strictPort`,
+    command: `pnpm --filter @axelrock/kumo-svelte exec vite dev --port ${PORT} --strictPort`,
     url: BASE_URL,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

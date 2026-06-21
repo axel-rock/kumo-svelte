@@ -27,7 +27,7 @@ async function discoverComponents() {
 
 describe('package.json validation', () => {
   it('is configured as the Svelte package entry point', () => {
-    expect(packageJson.name).toBe('@axel-rock/kumo-svelte');
+    expect(packageJson.name).toBe('@axelrock/kumo-svelte');
     expect(packageJson.type).toBe('module');
     expect(packageJson.files).toEqual(expect.arrayContaining(['dist', 'src']));
     expect(packageJson.exports).toHaveProperty('.');

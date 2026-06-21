@@ -9,8 +9,8 @@ const config = {
   preprocess: [mdsx(mdsxConfig), vitePreprocess()],
   kit: {
     alias: {
-      '@axel-rock/kumo-svelte': './src/lib/index.ts',
-      '@axel-rock/kumo-svelte/*': './src/lib/*',
+      '@axelrock/kumo-svelte': './src/lib/index.ts',
+      '@axelrock/kumo-svelte/*': './src/lib/*',
       'kumo-svelte': './src/lib/index.ts',
       'kumo-svelte/*': './src/lib/*'
     },

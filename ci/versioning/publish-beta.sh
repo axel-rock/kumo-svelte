@@ -19,7 +19,7 @@ pnpm run version:beta
 
 # Build the package before publishing
 echo "Building package..."
-pnpm --filter @axel-rock/kumo-svelte build
+pnpm --filter @axelrock/kumo-svelte build
 
 # Run the publish step after versioning and building
 echo "Publishing to npm..."
@@ -27,7 +27,7 @@ pnpm run release:beta
 
 # Get the published version
 NEW_VERSION=$(node -p "require('./packages/kumo-svelte/package.json').version")
-PACKAGE_NAME="${PACKAGE_NAME:-@axel-rock/kumo-svelte}"
+PACKAGE_NAME="${PACKAGE_NAME:-@axelrock/kumo-svelte}"
 
 echo "Published version: $NEW_VERSION"
 

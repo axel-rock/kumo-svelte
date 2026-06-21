@@ -1,12 +1,12 @@
 /*
- * Optional Svelte-branded theme for @axel-rock/kumo-svelte.
+ * Optional Svelte-branded theme for @axelrock/kumo-svelte.
  *
  * The default theme is Cloudflare-faithful (brand fill resolves to the
  * upstream Kumo blue, brand text to Cloudflare orange #f6821f). Import this
  * file AFTER the base styles to repaint the brand surfaces in Svelte orange:
  *
- *   import '@axel-rock/kumo-svelte/styles.css';
- *   import '@axel-rock/kumo-svelte/theme-svelte.css';
+ *   import '@axelrock/kumo-svelte/styles.css';
+ *   import '@axelrock/kumo-svelte/theme-svelte.css';
  *
  * These rules live outside any @layer so they win over the layered base
  * tokens, including the [data-mode="dark"] overrides.

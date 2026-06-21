@@ -1,4 +1,4 @@
-# Kumo Svelte (`@axel-rock/kumo-svelte`)
+# Kumo Svelte (`@axelrock/kumo-svelte`)
 
 A **high-fidelity Svelte port** of [Cloudflare's Kumo](https://github.com/cloudflare/kumo) component library, built on [Bits UI](https://bits-ui.com/) (the Svelte-native equivalent of Base UI).
 
@@ -25,15 +25,15 @@ Huge thanks to [**@maxffarrell**](https://github.com/maxffarrell) for the origin
 This fork keeps the same goal (Kumo, in Svelte) but pushes hard on **fidelity** and **test coverage**:
 
 - **Zero class drift vs upstream Kumo.** Every component's Tailwind classes are copied verbatim from the upstream React source, including all `hover:` / `not-disabled:hover:` / `disabled:` / `data-[state]` interacted-state classes that were partially missing before. This is enforced automatically by a new fidelity tool (`pnpm fidelity`) that tokenizes class strings and diffs each component against the upstream source — every component reports **0 missing classes**.
-- **Cloudflare-faithful theme by default.** The semantic color tokens match upstream Kumo exactly (light + dark). The Svelte-orange brand is now an **opt-in** theme (`@axel-rock/kumo-svelte/theme-svelte.css`) rather than the default, so visual-regression can be a true pixel-diff against upstream.
+- **Cloudflare-faithful theme by default.** The semantic color tokens match upstream Kumo exactly (light + dark). The Svelte-orange brand is now an **opt-in** theme (`@axelrock/kumo-svelte/theme-svelte.css`) rather than the default, so visual-regression can be a true pixel-diff against upstream.
 - **Hybrid visual-regression suite.** A Playwright self-baseline gate (`pnpm vrt`) captures every component in **light and dark**, in **static *and* interacted states** — including opened dialogs, popovers, selects, dropdowns, menus, comboboxes, the command palette, and dual-month date pickers. Renders are made deterministic (pinned Inter font, frozen CSS + SVG animations, frozen clock). A separate cross-framework parity runner (`pnpm vrt:parity`) diffs the Svelte output against the **real React `@cloudflare/kumo`** to reach pixel parity during development.
 - **Expanded test suite.** Interaction tests (keyboard, focus, selection, open/close) and accessibility checks (axe) across the component suite, plus import/export validation — 400+ tests.
-- **Published under `@axel-rock/kumo-svelte`** (the unscoped `kumo-svelte` name belongs to the original).
+- **Published under `@axelrock/kumo-svelte`** (the unscoped `kumo-svelte` name belongs to the original).
 
 ## Installation
 
 ```bash
-pnpm add @axel-rock/kumo-svelte
+pnpm add @axelrock/kumo-svelte
 ```
 
 ### Peer Dependencies
@@ -46,11 +46,11 @@ pnpm add svelte bits-ui
 
 ```svelte
 <script lang="ts">
-  import { Button, Input, Dialog } from '@axel-rock/kumo-svelte';
-  import '@axel-rock/kumo-svelte/styles.css';
+  import { Button, Input, Dialog } from '@axelrock/kumo-svelte';
+  import '@axelrock/kumo-svelte/styles.css';
   // Optional: repaint brand surfaces in Svelte orange instead of the
   // Cloudflare-faithful default.
-  // import '@axel-rock/kumo-svelte/theme-svelte.css';
+  // import '@axelrock/kumo-svelte/theme-svelte.css';
 </script>
 ```
 
@@ -58,7 +58,7 @@ pnpm add svelte bits-ui
 
 ```svelte
 <script lang="ts">
-  import { Button } from '@axel-rock/kumo-svelte/components/button';
+  import { Button } from '@axelrock/kumo-svelte/components/button';
 </script>
 ```
 
@@ -66,7 +66,7 @@ pnpm add svelte bits-ui
 
 ```svelte
 <script lang="ts">
-  import { Popover } from '@axel-rock/kumo-svelte/primitives';
+  import { Popover } from '@axelrock/kumo-svelte/primitives';
 </script>
 ```
 
