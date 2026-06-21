@@ -4,6 +4,16 @@
 
 ### Minor Changes
 
+- 8140833: High-fidelity Svelte port of Cloudflare Kumo.
+  - All components match upstream Kumo Tailwind classes verbatim (0 class drift, enforced by `pnpm fidelity`).
+  - Cloudflare-faithful theme tokens with an opt-in `@axelrock/kumo-svelte/theme-svelte.css` Svelte-orange theme.
+  - Hybrid visual-regression suite (Playwright) covering static and interacted states — including opened dialogs, popovers, selects, menus, and date pickers — in light and dark, plus a cross-framework parity runner against upstream React Kumo.
+  - Interaction and accessibility (axe) test coverage across the component suite.
+
+## 0.2.0
+
+### Minor Changes
+
 - bf75ecf: Port upstream Kumo 2.5.0 parity updates for sidebar mobile drawers, collapsible auto-scroll, proportional tab fades, transparent chart backgrounds, Flow connector rendering, and the docs LLM index.
 
 ## 0.1.8
