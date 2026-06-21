@@ -27,21 +27,29 @@ jobs:
       - name: Install Dependencies
         uses: ./.github/actions/install-dependencies
 
+      # npm OIDC trusted publishing requires npm >= 11.5.1. Node 24 can ship an
+      # older patch, so pin the CLI explicitly.
+      - name: Upgrade npm (OIDC trusted publishing)
+        run: npm install -g npm@latest
+
       - name: Build kumo-svelte
         run: pnpm build
 
       # changesets/action either:
-      # 1. Creates/updates a "Version Packages" PR (when changesets exist)
-      # 2. Publishes to npm via `pnpm run release` (when Version Packages PR merges)
-      # Note: `pnpm run release` runs `pnpm build:all && changeset publish`,
-      # which rebuilds kumo-svelte (redundant but harmless). If this becomes slow,
-      # consider a publish-only script.
+      # 1. Creates/updates a "Version Packages" PR (when changesets exist), or
+      # 2. Publishes to npm (when that PR merges).
+      #
+      # Auth is npm OIDC trusted publishing (no NPM_TOKEN). `changeset publish`
+      # is invoked directly — NOT through a wrapper like `pnpm run release`
+      # (`build && changeset publish`), because a wrapper layer can fail to
+      # propagate the OIDC request env vars to the spawned `npm publish`, causing
+      # ENEEDAUTH / E404. The build is done in the step above instead.
       - name: Create Version PR or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
           version: pnpm run version
-          publish: pnpm run release
+          publish: pnpm exec changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true

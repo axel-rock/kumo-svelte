@@ -1,18 +1,30 @@
-# Kumo Svelte
+# `@axel-rock/kumo-svelte`
 
-Cloudflare's component library for building modern web applications, ported to Svelte.
+A **high-fidelity Svelte port** of [Cloudflare's Kumo](https://github.com/cloudflare/kumo) component library, built on [Bits UI](https://bits-ui.com/) (the Svelte-native equivalent of Base UI).
 
-Kumo Svelte provides accessible, design-system-compliant UI components built on [Bits UI](https://bits-ui.com/). It handles keyboard navigation, focus management, and ARIA attributes so you can build accessible applications without thinking through every detail.
+Kumo Svelte provides accessible, design-system-compliant UI components that aim for **pixel parity** with upstream Kumo. It handles keyboard navigation, focus management, and ARIA attributes so you can build accessible applications without thinking through every detail.
+
+> This is an independent community project. It is **not** affiliated with, sponsored by, or endorsed by Cloudflare. See [NOTICE](https://github.com/axel-rock/kumo-svelte/blob/main/NOTICE) for full attribution.
 
 <img width="2560" height="1456" alt="Kumo UI preview" src="https://github.com/user-attachments/assets/032f5a0e-b686-4440-b1ca-6182379479aa" />
+
+## Lineage
+
+```
+cloudflare/kumo                 (React + Base UI + Tailwind v4)
+  └─ maxffarrell/kumo-svelte    (initial Svelte port on Bits UI)
+       └─ axel-rock/kumo-svelte (this package — fidelity + testing focus)
+```
+
+Huge thanks to [**@maxffarrell**](https://github.com/maxffarrell) for the original Svelte port, and to the Cloudflare Kumo and Bits UI teams for the libraries this builds on. The unscoped `kumo-svelte` name belongs to the original port; this fork ships under `@axel-rock/kumo-svelte`.
 
 ## Installation
 
 ```bash
-pnpm add kumo-svelte
+pnpm add @axel-rock/kumo-svelte
 ```
 
-### Peer Dependencies
+### Peer dependencies
 
 ```bash
 pnpm add svelte bits-ui
@@ -22,26 +34,29 @@ pnpm add svelte bits-ui
 
 ```svelte
 <script lang="ts">
-  import { Button, Input, Dialog } from 'kumo-svelte';
-  import 'kumo-svelte/styles.css';
+  import { Button, Input, Dialog } from '@axel-rock/kumo-svelte';
+  import '@axel-rock/kumo-svelte/styles.css';
+  // Optional: repaint brand surfaces in Svelte orange instead of the
+  // Cloudflare-faithful default.
+  // import '@axel-rock/kumo-svelte/theme-svelte.css';
 </script>
 ```
 
-### Granular Imports (Tree-Shaking)
+### Granular imports (tree-shaking)
 
 ```svelte
 <script lang="ts">
-  import { Button } from 'kumo-svelte/components/button';
+  import { Button } from '@axel-rock/kumo-svelte/components/button';
 </script>
 ```
 
-### Bits UI Primitives
+### Bits UI primitives
 
 Kumo Svelte re-exports primitives for advanced use cases:
 
 ```svelte
 <script lang="ts">
-  import { Popover } from 'kumo-svelte/primitives';
+  import { Popover } from '@axel-rock/kumo-svelte/primitives';
 </script>
 ```
 
@@ -50,38 +65,22 @@ Kumo Svelte re-exports primitives for advanced use cases:
 Kumo Svelte includes the ported Kumo CLI for component discovery, block installation, migration helpers, and AI usage docs.
 
 ```bash
-npx kumo-svelte help
-npx kumo-svelte init
-npx kumo-svelte blocks
-npx kumo-svelte add PageHeader
-npx kumo-svelte ls
-npx kumo-svelte doc Button
-npx kumo-svelte migrate --classes
-npx kumo-svelte ai
+npx @axel-rock/kumo-svelte help
+npx @axel-rock/kumo-svelte init
+npx @axel-rock/kumo-svelte blocks
+npx @axel-rock/kumo-svelte add PageHeader
+npx @axel-rock/kumo-svelte ls
+npx @axel-rock/kumo-svelte doc Button
+npx @axel-rock/kumo-svelte migrate --classes
+npx @axel-rock/kumo-svelte ai
 ```
-
-## Development
-
-This repository contains the Svelte package and MDSX-powered documentation site.
-
-### Quick Start
-
-```bash
-pnpm install
-pnpm dev
-pnpm check
-pnpm build
-```
-
-### Creating Components
-
-Port components file-by-file from [cloudflare/kumo](https://github.com/cloudflare/kumo), preserving the original Tailwind classes and Kumo semantic color tokens. Framework differences should be limited to Svelte snippets, bindings, events, Bits UI primitive APIs, and the Svelte-orange logo treatment in the top-left site mark.
 
 ## Documentation
 
-- **Original Live Docs**: [kumo-ui.com](https://kumo-ui.com)
-- **Original Source**: [cloudflare/kumo](https://github.com/cloudflare/kumo)
+- **Upstream live docs**: [kumo-ui.com](https://kumo-ui.com)
+- **Upstream source**: [cloudflare/kumo](https://github.com/cloudflare/kumo)
+- **Repository & development docs**: [axel-rock/kumo-svelte](https://github.com/axel-rock/kumo-svelte)
 
 ## License
 
-MIT
+[MIT](https://github.com/axel-rock/kumo-svelte/blob/main/packages/kumo-svelte/LICENSE). Derived from Cloudflare Kumo (MIT) and maxffarrell/kumo-svelte (MIT); see [NOTICE](https://github.com/axel-rock/kumo-svelte/blob/main/NOTICE).
