@@ -53,6 +53,10 @@
   <Button href="https://example.com" variant="secondary">Link</Button>
 </Scenario>
 
+<Scenario id="title-open" label="title tooltip" interact={[{ type: 'hover' }]} capture="page">
+  <Button variant="secondary" title="Create a new Worker">Create Worker</Button>
+</Scenario>
+
 <!-- Interaction scenarios: the runner applies these before capturing. -->
 <Scenario id="hover-secondary" label="hover: secondary" interact={[{ type: 'hover' }]}>
   <Button variant="secondary">Hover me</Button>

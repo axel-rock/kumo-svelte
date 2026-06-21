@@ -64,15 +64,29 @@ export function ButtonGallery() {
         </Button>
       </Scenario>
 
-      <Scenario id="interact-secondary" label="interact: secondary">
+      <Scenario id="title-open" label="title tooltip" interact={[{ type: 'hover' }]} capture="page">
+        <Button variant="secondary" title="Create a new Worker">
+          Create Worker
+        </Button>
+      </Scenario>
+
+      <Scenario id="hover-secondary" label="hover: secondary" interact={[{ type: 'hover' }]}>
         <Button variant="secondary">Hover me</Button>
       </Scenario>
 
-      <Scenario id="interact-primary" label="interact: primary">
+      <Scenario id="focus-secondary" label="focus: secondary" interact={[{ type: 'focus' }]}>
+        <Button variant="secondary">Focus me</Button>
+      </Scenario>
+
+      <Scenario id="hover-primary" label="hover: primary" interact={[{ type: 'hover' }]}>
         <Button variant="primary">Hover me</Button>
       </Scenario>
 
-      <Scenario id="interact-outline" label="interact: outline">
+      <Scenario id="focus-primary" label="focus: primary" interact={[{ type: 'focus' }]}>
+        <Button variant="primary">Focus me</Button>
+      </Scenario>
+
+      <Scenario id="hover-outline" label="hover: outline" interact={[{ type: 'hover' }]}>
         <Button variant="outline">Hover me</Button>
       </Scenario>
     </>

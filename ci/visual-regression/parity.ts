@@ -98,22 +98,111 @@ interface Shot {
   png: PNG;
 }
 
-async function captureScenarios(page: Page, url: string): Promise<Map<string, PNG>> {
+interface VrtAction {
+  type: 'hover' | 'focus' | 'click' | 'press';
+  key?: string;
+  selector?: string;
+}
+
+interface ScenarioMeta {
+  id: string;
+  interact: VrtAction[] | null;
+  capture: 'target' | 'page';
+}
+
+async function readScenarios(page: Page): Promise<ScenarioMeta[]> {
+  return page.$$eval('[data-vr-scenario]', (nodes) =>
+    nodes.map((n) => {
+      const raw = n.getAttribute('data-vr-interact');
+      return {
+        id: n.getAttribute('data-vr-scenario') as string,
+        interact: raw ? (JSON.parse(raw) as VrtAction[]) : null,
+        capture: (n.getAttribute('data-vr-capture') as 'target' | 'page') ?? 'target',
+      };
+    }),
+  );
+}
+
+function primaryInteractive(target: ReturnType<Page['locator']>): ReturnType<Page['locator']> {
+  return target
+    .locator('button, a[href], [role="button"], input, [tabindex]:not([tabindex="-1"])')
+    .first();
+}
+
+async function applyActions(
+  target: ReturnType<Page['locator']>,
+  page: Page,
+  actions: VrtAction[],
+): Promise<void> {
+  for (const action of actions) {
+    const el = action.selector ? target.locator(action.selector).first() : primaryInteractive(target);
+    const resolved = (await el.count()) > 0 ? el : target;
+    await resolved.scrollIntoViewIfNeeded().catch(() => {});
+    const opts = { timeout: 5000 } as const;
+    switch (action.type) {
+      case 'hover':
+        await resolved.hover(opts);
+        break;
+      case 'focus':
+        await resolved.focus(opts);
+        break;
+      case 'click':
+        await resolved.click(opts);
+        break;
+      case 'press':
+        await resolved.press(action.key ?? 'Enter', opts);
+        break;
+      default: {
+        const _exhaustive: never = action.type;
+        throw new Error(`Unknown VRT action: ${String(_exhaustive)}`);
+      }
+    }
+    await page.waitForTimeout(60);
+  }
+}
+
+async function prepareGalleryPage(page: Page, url: string): Promise<void> {
   await page.goto(url, { waitUntil: 'domcontentloaded' });
   // First navigation triggers cold Vite compilation; allow generous time.
   await page.waitForSelector('[data-vr-ready="true"]', { timeout: 90_000 });
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(150);
-  const targets = page.locator('[data-vr-scenario]');
-  const count = await targets.count();
-  const out = new Map<string, PNG>();
-  for (let i = 0; i < count; i++) {
-    const t = targets.nth(i);
-    const id = await t.getAttribute('data-vr-scenario');
-    if (!id) continue;
-    const buf = await t.screenshot();
-    out.set(id, PNG.sync.read(buf));
+}
+
+async function screenshotScenario(page: Page, scenario: ScenarioMeta): Promise<PNG | null> {
+  const target = page.locator(`[data-vr-scenario="${scenario.id}"]`);
+  if ((await target.count()) === 0) return null;
+
+  if (scenario.interact) {
+    await applyActions(target, page, scenario.interact);
+    // Tooltips and overlays need a beat after hover/focus before capture.
+    await page.waitForTimeout(scenario.capture === 'page' ? 400 : 150);
   }
+
+  const buf =
+    scenario.capture === 'page'
+      ? await page.screenshot()
+      : await target.screenshot();
+  return PNG.sync.read(buf);
+}
+
+async function captureScenarios(page: Page, url: string): Promise<Map<string, PNG>> {
+  await prepareGalleryPage(page, url);
+  const scenarios = await readScenarios(page);
+  const out = new Map<string, PNG>();
+
+  const statics = scenarios.filter((s) => !s.interact);
+  for (const scenario of statics) {
+    const png = await screenshotScenario(page, scenario);
+    if (png) out.set(scenario.id, png);
+  }
+
+  for (const scenario of scenarios.filter((s) => s.interact)) {
+    await prepareGalleryPage(page, url);
+    const png = await screenshotScenario(page, scenario);
+    if (png) out.set(scenario.id, png);
+  }
+
   return out;
 }
 

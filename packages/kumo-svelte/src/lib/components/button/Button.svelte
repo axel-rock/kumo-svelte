@@ -156,12 +156,21 @@
 
   const loaderSize = $derived(size === 'lg' ? 16 : 14);
   const externalProps = $derived(external ? { target: '_blank', rel: 'noopener noreferrer' } : {});
+
+  function splitTriggerProps(tooltipProps: Record<string, unknown>) {
+    const { class: tooltipClass, ...triggerProps } = tooltipProps;
+    return {
+      tooltipClass: typeof tooltipClass === 'string' ? tooltipClass : undefined,
+      triggerProps
+    };
+  }
 </script>
 
-{#snippet buttonElement()}
+{#snippet buttonElement(tooltipProps: Record<string, unknown> = {})}
+  {@const { tooltipClass, triggerProps } = splitTriggerProps(tooltipProps)}
   <svelte:element
     this={href ? 'a' : 'button'}
-    class={classes}
+    class={cn(classes, tooltipClass)}
     href={href}
     type={href ? undefined : type}
     disabled={href ? undefined : disabled || loading}
@@ -170,6 +179,7 @@
     data-kumo-part={href ? 'link-button' : 'button'}
     {...externalProps}
     {...rest}
+    {...triggerProps}
   >
     {#if loading}
       <Loader size={loaderSize} />
@@ -183,7 +193,7 @@
 {/snippet}
 
 {#if title}
-  <Tooltip trigger={buttonElement}>{title}</Tooltip>
+  <Tooltip content={title} trigger={buttonElement} />
 {:else}
   {@render buttonElement()}
 {/if}

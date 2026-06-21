@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/svelte';
+import { render, screen, waitFor } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { expectNoA11yViolations } from '../../../../tests/a11y';
 import Button from './Button.svelte';
+import ButtonTitleTestHost from './ButtonTitleTestHost.svelte';
 
 describe('Button', () => {
   it('renders a button with Kumo data attributes by default', () => {
@@ -108,6 +109,17 @@ describe('Button', () => {
       await userEvent.keyboard('{Enter}');
       await userEvent.keyboard(' ');
       expect(onclick).toHaveBeenCalledTimes(2);
+    });
+
+    it('shows a tooltip when title is set', async () => {
+      render(ButtonTitleTestHost);
+
+      const button = screen.getByRole('button', { name: 'Create Worker' });
+      await userEvent.hover(button);
+
+      await waitFor(() => {
+        expect(screen.getByText('Create a new Worker')).toBeInTheDocument();
+      });
     });
   });
 
