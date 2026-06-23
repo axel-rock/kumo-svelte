@@ -49,7 +49,7 @@ const rows: PropRow[] = [
     "prop": "value",
     "type": "Value",
     "required": true,
-    "description": "Controlled value."
+    "description": "Item value. Parameterized by the radio value type Value to match the enclosing Radio.Group value type."
   }
 ];
 
