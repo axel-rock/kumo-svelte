@@ -43,7 +43,7 @@ const rows: PropRow[] = [
     "prop": "value",
     "type": "Value",
     "required": false,
-    "description": "Controlled value."
+    "description": "Controlled value. Parameterized by the radio value type Value, which defaults to string."
   },
   {
     "prop": "disabled",
@@ -74,7 +74,7 @@ const rows: PropRow[] = [
     "prop": "defaultValue",
     "type": "Value",
     "required": false,
-    "description": "Initial uncontrolled value."
+    "description": "Initial uncontrolled value. Parameterized by the radio value type Value, which defaults to string."
   },
   {
     "prop": "required",
@@ -86,7 +86,7 @@ const rows: PropRow[] = [
     "prop": "onValueChange",
     "type": "(value: Value, eventDetails?: unknown) => void",
     "required": false,
-    "description": "Called when the value changes."
+    "description": "Called when the value changes. The second argument carries native event details about the interaction."
   }
 ];
 

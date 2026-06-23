@@ -91,7 +91,7 @@ const rows: PropRow[] = [
     type: "'clipping-ancestors' | Element | Element[]",
     required: false,
     description:
-      'Constrains tooltip placement to the chart container when provided.'
+      'Constrains the tooltip to stay within clipping ancestors by default, or within a specific Element or Element[] when provided.'
   },
   {
     prop: 'tooltipFollowCursor',
@@ -99,7 +99,7 @@ const rows: PropRow[] = [
     required: false,
     default: '"both"',
     description:
-      'Controls whether the tooltip follows both cursor axes or locks to the chart top while following x.'
+      'Controls which axis the tooltip follows: both axes near the pointer, or the x-axis only with a fixed vertical position to avoid jitter.'
   },
   {
     prop: 'incomplete',
@@ -114,7 +114,7 @@ const rows: PropRow[] = [
     required: false,
     default: 'false',
     description:
-      'Adds a hidden ECharts legend so custom controls can drive series visibility through legendSelect, legendUnSelect, and legendToggleSelect actions.'
+      'Adds a hidden ECharts legend so custom controls can drive series visibility through legendSelect, legendUnSelect, and legendToggleSelect actions. Toggled-off series are excluded from the tooltip and consumers must register ECharts LegendComponent.'
   },
   {
     prop: 'height',
@@ -156,14 +156,14 @@ const rows: PropRow[] = [
     type: 'string',
     required: false,
     description:
-      'Accessible description passed to ECharts aria.label.description.'
+      'Accessible description passed to ECharts aria.label.description and announced when the chart receives focus.'
   },
   {
     prop: 'optionUpdateBehavior',
     type: 'SetOptionOpts',
     required: false,
     description:
-      'Additional options passed as the second argument to chart.setOption().'
+      'Additional options passed as the second argument to chart.setOption(). Defaults to { notMerge: false, lazyUpdate: true }.'
   }
 ];
 

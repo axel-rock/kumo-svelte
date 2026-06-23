@@ -9,7 +9,7 @@ export default [
     prop: 'size',
     type: '"xs" | "sm" | "base" | "lg"',
     default: '"base"',
-    description: 'Locks every supported toolbar item to this size.'
+    description: 'Locks every toolbar item to this size.'
   },
   {
     prop: 'class',
