@@ -68,10 +68,9 @@ describe('ToastPreview', () => {
     it('restores close button hover affordances', () => {
       render(ToastPreview, { title: 'Close me' });
       const close = screen.getByRole('button', { name: 'Close' });
-      expect(close.className).toContain('text-current');
-      expect(close.className).toContain('hover:bg-kumo-contrast/10');
-      expect(close.className).toContain('hover:text-current');
-      expect(close.className).not.toContain('text-current/50');
+      expect(close.className).toContain('size-5');
+      expect(close.className).toContain('text-kumo-subtle');
+      expect(close.className).toContain('hover:bg-current/15');
     });
   });
 

@@ -41,11 +41,12 @@ describe('Button', () => {
   });
 
   describe('variant fidelity', () => {
-    it('applies primary brand classes', () => {
+    it('applies primary emphasis classes', () => {
       render(Button, { variant: 'primary', 'aria-label': 'Primary' });
       const cls = screen.getByRole('button', { name: 'Primary' }).className;
-      expect(cls).toContain('bg-kumo-brand');
-      expect(cls).toContain('hover:bg-kumo-brand-hover');
+      expect(cls).toContain('bg-(--kumo-button-emphasis-bg)');
+      expect(cls).toContain('ring-(--kumo-button-emphasis-ring)');
+      expect(cls).toContain('!text-white');
     });
 
     it('uses ring-kumo-line (not the drifted hairline) for secondary', () => {

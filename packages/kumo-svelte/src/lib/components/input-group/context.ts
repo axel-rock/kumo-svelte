@@ -84,6 +84,7 @@ export interface InputGroupContextValue {
   disabled: boolean;
   error?: FieldError;
   inputId: string;
+  ariaLabel?: string;
   describedBy?: string;
 }
 
