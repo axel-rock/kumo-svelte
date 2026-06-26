@@ -198,8 +198,8 @@
     style:--kumo-button-emphasis-gradient-start={emphasisGradientStart}
     style:--kumo-button-emphasis-gradient-end={emphasisGradientEnd}
     {...externalProps}
-    {...rest}
     {...triggerProps}
+    {...rest}
   >
     {#if emphasisToken}
       <span

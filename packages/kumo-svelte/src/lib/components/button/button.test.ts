@@ -122,6 +122,13 @@ describe('Button', () => {
         expect(screen.getByText('Create a new Worker')).toBeInTheDocument();
       });
     });
+
+    it('still fires click handlers when title is set (tooltip must not swallow onclick)', async () => {
+      const onclick = vi.fn();
+      render(ButtonTitleTestHost, { onclick });
+      await userEvent.click(screen.getByRole('button', { name: 'Create Worker' }));
+      expect(onclick).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('accessibility', () => {
