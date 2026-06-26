@@ -8,10 +8,11 @@
     value: string;
     unit?: string;
     inactive?: boolean;
-    onclick?: (event: MouseEvent) => void;
     onpointerenter?: (event: PointerEvent) => void;
     onpointerleave?: (event: PointerEvent) => void;
+    onclick?: (event: MouseEvent) => void;
     class?: string;
+    [key: string]: unknown;
   }
 
   let {
@@ -21,16 +22,19 @@
     value,
     unit,
     inactive = false,
-    onclick,
     onpointerenter,
     onpointerleave,
-    class: className
+    onclick,
+    class: className,
+    ...rest
   }: Props = $props();
 
-  function onInteractiveKeyDown(event: KeyboardEvent) {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
+  function handleKeydown(event: KeyboardEvent) {
+    if (!onclick || (event.key !== 'Enter' && event.key !== ' ')) return;
     event.preventDefault();
-    (event.currentTarget as HTMLDivElement).click();
+    (event.currentTarget as HTMLElement).dispatchEvent(
+      new MouseEvent('click', { bubbles: true, cancelable: true })
+    );
   }
 </script>
 
@@ -42,13 +46,11 @@
     {onpointerenter}
     {onpointerleave}
     {onclick}
-    onkeydown={onclick ? onInteractiveKeyDown : undefined}
+    onkeydown={handleKeydown}
+    {...rest}
   >
     <div class="flex items-center gap-2">
-      <span
-        class={cn('inline-block size-2 rounded-full', inactive && 'opacity-50')}
-        style:background-color={color}
-      ></span>
+      <span class={cn('inline-block size-2 rounded-full', inactive && 'opacity-50')} style:background-color={color}></span>
       <span class={cn('text-xs', inactive && 'opacity-50')}>{name}</span>
     </div>
     <div class="flex items-baseline gap-0.5">
@@ -64,12 +66,10 @@
     {onpointerenter}
     {onpointerleave}
     {onclick}
-    onkeydown={onclick ? onInteractiveKeyDown : undefined}
+    onkeydown={handleKeydown}
+    {...rest}
   >
-    <span
-      class={cn('inline-block size-2 rounded-full', inactive && 'opacity-50')}
-      style:background-color={color}
-    ></span>
+    <span class={cn('inline-block size-2 rounded-full', inactive && 'opacity-50')} style:background-color={color}></span>
     <span class={cn('text-xs', inactive && 'opacity-50')}>{name}</span>
     <span class={cn('text-xs font-medium', inactive && 'opacity-50')}>{value}</span>
     {#if unit}<span class={cn('text-xs text-kumo-subtle', inactive && 'opacity-50')}>{unit}</span>{/if}

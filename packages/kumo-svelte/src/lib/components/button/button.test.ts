@@ -41,11 +41,12 @@ describe('Button', () => {
   });
 
   describe('variant fidelity', () => {
-    it('applies primary brand classes', () => {
+    it('applies primary emphasis classes', () => {
       render(Button, { variant: 'primary', 'aria-label': 'Primary' });
       const cls = screen.getByRole('button', { name: 'Primary' }).className;
-      expect(cls).toContain('bg-kumo-brand');
-      expect(cls).toContain('hover:bg-kumo-brand-hover');
+      expect(cls).toContain('bg-(--kumo-button-emphasis-bg)');
+      expect(cls).toContain('ring-(--kumo-button-emphasis-ring)');
+      expect(cls).toContain('!text-white');
     });
 
     it('uses ring-kumo-line (not the drifted hairline) for secondary', () => {
@@ -120,6 +121,13 @@ describe('Button', () => {
       await waitFor(() => {
         expect(screen.getByText('Create a new Worker')).toBeInTheDocument();
       });
+    });
+
+    it('still fires click handlers when title is set (tooltip must not swallow onclick)', async () => {
+      const onclick = vi.fn();
+      render(ButtonTitleTestHost, { onclick });
+      await userEvent.click(screen.getByRole('button', { name: 'Create Worker' }));
+      expect(onclick).toHaveBeenCalledTimes(1);
     });
   });
 

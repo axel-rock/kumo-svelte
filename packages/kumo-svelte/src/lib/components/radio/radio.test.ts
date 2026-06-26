@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/svelte';
+import { fireEvent, render, screen } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { expectNoA11yViolations } from '../../../../tests/a11y';
 import Radio from './Radio.svelte';
+import RadioTypedValueTestHost from './RadioTypedValueTestHost.svelte';
 
 const defaultOptions = [
   { label: 'Option A', value: 'a' },
@@ -11,6 +12,14 @@ const defaultOptions = [
 ];
 
 describe('Radio', () => {
+  it('round-trips non-string values through the radio group', async () => {
+    render(RadioTypedValueTestHost);
+
+    await fireEvent.click(screen.getByLabelText('25'));
+
+    expect(screen.getByLabelText('Selected page size').textContent).toBe('25');
+  });
+
   it('renders items with Kumo data attributes', () => {
     const { container } = render(Radio, {
       legend: 'Options',
